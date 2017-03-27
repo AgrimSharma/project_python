@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block body %}
+
+    <div class="container">
+
+    <div class="stats-bubble">
+	    Current Trials
+	    <h3>{{ trials }}</h3>
+    </div>
+    <div class="stats-bubble">
+	    Customer Count
+	    <h3>{{ lastStat.paid_orgs }}</h3>
+    </div>
+    <div class="stats-bubble">
+	    MRR
+	    <h3>${{ lastStat.safe_revenue|intcomma }}</h3>
+    </div>
+
+
+    </div>
+
+
+    <div class="container">
+    <h1>Staff options</h1>
+    <ul>
+        <li>
+            <a href="{% url "subscribers" %}">Current Subscribers</a><br/>
+            <small>Current Subscribers</small>
+        </li>
+
+        <li>
+            <a href="{% url "recentstats" %}">Recent Signups</a><br/>
+            <small>List of recent companies that signed up.</small>
+        </li>
+        <li>
+            <a href="{% url "trialusers" %}">Trial Users</a><br/>
+            <small>All trial users</small>
+        </li>
+        <li>
+            <a href="{% url "kanbanstats" %}">Active Projects</a><br/>
+            <small>See the most active projects.</small>
+        </li>
+
+
+
+        <li>
+            <a href="{% url "spreedly_stats" %}">Subscription stats</a><br/>
+            <small>Statistics &amp; Charts for subscriptions</small>
+        </li>
+
+        <li>
+            <a href="{% url "stats_charts" %}">Subscription charts</a><br/>
+            <small>Just the charts from link above (loads faster)</small>
+        </li>
+
+        <li>
+            <a href="{% url "sitestats" %}">Site statistics</a><br/>
+            <small>Project/User counts and top projects by number of stories.</small>
+        </li>
+
+        <li>
+            <a href="/admin">Database Management</a><br/>
+            <small>Customer/User/Organization utilities</small>
+        </li>
+
+        <li>
+            User Lookup
+            <form class="form-inline" action="{% url "staffuserlookup" %}" method="POST">
+                {% csrf_token %}
+                <input name="email" placeholder="Email Address" class="form-control" type="text"/>
+                <input type="submit" value="Submit" class="btn btn-default">
+            </form>
+        </li>
+
+
+    </ul>
+    <h1>External services</h1>
+    <ul>
+        <li>
+            <a href="http://support.scrumdo.com/">ScrumDo support site</a><br/>
+            <small>Tech support for customers</small>
+        </li>
+        <li>
+            <a href="http://www.intercom.io">Intercom</a><br>
+            Customer in-app messaging platform
+        </li>
+        <li>
+            <a href="http://www.mailchimp.com">Mail Chimp</a><br>
+            Several purpose-built mailing lists
+        </li>
+        <li>
+            <a href="http://www.mixpanel.com">MixPanel</a><br>
+            Customer analytics
+        </li>
+        <li>
+            <a href="http://www.digmydata.com/">DigMyData</a><br/>
+            <small>Subscription analytics</small>
+        </li>
+
+        <li>
+            <a href="http://www.google.com/analytics">Google Analytics</a><br>
+            Website analytics
+        </li>
+        <li>
+            <a href="http://mandrillapp.com">Mandrill</a><br>
+            Mail/SMTP server
+        </li>
+        <li>
+            <a href="http://content.scrumdo.com/blog">ScrumDo Blog</a><br/>
+        </li>
+        <li>
+            <a href="http://content.scrumdo.com/help">ScrumDo Help Content</a><br/>
+        </li>
+
+    </ul>
+    </div>
+{% endblock %}

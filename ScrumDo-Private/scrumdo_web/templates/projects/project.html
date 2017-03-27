@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load organizations_tags %}
+{% load projects_tags %}
+{% block head_title %}- {{ project.name|title }}{% endblock %}
+
+{% block body_class %}project-page{% endblock %}
+
+
+{% block body_app %}ng-class='{kiosk:kiosk.enabled}' ng-app="ScrumDoProjectApp" id="ng-app"{% endblock %}
+
+
+{% block appinit %}scrumdo.setupProjectApp("{{ STATIC_URL }}", "{{ project.slug }}", "{{ organization.slug }}");{% endblock %}
+
+{% block extra_head %}
+    <script crossorigin="anonymous" src="{{ STATIC_URL }}js/handlebars.runtime-v3.0.3.js"></script>
+{% endblock %}
+
+{% block preloader_area %}
+        <div class="page-preloader" ng-if="!preloader.fullyLoaded">
+            <img src="{{ STATIC_URL }}img/ScrumDoSignupLogo.png" class="scrumdo-signup-logo img-responsive center-block"/>
+            <p class="scrumdo-tip">
+                {% autoescape off %} {% scrumdo_tip %} {% endautoescape %}
+            </p>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+    {% if not project.active %}
+        <div class="inactive-bib"></div>
+        <div class="inactive-message">
+            <div class="message">
+                {% if project.project_type == 2 %}
+                    This portfolio is currently archived.
+                {% elif project.portfolio_level == None or project.portfolio_level.portfolio.root.active %}
+                    This workspace is currently archived.
+                {% else %}
+                    Select Reactivate Portfolio to unarchive the entire Portfolio and its workspaces.
+                {% endif %}
+                <br/><br/>
+                {% isorgstaff organization %}
+                    {% if project.portfolio_level != None and project.portfolio_level.portfolio.root.active == False or project.project_type == 2 %}
+                        <form method="POST" action="{% url "portfolio_activate"  project.slug %}">
+                        {% csrf_token %}
+                            <input type="submit" class="scrumdo-btn primary" value="Reactivate Portfolio">
+                        </form>
+                        <br/>
+                    {% endif %}
+                    {% if project.project_type != 2 %}
+                        {% if project.project_type != 2 and project.portfolio_level.portfolio.root.active == False %}
+                            Select Reactivate Workspace to move the Workspace out of the Portfolio and unarchive it.<br/>
+                            <form method="POST" action="{% url "project_activate" group_slug=project.slug remove_from_portfolio='do' %}">
+                        {% else %}
+                            <form method="POST" action="{% url "project_activate" group_slug=project.slug %}">
+                        {% endif %}
+
+                        {% csrf_token %}
+                            <input type="submit" class="scrumdo-btn primary" value="Reactivate Workspace">
+                        </form>
+                    {% endif %}
+                {% endisorgstaff %}
+                <br/>
+                <a class="pull-left" href="{% url "organization_dashboard"  organization.slug %}#/projects">Back to workspace list</a>
+                <br/>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <div ui-view="mainApp"></div>
+
+
+{% endblock %}
+

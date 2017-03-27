@@ -1,0 +1,25 @@
+<div class="iteration-sentiments-wrapper">
+    <div class="sentiments-section">
+        <h4 class="section-title">Working on Increment</h4>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 team-sentiment-wrapper parent-team">
+                <team-sentiments
+                    iteration=ctrl.projectData.currentIteration
+                    members=ctrl.projectData.currentProject.members
+                    team=ctrl.currentProjectTeam
+                    parent=ctrl.projectData.currentProject
+                ></team-sentiments>
+            </div>
+        </div>
+        <div class="row child-teams" ng-if="ctrl.teams">
+            <div class="col-md-6 team-sentiment-wrapper child-team" ng-repeat="team in ctrl.teams">
+                <team-sentiments
+                    iteration=ctrl.projectData.currentIteration
+                    members=ctrl.projectData.currentProject.members
+                    team=team
+                    parent=ctrl.projectData.currentProject
+                ></team-sentiments>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+{% extends "projects/base.html" %}
+
+
+{% block body_app %}ng-app="StoryQueueApp" id="ng-app"{% endblock %}
+
+{% block appinit %}scrumdo.setupStoryQueueApp( "{{ STATIC_URL }}", "{{ project.slug }}","{{ organization.slug }}");{% endblock %}
+
+
+{% block innerbody %}
+    <sd-story-queue></sd-story-queue>
+{% endblock %}
+
+{% block subnavbar %}
+            <div class="sub-nav-settings">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="board#/settings/settings/extras" class="scrumdo-btn primary"><span class="glyphicon glyphicon-th"></span> Extras Settings</a>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

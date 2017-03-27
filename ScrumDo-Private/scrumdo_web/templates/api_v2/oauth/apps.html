@@ -1,0 +1,53 @@
+{% extends "base_legacy.html" %}
+{% load projects_tags %}
+{% load bootstrap3 %}
+
+{% block head_title %}ScrumDo Developer Registered Applications{% endblock %}
+
+{% block body_style %}narrow_body{% endblock %}
+
+
+
+
+{% block body %}
+<h1>Your OAuth Applications</h1>
+<p>This page lets you register an application that integrates with the ScrumDo API and authenticates via OAuth.  This is for developers
+creating new applications, not for users trying to hook up an existing application</p>
+<p>
+	Please create a new app for each integration your create.  Feel free to create separate apps for production/dev/qa.
+</p>
+
+{% if existing_apps %}
+<h2>Your applications</h2>
+
+	<table class="table">
+		<tr>
+			<th>App Name</th>
+			<th>Description</th>
+			<th>Public Key</th>
+			<th>Secret Key</th>
+		</tr>
+	{% for app in existing_apps %}
+		<tr>
+			<td>{{app.name}}</td>
+			<td>{{app.description}}</td>
+			<td>{{app.key}}</td>
+			<td>{{app.secret}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+	<br/>
+	Need to remove an existing app?  Shoot us an email <a href="mailto:support@scrumdo.com">support@scrumdo.com</a>
+{% endif %}
+
+<h2>New App</h2>
+	<form class="uniForm" id="team_form" method="POST" action="">
+    	{% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+			<button type="submit" class="scrumdo-btn primary">
+				{% bootstrap_icon "star" %} New App
+			</button>
+        {% endbuttons %}
+	</form>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load order_by %}
+
+
+{% block head_title %}{% trans "Scrumdo - Affilate Page" %}
+
+{% block body_div_class %}narrow_body_with_sidebar{% endblock %}
+
+{% endblock %}
+
+
+{% block body %}
+<div >
+  <h1>Affiliate Page</h1>
+  <div style="background: none repeat scroll 0 0 #EFEFEF;text-align:center;">
+    
+      <p>Your affilate id is {{affiliate_id}}. Direct people to this URL to get credit for your subscription.</p>
+      <p><a href="/?utm_source={{affiliate_id}}&utm_medium=affiliate&utm_campaign=scrumdo">{{base_url}}/?utm_source={{affiliate_id}}&utm_medium=affiliate&utm_campaign=scrumdo</a></p>
+      <p ><a href="https://bitly.com/?url={{base_url}}/?utm_source={{affiliate_id}}%26utm_medium=affiliate%26utm_campaign=scrumdo">Shorten link on Bit.ly </a></p>
+    
+  </div>
+</div>
+<div>
+  <h1>Your Referrals:</h1>
+  <table class="task_list">
+    <thead>
+        <td>Name</td><td>Signed Up</td><td>Current Subscription</td><td>$Earned</td><td>$Paid</td>
+    </thead>
+    {% for referral in all_referrals %}
+    <tr>
+        <td>{{referral.organization.name}}</td><td>{{referral.organization.created|date}}</td><td>{{referral.organization.subscription.planName}}</td><td>${{referral.amount_earned|floatformat:2}}</td><td>${{referral.amount_paid|floatformat:2}}</td>
+    </tr>
+    {%endfor%}
+    <tr>
+    <td></td><td></td><td></td><td>Total: ${{total_earned|floatformat:2}}</td><td>${{total_paid|floatformat:2}}</td>
+    </tr>
+    <tr>
+    <td></td><td></td><td></td><td>Total Dues: ${{balance|floatformat:2}}</td><td></td>    
+    </tr>
+  </table>
+</div>
+<script type="text/javascript" src="{{ STATIC_URL }}js/home.js"></script>
+{% endblock %}

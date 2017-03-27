@@ -1,0 +1,164 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getImages", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "", 
+                            "name": "image_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Image", 
+                    "summary": "Get a image of a project"
+                },
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "DELETE", 
+                    "nickname": "deleteImages", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "", 
+                            "name": "image_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Image", 
+                    "summary": "Get a image of a project"
+                },
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "PUT", 
+                    "nickname": "getImages", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "", 
+                            "name": "image_id", 
+                            "paramType": "path", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{ <br/>    \"sy\": 0, <br/>    \"sx\": 0, <br/>    \"ey\": 0, <br/>    \"ex\": 0, <br/>  } <br/>", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Image", 
+                    "summary": "Get a image of a project"
+                } 
+                
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/image/{image_id}"
+        },
+
+
+
+
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getImagesFromProject", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Image", 
+                    "summary": "Get a image of a project"
+                }
+                
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/image"
+        }
+
+
+
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "organizations", 
+    "swaggerVersion": "1.1"
+}

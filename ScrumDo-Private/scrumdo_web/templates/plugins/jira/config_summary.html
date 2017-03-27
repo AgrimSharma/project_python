@@ -1,0 +1,31 @@
+{% extends "extras/configure-base.html" %}
+
+{% load uni_form_tags %}
+
+
+{% block heading %}
+  <h1>Jira Options</h1>
+{% endblock %}
+
+{% block configure_content %}
+
+
+
+<table class="basecamp_config_table">
+  <tr><td  style="width:120px"><b>Jira URL</b></td><td style="width:400px">{{configuration.url}}</td></tr>
+  <tr><td><b>Username</b></td><td>{{configuration.username}}</td></tr>
+  <tr><td><b>Import stories</b></td><td>{{ configuration.import|yesno }}</td></tr>
+  {% if configuration.import %}
+    <tr><td><b>Jira Filter</b></td><td>{{ configuration.filterName }}</td></tr>
+  {% endif %}
+  <tr>
+     <td><b>Plugin Status</b></td>
+     <td><i>{{configuration.status}}</i></td>
+  </tr>
+</table>
+
+
+<br/><br/><br/>
+<a href="{% url "configure_extra_with_stage"  extra.getSlug project.slug "credentials" %}" class="button">Reconfigure</a>
+ 
+{% endblock %}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9000/" />
+<title>43_add_stories_to_iteration</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">43_add_stories_to_iteration</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/account/logout/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/account/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_username</td>
+	<td>scrumdoselenium</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>scrumdotesting</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Log In »']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/projects/project/testproject/stories/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=iterationChooser</td>
+	<td>label=TestIteration</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>css=#backlog_div li#story_2</td>
+	<td>css=#story_div ul#iteration_column</td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/projects/project/testproject/iteration/2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>#2</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

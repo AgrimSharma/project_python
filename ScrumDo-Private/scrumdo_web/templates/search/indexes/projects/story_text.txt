@@ -1,0 +1,24 @@
+{% load projects_tags %}{{ object.summary | html2text}}
+{{ object.local_id }}
+{{ object.detail | html2text }}
+{% for assignee in object.assignee.all %}
+{{assignee.username}}
+{{assignee.first_name}} {{assignee.last_name}}
+{% endfor %}
+{{ object.category }}
+{{ object.extra_1 | html2text}}
+{{ object.extra_2 | html2text}}
+{{ object.extra_3 | html2text}}
+{% for tag in object.story_tags_array %}
+{{ tag }}
+{% endfor %}
+
+{% for label in object.labels.all %}
+  {{label.name}}
+{% endfor %}
+
+{% for comment in object.comments.all %}
+  {{comment.comment}}
+{% endfor %}
+
+{{ object.project.prefix }}-{{object.local_id}}

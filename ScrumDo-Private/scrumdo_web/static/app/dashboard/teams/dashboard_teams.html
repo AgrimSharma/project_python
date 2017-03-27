@@ -1,0 +1,55 @@
+<div class="scrumdo-wrapper">
+    <div class="scrumdo-wrapper-navigation" style="margin: 0">
+        <div class="row">
+            <div class="col-sm-2">
+                <button sd-staff-only ui-sref="newteam" class="scrumdo-btn secondary extended text-left">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Add New Team List
+                </button>
+            </div>
+            <div class="col-sm-2 col-sm-offset-8 text-right">
+                <button sd-staff-only ui-sref="allmembers" type="button" class="scrumdo-btn primary">
+                    All Team Members
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="scrumdo-wrapper-content">
+        <div class="row">
+            <div class="col-md-12 team-filter-nav">
+                <div class="filters">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input type="text" placeholder="Quick search" name="search-portfolio" 
+                        ng-change="teamsCtrl.saveSelection()"
+                        ng-model="teamsCtrl.quickSearch" class="scrumdo-form" />
+                </div>
+                <div class="filters">
+                    <label>Filter by Access Type: </label>
+                    <div class="scrumdo-select secondary">
+                        <select
+                            ng-change="teamsCtrl.saveSelection()"
+                            ng-model="teamsCtrl.accessTypeSearch">
+                            <option value="">All Teams</option>
+                            <option value="self">My Teams</option>
+                            <option value="read">Read Only Teams</option>
+                            <option value="write">Read/Write Teams</option>
+                            <option value="admin"> Workspace Manager Teams</option>
+                            <option value="staff">Account Owner Teams</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <sd-team team="team" ng-repeat="team in teams | filter: teamsCtrl.filterTeams"></sd-team>
+        </div>
+        <div class="row" ng-if="(teams | filter: teamsCtrl.filterTeams).length == 0">
+            <div class="col-md-6 col-md-offset-3 text-center">
+                <div class="alert alert-info">
+                    <i class="fa fa-exclamation" aria-hidden="true"></i> Nothing to show<span 
+                        ng-if="teamsCtrl.accessTypeSearch != '' || teamsCtrl.quickSearch !=''">, change filters from above.</span></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,118 @@
+<html>
+<head>
+    <title>ScrumDo API V3</title>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'/>
+    <link href='{{STATIC_URL}}swagger/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+    <script src='{{STATIC_URL}}swagger/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+    <script src='{{STATIC_URL}}swagger/lib/jquery.slideto.min.js' type='text/javascript'></script>
+    <script src='{{STATIC_URL}}swagger/lib/jquery.wiggle.min.js' type='text/javascript'></script>
+    <script src='{{STATIC_URL}}swagger/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+    <script src='{{STATIC_URL}}swagger/lib/handlebars.runtime-1.0.0.beta.6.js' type='text/javascript'></script>
+    <script src='{{STATIC_URL}}swagger/lib/underscore-min.js' type='text/javascript'></script>
+    <script src='{{STATIC_URL}}swagger/lib/backbone-min.js' type='text/javascript'></script>
+    <script src='{{STATIC_URL}}swagger/lib/swagger.js' type='text/javascript'></script>
+    <script src='{{STATIC_URL}}swagger/swagger-ui.js' type='text/javascript'></script>
+
+    <style type="text/css">
+        .swagger-ui-wrap {
+            max-width: 960px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .icon-btn {
+            cursor: pointer;
+        }
+
+        #message-bar {
+            min-height: 30px;
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .message-success {
+            color: #89BF04;
+        }
+
+        .message-fail {
+            color: #cc0000;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+
+        function getCookie(c_name) {
+            if(document.cookie.length > 0) {
+                c_start = document.cookie.indexOf(c_name + "=");
+                if(c_start != -1) {
+                    c_start = c_start + c_name.length + 1;
+                    c_end = document.cookie.indexOf(";", c_start);
+                    if(c_end == -1) c_end = document.cookie.length;
+                    return unescape(document.cookie.substring(c_start,c_end));
+                }
+            }
+            return "";
+        }
+
+
+        $(function () {
+
+
+
+
+
+
+            window.swaggerUi = new SwaggerUi({
+                discoveryUrl:"{% url "resources_json"  %}",
+                apiKey:"",
+                dom_id:"swagger-ui-container",
+                supportHeaderParams: false,
+                supportedSubmitMethods: ['get', 'post', 'put', 'delete']
+            });
+
+            setTimeout( function(){window.swaggerUi.load();}, 1000);
+
+			
+			
+			// function debug() {
+			// $("input[name='organization_slug']").val('scrumdo');
+			// $("input[name='project_slug']").val('backlog');
+			// $("input[name='iteration_id']").val('48367');
+			// }
+			// 
+			// setTimeout(debug, 1500);
+			
+        });
+
+    </script>
+</head>
+
+<body>
+
+
+<div style="width: 1000px; margin-left: auto; margin-right: auto">
+    <h1>ScrumDo API Version 3 Browser</h2>
+        <p>
+            This is an interactive tool to allow you to explore the ScrumDo API.  This is for real, so please be careful when creating, updating, or deleting any resources in your account.
+        </p>
+        <p>
+            Click on a category below to see all the relevant API calls available.  Click on an individual call to get more information on it.  Click the "Try it out" buttons to actually execute the call.
+        </p>
+        <p>
+            For more information on the API, please visit <a href="https://github.com/ScrumDoLLC/ScrumDoAPIv3">https://github.com/ScrumDoLLC/ScrumDoAPIv3</a>
+        </p>
+</div>
+
+<div id="message-bar" class="swagger-ui-wrap">    
+    &nbsp;
+</div>
+
+<div id="swagger-ui-container" class="swagger-ui-wrap">
+
+
+</div>
+
+</body>
+
+</html>

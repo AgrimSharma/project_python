@@ -1,0 +1,48 @@
+<div class="scrumdo-account-details scrumdo-account-project-teams" ng-controller="ProjectTeamSettingsController as teamsCtrl">
+    <div class="row">
+        <div class="col-md-12 header">
+            <h2 class="scrumdo-account-details-title pull-left">Workspace Teams</h2>
+            <a ng-if="teamsCtrl.canAddTeam" 
+                ui-sref="app.settings.newteam" class="scrumdo-btn primary pull-right">
+                <i class="fa fa-plus"></i> Add New Team</a>
+        </div>
+    </div>
+    <div class="scrumdo-account-details-content" ng-init="teamsCtrl.loadTeams()">
+        <div class="row" ng-if="teamsCtrl.loadingTeams">
+            <div class="alert alert-info"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+        </div>
+        <uib-tabset active="active" ng-if="!teamsCtrl.loadingTeams">
+            <uib-tab index="0">
+                <uib-tab-heading>Direct Access</uib-tab-heading>
+                <div class="row" style="margin-top:15px;">
+                     <sd-project-team ng-repeat="team in teamsCtrl.projectTeams.self_teams" 
+                        team=team 
+                        access-label= teamsCtrl.getTeamAccessLabel(team)
+                        accessby="'self'">
+                    </sd-project-team>
+                    <div class="alert alert-info" ng-if="!teamsCtrl.projectTeams.self_teams.length">
+                        Nothing to show
+                    </div>
+                </div>
+            </uib-tab>
+            <uib-tab index="1">
+                <uib-tab-heading>Implied Access</uib-tab-heading>
+                <div class="row" style="margin-top:15px;">
+                     <sd-project-team ng-repeat="team in teamsCtrl.projectTeams.parent_teams" 
+                        team=team 
+                        access-label= teamsCtrl.getTeamAccessLabel(team)
+                        accessby="'parent'">
+                    </sd-project-team>
+                    <sd-project-team ng-repeat="team in teamsCtrl.projectTeams.child_teams" 
+                        team=team 
+                        access-label= teamsCtrl.getTeamAccessLabel(team)
+                        accessby="'child'">
+                    </sd-project-team>
+                    <div class="alert alert-info" ng-if="!teamsCtrl.projectTeams.parent_teams.length && !teamsCtrl.projectTeams.child_teams.length">
+                        Nothing to show
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

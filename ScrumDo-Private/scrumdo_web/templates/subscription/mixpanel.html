@@ -1,0 +1,21 @@
+{% load projects_tags %}
+{% if display %}
+    <script type="application/javascript">
+    mixpanel.register({
+        '30 day activity': {{ 30dayactivity }},
+        '30 day classic activity': {{ 30dayclassicactivity }},
+        'total activity': {{ totalactivity }},
+        'projects': {{ projects }},
+        'users': {{ users }},
+        'is trial': {% if istrial %}true{% else %}false{% endif %},
+        'paid': {% if paid %}true{% else %}false{% endif %},
+        'trial month': '{{ trialmonth }}',
+        'trial week': '{{ trialweek }}',
+        'source': '{{ source }}',
+        'Test Group 1': '{{ TestGroup1 }}',
+        'Test Group 2': '{{ TestGroup2 }}',
+        'Test Group 3': '{{ TestGroup3 }}',
+        'Test Group 4': '{{ TestGroup4 }}'
+    });
+    </script>
+{% endif %}

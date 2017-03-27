@@ -1,0 +1,34 @@
+{% extends "extras/configure-base.html" %}
+
+{% load uni_form_tags %}
+
+
+{% block heading %}
+  <h1>Jira Options</h1>
+{% endblock %}
+
+{% block configure_content %}
+ <form class="uniForm" id="project_form" method="POST" action="">
+ {% csrf_token %}
+     <fieldset class="inlineLabels">     
+       {{ form|as_uni_form}}
+         <div class="form_block">
+             <div class="buttonHolder"><button class="primaryAction" type="submit" >Next >></button></div>
+         </div>
+     </fieldset>
+ </form>
+ 
+<script type="text/javascript" charset="utf-8">
+	$("#id_importStories").change(function(){
+		if( $('#id_importStories').attr('checked') )
+		{
+			$("#div_id_jiraFilter").slideDown();			
+		}
+		else
+		{
+			$("#div_id_jiraFilter").slideUp();
+		}
+	})
+</script>
+ 
+{% endblock %}

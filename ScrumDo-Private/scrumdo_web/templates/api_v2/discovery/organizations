@@ -1,0 +1,48 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "description": "Retrieve information about organizations", 
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getOrganizations", 
+                    "notes": "Only organizations which you have permission to see will be returned", 
+                    "parameters": [], 
+                    "responseClass": "Organization", 
+                    "summary": "Retrieve organizations you have access to"
+                }
+            ], 
+            "path": "/organizations/"
+        }, 
+        {
+            "description": "Retrieve a single organizattion by it's slug", 
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getOrganizationBySlug", 
+                    "notes": "Only organizations which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Organization", 
+                    "summary": "Retrieve a single organizattion by it's slug"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}"
+        }
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "organizations", 
+    "swaggerVersion": "1.1"
+}

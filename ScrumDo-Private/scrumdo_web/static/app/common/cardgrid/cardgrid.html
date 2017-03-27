@@ -1,0 +1,120 @@
+<div class="card-grid-container">
+    <sd-dependency-graph ng-if="dependencies"
+                         dependencies="dependencies">
+    </sd-dependency-graph>
+
+    <table class="card-grid" style="width: {{ctrl.tableWidth()}}">
+        <thead>
+            <tr class="top-row">
+                <th class="top-left-corner" ng-transclude ng-transclude-slot="topright">
+
+                    <img class="center-block" ng-src="{{STATIC_URL}}images/tablevis.png"
+                    ng-click="ctrl.toggleSidebar()">
+                </th>
+                <th ng-if="ctrl.haveContinousRow()" class="no-border" ng-repeat="column in columns|filter:{visible:true}"></th>
+                <th ng-if="!ctrl.haveContinousRow()" ng-repeat="column in columns|filter:{visible:true}"
+                    ng-class="{'wide-row': (columns.length ==1 && $index ==0)}">
+                    <button class="scrumdo-btn primary pull-right show-hover column-hide-button"
+                            ng-click="ctrl.toggleColumn(column)"
+                            uib-tooltip="Hide Column" tooltip-placement="bottom">
+                        <i class="fa fa-eye"></i>
+                    </button>
+
+                    <button class="wip-limit-holder scrumdo-btn primary pull-right"
+                        ng-click="ctrl.updateWIPLimits(column)"
+                        uib-tooltip-html="ctrl.getColWipTooltip(column, column.iteration.wip_limits.featureLimit)"
+                        tooltip-placement="left"
+                        tooltip-placement="bottom"
+                        ng-disabled="!column.iteration.canWrite"
+                        ng-class="{'over-wip':ctrl.overWip(column, column.iteration.wip_limits.featureLimit)}"
+                        ng-if="column.iteration.iteration_id">
+                        <span class="wip-value">{{ctrl.getColItems(column).length}}</span>
+                        <span class="wip-max" ng-if="column.iteration.wip_limits.featureLimit>0"> / 
+                            {{column.iteration.wip_limits.featureLimit}}</span>
+                        <span class="wip-max" ng-if="column.iteration.wip_limits.featureLimit<=0 
+                                                    || column.iteration.wip_limits.featureLimit == null"> / Inf </span>
+                    </button>
+                    <div class="column-title">
+                        <a ng-if="column.iteration.iteration_id" 
+                            uib-tooltip-html="ctrl.getColumnTooltipText(column)"
+                            ng-bind-html="column.title"
+                            ng-href="/projects/{{column.iteration.project_slug}}/#/iteration/{{column.iteration.iteration_id}}/board"></a>
+                        <span ng-if="!column.iteration.iteration_id" ng-bind-html="column.title"></span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in rows|filter:{visible:true} | orderBy: ctrl.orderRows">
+                <td class="left-column">
+                    <div class="actions pull-left">
+                        <button ng-if="row.canWrite !== false" class="scrumdo-btn primary pull-right show-hover remove-feature"
+                                ng-click="ctrl.removeRow(row)"
+                                uib-tooltip="Remove Feature" tooltip-placement="right">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <span class="items-count">
+                            {{ctrl.getRowItems(row)}} <small>Cards</small>
+                        </span>
+                    </div>
+                    <span ng-bind-html="row.title|htmlToPlaintext|words:40|to_trusted"></span>
+                    <div ng-if="$index == 0" ng-transclude ng-transclude-slot="cardfilters"></div>
+                </td>
+                <td ng-repeat="column in columns|filter:{visible:true}"
+                    ng-if="row.extraInfo == null 
+                            || row.extraInfo.spanEntire === false 
+                            || (row.extraInfo.spanEntire === true && column.id == row.extraInfo.spanEntireColumn_id)"
+                    colspan="{{ctrl.getRowColSpan(row)}}"
+                    data-column-id="{{column.id}}"
+                    data-row-id="{{row.id}}"
+                    ng-class="{'card-sortable-cell': row.canWrite !== false && column.available[row.id] !==false, 
+                            'not-available': column.available[row.id] ===false,
+                            'faded': (column.available[row.id] ===false || row.canWrite === false),
+                            'wide-row': (columns.length ==1 && $index ==0) || ctrl.getRowColSpan(row) > 1}">
+                    <span class="extraHeader" ng-if="ctrl.haveContinousRow()" ng-bind-html="column.title"></span>
+                    <sd-card-grid-list
+                            sort-order="sortOrder"
+                            data-column-id="{{column.id}}"
+                            data-row-id="{{row.id}}"
+                            can-write="row.canWrite !== false && column.available[row.id] !==false"
+                            story-layout="storyLayout"
+                            cell-data="ctrl.getCellData(row, column)">
+                    </sd-card-grid-list>
+                    <button ng-if="row.canWrite !== false && column.available[row.id] !==false" ng-click="ctrl.newCard(row, column)"
+                            class="scrumdo-btn primary new-story-button">+ New {{::$root['safeTerms'].children.work_item_name}}</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div ng-if="ctrl.sidebarVisible" class="card-grid-sidebar">
+        <a ng-click="ctrl.toggleSidebar()" class="close-sidebar-link pull-right">&times;</a>
+        <a ng-click="ctrl.showAll()" class="show-all-link">Show All</a>
+        <hr/>
+        <h1>Iterations</h1>
+        <ul>
+            <li ng-repeat="column in columns"
+                ng-click="ctrl.toggleColumn(column)"
+                ng-class="{'grid-hidden':!column.visible}">
+                <i class="fa fa-eye"></i>
+                <span ng-bind-html="column.title"></span>
+            </li>
+        </ul>
+
+        <hr/>
+        <div class="teams">
+            <h1>Teams</h1>
+
+            <ul>
+                <li ng-repeat="row in rows"
+                    ng-click="ctrl.toggleRow(row)"
+                    ng-class="{'grid-hidden':!row.visible}">
+                    <i class="fa fa-eye"></i>
+                    {{row.title}}
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>

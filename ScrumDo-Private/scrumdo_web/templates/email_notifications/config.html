@@ -1,0 +1,76 @@
+{% extends "account/base.html" %}
+
+{% block body_div_class %}narrow_body_with_sidebar{% endblock %}
+
+{% block body %}
+<h1>Email Subscription Settings</h1>
+
+
+{% if user.email %}
+
+		<p>Which email notifications would you like to receive?</p>
+		<br/>
+
+
+	
+		<form action="" method="POST">
+    {% csrf_token %}
+
+		{{ form.non_field_errors }}
+		<table class="email_subscription_options">
+
+			<tr class="category-row"><td colspan="2">ScrumDo</td>
+
+			</tr>
+			<tr>
+			 <td>{{ form.marketing.help_text }}
+				 {{ form.marketing.errors }}
+			 </td>
+			   <td>
+				  {{form.marketing}}
+			   </td>
+			</tr>
+
+			{% for fieldname,option in form.option_list %}
+
+			{% ifchanged option.category %}
+			<tr class="category-row"><td>{{option.category}}</td>
+			 {% for choice in option.choices %}
+			   <td>		
+				  {{choice.1}}
+			   </td>
+			 {% endfor %}
+
+			</tr>
+			{% endifchanged %}
+			<tr>
+			 <td>{{ option.help_text }}
+				 {{ option.errors }}
+			 </td>
+			 {% for choice in option.choices %}
+			   <td>
+				  <input {% ifequal option.initial choice.0 %}checked{% endifequal %} type="radio" id="id_{{fieldname}}_{{choice.0}}" value="{{choice.0}}" name="{{fieldname}}" />
+			   </td>
+			 {% endfor %}
+			</tr>
+			{% endfor %}
+
+		</table>
+		<br/>
+
+		<i>Note: Projects under a Free account never send email.</i><br/><br/>
+		Please add noreply@scrumdo.com to your address book, or whitelist it in your email settings to avoid these messages 
+		going to your spam box.<br/><br/>
+		
+		<input type="submit" class="btn btn-primary" value="Save"><br/>
+{% else %}
+  <h2>
+  You must have a confirmed primary email to receive emails.  
+  </h2>
+  Select "E-Mail Addresses" on the right to configure.
+{% endif %}
+
+</form>   
+
+{% endblock %}
+

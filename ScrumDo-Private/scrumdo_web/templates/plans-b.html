@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+
+
+{% block extra_head %}
+<link type="text/css" rel="stylesheet" href="{{STATIC_URL}}homepage-alt-c/plans-b.css" />
+{% endblock %}
+    
+	{% load i18n %}
+	{% load ifsetting_tag %}
+
+	{% block head_title %}Plans / Pricing{% endblock %}
+
+
+	{% block body_div_class %}full_body{% endblock %}
+
+{% block body %}
+
+<div class="full-width-checked">
+	<div class="container">
+		<div style="margin: 60px 30px">
+		<h1>Try ScrumDo FREE for 30 days</h1>
+		</div>
+	</div>
+</div>
+
+<div id="pricing-row" class="row" style="margin-left: auto; margin-right: auto; width:1200px">
+	{% for plan in grid_plans %}
+	<div class="pricing-table span3">
+		<ul>						
+			<li class="pricing-header-row-1">
+				<div class="package-title">
+					<h2 class="no-bold">{{plan.name}}</h2>
+
+				</div>
+			</li>
+			<li class="pricing-content-row-odd">
+				<b class="plan-value">{{plan.users}}</b> Users
+			</li>
+			<li class="pricing-content-row-even">
+				<b class="plan-value">
+				{% ifequal plan.projects 999 %}
+				  Unlimited
+				{% else %}
+				  {{plan.projects}}
+				{% endifequal %}
+				</b>
+				Workspaces
+			</li>
+			<li class="pricing-content-row-odd">
+				<b class="plan-value">{{plan.storage}}GB</b> File Storage 
+			</li>
+			<li class="pricing-content-row-even"  data-target="#acc-1-{{plan.id}}">
+				{% if plan.premium_integrations %}
+				<i class="icon-ok-sign"></i> <span>Extras</span>
+				{% else %}
+				<i class="icon-remove-sign"></i> <span class="unavailable-feature">Extras</span>
+				{% endif %}
+				
+				{% if plan.premium_integrations %}
+				<span style="float: right"><a href="#" class="popover-item"><i class="icon-info-sign">&nbsp;</i></a></span>
+				{% endif %}
+			</li>
+			
+			
+		
+			
+			<li class="pricing-content-row-odd">
+				{% if plan.planning_poker %}
+				<i class="icon-ok-sign"></i> <span>Planning Poker</span>
+				{% else %}
+				<i class="icon-remove-sign"></i> <span class="unavailable-feature">Planning Poker</span>
+				{% endif %}
+				
+			</li>
+			
+			<li class="pricing-content-row-even">
+				{% if plan.epic_tool %}
+				<i class="icon-ok-sign"></i> <span>Epic Stories</span>
+				{% else %}
+				<i class="icon-remove-sign"></i> <span class="unavailable-feature">Epic Stories</span>
+				{% endif %}
+				
+			</li>
+			
+			<li class="pricing-content-row-odd">
+				{% if plan.emails %}
+				<i class="icon-ok-sign"></i> <span>Email Notifications</span>
+				{% else %}
+				<i class="icon-remove-sign"></i> <span class="unavailable-feature">Email Notifications</span>
+				{% endif %}				
+			</li>
+			<li class="pricing-content-row-even">
+				{% if plan.emails %}
+				<i class="icon-ok-sign"></i> <span>Group Chat</span>
+				{% else %}
+				<i class="icon-remove-sign"></i> <span class="unavailable-feature">Group Chat</span>
+				{% endif %}				
+			</li>
+			
+				<li class="pricing-content-row-odd">
+					{% if plan.custom_status %}
+					<i class="icon-ok-sign"></i> <span>Custom Statuses</span>
+					{% else %}
+					<i class="icon-remove-sign"></i> <span class="unavailable-feature">Custom Statuses</span>
+					{% endif %}
+					
+					
+					
+					
+				</li>
+				
+				<li class="pricing-content-row-even">
+					{% if plan.time_tracking %}
+					<i class="icon-ok-sign"></i> <span>Time Tracking</span>
+					{% else %}
+					<i class="icon-remove-sign"></i> <span class="unavailable-feature">Time Tracking</span>
+					{% endif %}
+					
+				</li>
+
+				<li class="pricing-header-row-2">
+					<div class="package-price">
+						{% ifequal plan.price "Free" %}
+							<h1 class="no-bold">{{plan.price}}</h1>
+						{% else %}						
+							<h1 class="no-bold">{{plan.price|slice:":-9"}}<span class="cents">.99 /mo</span></h1>
+						{% endifequal %}
+					</div>
+				</li>
+			
+			<li class="pricing-footer">
+				{% ifequal plan.price "Free" %}
+					<a href="/account/signup/" class="btn"></i> Sign Up</a>
+				{% else %}						
+					<a href="/account/signup/" class="btn btn-success"><i class="icon-white icon-shopping-cart"></i> Free Trial</a>
+				{% endifequal %}
+				
+				
+			</li>
+		</ul>
+	</div> <!-- END PRICING BOX -->
+	{% endfor %}
+</div>
+
+<div id="extras-info" style="display:none">
+		<p>Use our third party integrations to share ScrumDo data with other services, including:</p>		
+		<ul style="list-style:circle; padding-left: 20px">
+			<li>GitHub</li>
+			<li>Basecamp</li>
+			<li>Harvest</li>
+			<li>Flowdock</li>
+			<li>Jira</li>
+		</ul>
+
+</div>
+
+
+<div class="full-width-dark">
+	<div class="container">
+		<div class="row">
+			<div class="span4">
+				<h3>Free Trial</h3>
+				<p>All new accounts get a free 30 day trial.  Try us out for an iteration, we're sure you'll want to stay!</p>
+			</div>
+			<div class="span4">
+				<h3>Larger Plans</h3>
+				<p>Need more than 150 people?  <a href="mailto:support@scrumdo.com">Contact us</a> for information on our larger plans, we'll be happy to work with you.</p>
+			</div>
+			<div class="span4">
+				<h3>Annual Plans</h3>
+				<p>When you sign up for your paid subscription, you'll have the option to pay yearly.  You save two months subscription when you pay this way.</p>
+			</div>
+	   </div>
+	   
+	   <div class="row">
+		   <div class="span4">
+			   <h3>Open Source / University</h3>
+			   <p> If you are an employee or a student of a qualified educational institution or a contributor to an active, free & open source workspace, we offer a 50% discount on yearly or semester long plans. <a href="mailto:support@scrumdo.com">Contact us</a> with your workspace needs to see if your University or workspace qualifies.</p>
+     	   </div>
+		   <div class="span4">
+			   <h3>Self Installed</h3>
+			   <p>Need to host ScrumDo within your firewall?  We're currently working on a solution for that.  <a href="/about/private_server/">Learn More.</a></p>
+     	   </div>
+		   <div class="span4">
+			   <h3>Cancel Anytime</h3>
+			   <p>You can cancel or downgrade your plan any time.  Your account will last through the current billing cycle and you won't be billed again.</p>
+     	   </div>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+	<div style="margin-left: auto; margin-right:auto; text-align:center; margin-top: 50px; margin-bottom:50px">
+	<a href="/account/signup/" class="btn btn-primary btn-large" id="get-started-button">Get Started Now</a>	
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+	function resizeColumns() {
+		if( $(window).width() < 1200 )
+		{			
+			$(".pricing-table").width("180px");
+			$("#pricing-row").width("1024px");
+		}
+	}
+
+	$(document).ready(function(){
+	
+		$(".popover-item").popover({ html:true, title:"Extras",  trigger:"hover", placement:"bottom", content:$("#extras-info").html()});
+
+
+		
+		$(window).resize(resizeColumns);
+		resizeColumns();
+			
+	});
+</script>
+
+{% endblock %}

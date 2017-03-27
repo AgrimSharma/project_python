@@ -1,0 +1,54 @@
+<div class="card-filters">
+    <span class="title">Filter Cards</span>
+    <label>Assignees 
+        <i class="fa fa-times-circle"
+            uib-tooltip="All Assignees"
+            style="cursor: pointer"
+            ng-click="ctrl.updateFilters([], 'user')"
+            ng-if="ctrl.filters.currentUser.length" aria-hidden="true"></i>
+    </label>
+    <div class="primary filter-group">
+        <sd-assignee-box 
+            ng-model="ctrl.filters.currentUser" 
+            ng-change="ctrl.updateFilters(ctrl.filters.currentUser, 'user')"
+            people="ctrl.filters.allUsers">
+        </sd-assignee-box>
+    </div>
+    <label>Labels 
+        <i class="fa fa-times-circle"
+            uib-tooltip="All Labels"
+            style="cursor: pointer"
+            ng-click="ctrl.updateFilters([], 'label')"
+            ng-if="ctrl.filters.currentLabel.length" aria-hidden="true"></i>
+    </label>
+    <div class="primary filter-group">
+        <sd-multi-select class="search-label-box" 
+            options="ctrl.filters.allLabels"
+            button-icon="glyphicon glyphicon-tags"
+            ng-model="ctrl.filters.currentLabel"
+            show-filter="true"
+            control-type="labels"
+            label-property="name">
+        </sd-multi-select>
+    </div>
+    <label>Tags 
+        <i class="fa fa-times-circle"
+            uib-tooltip="All Tags"
+            style="cursor: pointer"
+            ng-click="ctrl.updateFilters([], 'tag')" 
+            ng-if="ctrl.filters.currentTag.length" aria-hidden="true"></i>
+    </label>
+    <div class="primary filter-group">
+        <sd-multi-select class="search-label-box" 
+            options="ctrl.filters.allTags"
+            button-icon="glyphicon glyphicon-tags"
+            ng-model="ctrl.filters.currentTag"
+            show-filter="true"
+            control-type="labels"
+            label-property="name">
+        </sd-multi-select>
+    </div>
+    <div class="filter-btn" style="margin-top:20px;">
+        <button class="scrumdo-btn secondary extended" ng-click="ctrl.filterCards()">Filter</button>
+    </div>
+</div>

@@ -1,0 +1,145 @@
+{% extends "projects/release_base.html" %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+{% block body_div_class %}narrow_body{% endblock %}
+
+{% block intro_message %}
+	{% ifequal 0 project_count %}
+	  {% ifequal 0 epic_count %}
+		<div class="tutorial-box" style="text-align:left; padding:30px; margin-top:20px; padding-top: 0px; margin-left: 0px">
+	  		<h1>Populate your release</h1>
+			Click on the Projects or Epics links below to add either projects or epics to your release.
+		</div>
+	  {% endifequal %}
+	{% endifequal %}
+{% endblock %}
+
+{% block release_body %}
+
+    <div class="centered-div" style="margin-top: 25px; width:100%;">
+        <div class="stats-bubble bubble5">
+            Projects
+            <h4>{{project_count}} </h4>
+        </div>
+
+        <div class="stats-bubble bubble5">
+            Epics{% if manual_epic_count %}*{% endif %}
+            <h4>{{epic_count}} </h4>
+        </div>
+
+        <div class="stats-bubble bubble5">
+            Stories
+            <h4>{{story_count}}</h4>
+        </div>
+
+        <div class="stats-bubble bubble5">
+            Total Points
+            <h4>{{total_points}}</h4>
+        </div>
+
+        <div class="stats-bubble bubble5">
+            Total Hours
+            <h4>{{total_hours}}</h4>
+        </div>
+    </div>
+
+{% if log %}
+    <div style="margin-top: 25px; float:right">
+        <div class="stats-bubble">
+            <div class="gauge">
+                	<justgage title="Days Left"
+                          value="{{days_left}}"
+                          width="200"
+                          gaugeColor="#94CC51"
+                          height="100"
+                          max="{{total_days}}"
+                          min="0"></justgage>
+			</div>
+        </div><br/><br/>
+
+        {% if story_count %}
+        <div class="stats-bubble">
+            <div class="gauge">
+                	<justgage title="Stories Completed"
+                          value="{{story_complete_count}}"
+                          width="200"
+                          gaugeColor="#94CC51"
+                          height="100"
+                          max="{{story_count}}"
+                          min="0"></justgage>
+			</div>
+        </div>
+        <br/><br/>
+        {% endif %}
+
+        {% if log.points_total %}
+        <div class="stats-bubble">
+
+            <div class="gauge">
+                	<justgage title="Points In Progress"
+                          value="{{log.points_in_progress}}"
+                          width="200"
+                          gaugeColor="#1E95E0"
+                          height="100"
+                          max="{{log.points_total}}"
+                          min="0"></justgage>
+			</div>
+        </div><br/><br/>
+
+        <div class="stats-bubble">
+                <div class="gauge">
+                	<justgage title="Points Completed"
+                          value="{{log.points_status10}}"
+                          width="200"
+                          gaugeColor="#94CC51"
+                          height="100"
+                          max="{{log.points_total}}"
+                          min="0"></justgage>
+				</div>
+        </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+
+<div style="width: 800px; margin-top: 25px">
+    
+    <div id="release_burndown_label">Release progress by points:</div>
+	<div id="release_burndown" style="width:800px; height:310px; margin-left: auto; margin-right: auto;">
+	</div>
+
+    <br/>
+	
+    <div id="release_burndown2_label">Release progress by # of cards/stories:</div>
+    <div id="release_burndown2" style="width:800px; height:310px; margin-left: auto; margin-right: auto;">
+	</div>
+    
+    <br/>
+    
+    <div id="release_timechart_label">Release progress by time estimates:</div>
+    <div id="release_timechart" style="width:800px; height:310px; margin-left: auto; margin-right: auto;">
+    </div>
+
+</div>
+
+{% if manual_epic_count %}
+*{{manual_epic_count}} epic manually added.
+{% endif %}
+
+
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready( function() {
+		generateReleaseBurndown("#release_burndown", 
+                                "#release_burndown2", 
+                                "#release_timechart",
+                                {{release.id}})
+
+
+
+
+	});
+</script>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "projects/base.html" %}
+
+{% load activity_tags %}
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load extras_tags %}
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+
+
+{% block body_class %}github-pages{% endblock %}
+
+{% block head_title %}{{ project.name }} &amp; GitHub{% endblock %}
+
+{% block extra_head %}
+	  <link rel="stylesheet" href="{{ STATIC_URL }}css/github.css" />
+{% endblock %}
+
+
+    
+{% block body_div_class %}narrow_body{% endblock %}
+
+{% block body %}
+<div class="github-body">
+	{% block gh_body %}
+	{% endblock %}
+</div>
+{% endblock %}

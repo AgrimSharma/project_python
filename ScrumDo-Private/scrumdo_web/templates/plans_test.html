@@ -1,0 +1,50 @@
+<html>
+  <body>
+	  <script>
+	  
+	  var _kmq = _kmq || [];
+	  var _kmk = _kmk || '03519b5a41c175953eb8c1963e55054f5dc16063';
+	  function _kms(u){
+	    
+	      var d = document, f = d.getElementsByTagName('script')[0],
+	      s = d.createElement('script');
+	      s.type = 'text/javascript'; s.async = true; s.src = u;
+	      f.parentNode.insertBefore(s, f);
+	   
+	  }
+	  _kms('//i.kissmetrics.com/i.js');
+	  _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+	  
+	  
+	    // Set a timeout to go to our default landing page, just in case
+	    var abTimeout1 = setTimeout(function(){
+	      window.location.replace("http://www.scrumdo.com/plans/a");
+	    }, 1500)
+	    _kmq.push(function(){
+	      KM.ab(
+	        "Plans Page", 
+	        ["a","b","c"], 
+	        function(page){ // We create a callback that redirects to the page returned
+	          clearTimeout(abTimeout1);
+	          window.location.replace("http://www.scrumdo.com/plans/" + page);
+	        }
+	      );
+	    })
+	  </script>
+	  
+      <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-19817142-1']);
+        _gaq.push(['_trackPageview']);
+	  _gaq.push(['_trackPageLoadTime']);
+
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
+      </script>		
+  </body>
+</html>

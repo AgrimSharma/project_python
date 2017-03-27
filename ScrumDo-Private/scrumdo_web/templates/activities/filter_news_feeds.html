@@ -1,0 +1,32 @@
+{% load projects_tags %}
+
+<a class="showFilterNewsfeed" href="#filterNewsFeedDialog">{% silk "icon-wrench" %} Filter</a>
+<div id="filterNewsFeedDialog" style="display: none;">
+	<a name="filterNewsFeedDialog"></a>
+	<form>
+        {% csrf_token %}
+		<input type="checkbox" name="hideReorderStories" id="id_hideReorderedStories" />
+		<label for="hideReorderedStories">Hide Reordered / Reranked Story Feeds</label><br />
+		<input type="checkbox" name="groupReorderStories" id="id_groupReorderStories" />
+		<label for="groupReorderStories">Group Reordered / Reranked Story Feeds</label><br />
+		<br />
+		<input type="button" name="filter_button" id="id_filter_button" value="Filter" class="button blue"/>
+		
+	</form>
+</div>
+
+<script>
+	$('#id_hideReorderedStories').click(function(){
+		$(this).is(':checked') ? $.cookie("hide_reoder_feeds","true") : $.cookie("hide_reoder_feeds","false");
+		$("#news_feed").load('news_feed.html'); });	
+	$('#id_groupReorderStories').click(function(){
+		$(this).is(':checked') ? $.cookie("group_reoder_feeds","true") : $.cookie("group_reoder_feeds","false");});
+	$('#id_filter_button').click(function(){location.reload();});	
+	$('.showFilterNewsfeed').click(function(){ $('#filterNewsFeedDialog').toggle();	});
+		
+	$(document).ready(function(){
+		$.cookie("hide_reoder_feeds") == "true" ? $('#id_hideReorderedStories').attr('checked', true) :  $('#id_hideReorderedStories').attr('checked', false);
+		$.cookie("group_reoder_feeds") == "true" ? $('#id_groupReorderStories').attr('checked', true) :  $('#id_groupReorderStories').attr('checked', false);
+	})
+	 
+</script>

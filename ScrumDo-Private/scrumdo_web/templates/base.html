@@ -1,0 +1,332 @@
+{% load ifsetting_tag %}{% load cache %}{% load subscription_tags %}{% load organizations_tags %}<!DOCTYPE html>
+<!--[if lt IE 9]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html class="no-js ie9"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head lang="en">
+    <meta charset="utf-8">
+<!-- rackspace -->
+
+    {% ifnotsetting TEMPLATE_DEBUG %}
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+      <script type="text/javascript">
+        window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){var o=e[n]={exports:{}};t[n][0].call(o.exports,function(e){var o=t[n][1][e];return r(o?o:e)},o,o.exports)}return e[n].exports}if("function"==typeof __nr_require)return __nr_require;for(var o=0;o<n.length;o++)r(n[o]);return r}({QJf3ax:[function(t,e){function n(t){function e(e,n,a){t&&t(e,n,a),a||(a={});for(var c=s(e),f=c.length,u=i(a,o,r),d=0;f>d;d++)c[d].apply(u,n);return u}function a(t,e){f[t]=s(t).concat(e)}function s(t){return f[t]||[]}function c(){return n(e)}var f={};return{on:a,emit:e,create:c,listeners:s,_events:f}}function r(){return{}}var o="nr@context",i=t("gos");e.exports=n()},{gos:"7eSDFh"}],ee:[function(t,e){e.exports=t("QJf3ax")},{}],3:[function(t){function e(t){try{i.console&&console.log(t)}catch(e){}}var n,r=t("ee"),o=t(1),i={};try{n=localStorage.getItem("__nr_flags").split(","),console&&"function"==typeof console.log&&(i.console=!0,-1!==n.indexOf("dev")&&(i.dev=!0),-1!==n.indexOf("nr_dev")&&(i.nrDev=!0))}catch(a){}i.nrDev&&r.on("internal-error",function(t){e(t.stack)}),i.dev&&r.on("fn-err",function(t,n,r){e(r.stack)}),i.dev&&(e("NR AGENT IN DEVELOPMENT MODE"),e("flags: "+o(i,function(t){return t}).join(", ")))},{1:22,ee:"QJf3ax"}],4:[function(t){function e(t,e,n,i,s){try{c?c-=1:r("err",[s||new UncaughtException(t,e,n)])}catch(f){try{r("ierr",[f,(new Date).getTime(),!0])}catch(u){}}return"function"==typeof a?a.apply(this,o(arguments)):!1}function UncaughtException(t,e,n){this.message=t||"Uncaught error with no additional information",this.sourceURL=e,this.line=n}function n(t){r("err",[t,(new Date).getTime()])}var r=t("handle"),o=t(6),i=t("ee"),a=window.onerror,s=!1,c=0;t("loader").features.err=!0,t(5),window.onerror=e;try{throw new Error}catch(f){"stack"in f&&(t(1),t(2),"addEventListener"in window&&t(3),window.XMLHttpRequest&&XMLHttpRequest.prototype&&XMLHttpRequest.prototype.addEventListener&&window.XMLHttpRequest&&XMLHttpRequest.prototype&&XMLHttpRequest.prototype.addEventListener&&!/CriOS/.test(navigator.userAgent)&&t(4),s=!0)}i.on("fn-start",function(){s&&(c+=1)}),i.on("fn-err",function(t,e,r){s&&(this.thrown=!0,n(r))}),i.on("fn-end",function(){s&&!this.thrown&&c>0&&(c-=1)}),i.on("internal-error",function(t){r("ierr",[t,(new Date).getTime(),!0])})},{1:9,2:8,3:6,4:10,5:3,6:23,ee:"QJf3ax",handle:"D5DuLP",loader:"G9z0Bl"}],5:[function(t){function e(){}if(window.performance&&window.performance.timing&&window.performance.getEntriesByType){var n=t("ee"),r=t("handle"),o=t(1),i=t(2);t("loader").features.stn=!0,t(3),n.on("fn-start",function(t){var e=t[0];e instanceof Event&&(this.bstStart=Date.now())}),n.on("fn-end",function(t,e){var n=t[0];n instanceof Event&&r("bst",[n,e,this.bstStart,Date.now()])}),o.on("fn-start",function(t,e,n){this.bstStart=Date.now(),this.bstType=n}),o.on("fn-end",function(t,e){r("bstTimer",[e,this.bstStart,Date.now(),this.bstType])}),i.on("fn-start",function(){this.bstStart=Date.now()}),i.on("fn-end",function(t,e){r("bstTimer",[e,this.bstStart,Date.now(),"requestAnimationFrame"])}),n.on("pushState-start",function(){this.time=Date.now(),this.startPath=location.pathname+location.hash}),n.on("pushState-end",function(){r("bstHist",[location.pathname+location.hash,this.startPath,this.time])}),"addEventListener"in window.performance&&(window.performance.addEventListener("webkitresourcetimingbufferfull",function(){r("bstResource",[window.performance.getEntriesByType("resource")]),window.performance.webkitClearResourceTimings()},!1),window.performance.addEventListener("resourcetimingbufferfull",function(){r("bstResource",[window.performance.getEntriesByType("resource")]),window.performance.clearResourceTimings()},!1)),document.addEventListener("scroll",e,!1),document.addEventListener("keypress",e,!1),document.addEventListener("click",e,!1)}},{1:9,2:8,3:7,ee:"QJf3ax",handle:"D5DuLP",loader:"G9z0Bl"}],6:[function(t,e){function n(t){i.inPlace(t,["addEventListener","removeEventListener"],"-",r)}function r(t){return t[1]}var o=(t(1),t("ee").create()),i=t(2)(o),a=t("gos");if(e.exports=o,n(window),"getPrototypeOf"in Object){for(var s=document;s&&!s.hasOwnProperty("addEventListener");)s=Object.getPrototypeOf(s);s&&n(s);for(var c=XMLHttpRequest.prototype;c&&!c.hasOwnProperty("addEventListener");)c=Object.getPrototypeOf(c);c&&n(c)}else XMLHttpRequest.prototype.hasOwnProperty("addEventListener")&&n(XMLHttpRequest.prototype);o.on("addEventListener-start",function(t){if(t[1]){var e=t[1];"function"==typeof e?this.wrapped=t[1]=a(e,"nr@wrapped",function(){return i(e,"fn-",null,e.name||"anonymous")}):"function"==typeof e.handleEvent&&i.inPlace(e,["handleEvent"],"fn-")}}),o.on("removeEventListener-start",function(t){var e=this.wrapped;e&&(t[1]=e)})},{1:23,2:24,ee:"QJf3ax",gos:"7eSDFh"}],7:[function(t,e){var n=(t(2),t("ee").create()),r=t(1)(n);e.exports=n,r.inPlace(window.history,["pushState"],"-")},{1:24,2:23,ee:"QJf3ax"}],8:[function(t,e){var n=(t(2),t("ee").create()),r=t(1)(n);e.exports=n,r.inPlace(window,["requestAnimationFrame","mozRequestAnimationFrame","webkitRequestAnimationFrame","msRequestAnimationFrame"],"raf-"),n.on("raf-start",function(t){t[0]=r(t[0],"fn-")})},{1:24,2:23,ee:"QJf3ax"}],9:[function(t,e){function n(t,e,n){t[0]=o(t[0],"fn-",null,n)}var r=(t(2),t("ee").create()),o=t(1)(r);e.exports=r,o.inPlace(window,["setTimeout","setInterval","setImmediate"],"setTimer-"),r.on("setTimer-start",n)},{1:24,2:23,ee:"QJf3ax"}],10:[function(t,e){function n(){f.inPlace(this,p,"fn-")}function r(t,e){f.inPlace(e,["onreadystatechange"],"fn-")}function o(t,e){return e}function i(t,e){for(var n in t)e[n]=t[n];return e}var a=t("ee").create(),s=t(1),c=t(2),f=c(a),u=c(s),d=window.XMLHttpRequest,p=["onload","onerror","onabort","onloadstart","onloadend","onprogress","ontimeout"];e.exports=a,window.XMLHttpRequest=function(t){var e=new d(t);try{a.emit("new-xhr",[],e),u.inPlace(e,["addEventListener","removeEventListener"],"-",o),e.addEventListener("readystatechange",n,!1)}catch(r){try{a.emit("internal-error",[r])}catch(i){}}return e},i(d,XMLHttpRequest),XMLHttpRequest.prototype=d.prototype,f.inPlace(XMLHttpRequest.prototype,["open","send"],"-xhr-",o),a.on("send-xhr-start",r),a.on("open-xhr-start",r)},{1:6,2:24,ee:"QJf3ax"}],11:[function(t){function e(t){var e=this.params,r=this.metrics;if(!this.ended){this.ended=!0;for(var i=0;c>i;i++)t.removeEventListener(s[i],this.listener,!1);if(!e.aborted){if(r.duration=(new Date).getTime()-this.startTime,4===t.readyState){e.status=t.status;var a=t.responseType,f="arraybuffer"===a||"blob"===a||"json"===a?t.response:t.responseText,u=n(f);if(u&&(r.rxSize=u),this.sameOrigin){var d=t.getResponseHeader("X-NewRelic-App-Data");d&&(e.cat=d.split(", ").pop())}}else e.status=0;r.cbTime=this.cbTime,o("xhr",[e,r,this.startTime])}}}function n(t){if("string"==typeof t&&t.length)return t.length;if("object"!=typeof t)return void 0;if("undefined"!=typeof ArrayBuffer&&t instanceof ArrayBuffer&&t.byteLength)return t.byteLength;if("undefined"!=typeof Blob&&t instanceof Blob&&t.size)return t.size;if("undefined"!=typeof FormData&&t instanceof FormData)return void 0;try{return JSON.stringify(t).length}catch(e){return void 0}}function r(t,e){var n=i(e),r=t.params;r.host=n.hostname+":"+n.port,r.pathname=n.pathname,t.sameOrigin=n.sameOrigin}if(window.XMLHttpRequest&&XMLHttpRequest.prototype&&XMLHttpRequest.prototype.addEventListener&&!/CriOS/.test(navigator.userAgent)){t("loader").features.xhr=!0;var o=t("handle"),i=t(2),a=t("ee"),s=["load","error","abort","timeout"],c=s.length,f=t(1);t(4),t(3),a.on("new-xhr",function(){this.totalCbs=0,this.called=0,this.cbTime=0,this.end=e,this.ended=!1,this.xhrGuids={}}),a.on("open-xhr-start",function(t){this.params={method:t[0]},r(this,t[1]),this.metrics={}}),a.on("open-xhr-end",function(t,e){"loader_config"in NREUM&&"xpid"in NREUM.loader_config&&this.sameOrigin&&e.setRequestHeader("X-NewRelic-ID",NREUM.loader_config.xpid)}),a.on("send-xhr-start",function(t,e){var r=this.metrics,o=t[0],i=this;if(r&&o){var f=n(o);f&&(r.txSize=f)}this.startTime=(new Date).getTime(),this.listener=function(t){try{"abort"===t.type&&(i.params.aborted=!0),("load"!==t.type||i.called===i.totalCbs&&(i.onloadCalled||"function"!=typeof e.onload))&&i.end(e)}catch(n){try{a.emit("internal-error",[n])}catch(r){}}};for(var u=0;c>u;u++)e.addEventListener(s[u],this.listener,!1)}),a.on("xhr-cb-time",function(t,e,n){this.cbTime+=t,e?this.onloadCalled=!0:this.called+=1,this.called!==this.totalCbs||!this.onloadCalled&&"function"==typeof n.onload||this.end(n)}),a.on("xhr-load-added",function(t,e){var n=""+f(t)+!!e;this.xhrGuids&&!this.xhrGuids[n]&&(this.xhrGuids[n]=!0,this.totalCbs+=1)}),a.on("xhr-load-removed",function(t,e){var n=""+f(t)+!!e;this.xhrGuids&&this.xhrGuids[n]&&(delete this.xhrGuids[n],this.totalCbs-=1)}),a.on("addEventListener-end",function(t,e){e instanceof XMLHttpRequest&&"load"===t[0]&&a.emit("xhr-load-added",[t[1],t[2]],e)}),a.on("removeEventListener-end",function(t,e){e instanceof XMLHttpRequest&&"load"===t[0]&&a.emit("xhr-load-removed",[t[1],t[2]],e)}),a.on("fn-start",function(t,e,n){e instanceof XMLHttpRequest&&("onload"===n&&(this.onload=!0),("load"===(t[0]&&t[0].type)||this.onload)&&(this.xhrCbStart=(new Date).getTime()))}),a.on("fn-end",function(t,e){this.xhrCbStart&&a.emit("xhr-cb-time",[(new Date).getTime()-this.xhrCbStart,this.onload,e],e)})}},{1:"XL7HBI",2:12,3:10,4:6,ee:"QJf3ax",handle:"D5DuLP",loader:"G9z0Bl"}],12:[function(t,e){e.exports=function(t){var e=document.createElement("a"),n=window.location,r={};e.href=t,r.port=e.port;var o=e.href.split("://");return!r.port&&o[1]&&(r.port=o[1].split("/")[0].split("@").pop().split(":")[1]),r.port&&"0"!==r.port||(r.port="https"===o[0]?"443":"80"),r.hostname=e.hostname||n.hostname,r.pathname=e.pathname,r.protocol=o[0],"/"!==r.pathname.charAt(0)&&(r.pathname="/"+r.pathname),r.sameOrigin=!e.hostname||e.hostname===document.domain&&e.port===n.port&&e.protocol===n.protocol,r}},{}],13:[function(t,e){function n(t){return function(){r(t,[(new Date).getTime()].concat(i(arguments)))}}var r=t("handle"),o=t(1),i=t(2);"undefined"==typeof window.newrelic&&(newrelic=window.NREUM);var a=["setPageViewName","addPageAction","setCustomAttribute","finished","addToTrace","inlineHit","noticeError"];o(a,function(t,e){window.NREUM[e]=n("api-"+e)}),e.exports=window.NREUM},{1:22,2:23,handle:"D5DuLP"}],"7eSDFh":[function(t,e){function n(t,e,n){if(r.call(t,e))return t[e];var o=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(t,e,{value:o,writable:!0,enumerable:!1}),o}catch(i){}return t[e]=o,o}var r=Object.prototype.hasOwnProperty;e.exports=n},{}],gos:[function(t,e){e.exports=t("7eSDFh")},{}],handle:[function(t,e){e.exports=t("D5DuLP")},{}],D5DuLP:[function(t,e){function n(t,e,n){return r.listeners(t).length?r.emit(t,e,n):(o[t]||(o[t]=[]),void o[t].push(e))}var r=t("ee").create(),o={};e.exports=n,n.ee=r,r.q=o},{ee:"QJf3ax"}],id:[function(t,e){e.exports=t("XL7HBI")},{}],XL7HBI:[function(t,e){function n(t){var e=typeof t;return!t||"object"!==e&&"function"!==e?-1:t===window?0:i(t,o,function(){return r++})}var r=1,o="nr@id",i=t("gos");e.exports=n},{gos:"7eSDFh"}],G9z0Bl:[function(t,e){function n(){var t=p.info=NREUM.info,e=f.getElementsByTagName("script")[0];if(t&&t.licenseKey&&t.applicationID&&e){s(d,function(e,n){e in t||(t[e]=n)});var n="https"===u.split(":")[0]||t.sslForHttp;p.proto=n?"https://":"http://",a("mark",["onload",i()]);var r=f.createElement("script");r.src=p.proto+t.agent,e.parentNode.insertBefore(r,e)}}function r(){"complete"===f.readyState&&o()}function o(){a("mark",["domContent",i()])}function i(){return(new Date).getTime()}var a=t("handle"),s=t(1),c=(t(2),window),f=c.document,u=(""+location).split("?")[0],d={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",agent:"js-agent.newrelic.com/nr-632.min.js"},p=e.exports={offset:i(),origin:u,features:{}};f.addEventListener?(f.addEventListener("DOMContentLoaded",o,!1),c.addEventListener("load",n,!1)):(f.attachEvent("onreadystatechange",r),c.attachEvent("onload",n)),a("mark",["firstbyte",i()])},{1:22,2:13,handle:"D5DuLP"}],loader:[function(t,e){e.exports=t("G9z0Bl")},{}],22:[function(t,e){function n(t,e){var n=[],o="",i=0;for(o in t)r.call(t,o)&&(n[i]=e(o,t[o]),i+=1);return n}var r=Object.prototype.hasOwnProperty;e.exports=n},{}],23:[function(t,e){function n(t,e,n){e||(e=0),"undefined"==typeof n&&(n=t?t.length:0);for(var r=-1,o=n-e||0,i=Array(0>o?0:o);++r<o;)i[r]=t[e+r];return i}e.exports=n},{}],24:[function(t,e){function n(t){return!(t&&"function"==typeof t&&t.apply&&!t[i])}var r=t("ee"),o=t(1),i="nr@wrapper",a=Object.prototype.hasOwnProperty;e.exports=function(t){function e(t,e,r,a){function nrWrapper(){var n,i,s,f;try{i=this,n=o(arguments),s=r&&r(n,i)||{}}catch(d){u([d,"",[n,i,a],s])}c(e+"start",[n,i,a],s);try{return f=t.apply(i,n)}catch(p){throw c(e+"err",[n,i,p],s),p}finally{c(e+"end",[n,i,f],s)}}return n(t)?t:(e||(e=""),nrWrapper[i]=!0,f(t,nrWrapper),nrWrapper)}function s(t,r,o,i){o||(o="");var a,s,c,f="-"===o.charAt(0);for(c=0;c<r.length;c++)s=r[c],a=t[s],n(a)||(t[s]=e(a,f?s+o:o,i,s))}function c(e,n,r){try{t.emit(e,n,r)}catch(o){u([o,e,n,r])}}function f(t,e){if(Object.defineProperty&&Object.keys)try{var n=Object.keys(t);return n.forEach(function(n){Object.defineProperty(e,n,{get:function(){return t[n]},set:function(e){return t[n]=e,e}})}),e}catch(r){u([r])}for(var o in t)a.call(t,o)&&(e[o]=t[o]);return e}function u(e){try{t.emit("internal-error",e)}catch(n){}}return t||(t=r),e.inPlace=s,e.flag=i,e}},{1:23,ee:"QJf3ax"}]},{},["G9z0Bl",4,11,5]);
+        ;NREUM.info={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net",licenseKey:"c2af6d2b56",applicationID:"9004990",sa:1,agent:"js-agent.newrelic.com/nr-632.min.js"}
+      </script>
+    {% endifnotsetting %}
+
+
+    <title>ScrumDo {% block head_title %}{% endblock %}</title>
+
+    <meta name="description" content="Agile/Scrum tool">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width">
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ STATIC_URL }}img/favicon/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favicon/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favicon/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ STATIC_URL }}img/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" href="{{ STATIC_URL }}img/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="{{ STATIC_URL }}img/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="{{ STATIC_URL }}img/favicon/mstile-144x144.png">
+
+
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/bower.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/scrumdo-blessed1.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/scrumdo.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/subscription.css">
+
+
+
+
+
+    <!--[if lt IE 9]>
+        <script src="js/vendor/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+
+    {% block extra_css_includes %}{% endblock %}
+
+
+
+{#    Roll Bar Configuration... #}
+<script>
+var _rollbarConfig = {
+    accessToken: "668cff79c1714d189a534d5d1787dbcf",
+    captureUncaught: true,
+    maxItems: 50,
+    payload: {
+        client: {
+          javascript: {
+            source_map_enabled: true,
+            code_version: "{{ STATIC_URL|slice:'-23:-12' }}",
+            guess_uncaught_frames: true
+          }
+        },
+        environment: {% ifsetting TEMPLATE_DEBUG %}"development-v2"{% else %}"production-v2-ecs"{% endifsetting %}{% if user and user.id %},
+        person: {
+          id: {{user.id}},
+          username: "{{user.username|escapejs}}"
+        }
+        {% endif %}
+    }
+};
+!function(r){function t(e){if(o[e])return o[e].exports;var n=o[e]={exports:{},id:e,loaded:!1};return r[e].call(n.exports,n,n.exports,t),n.loaded=!0,n.exports}var o={};return t.m=r,t.c=o,t.p="",t(0)}([function(r,t,o){"use strict";var e=o(1).Rollbar,n=o(2),a="https://d37gvrvc0wt4s1.cloudfront.net/js/v1.4/rollbar.min.js";_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||a;var i=e.init(window,_rollbarConfig),l=n(i,_rollbarConfig);i.loadFull(window,document,!1,_rollbarConfig,l)},function(r,t){"use strict";function o(){var r=window.console;r&&"function"==typeof r.log&&r.log.apply(r,arguments)}function e(r){this.shimId=++u,this.notifier=null,this.parentShim=r,this.logger=o,this._rollbarOldOnError=null}function n(r,t,o){window._rollbarWrappedError&&(o[4]||(o[4]=window._rollbarWrappedError),o[5]||(o[5]=window._rollbarWrappedError._rollbarContext),window._rollbarWrappedError=null),r.uncaughtError.apply(r,o),t&&t.apply(window,o)}function a(r){var t=e;return l(function(){if(this.notifier)return this.notifier[r].apply(this.notifier,arguments);var o=this,e="scope"===r;e&&(o=new t(this));var n=Array.prototype.slice.call(arguments,0),a={shim:o,method:r,args:n,ts:new Date};return window._rollbarShimQueue.push(a),e?o:void 0})}function i(r,t){if(t.hasOwnProperty&&t.hasOwnProperty("addEventListener")){var o=t.addEventListener;t.addEventListener=function(t,e,n){o.call(this,t,r.wrap(e),n)};var e=t.removeEventListener;t.removeEventListener=function(r,t,o){e.call(this,r,t&&t._wrapped?t._wrapped:t,o)}}}function l(r,t){return t=t||o,function(){try{return r.apply(this,arguments)}catch(o){t("Rollbar internal error:",o)}}}var u=0;e.init=function(r,t){var o=t.globalAlias||"Rollbar";if("object"==typeof r[o])return r[o];r._rollbarShimQueue=[],r._rollbarWrappedError=null,t=t||{};var a=new e;return l(function(){if(a.configure(t),t.captureUncaught){a._rollbarOldOnError=r.onerror,r.onerror=function(){var r=Array.prototype.slice.call(arguments,0);n(a,a._rollbarOldOnError,r)};var e,l,u="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(e=0;e<u.length;++e)l=u[e],r[l]&&r[l].prototype&&i(a,r[l].prototype)}return r[o]=a,a},a.logger)()},e.prototype.loadFull=function(r,t,o,e,n){var a=function(){var t;if(void 0===r._rollbarPayloadQueue){var o,e,a,i;for(t=new Error("rollbar.js did not load");o=r._rollbarShimQueue.shift();)for(a=o.args,i=0;i<a.length;++i)if(e=a[i],"function"==typeof e){e(t);break}}"function"==typeof n&&n(t)},i=t.createElement("script"),u=t.getElementsByTagName("script")[0];i.src=e.rollbarJsUrl,i.async=!o,i.onload=l(a,this.logger),u.parentNode.insertBefore(i,u)},e.prototype.wrap=function(r,t){try{var o;if(o="function"==typeof t?t:function(){return t||{}},"function"!=typeof r)return r;if(r._isWrap)return r;if(!r._wrapped){r._wrapped=function(){try{return r.apply(this,arguments)}catch(t){throw t._rollbarContext=o()||{},t._rollbarContext._wrappedSource=r.toString(),window._rollbarWrappedError=t,t}},r._wrapped._isWrap=!0;for(var e in r)r.hasOwnProperty(e)&&(r._wrapped[e]=r[e])}return r._wrapped}catch(n){return r}};for(var s="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError".split(","),p=0;p<s.length;++p)e.prototype[s[p]]=a(s[p]);r.exports={Rollbar:e,_rollbarWindowOnError:n}},function(r,t){"use strict";r.exports=function(r,t){return function(o){if(!o&&!window._rollbarInitialized){var e=window.RollbarNotifier,n=t||{},a=n.globalAlias||"Rollbar",i=window.Rollbar.init(n,r);i._processShimQueue(window._rollbarShimQueue||[]),window[a]=i,window._rollbarInitialized=!0,e.processPayloads()}}}}]);
+</script>
+
+
+
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];  // For Google Analytics below.
+    </script>
+
+    {% block extra_head %}{% endblock %}
+
+{% block mixpanel %}
+<!-- start Mixpanel --><script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+mixpanel.init("{{MIXPANEL_TOKEN}}");</script><!-- end Mixpanel -->
+{% endblock %}
+
+    <style>
+        .page-preloader {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            z-index: 50000;
+            background-color: #ffffff;
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .ng-cloak {
+            display: none !important;
+        }
+
+    </style>
+</head>
+<body class="{% block body_class %}{% endblock %}"  {% block body_app %}ng-app="BareApp" id="ng-app"{% endblock %}>
+{% block preloader_area %}{% endblock %}
+<toast></toast>
+<header id="boardHeader">
+    <nav class="navbar scrumdo-navbar noselect" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                {% block title_logo %}
+                <a class="navbar-brand" href="/">
+                    <img src="{{ STATIC_URL }}img/scrumdo-logo-dark-48.png">
+                </a>
+                {% endblock %}
+            </div>
+
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                {% block top_navbar %}
+
+                    {% if user.is_authenticated %}
+
+                    <ul class="nav navbar-nav navbar-right top-navbar">
+                        
+                        {% if organization %}
+                        <li class="help-desk">
+                            <a id="intercom-app"
+                                class="intercom-link">
+                                <i class="owl"></i>
+                            </a>
+                        </li>
+
+                        <li class="help-desk nickeled-link">
+                            <a id="nickeled-guide"
+                                class="nickeled-guide-link">
+                                <i class="visual-guide"></i>
+                            </a>
+                        </li>
+                        {% endif%}
+
+                        {% if organization.subscription.is_trial %}
+                            <li class="getting-started">
+                                <a href="/subscription/{{organization.slug}}"
+                                     ng-if="user.staff"
+                                     class="scrumdo-btn secondary small"> UpgradeNow </a>
+                            </li>
+                        {% endif %}
+                        {% if organization %}
+
+
+                        <li class="dropdown nav-view" uib-dropdown>
+                            <a href="#" class="nav-view-changer org-dropdown" uib-dropdown-toggle>{{ organization.name|truncatechars:18 }} <span class="caret"></span></a>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu">  
+                                {% isorgstaff organization %}
+                                    <li><a href="{% url "subscription_options"  organization.slug %}">Subscription</a></li>
+                                    <li><a href="{% url "organization_edit"  organization.slug %}">Organization Settings</a></li>
+ 
+                                {% endisorgstaff %}
+
+                                <li><a target="_blank" href="{% url "track_time" organization.slug %}#/">Track Time</a></li>
+                                <li><a href="{% url "organization_dashboard"  organization.slug %}#/">Dashboard</a></li>
+                                <li><a href="{% url "organization_dashboard"  organization.slug %}#/projects">Workspace List</a></li>
+                                <li><a href="{% url "organization_dashboard"  organization.slug %}#/teams">Teams</a></li>
+                                <li><a href="{% url "export_organization"  organization.slug %}">Export</a></li>
+
+                            </ul>
+                        </li>
+
+                        <li ng-if="user.new_user" class="getting-started">
+                            <a target="_blank" href="http://help.scrumdo.com/getting-started">
+                                <i class="fa fa-graduation-cap "></i> Getting Started
+                            </a>
+                        </li>
+                        {% endif %}
+
+
+                        <li class="dropdown nav-settings" uib-dropdown>
+                            <a href="#" class="nav-settings-link dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-cog"></i>
+                            </a>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                                {% isorgstaff organization %}
+                                    <li><a href="{% url "subscription_options"  organization.slug %}">Subscription</a></li>
+                                {% endisorgstaff %}
+
+                                <li><a href="{% url "account_default"  %}">Account Settings</a></li>
+                                <li><a href="{% url "email_notification_config"  %}">Email Notifications</a></li>
+
+                                <li><a class="IntercomStartLink">Help / Support</a></li>
+                                <li><a href="http://help.scrumdo.com/" target="_blank">Self Serve Help</a></li>
+
+                                <li><a href="/?force_org_view=1">Organization List</a></li>
+                                <li ng-if="kiosk"><a ng-click="kiosk.toggle()">Kiosk Mode</a></li>
+                                <li><a href="{% url "acct_logout"  %}" id="logoutlink">Log Out - {{ user }}</a></li>
+
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                    <sd-poker-notifier></sd-poker-notifier>
+                    {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="">
+                            <a href="{% url "acct_login"  %}" class="nav-settings-link">
+                                Log In
+                            </a>
+                        </li>
+                    </ul>
+
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </nav>
+
+    {% block subnav %}{% endblock %}
+</header>
+
+{% block body %}
+{% endblock %}
+
+
+<script type="text/javascript" charset="utf-8">
+    var STATIC_URL = "{{STATIC_URL}}";
+</script>
+
+{% block app_js %}
+    {% ifsetting TEMPLATE_DEBUG %}
+        <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/app.templates.js"></script>
+        <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/bower.js"></script>
+        <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/scrumdo-angular.js"></script>
+    {% else %}
+        <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/app.templates.min.js"></script>
+        <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/bower.min.js"></script>
+        <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/scrumdo-angular.min.js"></script>
+    {% endifsetting %}
+{% endblock %}
+
+<script type="text/javascript" charset="utf-8">
+
+    var chatUrl;
+    var chatHistoryUrl;
+    var PUBNUB_SUB_KEY;
+    var PUBNUB_PUB_KEY;
+    var REALTIME_CHANNEL;
+    var ENABLE_LIVE_UPDATES = false;
+
+{#    {% canchat project %}#}
+{#      PUBNUB_SUB_KEY = "{{PUBNUB_SUB_KEY}}";#}
+{#      PUBNUB_PUB_KEY = "{{PUBNUB_PUB_KEY}}";#}
+{#      REALTIME_CHANNEL = "{{project|realtime_channel}}";#}
+{#      PUBNUB_UUID = "{{request.user|realtime_uuid|escapejs}}";#}
+{#      chatUrl = "{% url "realtime_chat"  project.slug %}";#}
+{#      chatHistoryUrl = "{% url "realtime_chat_history"  project.slug %}";#}
+{#      {% if project.live_updates %}#}
+{#          ENABLE_LIVE_UPDATES = true;#}
+{#      {% endif %}#}
+{#    {% endcanchat %}#}
+
+
+    {% if GOOGLE_ANALYTICS %}
+      // Hey!  Don't use the newer analytics.js for now because it doesn't set _UTMZ and we lose our
+      // source attribution tracking vs. accounts.
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', '{{GOOGLE_ANALYTICS_ACCOUNT}}']);
+      _gaq.push(['_gat._forceSSL']);
+      _gaq.push(['_setDomainName', 'scrumdo.com']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    {% endif %}
+
+
+    {% block appinit %}
+
+            {% if project %}
+                scrumdo.setupBareApp("{{ STATIC_URL }}", "{{organization.slug}}", "{{project.slug}}");
+            {% else %}
+                {% if organization %}
+                    scrumdo.setupBareApp("{{ STATIC_URL }}", "{{organization.slug}}");
+                {% else %}
+                    scrumdo.setupBareApp("{{ STATIC_URL }}");
+                {% endif %}
+            {% endif %}
+
+    {% endblock %}
+
+    document.execCommand("AutoUrlDetect", false, false);  // prevents IE from auto-linking urls typed in.
+  </script>
+
+
+  {% cache 1000 customer_io user %}
+
+  {% endcache %}
+{% customer_io_snippet %}
+
+{% if organization %}
+    {% customer_in_app_msg organization%}
+{% endif %}
+</body>
+</html>

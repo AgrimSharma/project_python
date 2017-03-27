@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block head_title %}- {{ project.name|title }}{% endblock %}
+{% load organizations_tags %}
+
+{% block extra_head %}
+    <link rel="alternate" type="application/rss+xml" title="{{project.name}}" href="/feeds/project/{{ project.pk }}/{{ project.token }}" />
+{% endblock %}
+
+
+{% block subnav %}
+    <nav class="sub-nav">
+        <safe-project-dropdown project="project"></safe-project-dropdown>
+
+        {% block subnavbar%}
+
+        {% endblock %}
+    </nav>
+{% endblock %}
+
+{% block body %}
+    {% if not project.active %}
+        <div class="inactive-bib"></div>
+        <div class="inactive-message">
+            <div class="message">
+                {% if project.project_type == 2 %}
+                    This portfolio is currently archived.
+                {% elif project.portfolio_level == None or project.portfolio_level.portfolio.root.active %}
+                    This project is currently archived.
+                {% else %}
+                    Select Reactivate Portfolio to unarchive the entire Portfolio and its projects.
+                {% endif %}
+                <br/><br/>
+                {% isorgstaff organization %}
+                    {% if project.portfolio_level != None and project.portfolio_level.portfolio.root.active == False or project.project_type == 2 %}
+                        <form method="POST" action="{% url "portfolio_activate"  project.slug %}">
+                        {% csrf_token %}
+                            <input type="submit" class="scrumdo-btn primary" value="Reactivate Portfolio">
+                        </form>
+                        <br/>
+                    {% endif %}
+                    {% if project.project_type != 2 %}
+                        {% if project.project_type != 2 and project.portfolio_level.portfolio.root.active == False %}
+                            Select Reactivate Project to move the Project out of the Portfolio and unarchive it.<br/>
+                            <form method="POST" action="{% url "project_activate" group_slug=project.slug remove_from_portfolio='do' %}">
+                        {% else %}
+                            <form method="POST" action="{% url "project_activate" group_slug=project.slug %}">
+                        {% endif %}
+                        
+                        {% csrf_token %}
+                            <input type="submit" class="scrumdo-btn primary" value="Reactivate Project">
+                        </form>
+                    {% endif %}
+                {% endisorgstaff %}
+                <br/>
+                <a class="pull-left" href="{% url "organization_dashboard"  organization.slug %}#/projects">Back to project list</a>
+                <br/>
+            </div>
+        </div>
+    {% endif %}
+    <main id="boardTable" class="scrumdo-boards">
+        {% block innerbody %}{% endblock %}
+        <!--<sd-sidebar project="project" iterations="iterations"></sd-sidebar>-->
+    </main>
+{% endblock %}

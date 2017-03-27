@@ -1,0 +1,16 @@
+{
+  "name": "scrumdo-api-tests",
+  "version": "1.0.0",
+  "private": true,
+  "description": "These are a set of jasmine based tests using the frisby library to test our REST api.",
+  "main": "",
+  "scripts": {
+    "test": "jasmine-node ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.0",
+    "frisby": "^0.8.5"
+  }
+}

@@ -1,0 +1,6 @@
+var exports = module.exports = {
+    api_root: "https://app.scrumdo.com/api/v3",
+    org_slug: "organization",
+    username: "username",
+    password: "password"
+};

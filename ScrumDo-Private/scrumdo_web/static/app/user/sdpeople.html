@@ -1,0 +1,20 @@
+<div class="scrumdo-dropdown btn-group scrumdo-dropdown-users dropdown" is-open="ctrl.menuOpen" uib-dropdown>
+    <button ng-click="ctrl.toggleMenu($event)" type="button" class="scrumdo-select primary extended">
+        {{currentValue|shortuser}} <span ng-if="currentValue==null">{{ctrl.defaultLabel}}</span>
+    </button>
+
+    <div ng-if="ctrl.menuOpen" class="dropdown-menu dropdown-menu-right scrumdo-dropdown" uib-dropdown-menu role="menu">
+        <dropdown-filter ng-if="people.length>0" ng-model="ctrl.filterQuery"></dropdown-filter>
+        <ul ng-if="ctrl.menuOpen">
+            <li ng-repeat="person in people|filter:ctrl.doFilter"
+                ng-click='ctrl.select($event, person)'>
+                <a ng-click='ctrl.select($event, person)'
+                ng-class="{'selected-option':(person==currentValue)}"
+                href='#'>
+                    <sd-user-portrait user="person" size="32"></sd-user-portrait>
+                    {{person|shortuser}}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

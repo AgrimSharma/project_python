@@ -1,0 +1,90 @@
+<div class="portfolio-backlog-wrapper">
+
+    <div class="portfolio-backlog-container">
+        <div class="sub-nav">
+            <div class="col-md-12">
+                <div class="sub-nav-planning hidden-xs col-md-8">
+                    <i class="hidden-sm">Plan Portfolio Backlog here</i>
+                </div>
+                <div class="sub-nav-project pull-right col-md-4 text-right">
+                    <sd-filter-popup></sd-filter-popup>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 column-wrapper">
+             <div class="column root" ng-class="{'loading': !backlogCtrl.rootColumn.loaded}">
+                 <span ng-if="backlogCtrl.rootColumn.loaded" class="column-title">
+                     {{::backlogCtrl.portfolio.root.work_item_name | pluralize}}</span>
+                 <ul class="kanban-story-list">
+                    <li class="cards"
+                        ng-click="$evalAsync(backlogCtrl.selectCard($event, story, backlogCtrl.rootColumn))" 
+                        ng-dblclick="backlogCtrl.editStory($event, story)"
+                        ng-class="{'active': backlogCtrl.rootColumn.selected == story}"
+                        ng-repeat="story in backlogCtrl.rootColumn.stories">
+                        <div class="summary">
+                            <span class="cards-number">{{::story.prefix}}-{{::story.number}}</span>
+                            <span class="cards-text" ng-bind-html="story.summary|to_trusted|htmlToPlaintext|characters:40"></span>
+                        </div>
+                        <div class="iteration-info">
+                            <span>{{::backlogCtrl.portfolio.root.name}} / {{story.iteration_name}}</span>
+                        </div>
+                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-pencil cards-edit" ng-click="backlogCtrl.editStory($event, story)"></i>
+                    </li>
+                    <li class="cards new-card" 
+                        ng-click="backlogCtrl.addCard(backlogCtrl.rootColumn)"
+                        ng-if="backlogCtrl.rootColumn.loaded && 
+                        backlogCtrl.userService.canWrite(backlogCtrl.portfolio.root.slug)">
+                        <i class="fa fa-plus" aria-hidden="true"></i> New Card
+                    </li>
+                </ul>
+                 <div class="alert alert-info" ng-if="!backlogCtrl.rootColumn.loaded">
+                     <i class="fa fa-spinner fa-spin"></i> Loading...
+                 </div>
+             </div>
+
+            <div ng-repeat="column in backlogCtrl.columns" 
+                ng-class="{'loading': !column.loaded, 'last': column.lastcolumn}"
+                ng-if="column.active"
+                class="column">
+                <span ng-if="column.loaded" class="column-title">{{::column.project.work_item_name | pluralize}}</span>
+                <ul class="kanban-story-list">
+                    <li class="cards"
+                        ng-click="$evalAsync(backlogCtrl.selectCard($event, story, column))" 
+                        ng-dblclick="backlogCtrl.editStory($event, story)"
+                        ng-class="{'active': column.selected == story}"
+                        ng-repeat="story in column.stories">
+                        <div class="summary">
+                            <span class="cards-number">{{::story.prefix}}-{{::story.number}}</span>
+                            <span class="cards-text" ng-bind-html="story.summary|to_trusted|htmlToPlaintext|characters:40"></span>
+                        </div>
+                        <div class="iteration-info">
+                            <span>{{::column.project.name}} / {{story.iteration_name}}</span>
+                        </div>
+                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                        <i class="glyphicon glyphicon-pencil cards-edit" ng-click="backlogCtrl.editStory($event, story)"></i>
+                    </li>
+                    <li class="cards new-card" 
+                        ng-click="backlogCtrl.addCard(column)"
+                        ng-if="column.loaded && column.project.id && backlogCtrl.userService.canWrite(column.project.slug)">
+                        <i class="fa fa-plus" aria-hidden="true"></i> New Card
+                    </li>
+                    <li class="projects" ng-if="column.loaded && column.showProjects">
+                        <select class="form-control"
+                                name="selectedproject"
+                                ng-model="column.project"
+                                ng-change="backlogCtrl.addCard(column)"
+                                ng-options="project as project.name for project in column.projects">
+                            <option value="">Select Workspace</option>
+                        </select>
+                    </li>
+                </ul>
+                 <div class="alert alert-info" ng-if="!column.loaded">
+                     <i class="fa fa-spinner fa-spin"></i> Loading...
+                 </div>
+            </div>
+        </div>
+    </div>
+
+</div>

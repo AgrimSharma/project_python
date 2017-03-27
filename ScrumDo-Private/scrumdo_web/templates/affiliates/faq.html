@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load order_by %}
+
+{% block body_div_class %}narrow_body_with_sidebar{% endblock %}
+
+{% block head_title %}{% trans "Affiliate Program – FAQs" %}
+{% endblock %}
+
+
+{% block body %}
+<div >
+<h1>Affiliate Program – FAQs</h1>
+<h2>General<h2>
+<h3>What is an Affiliate?</h3>
+<p>
+An Affiliate is a person or company who links their website to ours and earns a commission on 
+any resulting sales.
+</p>
+
+<h3>Who can be an Affiliate?</h3>
+<p>
+Anyone with a website can become an Affiliate. You can be from any country in the world and 
+have any type of website, although we do retain the right to refuse or revoke membership to an 
+Affiliate with a website containing objectionable material.
+</p>
+
+<h3>Why should I become an Affiliate?</h3>
+<p>
+Because it's free to become an Affiliate and you'll earn money easily. You'll also add value 
+to your website by offering our products to your customers.
+</p>
+
+<h3>How do I become an Affiliate?</h3>
+<p>
+You can become an Affiliate by joining our Affiliate Program. Simply sign up.
+</p>
+
+<h3>How much does it cost?</h3>
+<p>
+It's totally free to join our Affiliate Program.
+<p>
+
+<h3>How does it work and how much can I earn?</h3>
+<p>
+For 12 months, half of all revenue generated from those users joining ScrumDo through your 
+link is credited to you.
+</p>
+
+<h2>Links</h2>
+<h3>How do I link to your website?</h3>
+<p>
+Sign up as a ScrumDo user and get the affiliate link to share it with others.
+</p>
+
+<h3>Where should I place the link?</h3>
+<p>
+The most effective place to place the link is at the top of your webpage or send as an email 
+to friends/companies.
+</p>
+
+<h3>Who can I share the link with?</h3>
+<p>
+Anyone who can profit using Agile Project Management.
+</p>
+
+<h2>Payments</h2>
+<h3>How do I track my status on payments?</h3>
+<p>
+Sign in to your ScrumDo account and Check the status of your affiliate Program earnings.
+</p>
+<h3>How do I get paid?</h3>
+<p>
+You should have a PayPal account, we will send the payment to your PayPal account every 
+first week of the month.
+</p>
+</div>
+<script type="text/javascript" src="{{ STATIC_URL }}js/home.js"></script>
+{% endblock %}

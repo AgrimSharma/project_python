@@ -1,0 +1,76 @@
+<div class="iteration-bigpicture" ng-class="{'no-data': !ctrl.projectData.currentIncrement.id}">
+    <sd-restricted-feature ng-if="::!ctrl.projectData.isPremiumUser() && !ctrl.projectData.currentIncrement.id" 
+        feature-name="'Big Picture'" organization-slug="ctrl.projectData.organizationSlug" 
+        feature-image="'BigPictureSample.png'"></sd-restricted-feature>
+
+    <sd-restricted-feature ng-if="::!ctrl.projectData.isPremiumUser() && ctrl.projectData.currentIncrement.id" 
+        feature-name="'Big Picture'" organization-slug="ctrl.projectData.organizationSlug" 
+        feature-image=""></sd-restricted-feature>
+
+    <bigpicture-nav ng-if="::ctrl.projectData.isPremiumUser()" ></bigpicture-nav>
+    
+    <div ng-if="!ctrl.projectData.currentIncrement.id && ctrl.projectData.isPremiumUser()" class="bigpicture-view">
+        <div class="alert alert-info margin10 text-center" style="color:#fff">
+            There is no child <strong>{{::childTimePeriodName}}</strong> associated with this <strong>{{::timePeriodName}} 
+            <i>'{{::ctrl.projectData.currentIteration.name}}'</i></strong> therefore we can not display the BigPicture tool.<br/>
+            To associate child <strong>{{::childTimePeriodName}}</strong> please select <strong>
+            <i>'{{::ctrl.projectData.currentIteration.name}}'</i></strong>
+            as parent of <strong>{{::childTimePeriodName}}</strong>.<br/>
+            Select child <strong>Workspace/{{::childTimePeriodName}}</strong> below to add to this.
+        </div>
+    </div>
+
+    <div class="children-iterations-editorbox col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3"
+        ng-if="ctrl.projectData.canWrite() 
+                && !ctrl.projectData.currentIncrement.id
+                && ctrl.projectData.isPremiumUser()">
+        <div class="refresh-btn text-center" style="margin-bottom: 20px;" ng-if="ctrl.showRefresh">
+            <button class="scrumdo-btn primary" ng-click="ctrl.reloadPage()">
+                <i class="fa fa-refresh" aria-hidden="true"></i> Reload Big Picture</button>
+        </div>
+
+        <children-iterations-editor
+            parent-project="ctrl.projectData.currentProject"
+            parent-iteration="ctrl.projectData.currentIteration"
+            action="'linktoparent'"
+        ></children-iterations-editor>
+    </div>
+
+    <div ng-if="ctrl.projectData.currentIncrement.id" class="bigpicture-view">
+        <div class="level-band root">
+            <div svg-connect id="svgConnect" 
+                layout="horizontal"
+                strokewidth="1" 
+                strokedasharray="5,5"
+                stroke="#f37950"></div>
+            <div class="project-box-wrapper">
+                <project-stats
+                    isroot="true"
+                    iterationid="ctrl.iterationId"
+                    incrementid="ctrl.incrementId"
+                    ispremiumuser="ctrl.projectData.isPremiumUser()"
+                    portfolioid='ctrl.portfolio.id'
+                    project="ctrl.portfolio.root"></project-stats>
+            </div>
+        </div>
+
+        <div class="level-band" ng-if="ctrl.hasAccessToLevel(level)" ng-repeat="level in ctrl.portfolio.levels">
+            <div class="project-box-wrapper">
+                <project-stats
+                    ng-if="ctrl.userHasAccess(project)"
+                    ng-repeat="project in level.projects"
+                    isroot="false"
+                    iterationid="ctrl.iterationId"
+                    incrementid="ctrl.incrementId"
+                    ispremiumuser="ctrl.projectData.isPremiumUser()"
+                    portfolioid='ctrl.portfolio.id'
+                    project="project"></project-stats>
+            </div>
+            <level-stats
+                rootproject=ctrl.portfolio.root
+                level=level
+                incrementid=ctrl.incrementId
+            ></level-stats>
+        </div>
+    </div>
+</div> 

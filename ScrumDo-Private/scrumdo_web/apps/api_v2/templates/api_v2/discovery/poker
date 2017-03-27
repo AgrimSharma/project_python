@@ -1,0 +1,86 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "description": "Calls related to integrating with planning poker.", 
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "authenticatePoker", 
+                    "notes": "This won't be useful unless you have specific help from ScrumDo staff to explain it.", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Project to play poker on.", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Channel to play poker on.", 
+                            "name": "channel_name", 
+                            "paramType": "query", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "The socket id from pusher", 
+                            "name": "socket_id", 
+                            "paramType": "query", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Project", 
+                    "summary": "Authenticate to planning poker."
+                }
+            ], 
+            "path": "/poker/{project_slug}/authenticate"
+        },
+        {
+            "description": "Sends a vote for a score", 
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "POST", 
+                    "nickname": "votePoker", 
+                    "notes": "This won't be useful unless you have specific help from ScrumDo staff to explain it.", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to play poker on.", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>\"estimate_value\": \"3\"<br/>}", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "None", 
+                    "summary": "Make an estimate"
+                }
+            ], 
+            "path": "/poker/{project_slug}/vote"
+        }
+
+
+
+
+        ],                 
+    "basePath": "{{SSL_BASE_URL}}/api/v2/", 
+    "models": [], 
+    "resourcePath": "/projects/", 
+    "swaggerVersion": "1.1"
+}

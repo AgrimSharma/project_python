@@ -1,0 +1,390 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "description": "Retrieve projects that are part of an organization", 
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjects", 
+                    "notes": "Only projects which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Project", 
+                    "summary": "Retrieve projects you have access to"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "PUT", 
+                    "nickname": "putProject", 
+                    "notes": "Only projects which you have permission to see will be updated", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>\"name\": \"test\", <br/>\"description\": \"hi\"<br/>}", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Project", 
+                    "summary": "Update a project"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectBySlug", 
+                    "notes": "Only projects which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Project", 
+                    "summary": "Retrieve a single project by it's slug"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectIterations", 
+                    "notes": "Only iterations which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Iteration", 
+                    "summary": "Retrieve iterations within a project"
+                }, 
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "POST", 
+                    "nickname": "createProjectIteration", 
+                    "notes": "Only iterations which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>  \"include_in_velocity\": false,<br/>  \"locked\": false,<br/>  \"name\": \"Iteration 1\",<br/>  \"detail\": \"\",<br/>  \"end_date\": null,<br/>  \"start_date\": \"2012-11-28\"<br/>}", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Iteration", 
+                    "summary": "Create a new iteration within a project"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/iterations"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectIterationById", 
+                    "notes": "Only iterations which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Iteration ID to fetch", 
+                            "name": "iteration_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Iteration", 
+                    "summary": "Retrieve burndown data of an iteration"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/iterations/{iteration_id}/burndown"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectUsers", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "User", 
+                    "summary": "Retrieve the members of a project."
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/members"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectIterationById", 
+                    "notes": "Only iterations which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Iteration ID to fetch", 
+                            "name": "iteration_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Iteration", 
+                    "summary": "Retrieve iteration within a project by ID"
+                }, 
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "PUT", 
+                    "nickname": "updateProjectIteration", 
+                    "notes": "Only iterations which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Iteration ID to fetch", 
+                            "name": "iteration_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>  \"include_in_velocity\": false,<br/>  \"locked\": false,<br/>  \"name\": \"Iteration 1\",<br/>  \"detail\": \"\",<br/>  \"end_date\": null,<br/>  \"start_date\": \"2012-11-28\"<br/>}", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Iteration", 
+                    "summary": "Update an iteration within a project"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/iterations/{iteration_id}"
+        }, 
+        {
+			"path": "/organizations/{organization_slug}/projects/{project_slug}/newsfeed",
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectNewsfeed", 
+                    "notes": "Paginated w/ 200 items per page", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Page number to return", 
+                            "name": "page", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ], 
+                    "responseClass": "NewsItem", 
+                    "summary": "Retrieve news items for a project"
+                }
+            ]            
+		},
+        {
+			"path": "/organizations/{organization_slug}/projects/{project_slug}/burndown",
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectBurndown", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "ProjectLog", 
+                    "summary": "Retrieve burndown data for a project"
+                }
+            ]            
+		}
+		
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "/projects/", 
+    "swaggerVersion": "1.1"
+}

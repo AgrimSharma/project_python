@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load subscription_tags %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+{% block body_class %}subscription-options-page{% endblock %}
+
+
+{% block body_app %}ng-app="SubscriptionApp" id="ng-app"{% endblock %}
+{% block appinit %}scrumdo.setupSubscriptionApp("{{ STATIC_URL }}", "{{ organization.slug }}");{% endblock %}
+
+
+{% block body %}
+
+    <sd-subscription-page>
+        <div class="subscription-upgrade">
+            <h3>Upgrade Subscription</h3>
+            <p>Upgrade your subscription to Premium to get access to all of the ScrumDo features.</p>
+        </div>
+{#        <sd-premium-upgrade ng-if="ctrl.subscription!=null"></sd-premium-upgrade>#}
+        <sd-current-subscription ng-if="ctrl.subscription!=null"></sd-current-subscription>
+        <sd-subscription-table ng-if="ctrl.subscription!=null"></sd-subscription-table>
+        <sd-subscription-features></sd-subscription-features>
+        <div ng-if="ctrl.subscription==null" class="text-center" style="padding-top: 50px;">
+            Retreiving subscription status.
+        </div>
+    </sd-subscription-page>
+
+
+{% endblock %}

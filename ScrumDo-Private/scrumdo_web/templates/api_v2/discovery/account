@@ -1,0 +1,91 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "description": "Retrieve information about user",
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getUser",
+                    "notes": "Only your personal information will be returned",
+                    "parameters": [], 
+                    "responseClass": "Account",
+                    "summary": "Retrieve your personal information"
+                }
+            ], 
+            "path": "/account/"
+        }
+
+        {
+            "description": "Delete user email",
+            "operations": [
+                {
+                    "errorResponses": [],
+                    "httpMethod": "DELETE",
+                    "nickname": "deleteEmail",
+                    "notes": "Email address linked to your account will be permanentely deleted",
+                    "parameters": [],
+                    "responseClass": "Account",
+                    "summary": "Delete email addresses linked to account"
+                }
+            ],
+            "path": "/deleteemail/"
+
+        }
+
+        {
+            "description": "Update Email Notification Settings",
+            "operations": [
+                {
+                    "errorResponses": [],
+                    "httpMethod": "PUT",
+                    "nickname": "updateEmailNotifications",
+                    "notes": "Email settings for your account will be updated",
+                    "parameters": [],
+                    "responseClass": "Account",
+                    "summary": "Update Email notification Settings"
+                }
+            ],
+            "path": "/notifications/"
+
+        }
+
+        {
+            "description": "Change Avatar",
+            "operations": [
+                {
+                    "errorResponses": [],
+                    "httpMethod": "PUT",
+                    "nickname": "changeAvatar",
+                    "notes": "Avatar associated with account will be changed",
+                    "parameters": [],
+                    "responseClass": "Account",
+                    "summary": "Change users avatar"
+                }
+            ],
+            "path": "/avatar/"
+
+        }
+
+        {
+            "description": "Permanently Delete User Account",
+            "operations": [
+                {
+                    "errorResponses": [],
+                    "httpMethod": "DELETE",
+                    "nickname": "deleteUser",
+                    "notes": "",
+                    "parameters": [],
+                    "responseClass": "Account",
+                    "summary": "Permanently remove user"
+                }
+            ],
+            "path": "/removeuser/"
+        }
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "account",
+    "swaggerVersion": "1.1"
+}

@@ -1,0 +1,82 @@
+<div class="detailed-search-form">	
+	{% if project %}
+		<form id="story_search_form" action="{% url "search_project"  project.slug %}" >
+	{% else %}
+		<form id="story_search_form" action="{% url "organization_search"  organization.slug %}" >
+	{% endif %}
+
+	  <input value="{{search_terms}}" type="text" 
+	  	     name="q" 
+			 style="width:530px;font-size:14px;vertical-align:middle" 
+			 id="bigSearchProjectField"
+			 autocomplete="off">
+			 <div style="text-align: center; display: inline-block; position: relative; top: 23px">			   
+	  		   <button type="submit" class="button blue">Search </button><br/>			   
+			   <a target="_blank" href="http://support.scrumdo.com/kb/faq/searching-for-stories"><small>Search Syntax</small></a>
+		     </div>	  
+	 <div style="text-align: center; width: 500px">
+		 {% if project %}
+		 	<a data-save-text="Search" data-save-button="true" data-title="Search Builder" class="open-inline" href="{% url "project_search_builder"  project.slug %}">
+		 {% else %}
+			 <a data-save-text="Search" data-save-button="true" data-title="Search Builder" class="open-inline" href="{% url "organization_search_builder"  organization.slug %}">
+		 {% endif %}
+			 <small>Search Options</small></a>
+	 </div>
+		 <br/>
+	</form>	
+	<div>
+		<br/>
+		
+		{% if search_count %}
+		<span id="search_count">{{ search_count }}</span> stories found for: 
+		{% endif %}
+	
+		{% if query.number %}
+			<span class="query-term">Story number: <b>{{query.number|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.epic %}
+			<span class="query-term">Epic: <b>{{query.epic|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.status %}
+			<span class="query-term">Status: <b>{{query.status|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.createdafter %}
+			<span class="query-term">Created After: <b>{{query.createdafter|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.createdbefore %}
+			<span class="query-term">Created Before: <b>{{query.createdbefore|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.updatedafter %}
+			<span class="query-term">Last Modified After: <b>{{query.updatedafter|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.updatedbefore %}
+			<span class="query-term">Last Modified Before: <b>{{query.updatedbefore|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.category %}
+			<span class="query-term">Category: <b>{{query.category|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.tag %}
+			<span class="query-term">Tag: <b>{{query.tag|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.assignee %}
+			<span class="query-term">Assigned To: <b>{{query.assignee|join:", "}}</b></span>
+		{% endif %}
+	
+		{% if query.phrases %}
+			<span class="query-term">Contains: <b>{{query.phrases|join:", "}}</b></span>	
+		{% endif %}	
+		
+		{% if query.order %}
+			<span class="query-term">Order By: <b>{{query.order|join:", "}}</b></span>	
+		{% endif %}	
+	</div>
+</div>

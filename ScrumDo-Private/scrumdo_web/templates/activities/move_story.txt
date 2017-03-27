@@ -1,0 +1,2 @@
+{% load projects_tags %}
+moved card <a href="{{story.get_absolute_url}}">{{story.project.prefix}}-{{story.local_id}}</a> <i>{{story.summary}}</i> into iteration <a href="{% url "iteration" story.iteration.project.slug story.iteration.id %}">{{story.project.name}} / {{story.iteration.name}}</a>

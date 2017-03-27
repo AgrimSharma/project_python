@@ -1,0 +1,58 @@
+{% extends "base_legacy.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load subscription_tags %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+
+
+{% block body %}
+
+<div class="tutorial-box">
+	<h1>Thank you!</h1>
+	<p>Your subscription is all set.</p>
+	<p>If you need any help, feel free to visit our <a href="http://support.scrumdo.com/">support page</a>.</p>
+	<p><a class="green button big" href="{% url "organization_dashboard"  organization.slug %}">Continue to your dashboard</a></p>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+mixpanel.track('Subscribed', {'Plan Amount':'{{subscription.plan.price_val}}', 'Plan':'{{subscription.plan.feature_level}}' });
+</script>
+
+{% endblock %}
+
+
+
+
+{% block extra_analytics %}
+_gaq.push(['_addTrans',
+  '{{subscription.id}}',           // order ID - required
+  'ScrumDo Subscription',  // affiliation or store name
+  '{{subscription.plan.price_val}}',          // total - required
+  '0',           // tax
+  '0',              // shipping
+  '',       // city
+  '',     // state or province
+  'USA'             // country
+]);
+
+ // add item might be called for every item in the shopping cart
+ // where your ecommerce engine loops through each item in the cart and
+ // prints out _addItem for each
+_gaq.push(['_addItem',
+  '{{subscription.id}}',           // order ID - required
+  '{{subscription.plan.spreedly_id}}',           // SKU/code - required
+  '{{subscription.plan.name}}',        // product name
+  '{{subscription.plan.feature_level}}',   // category or variation
+  '{{subscription.plan.price_val}}',          // unit price - required
+  '1'               // quantity - required
+]);
+_gaq.push(['_trackTrans']); //submits transaction to the Analytics servers
+{% endblock %}

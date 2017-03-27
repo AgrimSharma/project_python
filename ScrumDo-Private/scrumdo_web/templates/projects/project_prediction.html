@@ -1,0 +1,245 @@
+{% extends "base_legacy.html" %}
+
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+{% block head_title %}{{ project.name }}{% endblock %}
+
+{% block body_div_class %}wide_body{% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+	<a class="scrumdo-btn primary small pull-right" href="{% url "planning_tool"  project.slug %}">Back to Planning</a>
+    <br/>
+
+
+	<!--
+		<div style="width:900px; margin-left:auto; margin-right: auto; margin-bottom:10px">
+		   <h1>Velocity Planning Tool</h1>
+			<p>
+			  The following are the past iterations' velocities. Click on the boxes to include or exclude in the calculation of probabilistic median velocity prediction.
+
+			  <div id="iteration_list">
+			  {% for iteration in iterations %}
+				  <div class="iteration_history active-iteration" >
+					  <span class="iteration-details">
+						  <b>{{iteration.name|truncatechars:27}}</b>
+						  <br />
+						  {% if iteration.start_date %}<i>{{iteration.start_date|date:"d.m.Y"}} - {{iteration.end_date|date:"d.m.Y"}}</i>{% endif %}
+						  <br />
+						  <b class="completed_points">{{iteration.completed_points|floatformat}}</b> Points Completed
+					  </span>
+				  </div>
+			{% endfor %}
+			</div>
+
+			<div id="probabilistic_velocity"></div>
+			<div style="margin:7px;">
+			  In addition to the enabled actual velocities the team has achieved, add your own predictions below to recalculate the probabilistic median velocity range for a future iteration
+			  <br />
+
+			  <input id="additional-points" placeholder="ie. 34, 41, 25, 33, 38"/>
+			  <input id="use-additional-points" type="checkbox" checked="checked">
+							  Check box to use these velocities in the prediction tool below
+
+			  <div style="font-size:9px;"> &nbsp; <i>velocity numbers, comma-separated</i></div>
+			</div>
+			<div><a class="button blue" id="velocity_calculate">Calculate</a></div>
+			<div id="velocity_calculate_result"></div>
+
+			</p>
+	-->
+
+			<h1>Predictions</h1>
+
+
+
+		<p>You have <b>{{total_points}}</b> points worth of work left in the backlog.  Ideally, at your current velocity that could be finished in <b>{{ideal_iterations}}</b> iterations ({{total_points}} points / {{velocity}} velocity = {{ideal_iterations}} iterations).  Due to the way
+		  the stories break out, it will likely take <b>{{predicted_iterations}}</b> iterations</p>
+
+		<p>Assuming we can complete <b>{{velocity}}</b> points per iteration, that our stories are correctly sized, and that rankings don't change,
+		we can predict the iterations shown below.  </p>
+		<a href="#" class="changeAssumptionLink">Change Assumptions</a>
+
+		<form style="display:none" class="uniForm" id="assumption_form" method="GET" action="">
+        {% csrf_token %}
+		   <fieldset class="inlineLabels">
+
+				 <div id="div_id_velocity" class="ctrlHolder">
+					  <label for="id_velocity">Velocity</label>
+					  <input id="id_velocity" type="text" class="textinput" name="velocity" maxlength="6" value="{{velocity}}" />
+					<p id="hint_id_velocity" class="formHint">This workspace's calculated velocity is {{project.velocity}}</p>
+				 </div>
+				 <div id="div_id_iteration_length" class="ctrlHolder">
+					  <label for="id_iteration_length">Iteration Length</label>
+					  <input id="id_iteration_length" type="text" class="textinput" name="iteration_length" maxlength="6" value="{{iteration_length}}" />
+					<p id="hint_iteration_length" class="formHint">Measured in calendar days.  2 weeks = 14 days</p>
+				 </div>
+				 <div id="div_id_carry_over" class="ctrlHolder">
+					  <label for="id_carry_over">Carry Over Points</label>
+					  <input id="id_carry_over" type="checkbox" name="carry_over" maxlength="6" {% if carry_over %}checked{% endif %} />
+					<p id="hint_carry_over" class="formHint">Should we carry over the balance of points from iterations that don't equal the velocity?  When turned on, you'll see how many points were carried over.  Positive value means the iterations was under loaded, negative values mean it was over loaded.</p>
+				 </div>
+				 <div id="div_id_average" class="ctrlHolder">
+					  <label for="id_average">Average Story Size</label>
+					  <input id="averagesize" type="text" class="textinput" name="average" maxlength="6" value="{{average}}" />
+					<p id="hint_average" class="formHint">What size should we apply to stories that aren't sized yet?</p>
+				 </div>
+
+
+
+
+						 <div class="form_block">
+							 <input type="hidden" name="action" value="create" />
+							 <div class="buttonHolder"><button class="primaryAction" type="submit" >Change Assumptions</button></div>
+						 </div>
+					 </fieldset>
+				 </form>
+
+
+		</form>
+
+
+
+
+
+		<br/><br/>
+
+
+		  {% for prediction in predictions %}
+			<div class="predictedIteration">
+			  <h1>Iteration {{prediction.num}} ({{prediction.points}} points) {{prediction.start|date:"M d Y"}} - {{prediction.end|date:"M d Y"}}</h1>
+			  <ul>
+				{% for story in prediction.stories %}
+                    <li><span class="storyNumber"><a onclick="openOverlay( '/projects/story_permalink/{{ story.id }}?return_type=block' ); return false;" href="/projects/story_permalink/{{ story.id }}">{{project.prefix}}-{{story.local_id}}</a></span> {% autoescape off %} {{story.summary}} {% endautoescape %}<div class="predictedPointsBox">{{story.points}}</div></li>
+				{% endfor %}
+			  </ul>
+			  {% if carry_over %}
+			  {{ prediction.carried }} points carried over.
+			  {% endif %}
+			</div>
+			{% endfor %}
+
+			{% if unsized_stories %}
+			<div class="predictedIteration">
+			  <h1>Unsized Stories</h1>
+			  <p>These stories are in the above plan, but they're not currently sized.  An average story size of <b>{{average}}</b> was applied for these predictions.</p>
+			  <ul>
+				{% for story in unsized_stories %}
+				  <li><span class="storyNumber"><a onclick="openOverlay( '/projects/story_permalink/{{ story.id }}?return_type=block' ); return false;" href="/projects/story_permalink/{{ story.id }}">{{project.prefix}}-{{story.local_id}}</a></span> {% autoescape off %} {{story.summary}} {% endautoescape %}<div class="predictedPointsBox">{{story.points}}</div></li>
+				{% endfor %}
+			  </ul>
+			</div>
+			{% endif %}
+		</div>
+  </div>
+
+
+    <script type="text/javascript">
+    $(function(){   
+        $('#iteration_list').height(Math.ceil($('.iteration_history').length/4) * 65 + 40)
+
+        var points = [],
+        i = 0
+        function add_point(element){
+            element = parseInt(element)
+            if(!isNaN(element))
+                points.push(element)
+        }
+
+    	function prediction_velocity(){
+    	    points = []
+    	    var c_points = $('.active-iteration .completed_points')
+		    if (c_points.length < 5){
+		    	  $('#probabilistic_velocity').html('')
+		          return false
+		    }
+    	    for(var i = 0 ;i < c_points.length; i++)
+    	        add_point($(c_points[i]).html())
+		    var velocity = calculate_velocity(points)
+		    $('#probabilistic_velocity').html('This workspace team can plan with 90% certainity for a median velocity range of <b>'
+				  + velocity.first + '</b> to <b>' + velocity.last + '</b> for the next iteration')   
+		}
+
+        $('.iteration_history').click(function(){
+            var box = $(this)
+            if(box.hasClass('active-iteration'))
+                box.removeClass('active-iteration').addClass('disable-iteration')
+            else
+                box.removeClass('disable-iteration').addClass('active-iteration')
+            prediction_velocity()
+        })
+
+    	$('#velocity_calculate').click(function(){
+	    	points = [] 
+	    	var c_points = $('.active-iteration .completed_points')
+		    if($('#use-additional-points:checked').length == 1){
+		    	    var a_points = $.trim($('#additional-points').val())
+			    	if(a_points != ''){
+				    	var arr = a_points.split(',')
+				    	for (i = 0; i< arr.length; i++)
+					    	add_point(arr[i])
+			    	}
+	    	}
+
+    	for (i = 0; i < c_points.length; i++)
+    		   add_point($(c_points[i]).html())
+    	if(points.length < 5 )
+    	     return $('#velocity_calculate_result').html(
+    	        'Please choose at least 5 completed iterations. We cannot calculate confidence intervals without at least 5 iterations.')
+
+    	velocity = calculate_velocity(points)
+               $('#velocity_calculate_result')
+                   .html('Based on your enabled velocities for past iterations and your predictions for future velocities for iteration after'
+                    +' the predictions you can plan with 90% certainity for a median velocity range of <b>' + velocity.first
+                    + '</b> to <b>' + velocity.last + '</b> for the iteration after your future iterations')
+    	})
+
+	    prediction_velocity()
+	})
+    	
+		var predictions = [
+			 {% for prediction in predictions %}    
+				[ {% for story in prediction.stories %}{{story.id}}{% if not forloop.last %},{% endif %}{% endfor %} ]{% if not forloop.last %},{% endif %}
+		     {% endfor %}
+		];
+
+	  function getPredictions() {
+	     return predictions;
+	  }
+	
+	  function editStory(storyId) {
+	 	openOverlay( '/projects/project/{{ project.slug }}/story/' + storyId + '?return_type=block' ); 
+	  }      
+		
+      $(".changeAssumptionLink").click( function() { $(this).hide(); $("#assumption_form").show(); } );
+      
+      $("body").bind("storyEdited", function() {
+        window.location.reload();
+      });
+      
+      {% if GOOGLE_ANALYTICS %}     
+         _gaq.push(['_trackEvent',"ViewPage", "Prediction"]); 
+      {% endif %}
+      
+    
+    </script>
+    
+{% endblock %}
+
+
+
+{% block appinit %}
+	scrumdo.setupBareApp("{{ STATIC_URL }}", "{{organization.slug}}","{{ project.slug }}");
+    mixpanel.track("Viewed Predictions");
+{% endblock %}

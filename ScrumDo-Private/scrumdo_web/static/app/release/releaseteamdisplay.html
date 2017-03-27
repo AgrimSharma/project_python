@@ -1,0 +1,12 @@
+<div class="milestones-display">
+    <div class="milestone-display" ng-repeat="team in ctrl.teams|filter:ctrl.filterTeams" uib-tooltip-html="ctrl.getTooltip(team)">
+        <uib-progress max="100" animate="false">
+            <uib-bar value="ctrl.percentage(ctrl.teamStats[team.slug].cards_completed, ctrl.teamStats[team.slug].cards_total)" type="success"></uib-bar>
+            <uib-bar value="ctrl.percentage(ctrl.teamStats[team.slug].cards_in_progress, ctrl.teamStats[team.slug].cards_total)"></uib-bar>
+        </uib-progress>
+        <span class="project-icon" style="color: {{team.color|decimalToHexColor}}">
+            <i class="fa" ng-class="team.icon"></i></span>
+        <span class="jump-project">
+            <a ng-href="/projects/{{team.slug}}/#/">{{team.name}} <i class="fa fa-external-link icon" aria-hidden="true"></i></a></span>
+    </div>
+</div>

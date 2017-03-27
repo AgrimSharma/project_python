@@ -1,0 +1,15 @@
+{% load projects_tags %}
+
+<div id="tabhead">
+    <div class="logo" dir="ltr">
+        <a href="{% url "home"  %}">
+            <img src="{{ STATIC_URL }}images/small-logo.png" alt="ScrumDo"/>
+        </a>
+    </div>
+    <div class="login">
+        <a href="/" >Home</a>
+        | <a href="{% url "acct_login"  %}">Login</a>
+        | <a href="{% url "acct_signup"  %}">Sign Up</a>
+        | <a href="{{ SUPPORT_URL }}">Help</a>
+    </div>
+</div>

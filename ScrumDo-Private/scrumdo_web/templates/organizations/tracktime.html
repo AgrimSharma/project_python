@@ -1,0 +1,27 @@
+{% extends "organizations/commercial_org_base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load activity_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load ifsetting_tag %}
+
+{% block head_title %}Time Tracking{% endblock %}
+
+
+{% block body_app %}id="ng-app" ng-app="TrackTimeApp"{% endblock %}
+
+
+
+{% block body %}
+    <sd-track-time></sd-track-time>
+{% endblock %}
+
+
+{% block appinit %}
+    scrumdo.setupTrackTimeApp( "{{ STATIC_URL }}", "{{ organization.slug }}");
+{% endblock %}

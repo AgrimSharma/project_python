@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load order_by %}
+
+
+{% block head_title %}{% trans "Scrumdo - Affilate Admin Page" %}{% endblock %}
+
+{% block body_div_class %}narrow_body_with_sidebar{% endblock %}
+{% block body %}
+
+<div>
+  <h1>Affiliate Admin Page</h1>
+  
+  
+    {%for aff in all_affiliates%}
+    <p>
+    <pre><form action="/affiliates/pay/" method="post">{{aff.affiliate.user}} {{aff.affiliate.user.email}} (ID# {{aff.affiliate.affiliate_id}}) Amount Earned: ${{aff.affiliate.amount_earned|floatformat:2}} Amount Paid: ${{aff.affiliate.amount_paid|floatformat:2}} Amount Owed: ${{aff.balance|floatformat:2}} <input type="hidden" name="affiliate" id="affiliate" value="{{aff.affiliate.affiliate_id}}" /><input type="hidden" name="referral_data" id="referral_data" value="{{aff.referral_data}}" /> <input type="submit" value="pay" /> </form></pre>
+    </p>
+    <table class="task_list">
+    {% for referral in aff.referrals %}
+    <tr>
+        <td>{{referral.organization.name}}</td><td>{{referral.organization.created|date}}</td><td>{{referral.organization.subscription.planName}}</td><td>${{referral.amount_earned|floatformat:2}}</td><td>${{referral.amount_paid|floatformat:2}}</td>
+    </tr>
+    {%endfor%}
+    </table>
+    {%endfor%}
+    
+  
+</div>
+<script type="text/javascript" src="{{ STATIC_URL }}js/home.js"></script>
+{% endblock %}

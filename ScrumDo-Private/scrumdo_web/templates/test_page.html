@@ -1,0 +1,73 @@
+﻿{% load ifsetting_tag %}<!DOCTYPE html>
+<!--[if IE 9]>         <html class="no-js ie9"> <![endif]-->
+<!--[if IE 10]>        <html class="no-js ie10"> <![endif]-->
+<!--[if gt IE 10]><!--><html class="no-js">
+<!--<![endif]-->
+<head lang="en">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>ScrumDo {% block title %}{% endblock %}</title>
+
+    <meta name="description" content="Agile / Scrum tool">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width">
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/bower.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/font-awesome.css">
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/scrumdo-blessed1.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/scrumdo.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}bower_components/prism/prism.css">
+
+    <!--[if lt IE 9]>
+    <script src="js/vendor/html5shiv.js"></script>
+    <![endif]-->
+    <!-- start Mixpanel -->
+    <script type="text/javascript">
+        (function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+            for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+        mixpanel.init("{{MIXPANEL_TOKEN}}");</script><!-- end Mixpanel -->
+    <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+</head>
+                       <body class="kanban-page" {% block body_app %}
+                             ng-app="ScrumDoTestApp"
+                             id="ng-app" {% endblock %}>
+                           {% block innerbody %}
+                             <div sd-test-directive></div>
+                           {% endblock %}
+
+                       <script type="text/javascript">
+                           var STATIC_URL = "{{STATIC_URL}}";
+                       </script>
+
+
+                           <script src="{{ STATIC_URL }}generated_js/app.templates.js"></script>
+                           <script src="{{ STATIC_URL }}generated_js/bower.min.js"></script>
+                           <script src="{{ STATIC_URL }}generated_js/scrumdo-angular.js"></script>
+
+
+                           <script crossorigin="anonymous" src="{{ STATIC_URL }}bower_components/tinymce-dist/tinymce.js"></script>
+                           <script crossorigin="anonymous" src="{{ STATIC_URL }}bower_components/tinymce-dist/plugins/codesample/plugin.js"></script>
+                           <script crossorigin="anonymous" src="{{ STATIC_URL }}bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+
+                           <script src="{{ STATIC_URL }}js/sortable.js"></script>
+                           <script src="{{ STATIC_URL }}bower_components/prism/prism.js"></script>
+                           <script>
+                               {% block appinit %}
+                               {% if my_organizations %}
+                               var organisation = "{{my_organizations}}";
+                               var organisationSlug = organisation.split("-")[0];
+                               var projSlug = "{{project}}";
+                               var projectSlug = "";
+                               if (projSlug.indexOf("-") > -1) {
+                                   var projectSlug = projSlug.split("-")[1];
+                               } else
+                                   projectSlug = projSlug;
+                               scrumdo.setupTest("{{ STATIC_URL }}", projectSlug.trim(), organisationSlug.trim());
+                               {% endif %}
+
+                               {% endblock %}
+                           </script>
+                       </body>
+</html>

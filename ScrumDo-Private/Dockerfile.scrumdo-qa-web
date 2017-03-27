@@ -1,0 +1,56 @@
+# Set the base image to use to Ubuntu
+FROM ubuntu:14.04
+
+# Set the file maintainer (your name - the file's author)
+MAINTAINER Marc Hughes
+
+# Set env variables used in this Dockerfile (add a unique prefix, such as SCRUMDO)
+# Local directory with project source
+ENV SCRUMDO_SRC=.
+
+# Directory in container for all project files
+ENV SCRUMDO_SRVHOME=/srv
+
+# Directory in container for project source files
+ENV SCRUMDO_SRVPROJ=/srv/scrumdo
+
+RUN adduser --disabled-password --gecos '' web
+
+# Create application subdirectories
+WORKDIR $SCRUMDO_SRVHOME
+
+# Update the default application repository sources list
+RUN apt-get update && apt-get -y upgrade && apt-get install -y \
+  libssl-dev libffi-dev python python-pip python-dev libmysqlclient-dev \
+  curl git libxml2 libxml2-dev libxslt1-dev libfreetype6-dev && apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip==7.1.2 setuptools==33.1.1
+RUN pip install pyopenssl ndg-httpsclient pyasn1 && rm -rf /root/.cache/pip
+
+VOLUME /srv/scrumdo-static
+
+# Create application subdirectories
+WORKDIR $SCRUMDO_SRVHOME
+
+COPY requirements.txt $SCRUMDO_SRVPROJ/
+RUN pip install -r $SCRUMDO_SRVPROJ/requirements.txt --allow-external elementtree --allow-unverified elementtree && rm -rf /root/.cache/pip
+
+#RUN git clone --depth 1 -b feature/django-1.8 git@github.com:ScrumDoLLC/ScrumDo-Private.git scrumdo ; rm -rf scrumdo/.git
+COPY . $SCRUMDO_SRVPROJ/
+RUN chown web.web $SCRUMDO_SRVPROJ $SCRUMDO_SRVPROJ/scrumdo_web
+
+
+# Copy application source code to SRCDIR
+ADD docker/* $SCRUMDO_SRVPROJ/scrumdo_web/
+
+RUN date +"STATIC_URL='https://d2by55xhh3045r.cloudfront.net/static/v%Y%m%d%H%M%S/'" > /srv/scrumdo/scrumdo_web/static_url.py
+
+WORKDIR $SCRUMDO_SRVPROJ
+
+# Build static files
+RUN mkdir -p scrumdo-static
+
+# Port to expose
+EXPOSE 3034
+EXPOSE 3035

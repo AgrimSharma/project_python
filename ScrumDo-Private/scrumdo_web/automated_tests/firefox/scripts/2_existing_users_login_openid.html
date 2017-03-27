@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9000/" />
+<title>2_existing_user_login_openid</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">2_existing_user_login_openid</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/account/logout/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/account/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=openid_signin_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>name=openid_url</td>
+	<td>https://openid.stackexchange.com/user/68f7142c-e45f-4204-8ab6-9100d500d1aa</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.button.orange</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=email</td>
+	<td>scrumdoselenium@gmail.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=password</td>
+	<td>cgcuUt87_scrumdoselenium</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=input.affiliate-button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Please pick your organization.</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<a href="#" class="open-tasks-link" onclick="displayTaskWindowForStory({{story.id}},'{{project.slug}}'); return false;" >
+{% if counts %}
+  <i class="icon-check"></i> Tasks: 
+  {% for count in counts %}
+  {% if count %}
+  <div class="task-status-pill status-bg-{{forloop.counter}}">{{ count }}</div>
+  {% endif %}
+  {% endfor %}
+{% else %}
+  <i class="icon-check"></i> Tasks  
+{% endif %}
+</a>

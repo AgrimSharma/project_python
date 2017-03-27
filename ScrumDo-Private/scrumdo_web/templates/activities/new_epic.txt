@@ -1,0 +1,5 @@
+{% load projects_tags %}
+created collection <a href="/projects/epic_permalink/{{epic.id}}">#{{epic.local_id}}</a> in <a href="/projects/epic_permalink/{{epic.id}}">{{epic.project.name}}</a>.
+{{epic.summary|markdown_save|link_stories_v2:epic.project|urlify2|safe}}<br/>
+{{epic.detail|markdown_save|link_stories_v2:epic.project|urlify2|safe}}
+

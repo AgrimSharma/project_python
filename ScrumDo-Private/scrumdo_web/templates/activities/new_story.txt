@@ -1,0 +1,9 @@
+{% load projects_tags %}
+created card <a href="{{story.get_absolute_url}}">{{story.project.prefix}}-{{story.local_id}}</a> in <a href="{% url "iteration" story.iteration.project.slug story.iteration.id %}">{{story.project.name}} / {{story.iteration.name}}</a>. <i>{{story.summary|markdown_save|link_stories_v2:story.project|urlify2|safe}}</i>
+{% if story.assignees_cache %}
+Assigned to <b>{{story.assignees_cache|default_if_none:""}}</b>. 
+{% endif %}
+{% if story.detail %}
+ {{story.detail|markdown_save|link_stories_v2:story.project|urlify2|safe }}<br/>
+{% endif %}
+

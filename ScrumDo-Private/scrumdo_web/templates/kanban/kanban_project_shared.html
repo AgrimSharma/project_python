@@ -1,0 +1,48 @@
+{% extends "projects/base.html" %}
+{% load projects_tags %}
+
+{% block head_title %}
+    - {{ project.name }}
+{% endblock %}
+
+
+{% block top_navbar %}
+<ul class="nav navbar-nav nav-shared-board">
+
+</ul>
+{% endblock %}
+{% block subnav %}{% endblock %}
+
+{% block body_class %}kanban-page shared-board-page{% endblock %}
+
+{% block preloader_area %}{% endblock %}
+
+{% block body %}
+
+
+    {% block innerbody %}
+    <div class="container">
+        <h1 style="margin-bottom:50px;">{{ project.name }}</h1>
+
+        <h4>Shared Iterations</h4>
+    <table class="table table-striped">
+        {% for share in shares %}
+        <tr>
+            <td>
+                <a href="{{baseurl}}/shared/{{share.key}}/">
+                {{share.iteration.name}}
+                </a>
+            </td>
+            <td>
+                {% if share.iteration.start_date and share.iteration.end_date %}
+                    {{ share.iteration.start_date }} - {{ share.iteration.end_date }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+    {% endblock %}
+{% endblock %}
+
+

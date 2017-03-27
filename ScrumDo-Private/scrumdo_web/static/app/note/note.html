@@ -1,0 +1,64 @@
+<div class="note-details">
+    <div ng-if="ctrl.currentNote">
+        <div class="col-xs-12 note-action" ng-if="ctrl.canWrite">
+            <div class="pull-right">
+                <button ng-if="!ctrl.currentNote.editing && ctrl.isOwner()" ng-click="ctrl.delete()" type="button" 
+                        class="scrumdo-btn primary pull-right"><span class="scrumdo-icons bin">
+                        </span> Delete</button>
+                <button ng-if="ctrl.currentNote.editing" type="button" ng-click="ctrl.cancel($event)"
+                        class="scrumdo-btn primary  pull-right"> Cancel</button>
+                <button ng-if="ctrl.currentNote.editing" type="button"
+                        class="scrumdo-btn btn-success pull-right card-save-button" 
+                        ng-class="{'disabled':!ctrl.isValidNote()}" ng-click="ctrl.save($event)">Save</button>
+                <button ng-if="!ctrl.currentNote.editing && ctrl.isOwner()" type="button"
+                        class="scrumdo-btn primary  pull-right" ng-click="ctrl.edit($event)">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit</button>
+            </div>
+        </div>
+        <div class="note-content" ng-class="{'editing': ctrl.currentNote.editing}">
+            <div class="note-title form-group">
+                <h2 ng-if="!ctrl.currentNote.editing" ng-bind-html="ctrl.currentNote.title"></h2>
+                <input autocomplete="off" ng-if="ctrl.currentNote.editing" type="text" name="title" 
+                    class="scrumdo-form primary" ng-required="true" initial-focus
+                    ng-model="ctrl.currentNote.title" placeholder="Note title here..." />
+            </div>
+            <div class="note-body form-group" ng-if="ctrl.currentNote.body || ctrl.currentNote.editing">
+                <div ng-if="!ctrl.currentNote.editing" ng-bind-html="ctrl.currentNote.body"></div>
+                <div ng-if="ctrl.currentNote.editing" clickable-editor="2001" html="ctrl.currentNote.body"></div>
+                <div ng-if="ctrl.currentNote.body == '' && ctrl.currentNote.editing" class="add-placeholder">
+                    Note detail here...
+                </div>
+            </div>
+            <div class="row">
+                <div class="note-extras col-md-12">
+                    <div class="note-attachments col-md-4">
+                        <sd-attachments ng-if="ctrl.project && ctrl.canWrite" project="ctrl.project" 
+                            note="ctrl.currentNote"></sd-attachments>
+                        <sd-attachments readonly="true" ng-if="ctrl.project && !ctrl.canWrite" project="ctrl.project" 
+                            note="ctrl.currentNote"></sd-attachments>
+                    </div>
+                    <div class="note-comments col-md-8">
+                        <sd-comments-box ng-if="ctrl.project && ctrl.canWrite" user="ctrl.userService.me"
+                             project="ctrl.project"
+                             ng-model="ctrl.newComment"
+                             note="ctrl.currentNote"></sd-comments-box>
+                        <sd-comments-box readonly="true" ng-if="ctrl.project && !ctrl.canWrite" user="ctrl.userService.me"
+                             project="ctrl.project"
+                             ng-model="ctrl.newComment"
+                             note="ctrl.currentNote"></sd-comments-box>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!ctrl.currentNote">
+        <div class="col-md-8 col-md-offset-2" style="margin-top: 50px;">
+            <div class="scrumdo-box-modal">
+                <div class="scrumdo-box-modal-header text-center">
+                    <h2 class="scrumdo-signup-title">Pick a Note</h2>
+                    <p class="scrumdo-signup-description">Choose a note on the left to view/edit the note or create a new note.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

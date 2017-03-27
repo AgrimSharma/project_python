@@ -1,0 +1,63 @@
+{% extends "base_signup.html" %}
+
+{% block title %}Welcome Back!{% endblock %}
+
+{% block body %}
+    <div class="scrumdo-box-modal-header text-center">
+        <h2 class="scrumdo-signup-title">Setup</h2>
+    <h4>{% if orgs|length == 0 %}
+            Let's get your organization set up
+        {% endif %}
+        {% if orgs|length == 1 %}
+            Do you want to upgrade your existing organization or start fresh?
+        {% endif %}
+        {% if orgs|length > 1 %}
+            Do you want to upgrade one of your existing organizations or start fresh?
+        {% endif %}
+        </h4>
+    </div>
+
+    <div class="scrumdo-box-modal-content">
+
+        {% for org in orgs %}
+            <div>
+                <form method="POST" action="{% url "retarget_upgrade"  %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="slug" value="{{ org.slug }}" />
+                    <button type="submit" class="scrumdo-btn secondary pull-right" value="Upgrade">Upgrade</button>
+                </form>
+                {{ org.name }}
+            </div>
+            <hr/>
+
+        {% endfor %}
+    </div>
+    <div class="scrumdo-box-modal-content" style="background-color:#fafafa">
+
+        <h3>Create new organization</h3>
+
+        <form method="POST" action="{% url "register"  %}">
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="exampleInputEmail1">Organization/Company Name</label>
+            <input type="text" class="form-control" name="organization_name">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Project Name</label>
+            <input type="text" class="form-control" name="project_name">
+          </div>
+          <input type="hidden" name="project_members" value="" />
+          <input type="hidden" name="sub_code" value="REDESIGN15" />
+          <button type="submit" class="pull-right scrumdo-btn secondary">Start Fresh</button>
+        </form>
+        <div class="clearfix"></div>
+
+
+    </div>
+    <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/bower.js"></script>
+    <script>
+    $('form').submit(function() {
+      $(this).find("button[type='submit']").prop('disabled',true);
+    });
+    </script>
+{% endblock %}

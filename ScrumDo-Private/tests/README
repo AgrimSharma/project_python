@@ -1,0 +1,11 @@
+
+To install test drivers:
+ npm install -g protractor
+ npm install -g coffee-script
+ webdriver-manager update
+ 
+To start test server:
+ webdriver-manager start
+
+To run tests:
+ protractor conf.coffee

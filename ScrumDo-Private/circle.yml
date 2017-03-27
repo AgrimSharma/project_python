@@ -1,0 +1,137 @@
+machine:
+  node:
+    version: 6.6.0
+  python:
+    version: 2.7.10
+  ruby:
+    version: 2.4.0
+  services:
+    - redis
+    - docker
+
+dependencies:
+  cache_directories:
+    - "~/docker"
+    - /home/ubuntu/db/
+    - /home/ubuntu/nvm/v0.10.33
+    - /home/ubuntu/ScrumDo-Private/scrumdo_web/static/node_modules
+    - /home/ubuntu/ScrumDo-Private/protractor/node_modules
+    - /opt/circleci/nodejs/v5.5.0/lib/node_modules
+    - /opt/circleci/.rvm
+  override:
+    - pip install --upgrade pip==7.1.2 setuptools==33.1.1 && pip install -r requirements.txt --allow-external elementtree --allow-unverified elementtree
+    - npm install -g grunt-cli jasmine-node && npm install --save-dev frisby
+    - cp scrumdo_web/local_settings_circle_ci.template scrumdo_web/local_settings.py
+    - gem install compass
+    - npm install:
+        pwd: protractor
+    - npm install:
+        pwd: scrumdo_web/static
+    - grunt:
+        pwd: scrumdo_web/static
+    - ./node_modules/.bin/webdriver-manager update:
+        pwd: protractor
+    - mkdir -p ~/db
+    - if [[ $CIRCLE_BRANCH == "production-v2" && -e ~/docker/image.tar ]]; then docker load --input ~/docker/image.tar; fi
+    - if [[ $CIRCLE_BRANCH == "production-v2" ]]; then docker build -t scrumdo-web -f Dockerfile.scrumdo-web  . ; fi
+    - if [[ $CIRCLE_BRANCH == "production-v2" ]]; then docker history scrumdo-web ; fi
+    - if [[ $CIRCLE_BRANCH == "production-v2" ]]; then mkdir -p ~/docker; docker save ubuntu:14.04 scrumdo-web > ~/docker/image.tar ; fi
+
+    - if [[ $CIRCLE_BRANCH == "qa" && -e ~/docker/image.tar ]]; then docker load --input ~/docker/image.tar; fi
+    - if [[ $CIRCLE_BRANCH == "qa" ]]; then docker images; fi
+    - if [[ $CIRCLE_BRANCH == "qa" ]]; then docker build -t scrumdo-qa-web -f Dockerfile.scrumdo-qa-web  . ; fi
+    - if [[ $CIRCLE_BRANCH == "qa" ]]; then docker history scrumdo-qa-web ; fi
+    - if [[ $CIRCLE_BRANCH == "qa" ]]; then mkdir -p ~/docker; docker save ubuntu:14.04 scrumdo-qa-web > ~/docker/image.tar ; fi
+
+    - if [[ $CIRCLE_BRANCH == "development-safe" && -e ~/docker/image.tar ]]; then docker load --input ~/docker/image.tar; fi
+    - if [[ $CIRCLE_BRANCH == "development-safe" ]]; then docker images; fi
+    - if [[ $CIRCLE_BRANCH == "development-safe" ]]; then docker build -t scrumdo-qa-web -f Dockerfile.scrumdo-qa-web  . ; fi
+    - if [[ $CIRCLE_BRANCH == "development-safe" ]]; then docker history scrumdo-qa-web ; fi
+    - if [[ $CIRCLE_BRANCH == "development-safe" ]]; then mkdir -p ~/docker; docker save ubuntu:14.04 scrumdo-qa-web > ~/docker/image.tar ; fi
+
+
+database:
+  override:
+    - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then python manage.py migrate --noinput ; fi:
+        pwd: scrumdo_web
+    - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then python manage.py loaddata prod-subscription-plans ; fi:
+        pwd: scrumdo_web
+    - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then python manage.py loaddata jasmine-tests ; fi:
+        pwd: scrumdo_web
+    - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then python manage.py loaddata report-test-user ; fi:
+        pwd: scrumdo_web
+    - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then python manage.py createsuperuser --username=mhughes --email=marc.hughes@scrumdo.com --noinput || true ; fi:
+        pwd: scrumdo_web
+    - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then python manage.py clear_index --noinput || true ; fi:
+        pwd: scrumdo_web
+    - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then source ../docker/qaenv.sh && python manage.py rebuild_index --noinput || true ; fi:
+        pwd: scrumdo_web
+
+  post:
+    - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then source docker/qaenv.sh && python scrumdo_web/manage.py runserver ; fi:
+        background: true
+    - ./node_modules/.bin/webdriver-manager start:
+        background: true
+        pwd: protractor
+
+test:
+  override:
+     - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then source ../docker/qaenv.sh && python manage.py test ; fi:
+         pwd: scrumdo_web
+     - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then node_modules/.bin/protractor conf/conf-batch.coffee ; fi:
+         pwd: protractor
+     - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then node_modules/.bin/protractor conf/conf-batch-reports.coffee ; fi:
+         pwd: protractor
+     - if [[ $CIRCLE_BRANCH != "production-v2" ]] ; then cp local_config.ci local_config.js && jasmine-node . ; fi:
+         pwd: jasmine
+  post:
+    - python manage.py source ../docker/qaenv.sh && delete_ci_index || true:
+        pwd: scrumdo_web
+
+deployment:
+    production-v2:
+        branch: production-v2
+        commands:
+          - sudo /home/ubuntu/virtualenvs/venv-2.7.10/bin/pip install awscli==1.9.15
+          - docker build --build-arg BUILD_NUMBER=$CIRCLE_BUILD_NUM -t scrumdo-web -f Dockerfile.scrumdo-web  .
+          - docker history scrumdo-web
+          - sudo /home/ubuntu/virtualenvs/venv-2.7.10/bin/pip install awscli==1.9.15
+          - source docker/rackenv.sh && aws ecr get-login --region us-east-1 > login.sh ; source login.sh; rm login.sh
+          - source docker/rackenv.sh && docker tag -f scrumdo-web:latest $ECR/scrumdo/scrumdo-web:v$CIRCLE_BUILD_NUM
+          - source docker/rackenv.sh && docker push $ECR/scrumdo/scrumdo-web:v$CIRCLE_BUILD_NUM
+          - sudo /home/ubuntu/virtualenvs/venv-2.7.10/bin/pip install boto3
+          - python manage.py collectstatic --noinput:
+              pwd: scrumdo_web
+          - source ../../../docker/rackenv.sh && aws s3 sync --acl public-read --cache-control max-age=604800 . s3://scrumdo-static/$CIRCLE_BUILD_NUM/:
+              pwd: scrumdo_web/site_media/static
+          - source ./rackenv.sh && python update-tasks.py --tasks scrumdo-migrations scrumdo-web scrumdo-celery-high scrumdo-celery-med scrumdo-celery-low scrumdo-celery-beat --images scrumdo-web --tag v$CIRCLE_BUILD_NUM:
+              pwd: docker
+          - source docker/rackenv.sh && aws ecs run-task --region us-east-1 --task-definition scrumdo-migrations --cluster $CLUSTER
+          - source ./rackenv.sh && python update-service.py --service scrumdo-web --cluster $CLUSTER:
+              pwd: docker
+          - source ./rackenv.sh && python update-service.py --service scrumdo-celery-high --cluster $CLUSTER:
+              pwd: docker
+          - source ./rackenv.sh && python update-service.py --service scrumdo-celery-med --cluster $CLUSTER:
+              pwd: docker
+          - source ./rackenv.sh && python update-service.py --service scrumdo-celery-low --cluster $CLUSTER:
+              pwd: docker
+          - source ./rackenv.sh && python update-service.py --service scrumdo-celery-beat --cluster $CLUSTER:
+              pwd: docker
+          - docker/notify.sh
+    qa:
+        branch: qa
+        commands:
+          - sudo /home/ubuntu/virtualenvs/venv-2.7.10/bin/pip install awscli==1.9.15
+          - source docker/qaenv.sh && aws ecr get-login --region us-east-1 > login.sh ; source login.sh; rm login.sh
+          - docker tag -f scrumdo-qa-web:latest 273160607683.dkr.ecr.us-east-1.amazonaws.com/scrumdo/scrumdo-qa-web:v$CIRCLE_BUILD_NUM
+          - docker push 273160607683.dkr.ecr.us-east-1.amazonaws.com/scrumdo/scrumdo-qa-web:v$CIRCLE_BUILD_NUM
+          - sudo /home/ubuntu/virtualenvs/venv-2.7.10/bin/pip install boto3
+          - source ./qaenv.sh && python update-tasks.py --tasks scrumdo-qa-web scrumdo-qa-celery scrumdo-qa-migrate --images scrumdo-qa-web --tag v$CIRCLE_BUILD_NUM:
+              pwd: docker
+          - source docker/qaenv.sh && aws ecs run-task --region us-east-1 --task-definition scrumdo-qa-migrate --cluster scrumdo-prod
+          - source ./qaenv.sh && python update-service.py --service scrumdo-qa-web --cluster scrumdo-prod:
+              pwd: docker
+          - source ./qaenv.sh && python update-service.py --service scrumdo-qa-celery --cluster scrumdo-prod:
+              pwd: docker
+          - source docker/qaenv.sh && aws configure set preview.cloudfront true
+          - source docker/qaenv.sh && aws cloudfront create-invalidation --distribution-id EP4O1835SKB04 --paths /

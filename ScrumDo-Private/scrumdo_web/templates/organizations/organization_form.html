@@ -1,0 +1,56 @@
+{% extends "base_legacy.html" %}
+
+{% load i18n %}
+{% load projects_tags %}
+{% load bootstrap3 %}
+{% load organizations_tags %}
+
+
+
+{% block body %}
+<div>
+
+	<h1>{{organization.name}} Admin</h1>
+
+	<div id="organization_area">
+
+	<form id="organization_detail_form" class="uniForm" method="POST" action="{% url "organization_edit"  organization.slug %}">
+	   {{ form.non_field_errors }}
+    	{% csrf_token %}
+	          <fieldset class="inlineLabels">
+                  {% bootstrap_form form %}
+                  {% buttons %}
+	                  <button class="scrumdo-btn primary" type="submit" >Update Organization</button>
+
+                  {% endbuttons %}
+	          </fieldset>
+  
+	</form>
+ 
+	  
+      {% if isStaffUser %}
+         <sd-org-delete></sd-org-delete>
+      {% endif %}
+{#	  <a href="#" class="deleteLink deleteOrgLink" id="deleteOrganizationLink">{% silk "delete" %} Delete Organization</a>#}
+	</div>
+</div>
+
+	<script type="text/javascript" charset="utf-8">
+     
+
+	     $(".rollover").hover(
+		 function()
+		 {
+		  this.src = this.src.replace("organization/","organization/sel_");
+		 },
+		 function()
+		 {
+		  this.src = this.src.replace("sel_","");
+		 }
+		);
+	
+
+	</script>
+
+{% endblock %}
+

@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>ScrumDo Epics</title>
+  <!--[if IE]><style>
+          div {
+              zoom: 1; /* trigger hasLayout */
+          }
+      </style><![endif]-->
+  <link rel="stylesheet" href="{{ STATIC_URL }}projects/css/epics_report.css"/>
+  <style type="text/css">
+    body { font-size: 90%; color: #474747; }
+    div  { position: relative; padding-left: 10px; font-style: italic; }
+    span { display:block; padding-top: 5px; width: 100%; font-size: 110%; color: #141414; font-weight: 500; }
+  </style>
+
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.min.js"></script>
+  <!--[if IE]><script src="{{STATIC_URL}}/js/excanvas.min.js" type="text/javascript"></script><![endif]-->
+  <script src="{{ STATIC_URL }}js/flot.js" type="text/javascript" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<script type="text/javascript">console.log('{{ expanded }}')</script>
+
+<h2>{{ project.name }} - Epics:</h2>
+
+{% for epic in root_epics %}
+  <div>
+    <span>{{ epic.full_name }}</span>
+    {% if epic in expanded_epics %}
+        {% for story in epic.stories_by_rank %}
+            #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+        {% endfor %}
+
+        <!-- first level children -->
+        {% for child in epic.children.all %}
+          <div>
+            <span>{{ child.full_name }}</span>
+            {% if child in expanded_epics %}
+                {% for story in child.stories_by_rank %}
+                    #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                {% endfor %}
+
+                <!-- second level children -->
+                {% for child in child.children.all %}
+                  <div>
+                    <span>{{ child.full_name }}</span>
+                    {% if child in expanded_epics %}
+                        {% for story in child.stories_by_rank %}
+                            #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                        {% endfor %}
+
+                        <!-- third level children -->
+                        {% for child in child.children.all %}
+                          <div>
+                            <span>{{ child.full_name }}</span>
+                            {% if child in expanded_epics %}
+                                {% for story in child.stories_by_rank %}
+                                    #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                                {% endfor %}
+
+                                <!-- fourth level children -->
+                                {% for child in child.children.all %}
+                                  <div>
+                                    <span>{{ child.full_name }}</span>
+                                    {% if child in expanded_epics %}
+                                        {% for story in child.stories_by_rank %}
+                                            #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                                        {% endfor %}
+
+                                        <!-- fives level children -->
+                                        {% for child in child.children.all %}
+                                          <div>
+                                            <span>{{ child.full_name }}</span>
+
+                                            {% if child in expanded_epics %}
+                                                {% for story in child.stories_by_rank %}
+                                                    #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                                                {% endfor %}
+
+                                                <!-- sixth level children -->
+                                                {% for child in child.children.all %}
+                                                  <div>
+                                                    <span>{{ child.full_name }}</span>
+
+                                                    {% if child in expanded_epics %}
+                                                        {% for story in child.stories_by_rank %}
+                                                            #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                                                        {% endfor %}
+
+                                                        <!-- seventh level children -->
+                                                        {% for child in child.children.all %}
+                                                          <div>
+                                                            <span>{{ child.full_name }}</span>
+
+                                                            {% if child in expanded_epics %}
+                                                                {% for story in child.stories_by_rank %}
+                                                                    #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                                                                {% endfor %}
+
+                                                                <!-- eights level children -->
+                                                                {% for child in child.children.all %}
+                                                                  <div>
+                                                                    <span>{{ child.full_name }}</span>
+
+                                                                    {% if child in expanded_epics %}
+                                                                        {% for story in child.stories_by_rank %}
+                                                                            #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                                                                        {% endfor %}
+
+                                                                        <!-- nines level children -->
+                                                                        {% for child in child.children.all %}
+                                                                          <div>
+                                                                            <span>{{ child.full_name }}</span>
+
+                                                                            {% if child in expanded_epics %}
+                                                                                {% for story in child.stories_by_rank %}
+                                                                                    #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                                                                                {% endfor %}
+
+                                                                              <div>
+                                                                                <!-- the sixth level children omitted -->
+                                                                              </div>
+                                                                            {% endif %}
+                                                                          </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                  </div>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                          </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                  </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                          </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                  </div>
+                                {% endfor %}
+                            {% endif %}
+                          </div>
+                        {% endfor %}
+                    {% endif %}
+                  </div>
+                {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+    {% endif %}
+  </div>
+{% endfor %}
+{% comment %}
+    {% for story in epic.stories.all %}
+        #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+    {% endfor %}
+    {% for child in epic.children.all %}
+        <h3>{{ child.full_name }}</h3>
+        {% for story in child.stories.all %}
+            #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+        {% endfor %}
+        {% for child in child.children.all %}
+            <h4>{{ child.full_name }}</h4>
+            {% for story in child.stories.all %}
+                #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+            {% endfor %}
+            {% for child in child.children.all %}
+                <h5>{{ child.full_name }}</h5>
+                {% for story in child.stories.all %}
+                    #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                {% endfor %}
+                {% for child in child.children.all %}
+                    <h5>{{ child.full_name }}</h5>
+                    {% for story in child.stories.all %}
+                        #{{ story.local_id }} - {{ story.summary }} ({{ story.getPointsLabel }})<br/>
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+{% endcomment %}
+<br/><br/>
+
+<div id="footer">Epics report by ScrumDo.com</div>
+
+</body>
+</html>

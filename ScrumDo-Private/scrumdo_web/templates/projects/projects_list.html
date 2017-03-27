@@ -1,0 +1,48 @@
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+
+{% if all_projects %}
+<h3 class="col_8">Projects</h3>	
+{% else %}
+<h3 class="col_8">Watched Projects</h3>	
+<div class="col_8 blue_links" style="padding-bottom:12px">
+	<i>Click the eye icon on the <a href="{% url "organization_projects"  organization.slug %}">projects list</a> to watch additional projects</i>
+</div>
+{% endif %}
+<div class="col_8">
+	<ul>
+		{% for project in projects %}
+		  {% canread project %}
+			  {% ifchanged project.category %}
+			    {% if project.category %}
+			      {% if project.active %}
+			        </ul>
+					<h4>{{project.category}}</h4>
+					<ul>
+			      {% endif %}
+			    {% endif %}
+			  {% endifchanged %}
+
+				<li class="project-menu-iteration-list-item {% isfavorite project %}project-menu-watched-project{% endisfavorite %}">											  
+				  <a href="{% url "project_detail"  project.slug %}" class="organization-project-link">
+				  {% if project.personal %}<i title="Personal Project" class="tooltip-enabled icon-user"></i> {% endif %}
+				  {{ project.name }}
+				  </a>
+				</li>
+
+		  {% endcanread %}
+		{% endfor %}
+	
+		{% if not all_projects %}
+		<li class="project-menu-iteration-list-item">
+		  <a title="See the list of projects." href="{% url "organization_projects"  organization.slug %}">More Projects...</a>
+		</li>
+		{% endif %}
+	
+	</ul>
+</div>

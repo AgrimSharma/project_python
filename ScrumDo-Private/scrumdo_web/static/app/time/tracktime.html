@@ -1,0 +1,243 @@
+<main class="scrumdo-time">
+    <div class="scrumdo-time-wrapper pull-left">
+        <div class="scrumdo-time-container">
+            <div class="scrumdo-time-header text-center">
+                <button ng-if="time.timeTrackingMode != 'harvest'" ng-click="time.enterTime()" 
+                    class="scrumdo-btn pull-right primary">Enter Time Spent</button>
+                <h2 class="scrumdo-time-h2">Time Sheets</h2>
+                 <div class="filter-control" ng-click="time.toggleFilters()">
+                    <i class="glyphicon glyphicon-resize-small" ng-if="time.filterOpen" aria-hidden="true" 
+                        tooltip-placement="right" uib-tooltip="Hide Filters"></i>
+                    <i class="glyphicon glyphicon-resize-full" ng-if="!time.filterOpen" aria-hidden="true" 
+                        tooltip-placement="right"  uib-tooltip="Show Filters"></i>
+                </div>
+            </div>
+
+            <div class="scrumdo-time-content">
+                <div class="scrumdo-time-messages-wrapper col-xs-12">
+                    <div class="filters-row" ng-hide="!time.filterOpen">
+                        <div class="row">
+                            <div class="col-sm-2 col-sm-offset-1">
+                                <label>Workspace <i class="fa fa-times-circle"
+                                                    uib-tooltip="All Workspaces"
+                                                    ng-click="time.allProjects()" 
+                                                    ng-if="time.currentProject" aria-hidden="true"></i></label>
+                                <div class="scrumdo-select">
+                                    <sd-safe-project-select 
+                                        ng-model="time.workspace" 
+                                        placeholder="Select a Workspace" 
+                                        show-filter="true"></sd-safe-project-select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Iteration</label>
+                                <div class="scrumdo-select primary">
+                                    <select ng-model="time.currentIteration"
+                                            ng-class="{disabled: !time.workspace}"
+                                            ng-options="iteration.name for iteration in time.iterations | filter: time.filterIterations"
+                                            ng-change="time.iterationChanged()"
+                                            class="form-control">
+                                        <option value="" ng-value="null">None</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-2">
+                                <label>Start Date</label>
+                                <sd-date-picker ng-model="time.startDate"></sd-date-picker>
+                            </div>
+                            <div class="col-sm-2">
+                                <label>End Date</label>
+                                <sd-date-picker ng-model="time.endDate"></sd-date-picker>
+                            </div>
+                            <div class="col-sm-2 filter-button">
+                                <button ng-click="time.viewTime()" class="scrumdo-btn secondary extended">View Time</button>
+                            </div>
+                        </div>
+                        <div class="row filter-row">
+                            <div class="col-sm-2 col-sm-offset-1" ng-if="time.isStaffUser()">
+                                <label>User <i class="fa fa-times-circle"
+                                                uib-tooltip="All Users"
+                                                ng-click="time.setUserId({id: -1})" 
+                                                ng-if="time.currentUser.id" aria-hidden="true"></i>
+                                </label>
+                                <div class="primary">
+                                    <sd-people
+                                        ng-model="time.currentUser"
+                                        ng-change="time.setUserId()"
+                                        people="time.users"
+                                        label="'Select User'"
+                                    ></sd-people>
+                                </div>
+                            </div>
+                            <div class="col-sm-2" ng-class="{'col-sm-offset-3': !time.isStaffUser()}">
+                                <label>Tags <i class="fa fa-times-circle"
+                                                uib-tooltip="All Tags"
+                                                ng-click="time.filterByTag(null)" 
+                                                ng-if="time.currentTag" aria-hidden="true"></i>
+                                </label>
+                                <div class="btn-group scrumdo-dropdown dropdown" uib-dropdown>
+                                    <button type="button" class="scrumdo-select primary extended" uib-dropdown-toggle>
+                                        <span ng-if="!time.currentTag">Select Tag</span>
+                                        <span ng-if="time.currentTag">{{time.currentTag | characters:20}}</span>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                        <li ng-if="time.currentTag" role="menuitem" class="clear" ng-click="time.filterByTag(null)" >
+                                            <span>Clear Tag</span>
+                                        </li>
+                                        <li ng-if="time.allTags==null" role="menuitem" class="clear">
+                                            <span>Nothing to show</span>
+                                        </li>
+                                        <li role="menuitem" ng-click="time.filterByTag(tag)" ng-repeat="tag in time.allTags">
+                                            <span>{{tag}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Labels <i class="fa fa-times-circle"
+                                                uib-tooltip="All Labels"
+                                                ng-click="time.filterByLabel(null)" 
+                                                ng-if="time.currentLabel" aria-hidden="true"></i>
+                                </label>
+                                <div class="btn-group scrumdo-dropdown dropdown" uib-dropdown>
+                                    <button type="button" class="scrumdo-select primary extended" uib-dropdown-toggle>
+                                        <span ng-if="!time.currentLabel">Select Label</span>
+                                        <span ng-if="time.currentLabel" class="labels" 
+                                            ng-style="{'background-color': (time.currentLabel.color|decimalToHexColor) }">
+                                                {{time.currentLabel.name| characters:20}}</span>
+                                    </button>
+                                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                        <li ng-if="time.currentLabel" role="menuitem" class="clear" ng-click="time.filterByLabel(null)">
+                                            <span>Clear Label</span>
+                                        </li>
+                                        <li ng-if="time.allLabels==null" role="menuitem" class="clear">
+                                            <span>Nothing to show</span>
+                                        </li>
+                                        <li role="menuitem" ng-click="time.filterByLabel(option)" 
+                                            ng-repeat="option in time.allLabels">
+                                            <span class="labels" ng-style="{'background-color': (option.color|decimalToHexColor) }">{{option.name}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <label>Points <i class="fa fa-times-circle"
+                                                uib-tooltip="All Poins"
+                                                ng-click="time.timeTable.filter()['story_points.value'] = null" 
+                                                ng-if="time.timeTable.filter()['story_points.value']" aria-hidden="true"></i>
+                                </label>
+                                <div class="scrumdo-select primary">
+                                    <select ng-model="time.timeTable.filter()['story_points.value']"
+                                            ng-options="scale.value as scale.label for scale in time.allPoints | orderObjectBy: 'value'">
+                                        <option value="" selected>Points</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-sm-2 filter-button">
+                                <span  uib-tooltip-html="time.getExportTooltip()" tooltip-placement="bottom">
+                                    <a ng-href="/projects/export_time/{{time.organizationSlug}}?eow={{time.eow()}}&bow={{time.bow()}}" 
+                                        ng-disabled="time.startDate == null || time.endDate == null"
+                                        class="scrumdo-btn primary extended">Export</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row time-results text-center" style="padding-top: 100px;" 
+                        ng-if="time.isTableEmpty && time.timeTrackingMode != 'harvest' && !time.loading">
+                        <p class="col-sm-6 col-sm-offset-3 alert alert-info">No time entries found.</p>
+                    </div>
+                    <div class="row time-results text-center" style="padding-top: 100px;" 
+                        ng-if="time.loading">
+                        <p class="col-sm-6 col-sm-offset-3 alert alert-info"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i> Loading...</p>
+                    </div>
+                    <div class="time-results" ng-class="{'full': !time.filterOpen}" 
+                        ng-if="!time.isTableEmpty && time.timeTrackingMode != 'harvest' && !time.loading">
+                        <div class="">
+                            <table ng-table="time.timeTable" class="table table-condensed table-bordered table-striped">
+                                <tr class="ng-table-group" ng-repeat-start="group in $groups">
+                                  <td colspan="12">
+                                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                                      <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                                      <strong>{{ group.value }}</strong>
+                                    </a>
+                                  </td>
+                                </tr>
+                                <tr ng-hide="group.$hideRows" ng-repeat="row in group.data">
+                                  <td style="width:100px;" data-title="'Date'" sortable="'date'">{{row.date|mdydate}}</td>
+                                  <td data-title="'Person'" sortable="'user'" groupable="'user.username'">{{row.user.username}}</td>
+                                  
+                                  <td data-title="'Hours'" sortable="'minutes_spent'" class="edit-row">
+                                    <a ng-if="user.id == row.user.id" href="" editable-text="row.display_time"
+                                        e-timeformater
+                                        e-placeholder="hh:mm" e-required onbeforesave="time.updateTimeSpent(row.id, $data)">
+                                        {{row.display_time || 'No logged time'}}
+                                    </a>
+                                    <span ng-if="user.id != row.user.id" href="">
+                                        {{row.display_time || 'No logged time'}}
+                                    </span>
+                                  </td>
+                                  
+                                  <td data-title="'Workspace'" sortable="'project_name'" groupable="'project_name'">{{row.project_name}}</td>
+                                  <td data-title="'Iteration'" sortable="'iteration_name'" groupable="'iteration_name'">{{row.iteration_name}}</td>
+                                  <td data-title="'Card'" class="w300" ng-bind-html="row.story_name"></td>
+                                  <td data-title="'Task'" class="w200">{{row.task_name}}</td>
+                                  <td data-title="'Labels'" class="w200">
+                                      <span class="labels"
+                                            ng-repeat="option in row.story_labels" 
+                                            ng-style="{'background-color': (option.color|decimalToHexColor) }">{{option.name}}</span>
+                                  </td>
+                                  
+                                  <td data-title="'Points'" class="w100 text-center" sortable="'story_points'" 
+                                        groupable="'story_points.label'">{{row.story_points.label}}</td>
+                                  
+                                  <td data-title="'Tags'" class="w100">
+                                      <span class="tags badges"
+                                            ng-repeat="tag in row.story_tags track by $index">#{{tag}}</span>
+                                  </td>
+                                  
+                                  <td data-title="'Notes'" sortable="'notes'" class="edit-row w300">
+                                    <a ng-if="user.id == row.user.id" href="" 
+                                        editable-textarea="row.notes" onbeforesave="time.updateNote(row.id, $data)">
+                                        {{ row.notes || 'No data' }}
+                                    </a>
+                                    <span ng-if="user.id != row.user.id" href="">
+                                        {{ row.notes || 'No data' }}
+                                    </span>
+                                  </td>
+                                  <td data-title="'Action'">
+                                    <button ng-if="user.id == row.user.id"
+                                            ng-click="time.deleteEntry(row)"
+                                            class="scrumdo-btn small primary">Delete</button>
+                                  </td>
+                                </tr>
+                                <tr ng-repeat-end>
+                                    <td class="text-success text-right" colspan="2"><strong>{{ group.value }} Time Spent:</strong></td>
+                                    <td><em>{{time.sum(group.data, "minutes_spent")}}</em></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-success text-right" colspan="2"><strong>All Workspaces Time Spent:</strong></td>
+                                    <td><em>{{time.totalSum($groups)}}</em></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="time.timeTrackingMode == 'harvest'">
+                        <div class="col-md-10 col-md-offset-1 text-center">
+                            <div class="alert alert-info">
+                                <h4>
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                    You have enabled Harvest for this project.<br/><br/>
+                                    View logged time entries directly from your Harvest account.
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>

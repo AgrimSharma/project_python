@@ -1,0 +1,23 @@
+{% if show_first_time %}
+<script type="text/javascript">
+
+$(".project-dropdown-menu").popover({
+	title: "ScrumDo Tools",
+	html: false,
+	content: "Use these menus to access all the options about your organization, project, and account.",
+	placement: "bottom",
+	container: "body",
+	trigger: "manual"
+});
+
+$("body").click(function(){
+	$(".project-dropdown-menu").popover("hide");	
+	return true;
+});
+
+$(".project-dropdown-menu").popover("show");
+
+$.cookie("seen_project_tooltip", "true", { expires: 120, path:"/" });
+
+</script>
+{% endif %}

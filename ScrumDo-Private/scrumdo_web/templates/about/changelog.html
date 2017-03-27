@@ -1,0 +1,470 @@
+{% extends "base_legacy.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans "About" %}{% endblock %}
+
+{% block body_div_class %}narrow_body{% endblock %}
+
+{% block body %}
+<h1>ScrumDo Change Log</h1>
+<p>You can find a list of what's changed recently here.</p>
+
+<h3>10/13/2014</h3>
+<ul>
+    <li>The lead time histogram can now be filtered by date.</li>
+    <li>The CFD can now be filtered by date.</li>
+    <li>
+        Cells on the Kanban board now vertically resize by default instead of getting scroll bars.
+    </li>
+    <li>
+        Multiselect on the kanban board has been improved.
+        <ul>
+            <li>Use shift or ctrl &amp; click on cards to intiate multi select.</li>
+            <li>Single click with no key on an unselected card to deselect all.</li>
+            <li>Use the toolbar options to apply actions to groups of cards.</li>
+            <li>You can now drag groups of cards around the board.</li>
+        </ul>
+    </li>
+    <li>Drag &amp; Drop on the Kanban board has been improved.
+        <ul>
+            <li>You can now drag cards to any spot within a cell to drop them in that cell.</li>
+            <li>It is now easier to drag cards to the backlog.</li>
+            <li>Dragging now works on iOS devices.</li>
+        </ul>
+    </li>
+    <li>Standard markdown image tags now work within the detail of a card.  Example:<br>
+        <pre>![Mascot](https://d11uy15xvlvge3.cloudfront.net/static/v95/scrumdo/images/org-picker-images/artwork.jpg)</pre>
+        Note: If you use these image tags, we will no longer auto-link URL's in the fields where they exist.  You can
+              still use markdown links.
+    </li>
+    <li>Several performance improvements related to live updates of your board.</li>
+</ul>
+
+<h3>8/2/2014</h3>
+<ul>
+    <li>A new consolidated view/edit dialog has replaced the old edit <i class="icon-edit"></i> and quickview <i class="icon-search"></i> options.  You'll now only see one of those
+        options  depending on your project access level.
+    </li>
+    <li>
+        Clicking an image thumbnail for an attachment will now preview it in the browser.
+    </li>
+    <li>
+        Now showing user avatars on stories in more places, such as the scrum board.
+    </li>
+    <li>
+        Now, when clicking a permalink, you're brought to the correct page and the story is opened for you.
+    </li>
+    <li>
+        @mentions now work properly in comments.
+    </li>
+    <li>
+        When creating a report profile for a scrumban project, we now show the step on the cell while editing to make it easier
+        to tell what you are doing.
+    </li>
+    <li>
+        You can now shift-click to start a multi select operation on the story list and scrumban board pages.
+    </li>
+    <li>
+        You can now double click a story to open the editor.
+    </li>
+    <li>
+        We've renamed Continuous flow projects to Scrumban projects, and time boxed projects are now called scrum projects.
+    </li>
+    <li>
+        New organization level project listing.
+    </li>
+    <li>
+        Scrumban headers were slightly too tall, occasionally made things look really sloppy.
+    </li>
+    <li>
+        Performance improvement on Scrumban boards with many cells.
+    </li>
+    <li>
+        You no longer get email notifications for comments you post
+    </li>
+    <li>
+        You can now see your username on the name page.
+    </li>
+    <li>
+        Fixed two bugs with scrumban lead time chart when viewed in the "powers of two" mode.
+    </li>
+    <li>
+        Fixed a few bugs where read-only users saw options they shouldn't have.  (Those options were not functional and would result in access-denied messages.)
+    </li>
+    <li>
+        When playing planning poker, the "Stories with X size" list is now in reverse chronological order so it's easier
+        to see recent stories.
+    </li>
+
+</ul>
+
+<h3>6/10/2014</h3>
+<ul>
+    <li>Added iteration column to the organization level export.</li>
+    <li>New "Syncronize Now" option for extras.</li>
+    <li>Fixed bug: sometimes Github issues were not being properly created.</li>
+
+</ul>
+
+<h3>5/17/2014</h3>
+<ul>
+    <li>All users are now redirected to secure HTTPS pages all the time.</li>
+    <li>Continuous flow projects now have access to the iteration planner.</li>
+    <li>Bug fix: Epics page would occasionally freeze when showing/hiding archived epics.</li>
+    <li>Bug fix: Editing an epic would sometimes cause the child epics to temporarily dissapear from the screen.</li>
+</ul>
+
+<h3>5/15/2014</h3>
+<ul>
+    <li>New Task Board view for Scrum Boards</li>
+    <li>Optimized story rendering on scrum boards, should lead to much faster drag &amp; drop responsiveness.</li>
+    <li>Additional help messages &amp; tips for new users to the Scrum Board</li>
+    <li>Pressing escape on the story edit window no longer closes it causing your input to be lost.</li>
+    <li>Bug Fix: Child epics dissapear if you edit their parent.</li>
+</ul>
+
+<h3>5/13/2014</h3>
+<ul>
+    <li>It is now easier to drag a story to an empty iteration in the iteration planner.</li>
+    <li>There is now a slight hover effect on the iteration planner to see what story your mouse is over.</li>
+    <li>Fixed a bug in burndown chart when the iteration start date was moved.</li>
+    <li>Fixed bug in signup form if user didn't enter a password.</li>
+    <li>Removed some links for people without admin access that resulted in a access-denied message.</li>
+</ul>
+
+<h3>5/3/2014</h3>
+<ul>
+    <li>No longer showing old projects that you do not watch on your dashboard.</li>
+    <li>Bug Fix: You can now upload files with non-latin characters in the filenames.</li>
+    <li>Bug Fix: You can now search for stories with non-latin characters.</li>
+    <li>Bug Fix: Points boxes on story list page for continuous flow projects are now correct.</li>
+
+</ul>
+
+<h3>4/13/2014</h3>
+<ul>
+	<li>You can now create iterations in continuous flow projects</li>
+	<li>The CFD can now be plotted for points or cards.</li>
+	<li>The ATDD plugin no longer requires admin privileges to export.</li>
+	<li>Added a "Track Time" button to the task edit window.</li>
+	<li>Added "Save &amp; Add Another" to new task window.</li>
+	<li>Added keyboard shortcuts for quickly adding tasks.</li>
+	<li>Project export now contains creation and modified dates.</li>
+	<li>Added "USD" to invoices</li>
+	<li>Bug fix: Fixed JS error when plotting some burndown charts</li>
+	<li>Bug Fix: Fixed bug in project file list if files had non-ascii characters in them.</li>
+	<li>Bug Fix: Fixed bug in project time entry where the wrong iteration was selected if you unselected your iteration to report time against the project.</li>
+	<li>Bug Fix: Fixed bug in dashboard project selection</li>
+	<li>Bug Fix: Fixed alignment problem on scrumboard custom config window</li>
+	<li>Bug Fix: Fixed annoying bug when adding categories on the story form and the list-box not resetting</li>	
+</ul>
+
+<h3>3/18/2014</h3>
+<ul>	
+	<li>Fixed an import bug introduced in the previous release.</li>
+	<li>A 20 minute timeout for real-time updates has been lengthened.</li>
+	<li>Moving a story from doing->done on the scrum board split columns will correctly update in real time now.</li>
+</ul>
+
+<h3>3/15/2014</h3>
+<ul>	
+	<li>The iteration tab on the project exports now contains the full task details.</li>
+	<li>The time estimate for stories is now exported/imported from/to iterations</li>
+	<li>Fixed bug: Unassigning people from tasks wasn't working correctly.</li>
+	<li>Fixed bug: You can now reorder stories in the epics view again.</li>
+</ul>
+
+<h3>3/8/2014</h3>
+<ul>
+	<li>Updated Epics interface</li>
+	<li>Updated Iteration Planning interface</li>
+</ul>
+
+<h3>3/1/2014</h3>
+<ul>
+	<li>Updated org dashboards to better support users who have no assigned stories, and don't watch any projects.</li>
+</ul>
+
+<h3>2/24/2014</h3>
+<ul>
+	<li>Kanban projects have been renamed to <b>Continuous Flow</b> projects.  Scrum projects are Time Boxed.</li>
+	<li><b>Continuous Flow</b> projects are now in public beta for everyone.</li>
+	<li>Brand new organization dashboard. <a href="http://content.scrumdo.com/2014/02/24/new-org-dashboard.html">Read More</a></li>
+	<li>New email templates for notifications</li>
+	<li>New dedicated organization newsfeed page.</li>
+	<li>New vertical headers on kanban boards.</li>
+	<li>Several underlying architectual changes to continuous flow projects to make them easier to work with.</li>
+	<li>New stats on the continuous flow project summary page.</li>
+	<li>There is no longer a default report profile for continuous flow projects, it was rarely helpful and always confusing.</li>
+	<li>Several performance improvements throughout the site.</li>
+	<li>We now limit organization-level searches to 100 results for performance reasons.  Searching within a project has not been changed.</li>
+	<li>Hosting Upgrades - Over the past 2 weeks we have updated the hardware of our DB server cluster and our application servers.  We have also started using nginx/uwsgi to further speed things up.</li>
+	<li>Bug fix: Some bugs having to do with WIP calculations and kanbanizing projects.</li>
+	<li>Bug Fix: duplicating a story puts it in the right kanban board cell now.</li>
+	<li>Bug fix: Rarely, API calls would fail unexpectedly due to a race condition.</li>
+	<li>Bug fix: Compatibility view icon on IE11 was showing up erroneously</li>
+</ul>
+
+<h3>2/16/2014</h3>
+<ul>
+	<li>Adding a Blocked or Urgent tag to a story/card will highlight it red or yellow.</li>
+	<li>You can now add attachments from the story edit window.</li>
+	<li>You can now add attachments and make comments from the quick view of a story</li>
+	<li>Bug fix: Some tasks were not correctly showing up</li>
+	<li>Kanban project improvements:
+		<ul>
+			<li>Bug fix: Archive all button works again</li>
+			<li>Bug fix: Some CFD data consistency bugs were fixed</li>
+			<li>Bug fix: Deleting a story from the backlog actually makes it go away again</li>
+			<li>New move-to-project icon on most cards.</li>
+			<li>The kanban board is now the default view of these projects</li>
+		</ul>
+	</li>
+</ul>
+
+
+<h3>2/1/2014</h3>
+<ul>
+	<li>Upgraded our main DB cluster for a faster and more reliable ScrumDo</li>
+	<li>Ability to create <a href="http://content.scrumdo.com/help/personalprojects.html">Personal Projects</a></li>
+	<li>Create <a href="http://content.scrumdo.com/help/timeestimates.html">time estimates</a> on stories or tasks.</li>
+	<li>More helpful email templates </li>
+	<li>You can now track releases by # of stories/cards or by time</li>
+	<li>Small price increase and modification to the # of users on some of our plans</li>
+	<li>Attempting to accept an invite you already accepted no longer results in an error</li>
+	<li>Empty daily digests are no longer sent</li>
+	<li>Users who are not on a plan that supports email notifications will no longer recieve daily digests</li>
+	<li>Kanban project improvements:
+		<ul>
+			<li>Updated 3rd party extras</li>
+			<li>Reports are now rebuilt when the board is modified</li>
+			<li>Workflows have been renamed "Report Profiles" to ease some confusion</li>
+			<li>Ability to add a description of a policy to cells.</li>
+			<li>Multi select and bulk operations of cards</li>
+			<li>Several reporting bug fixes</li>
+			<li>Clicking the project name on the board now brings up a picker of your other projects</li>
+			<li>Several bug fixes</li>
+			<li>You can now resize the backlog/archive on the board</li>
+		</ul>
+	</li>
+</ul>
+
+<h3>12/21/2013</h3>
+<ul>
+	<li>Commits once again show up on several story display types.</li>
+	<li>Added new slider to selecting initial story creation</li>	
+	<li>New <a href="http://content.scrumdo.com/2013/12/18/search-widget.html">search widget</a></li>
+	<li>Improved <a href="http://content.scrumdo.com/2013/12/19/story-sizing.html">story sizing on Scrum Board</a></li>
+	<li>Added more information to newsfeeds about the detail field changing on a story</li>
+	<li>Improved the quick-view of stories</li>
+	<li>Thumbnails of attachments not correctly retain their aspect ratio.</li>
+	<li>Several kanban-project related improvements</li>	
+</ul>
+
+<h3>12/10/2013</h3>
+<ul>
+	<li>Added "archive all" button to Kanban cells</li>
+	<li>Several massive performance improvements to the stories API (will be noticed throughout the site)</li>
+	<li>Fixed some bugs with a loading message that would never go away.</li>
+	<li>Added better logging, so we can fix any issues more easily.</li>
+	<li>Added 3 Kanban templates</li>
+	<li>Improved new user experience and a new tour</li>
+</ul>
+
+<h3>11/23/2013</h3>
+<ul>
+	<li>Live updates on Scrum Board (Off by default, turn on via your project admin page)</li>
+	<li>Chat / Planning Poker should work through more restrictive firewalls now.</li>
+	<li>New Kanban based projects in beta, <a href="http://www.scrumdo.com/forms/kanbanize/">Sign Up</a> to gain access.</li>
+    <li>Flatter style on story points display.</li>
+    <li>Email confirmation and invitation messages are now sent in HTML to make clicking on links easier.</li>
+</ul>
+
+
+<h3>11/19/2013 <small>Bug Fixes</small></h3>
+<ul>
+	<li>The iteration list scrolls properly when clicking on a story permalink. (Also, the story highlights now)</li>
+    <li>Stories on the dashboard now behave properly.</li>
+</ul>
+
+
+<h3>11/3/2013 <small>Bug Fixes</small></h3>
+<ul>
+    <li>Fixed bug: If you have over 100 github repos, they will all show up now.</li>
+</ul>
+
+<h3>10/27/2013 <small>Bug Fixes</small></h3>
+<ul>
+    <li>Fixed bug: GitHub labels were not correctly syncing with ScrumDo tags.</li>
+    <li>Fixed bug: Duplicated stories were not syncing to GitHub.</li>
+    <li>Fixed bug: Only GitHub repos that you have admin access to will now show up in the list to connect to.</li>
+</ul>
+
+<h3>10/23/2013 <small>Bug Fixes</small></h3>
+<ul>
+    <li>Fixed bug: In IE8, the new story dialog wasn't working on the epics page.</li>
+    <li>Fixed bug: Linking directly to some epics was displaying a blank page.</li>
+</ul>
+
+<h3>10/20/2013 <small>Minor changes</small></h3>
+<ul>
+    <li>Improved our print-css sheet so you can print your story list easier.</li>
+    <li>Adjusted the size of inputs on the story edit window.</li>
+    <li>On the project export iteration tabs, stories are correctly in rank order now</li>
+    <li>Fixed bug causing a blank screen with "OK" being displayed. (Still looking for other causes, let us know if you see this)</li>
+    <li>Fixed bug in @mention processing</li>
+    <li>Fixed the create and delete iteration entries in the news feed.</li>
+</ul>
+
+<h3>10/10/2013 <small>Bug Fix</small></h3>
+<ul>
+    <li>Fixed bug: You can now edit stories from the organization-wide search results again.</li>
+</ul>
+
+
+<h3>10/9/2013 <small>Bug Fixes</small></h3>
+<ul>
+    <li>Fixed bug: Long iteration names were not visible in the iteration picker.</li>
+    <li>Fixed bug: Hidden iterations were incorrectly showing up in the iteration picker.</li>
+    <li>Fixed bug: When removing a story from an epic, the label showing the epic wasn't cleared.</li>
+</ul>
+
+<h3>10/7/2013 <small>Bug Fixes</small></h3>
+<ul>
+	<li>Fixed bug: When adding a story, the link to edit the story was not working correctly.</li>
+	<li>Fixed bug: When drilling into the epics view, not all child epics were shown.</li>
+	<li>Fixed bug: Sometimes, editing an epic was failing to save the new data.</li>
+</ul>
+<h3>10/5/2013 <small>Large Release</small></h3>
+<ul>
+	<li>Nearly every page has had some comsmetic improvements.</li>
+	<li>You can now select from multiple sizes of stories on the iteration story list to see more or less at once.</li>
+	<li>You can now select multiple stories at once on the iteration story list page and manipulate them.</li>
+	<li>Ability to move stories between projects within an organization from the iteration story list page.</li>	
+	<li>Removed the hover on usernames to see detail, replaced with a click, significantly improved page rendering time.</li>
+	<li>Clicking an Epic abbreviation in a story now shows the full epic summary as well as parent epics.</li>
+	<li>Ability to convert a story into an epic via the edit-story window.</li>
+	<li>Singificantly prettier and more complete invoices</li>
+	<li>Users will no longer receive email alerts for actions that they themselves take.</li>
+	<li>If you mention a person with an @username note in a story or comment, that person will receive an email.</li>
+	<li>You can now sort releases via drag &amp; drop.</li>
+	<li>Releases past their end date are archived in a "past releases" list.</li>
+	<li>Basecamp users can now enable/disable status updates to/from todo lists</li>
+	<li>Basecamp users now have a link directly to their Basecamp project</li>
+	<li>When exporting a project or iteration, you no longer leave the page.</li>
+	<li>Fixed bug when sorting stories on the epics page.</li>
+	<li>Fixed bug when sorting stories on the iteration planning page.</li>	
+	<li>You are now allowed to use a dash in your username.</li>
+	<li>Many IE8 specific bugs have been fixed.</li>
+	<li>You can now leave a comment in the edit-story window describing the change you made.</li>
+	<li>The scrum master can now filter the list story during planning poker</li>
+	<li>When playing planning poker, you can now view the history of votes in that session by scrolling up.</li>
+	<li>The default chart type is now stacked.</li>
+	<li>When selecting a chart type, your preference is now saved.</li>
+	<li>For new projects, the default tasks statuses are now todo, doing, done.</li>
+	<li>When printing out epics, the stories are no longer out of order.</li>
+	<li>You can now see the epic name on the project export.</li>
+	<li>On the scrum board, you can now download and upload attachments.</li>
+	<li>The story edit window now sizes (both bigger and smaller) depending on your window size.</li>
+	<li>Task updates are now correctly in the news feed.</li>
+	<li>The quicklinks are now available on the scrum board screen.</li>
+	<li>Quicklinks have been redesigned to be more user friendly and not cover up on-screen elements.</li>
+	<li>There is now feature-parity on story listings from the iteration page and scrum board.</li>	
+	<li>Several updates to the developer API to be more complete. - <a href="https://github.com/ScrumDoLLC/ScrumDoAPIV2">https://github.com/ScrumDoLLC/ScrumDoAPIV2</a></li>
+</ul>
+
+<h3>3/16/2013</h3>
+<ul>
+	<li>Users can now have full, personalized names instead of cryptic usernames. (Set this up via your account settings)</li>
+	<li>You can now search for epics from the project level search.</li>
+	<li>Exporting an iteration will now show the epics a story belongs to.</li>
+	<li>When writing a new story, you can now specify an iteration for it to go to.</li>
+	<li>You can now change the iteration in the edit-story window.</li>	
+	<li>The rank of a story in the story list now determines the order of the scrum board.</li>
+	<li>You can now see more stats about time-spent in the releases</li>
+	<li>Github users can now use the syntax sd-### in their commit messages.</li>
+	<li>There is a new "print" button on the epics page to get a simple formatted html page suitable for printing</li>
+	<li>You can how hide an iteration so it won't show up in several places in the UI.</li>
+	<li>The time sheet export has been expanded to include more fields.</li>
+	<li>The RSS feeds are far more useful now</li>
+	<li>Added a new ATDD extra</li>
+	<li>Many bug fixes</li>
+</ul>
+	
+
+<h3>2/2/2013</h3>
+<ul>
+	<li>You can now add attachments from the scrum board</li>	
+	<li>You can now reorder tasks.</li>
+	<li>You can now tag tasks. (More functionality related to this coming soon!)</li>
+	<li>The extra's story queue has been improved</li>
+	<li>New developer API (<a href="https://github.com/ScrumDoLLC/ScrumDoAPIV2">https://github.com/ScrumDoLLC/ScrumDoAPIV2</a>)</li>
+	<li>When duplicating a story, you can now choose to duplicate with attachments</li>
+	<li>When duplicating a story from the epics page, you are no longer redirected to the story list.</li>
+	<li>Epics now export in the project level export</li>
+	<li>Administrators can now delete other user's files</li>
+	<li>Fixed some IE8 specfic UI bugs</li>
+	<li>Importing stories that have tags with spaces will no longer break</li>
+	<li>Several minor ui improvements</li>
+	<li>Faster page rendering, especially during peak times.</li>
+	<li>Fixed bug: you can now download files with very long filenames</li>
+	<li>Fixed bug: You can now see long news feed entries</li>
+	<li>Behind the scenes, we've made some major infrastructure improvements that should let us deliver more functionality on a faster website</li>
+</ul>
+
+
+<h3>9/2/2012</h3>
+<ul>
+	<li>New release planning tool! (See Releases under your organization menu.)</li>
+	<li>Made several improvements to speed up story editing, especially on larger projects.</li>
+	<li>New pricing</li>
+</ul>
+
+<h3>8/12/2012</h3>
+<ul>
+	<li>New changelog (this page!) so you can see what has changed</li>
+	<li>New iteration charts: Burn Down and Stacked</li>
+	<li>New time tracking feature</li>
+	<li>Significantly improved iteration planning page</li>
+	<li>New extra to connect to Basecamp (the new/next version)</li>
+	<li>Added ability to export tasks in the project and iteration excel exports</li>
+	<li>Improved the filtering options on the iteration story list</li>	
+	<li>Added loading animation on comment posting</li>
+	<li>Added some feedback when creating a story so you know that it's processing</li>
+	<li>Changed delete user message dialog box.</li>	
+	<li>You can now log in with your email address or your username</li>
+	<li>User sessions are now memcached, shaving milliseconds off every request.</li>
+	<li>Search now includes comments</li>
+	<li>New "All Members" view for organization admins to see everyone across all your teams</li>
+	<li>You can now remove old team invites</li>
+	<li>Clicking an epic number, or a link from an email now isolates the epic on the page.  There is a new "edit" pencil icon to edit the epic.</li>
+	<li>Fixed bug: Fixed some GitHub syncronization issues</li>
+	<li>Fixed bug: iteration stats are visible by everyone with read+ access, not just admins.</li>
+	<li>Fixed bug: the help/support window will no longer appear offscreen</li>
+	<li>Fixed bug: if you expanded the tasks section of stories on the scrum board, the bottom of the column would overrun the page footer</li>
+	<li>Fixed bug: When deleting an iteration, you will no longer lose associated scrum logs.</li>
+	<li>Fixed bug: Not everyone shows up on the points breakdown by people on the iteration dashboard.</li>
+	<li>Fixed Bug: Unable to add a comment to a story on the Iteration Planning screen. </li>
+</ul>
+
+
+<h3>6/25/2012</h3>
+<ul>	
+	<li>Added custom statuses</li>
+	<li>Added ability to add multiple assignees to a story</li>
+	<li>Added a FlowDock extra</li>
+	<li>Added filter to organization export.</li>
+	<li>Added project groups to organization export page</li>
+	<li>Sped up creating adding new stories.</li>
+	<li>Improved story filter</li>	
+	<li>Fixed bug causing staff groups not to appear as admin groups in some places.</li>
+	<li>Fixed bug: points weren't showing their labels.</li>
+	<li>Fixed bug: story counts on project dashboard were off in some circumstances</li>
+	<li>Fixed bug: the project admin page didn't work for free accounts.</li>
+	<li>Fixed bug: spelling mistake on invtation emails</li>	
+	<li>Fixed bug: the avatar page didn't have the scrumdo page template</li>		
+	<li>Fixed visual bug on the list of my current stories.</li>	
+</ul>
+
+	
+{% endblock %}

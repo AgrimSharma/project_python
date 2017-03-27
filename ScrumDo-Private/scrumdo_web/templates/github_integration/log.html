@@ -1,0 +1,47 @@
+{% extends "github_integration/base.html" %}
+
+{% load activity_tags %}
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load extras_tags %}
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+
+
+{% block gh_body %}
+
+<h1>GitHub log</h1>
+
+
+<ul class="github_log">
+	{% for l in log %}
+	<li>
+		{{l.date}} - {{l.message}}
+	</li>
+	{% endfor %}
+</ul>
+
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if log.has_previous %}
+            <a href="?page={{ log.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ log.number }} of {{ log.paginator.num_pages }}.
+        </span>
+
+        {% if log.has_next %}
+            <a href="?page={{ log.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

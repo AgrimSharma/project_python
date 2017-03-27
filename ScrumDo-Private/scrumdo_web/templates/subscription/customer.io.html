@@ -1,0 +1,41 @@
+{% load projects_tags %}
+{% if display %}
+    <script id="IntercomSettingsScriptTag">
+      var intercomSettings = {
+        app_id: '5pg688sj',
+        email: '{{user|probable_email}}',
+        user_hash: '{{user_hash}}',
+        first_name: '{{user.first_name}}',
+        last_name: '{{user.last_name}}',
+        user_name: '{{user.username}}',
+        verified_email: {{verified_email|yesno:"true,false"}},
+        staff: {{staff|yesno:"true,false"}},
+        org_count:{{org_count}},
+        classic_user_link: 'https://www.scrumdo.com/projects/user/{{user.username}}',
+        user_link: 'https://app.scrumdo.com/projects/user/{{user.username}}'
+        {% if org %},
+        org_name: '{{org.name}}',
+        plan: '{{org.subscription.plan.feature_level}}',
+        org_slug: '{{org.slug}}',
+        test_group_1: {{ test_group_1 }},
+        test_group_2: {{ test_group_2 }},
+        test_group_3: {{ test_group_3 }},
+        test_group_4: {{ test_group_4 }},
+        company: {
+          id: '{{org.slug}}',
+          name: '{{org.name}}',
+          created_at: {{org_created}},
+          plan: '{{org.subscription.plan.feature_level}}'
+        }
+        {% endif %},
+        widget: {
+          activator: '.IntercomStartLink'
+        }
+
+      };
+
+    </script>
+
+    {% include 'subscription/intercom.html' %}
+
+{% endif %}

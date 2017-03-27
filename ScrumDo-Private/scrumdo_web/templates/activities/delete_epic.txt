@@ -1,0 +1,4 @@
+{% load projects_tags %}
+deleted collection #{{epic.local_id}} in {{epic.project.name}}
+{{epic.summary|markdown_save|link_stories_v2:epic.project|urlify2|safe}}<br/>
+{{epic.detail|markdown_save|link_stories_v2:epic.project|urlify2|safe}}

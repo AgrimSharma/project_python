@@ -1,0 +1,6 @@
+There are some simple unit tests for portions of the API in this directory.  This is not a comprehensive set
+of tests.
+
+Please do not run this against the production scrumdo.com site.
+
+Requires python 2.7+

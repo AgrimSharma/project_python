@@ -1,0 +1,76 @@
+<div class="modal-header">
+    <button type="button" class="close"  
+        ng-click="$dismiss('canceled')">
+        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4>{{::ctrl.title}}</h4>
+</div>
+<div class="modal-body full-screen-report">
+    <div ng-if="ctrl.showReport">
+        <!--- CFD -->
+        <div class="cfd-report graph" ng-if="ctrl.reportType=='cfd'">
+            <div sd-report-cfd
+                style="width: 100%; height: 99%;"
+                project="ctrl.project"
+                report-data="ctrl.reportData"
+                legends="ctrl.legends">
+            </div>
+        </div>
+
+        <!--- LEAD -->
+        <div class="cfd-report graph" ng-if="ctrl.reportType=='lead'">
+            <div sd-report-lead
+                style="width: 100%; height: 99%;"
+                project="ctrl.project"
+                report-data="ctrl.reportData">
+            </div>
+        </div>
+
+        <!--- Burndown -->
+        <div class="cfd-report graph" ng-if="ctrl.reportType=='burndown'">
+            <div sd-report-burn
+                style="width: 100%; height: 99%;"
+                chart-type="ctrl.chartType"
+                show-ideal="false"
+                project="ctrl.project"
+                report-data="ctrl.reportData">
+            </div>
+        </div>
+
+        <!--- Blockers -->
+        <div class="cfd-report graph" ng-if="ctrl.reportType=='blocker'">
+            <div sd-freq-blockers
+                style="width: 100%; height: 99%;"
+                project="ctrl.project"
+                report-manager="ctrl.reportManager"
+                organization-slug="{{ctrl.organizationSlug}}"
+                filters="null"
+                minireport="false"
+                report-data="ctrl.reportData">
+            </div>
+        </div>
+
+        <!--- Aging -->
+        <div class="cfd-report graph" ng-if="ctrl.reportType=='aging'">
+            <div sd-report-aging
+                style="width: 100%; height: 99%;"
+                project="ctrl.project"
+                chart-type="ctrl.chartType"
+                report-data="ctrl.reportData">
+            </div>
+        </div>
+
+        <!--- Sentiments -->
+        <div class="cfd-report graph" ng-if="ctrl.reportType=='sentiment'">
+            <div sd-report-sentiment
+                style="width: 100%; height: 99%;"
+                project="ctrl.project"
+                report-data="ctrl.reportData">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="loading" ng-if="!ctrl.showReport">
+        <div class="alert alert-info"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+    </div>
+</div>

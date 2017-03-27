@@ -1,0 +1,71 @@
+<div class="scrumdo-box-modal-content">
+    <div class="row">
+        <div class="signup-fields col-sm-6 col-sm-offset-3">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="#" class="scrumdo-control-label tertiary">Username</label>
+                        <input name="{{ form.username.html_name }}"
+                            autocomplete="off"
+                            value="{{ form.username.value|default_if_none:'' }}"
+                            type="text"
+                            class="{% if form.username.errors %}has-error{% endif %} scrumdo-form primary"/>
+                        {{ form.username.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="#" class="scrumdo-control-label tertiary">Full Name</label>
+                        <input name="{{ form.fullname.html_name }}"
+                            autocomplete="off"
+                            placeholder="First & Last Name"
+                            value="{{ form.fullname.value|default_if_none:'' }}"
+                            type="text"
+                            class="{% if form.fullname.errors %}has-error{% endif %} scrumdo-form primary"/>
+                        {{ form.fullname.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="row {% if invite %}hidden{% endif %}">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="#" class="scrumdo-control-label tertiary">Organization Name</label>
+                        <input name="{{ form.company.html_name }}"
+                            autocomplete="off"
+                            placeholder="Company Ltd."
+                            value="{{ form.company.value|default_if_none:'' }}"
+                            type="text"
+                            class="{% if form.company.errors %}has-error{% endif %} scrumdo-form primary"/>
+                        {{ form.company.errors }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label for="#" class="scrumdo-control-label tertiary">Password</label>
+                        <input name="{{ form.password.html_name }}"
+                            autocomplete="off"
+                            value="{{ form.password.value|default_if_none:'' }}"
+                            type="password"
+                            class="{% if form.password.errors %}has-error{% endif %} scrumdo-form primary"/>
+                        {{ form.password.errors }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form.email }}
+</div>
+
+<div class="scrumdo-box-modal-footer text-center">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <button  type="submit" class="scrumdo-btn secondary extended">Create Account</button>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="next" value="{{success_url}}">

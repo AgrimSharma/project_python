@@ -1,0 +1,70 @@
+{% extends "base_legacy.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load subscription_tags %}
+
+{% block head_title %}{{organization_name}}{% endblock %}
+
+{% block topmenu %}
+{% if is_grace %}
+
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+<br/><br/><br/>
+
+<div>
+	<h3>Problem with your subscription</h3>
+	<p>
+		It looks like this organization ({{organization_name}}) doesn't have a valid subscription.
+	</p>
+
+	<p>
+		This can happen if a a credit card charge fails, a trial expires, an account goes over it's limits,
+		or several other reasons.
+	</p>
+
+	<p>
+	  Please let one of the staff members of your organization know.
+	</p>
+
+	<h4>Staff Members:</h4>
+	<ul>
+		{% for owner in owners %}
+		<li>{% autoescape off %}<img src="{% url 'avatar_redirect' size=30 username=owner %}" alt="{{owner}}" /> {{owner}} {{owner|probable_email}}{% endautoescape %}</li>
+		{% endfor %}
+	</ul>
+
+
+	{% if is_grace %}
+	<div class="alert alert-success">
+		<h2>Grace Period</h2>
+		You can access your workspaces from the list below
+		for {{subscription.grace_until|daysuntil}} more
+		day{{subscription.grace_until|daysuntil|pluralize}}
+		<ul>
+        	{% for project in organization.projects.all %}
+                {% canread project %}
+                <li>
+                <a href="{% url "kanban_board"  project.slug %}">{{ project.name }}</a>
+                </li>
+                {% endcanread %}
+            {% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+
+	<p>
+	  If this is some sort of error, please contact <a href="mailto:support@scrumdo.com">tech support</a>.
+	</p>
+</div>
+
+{% endblock %}

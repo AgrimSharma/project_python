@@ -1,0 +1,209 @@
+{% extends "base_signup.html" %}
+
+{% block body_app %}ng-app="RegisterApp" id="ng-app" ng-controller="RegisterViewController"{% endblock %}
+
+{% block appinit %}
+    scrumdo.setupRegisterApp("{{ STATIC_URL }}");
+{% endblock %}
+
+
+{% block extra_head %}
+<!-- Google Website Optimizer Tracking Script -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['gwo._setAccount', 'UA-19817142-5']);
+  _gaq.push(['gwo._trackPageview', '/0198129310/goal']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+<!-- End of Google Website Optimizer Tracking Script -->
+
+{% endblock %}
+
+
+{% block bottom %}
+    <div class="row" ng-show="currentStep==0" ng-cloak class="ng-cloak">
+        <div class="col-md-6 col-md-offset-3 text-center scrumdo-control-label tertiary">
+            Working on someone else's workspace?  You can <a href="/">skip this step</a>.
+        </div>
+    </div>
+
+
+<!-- Google Code for User signs up (app.scrumdo.com) Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1021662849;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "rJCQCK_p5lwQga2V5wM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/1021662849/?label=rJCQCK_p5lwQga2V5wM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
+
+{% endblock %}
+
+
+{% block body %}
+    <div ng-cloak class="ng-cloak">
+        <div class="scrumdo-box-modal-header text-center">
+            <h2 class="scrumdo-signup-title">Setup Your Account</h2>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <ul class="scrumdo-steps">
+                        <li class="active">
+                            <span>1</span>
+                            Company Name
+                        </li>
+                        <li ng-class="{active:currentStep>=1}">
+                            <span>2</span>
+                            Workspace Name
+                        </li>
+{#                        <li ng-class="{active:currentStep>=2}">#}
+{#                            <span>3</span>#}
+{#                            Invite Team Members#}
+{#                        </li>#}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <form name="setupForm" method="POST" action="{% url "register"  %}" ng-submit="ctrl.onSubmit()">
+            <div class="scrumdo-box-modal-content">
+
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1" ng-show="currentStep==0">
+                        <div class="form-group">
+                            <label class="scrumdo-control-label tertiary">Name of Your Company, Team, or Organization</label>
+                            <input name="organization_name"
+                                   autofocus
+                                   ng-maxlength="65"
+                                   ng-minlength="2"
+                                   ng-required="true"
+                                   sd-enter="ctrl.step2()"
+                                   type="text"
+                                   ng-model="ctrl.orgName"
+                                   class="scrumdo-form primary"
+                                   placeholder="Name"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-10 col-md-offset-1" ng-show="currentStep==1">
+                         <div class="form-group">
+                            <label class="scrumdo-control-label tertiary">Workspace to Create</label>
+                            <input name="project_name"
+                                   id="project_name"
+                                   autofocus
+                                   ng-maxlength="80"
+                                   ng-minlength="2"
+                                   ng-required="true"
+{#                                   sd-enter="ctrl.step3()"#}
+                                   type="text"
+                                   ng-model="ctrl.projectName"
+                                   class="scrumdo-form primary"
+                                   placeholder="Workspace Name"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 col-md-offset-1" ng-show="currentStep==2">
+                        <div class="form-group">
+                            <label class="scrumdo-control-label tertiary">Add Team Members (optional)</label>
+                            <input name="address_to_add"
+                                   id="invite_box"
+                                   type="email"
+                                   sd-enter="ctrl.addAddress()"
+                                   ng-model="ctrl.tempAddress"
+                                   class="scrumdo-form primary"
+                                   placeholder="Email Address"/>
+                        </div>
+                    </div>
+                    <div class="col-md-2" ng-show="currentStep==2">
+                        <div class="form-group">
+                            <button ng-click="ctrl.addAddress()" type="button" class="scrumdo-btn primary extended setup-account-add">Add</button>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-10 col-md-offset-1" ng-show="currentStep==3">
+                        <div class="progress progress-striped active">
+                            <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                Working...
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row" ng-show="currentStep==2">
+                    <div class="col-md-10 col-md-offset-1">
+                        <ul class="setup-account-list">
+                            <li ng-repeat="address in ctrl.addresses track by $index">
+                                <span class="scrumdo-tags">
+                                    <span ng-click="ctrl.removeAddress($index)" class="scrumdo-tags-close glyphicon glyphicon-remove"></span>
+                                    <span ng-bind="address"></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        <div class="scrumdo-box-modal-footer text-center">
+            <div class="row" ng-show="currentStep==0">
+                <div class="col-md-4 col-md-offset-4">
+
+                    <button ng-click="ctrl.step2()"
+                            ng-class="{disabled:!setupForm.organization_name.$valid}"
+                            type="button"
+                            class="scrumdo-btn secondary extended step-1-next">Next</button>
+                </div>
+            </div>
+
+            <div class="row" ng-show="currentStep==1">
+                <div class="col-md-4 col-md-offset-4">
+                    <input ng-class="{disabled:!setupForm.project_name.$valid}"
+                           id="createFirstProjectButton"
+                           value="Create First Workspace"
+                           type="submit" class="scrumdo-btn secondary extended" />
+
+                </div>
+            </div>
+
+            <div class="row" ng-show="currentStep==2">
+                <div class="col-md-4 col-md-offset-4">
+                    <button id="skipButton" ng-if="!ctrl.addresses.length" type="submit" class="scrumdo-btn secondary extended">Skip for Now</button>
+                    <button ng-if="ctrl.addresses.length" type="submit" class="scrumdo-btn secondary extended">Done</button>
+                </div>
+            </div>
+
+        </div>
+        <input type="text" ng-model="ctrl.distinct_id" name="distinct_id" class="hide">
+        <input type="hidden" name="next" value="{{success_url}}">
+
+        <textarea class="hide" name="project_members" ng-model="ctrl.invitees"></textarea>
+        {% csrf_token %}
+        </form>
+    </div>
+
+
+<script type="text/javascript">
+  window._ajcta = window._ajcta || [];
+  _ajcta.push({"uid":41216,"t":1});
+</script>
+<script async src="//web.industrybrains.com/js/ads/async/conv.js" type="text/javascript"></script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="//web.industrybrains.com/orders.php?id=41216" /></noscript>
+
+{% endblock %}
+
+

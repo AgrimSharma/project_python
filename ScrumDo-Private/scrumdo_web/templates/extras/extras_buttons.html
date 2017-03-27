@@ -1,0 +1,10 @@
+{% load projects_tags %}
+<img src="{{extra.getLogo}}" height="32" style="width:32px; height:auto;">
+<a href="{% url "configure_extra_url"  extra.getSlug project.slug %}">{{extra.getName}}</a><br/>
+<ul class="extra-actions">
+{% for action in actions %}
+	<li>
+  		<a style="margin-left:10px" href="{{action.1}}">{% silk action.2 %} {{action.0}}</a>
+	</li>
+{% endfor %}
+</ul>

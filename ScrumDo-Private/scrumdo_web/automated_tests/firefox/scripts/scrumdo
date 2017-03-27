@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Test Suite</title>
+</head>
+<body>
+<table id="suiteTable" cellpadding="1" cellspacing="1" border="1" class="selenium"><tbody>
+<tr><td><b>Test Suite</b></td></tr>
+<tr><td><a href="1_existing_users_login.html">1_existing_users_login</a></td></tr>
+<tr><td><a href="2_existing_users_login_openid.html">2_existing_users_login_openid</a></td></tr>
+<tr><td><a href="3_existing_users_login_github.html">3_existing_users_login_github</a></td></tr>
+<tr><td><a href="4_existing_users_login_google.html">4_existing_users_login_google</a></td></tr>
+<tr><td><a href="5_existing_users_login_stackexchange.html">5_existing_users_login_stackexchange</a></td></tr>
+<tr><td><a href="6_create_account_for_new_users.html">6_create_account_for_new_users</a></td></tr>
+<tr><td><a href="7_create_a_new_organization.html">7_create_a_new_organization</a></td></tr>
+<tr><td><a href="7.1_create_a_new_organization_subscription.html">7.1_create_a_new_organization_subscription</a></td></tr>
+<tr><td><a href="8_update_organization.html">8_update_organization</a></td></tr>
+<tr><td><a href="9_create_a_project.html">9_create_a_project</a></td></tr>
+<tr><td><a href="10_update_project_settings.html">10_update_project_settings</a></td></tr>
+<tr><td><a href="11_archive_project.html">11_archive_project</a></td></tr>
+<tr><td><a href="12_delete_project.html">12_delete_project</a></td></tr>
+<tr><td><a href="13_create_a_team.html">13_create_a_team</a></td></tr>
+<tr><td><a href="14_delete_team.html">14_delete_team</a></td></tr>
+<tr><td><a href="15_add_users_to_team.html">15_add_users_to_team</a></td></tr>
+<tr><td><a href="16_organization_data_export_to_excel.html">16_organization_data_export_to_excel</a></td></tr>
+<tr><td><a href="17_create_epic.html">17_create_epic</a></td></tr>
+<tr><td><a href="18_update_epic.html">18_update_epic</a></td></tr>
+<tr><td><a href="19_delete_epic.html">19_delete_epic</a></td></tr>
+<tr><td><a href="20_create_a_story.html">20_create_a_story</a></td></tr>
+<tr><td><a href="21_update_story.html">21_update_story</a></td></tr>
+<tr><td><a href="22_delete_story.html">22_delete_story</a></td></tr>
+<tr><td><a href="23_dublicate_story.html">23_dublicate_story</a></td></tr>
+<tr><td><a href="24_add_attachment_to_a_story.html">24_add_attachment_to_a_story</a></td></tr>
+<tr><td><a href="25_modify_story_ranking.html">25_modify_story_ranking</a></td></tr>
+<tr><td><a href="26_update_story_status.html">26_update_story_status</a></td></tr>
+<tr><td><a href="27_add_comments_to_story.html">27_add_comments_to_story</a></td></tr>
+<tr><td><a href="28_add_tasks_to_story.html">28_add_tasks_to_story</a></td></tr>
+<tr><td><a href="29_update_tasks_of_story.html">29_update_tasks_of_story</a></td></tr>
+<tr><td><a href="30_increase_and_decrease_story_ranking.html">30_increase_and_decrease_story_ranking</a></td></tr>
+<tr><td><a href="31_add_points_to_story_using_planing_poker.html">31_add_points_to_story_using_planing_poker</a></td></tr>
+<tr><td><a href="32_update_story_points.html">32_update_story_points</a></td></tr>
+<tr><td><a href="33_export_project_to_spreadsheet.html">33_export_project_to_spreadsheet</a></td></tr>
+<tr><td><a href="34_export_iteration_to_spreadsheet.html">34_export_iteration_to_spreadsheet</a></td></tr>
+<tr><td><a href="35_import_iteration_from_spreadsheet.html">35_import_iteration_from_spreadsheet</a></td></tr>
+<tr><td><a href="36_search_stories_using_searchbox.html">36_search_stories_using_searchbox</a></td></tr>
+<tr><td><a href="37_filter_stories_order_various_criteria.html">37_filter_stories_order_various_criteria</a></td></tr>
+<tr><td><a href="38_move_story_from_one_iteration_to_other.html">38_move_story_from_one_iteration_to_other</a></td></tr>
+<tr><td><a href="39_using_scrumdo_chat_feature.html">39_using_scrumdo_chat_feature</a></td></tr>
+<tr><td><a href="40_add_message_to_scrumlog.html">40_add_message_to_scrumlog</a></td></tr>
+<tr><td><a href="41_switch_organization.html">41_switch_organization</a></td></tr>
+<tr><td><a href="42_create_new_iteration.html">42_create_new_iteration</a></td></tr>
+<tr><td><a href="43_add_stories_to_iteration.html">43_add_stories_to_iteration</a></td></tr>
+<tr><td><a href="44_change_story_ranking_by_drag_and_drop.html">44_change_story_ranking_by_drag_and_drop</a></td></tr>
+<tr><td><a href="scrumdo">scrumdo</a></td></tr>
+</tbody></table>
+</body>
+</html>

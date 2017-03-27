@@ -1,0 +1,23 @@
+<sd-subscription-message organization="::user.organization" user="::user"></sd-subscription-message>
+
+
+<div class="scrumdo-overview-container">
+    <div class="col-md-3 user-content">
+        <div class="row">
+            <div class="col-md-12">
+                <sd-dashboard-your-stories />
+            </div>
+            <div class="col-md-12">
+                <sd-dashboard-your-projects />
+            </div>
+        </div>
+    </div>
+    <div class="scrumdo-overview-content col-md-9">
+        <div class="col-sm-12 scrumdo-overview-timeline-header org text-center scrumdo-text primary">
+            {{::user.organization.name}} Activity
+        </div>
+        <sd-dashboard-news />
+    </div>
+</div>
+
+

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+    
+    {% load i18n %}
+    {% load ifsetting_tag %}
+
+    {% block head_title %}Rate Limit Exceeded{% endblock %}
+
+
+{% block body %}
+
+<div class="alert alert-error">
+  <h1>Whoa!  Slow down.</h1>
+  <p>You have exceeded the rate-limit for this page.  You weren't trying to do something evil, were you?</p>  
+</div>
+<p>You should only see this page in exceptional circumstances.  If you believe it's in error, please
+<a href="mailto:support@scrumdo.com">let us know</a>.
+</p>
+
+{% endblock %}

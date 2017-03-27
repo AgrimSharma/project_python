@@ -1,0 +1,49 @@
+{
+    "apiVersion": "2.0", 
+    "apis": [
+        {
+            "description": "Operations about Organizations", 			
+            "path": "{% url "resource_discovery" "organizations" %}"
+        }, 
+        {
+            "description": "Operations about Projects", 
+            "path": "{% url "resource_discovery" "projects" %}"
+        }, 
+        {
+            "description": "Operations about Stories", 
+            "path": "{% url "resource_discovery" "stories" %}"
+        }, 
+        {
+            "description": "Operations about Epics", 
+            "path": "{% url "resource_discovery" "epics" %}"
+		},
+        {
+            "description": "Operations about Tasks", 
+            "path": "{% url "resource_discovery" "tasks" %}"
+        },
+        {
+            "description": "Operations about Time tracking", 
+            "path": "{% url "resource_discovery" "time" %}"
+        },        
+        {
+            "description": "Operations around comments on stories.", 
+            "path": "{% url "resource_discovery" "comments" %}"
+        },        
+        {
+            "description": "Operations around kanban workflows.", 
+            "path": "{% url "resource_discovery" "workflows" %}"
+        },
+        {
+            "description": "Operations around kanban cells.", 
+            "path": "{% url "resource_discovery" "boardcells" %}"
+        },
+        {
+            "description": "Operations around kanban policies.", 
+            "path": "{% url "resource_discovery" "policies" %}"
+        }
+
+
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/", 
+    "swaggerVersion": "1.1"
+}

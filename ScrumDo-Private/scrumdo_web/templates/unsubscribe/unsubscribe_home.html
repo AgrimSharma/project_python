@@ -1,0 +1,44 @@
+{% extends "base_legacy.html" %}
+{% load humanize %}
+
+{% block body %}
+
+    <form action="" method="POST" class="form">
+        {% csrf_token %}
+
+        <div class="row" style="margin-top: 30px">
+            <div class="well col-md-4">
+                <legend>
+                    Unsubscribe
+                </legend>
+
+                <label>Email Address</label>
+                <input class="form-control" type="text" name="email" value="{{ email }}" />
+                <br/>
+                <label>Reason (optional)</label>
+
+                <label class="radio" for="rad1"><input name="reason" id="rad1" type="radio" value="No longer interested"> No longer interested</label>
+                <label class="radio" for="rad2"><input name="reason" id="rad2" type="radio" value="Didn't sign up for this"> Didn't sign up for this</label>
+                <label class="radio" for="rad3"><input name="reason" id="rad3" type="radio" value="Too much spam"> Too much spam</label>
+                <label class="radio" for="rad4"><input name="reason" checked id="rad4" type="radio" value="Other"> Other:
+                    <br/><input class="form-control" type="text" name="reasonOther">
+                </label>
+
+
+                <br/>
+                <input type="submit" value="Unsubscribe" class="pull-right scrumdo-btn secondary btn-large"/>
+                <br/><br/>
+            </div>
+            <div class="col-md-1"></div>
+
+            <div class="col-md-4">
+                <p>
+                    We're sorry to see you go, but if you don't want to hear about our news or special offers anymore,
+                    just enter your email address and click the button.
+                </p>
+            </div>
+        </div>
+
+    </form>
+
+{% endblock %}

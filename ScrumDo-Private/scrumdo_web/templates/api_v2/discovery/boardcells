@@ -1,0 +1,247 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getBoardSingleCell", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Group to retrieve cell from", 
+                            "name": "group_id", 
+                            "paramType": "path", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Cell to retrieve cell", 
+                            "name": "cell_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "BoardCell", 
+                    "summary": "Get a single BoardCell"
+                },
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "PUT", 
+                    "nickname": "updateBoardGroup", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Group to retrieve cell from", 
+                            "name": "group_id", 
+                            "paramType": "path", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Cell to retrieve cell", 
+                            "name": "cell_id", 
+                            "paramType": "path", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/> \"steps\":[10,11,20]<br/>\"cell_type\":0<br/>\"order\":1<br/>\"label\":\"Todo\"<br/> }", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "BoardCell", 
+                    "summary": "Update a board cell"
+                } 
+                ,
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "DELETE", 
+                    "nickname": "deleteBoardGroup", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Cell to delete", 
+                            "name": "cell_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "BoardCell", 
+                    "summary": "Delete a board cell"
+                } 
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/boardcell/{cell_id}"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getBoardCells", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Group to retrieve cell from", 
+                            "name": "group_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }                        
+                    ], 
+                    "responseClass": "BoardCell", 
+                    "summary": "Get all board cells for a group"
+                },
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "POST", 
+                    "nickname": "createBoardCell", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        },                     
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/> \"steps\":[10,11,20]<br/>\"cell_type\":0<br/>\"order\":1<br/>\"label\":\"Todo\"<br/> }", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "BoardCell", 
+                    "summary": "Create a new cell"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/boardgroup/{group_id}/boardcell"
+        },
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getBoardProjectCells", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }                
+                    ], 
+                    "responseClass": "BoardCell", 
+                    "summary": "Get all board cells for a project"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/boardcell"
+        }
+        
+
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "organizations", 
+    "swaggerVersion": "1.1"
+}

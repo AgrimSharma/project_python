@@ -1,0 +1,16 @@
+{% load projects_tags %}
+<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
+    <td style="width: 45px;">
+        <img width="32" src="{{base_url}}{% url "avatar_redirect"  32 user.username %}"><br/>
+         {{user}}
+    </td>
+    <td style="padding-left: 10px; text-align: left;">
+        <h4>Task Deleted</h4>
+        {{task.summary}}
+        {% if task.assignee %}
+            <p>Assigned to <b>{{task.assignee}}</b></p>
+        {% endif %}
+    </td>
+</tr>
+
+

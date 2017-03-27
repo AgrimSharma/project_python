@@ -1,0 +1,28 @@
+1. We need a FireFox browser and a Selenium IDE plugin to be able to run functional testing suite. Next are the steps one need to accomplish to get up and running:
+ a) http://www.mozilla.org/en-US/firefox/new/ - download and install the latest FireFox browser;
+ b) after you have the firefox up and running, goto http://release.seleniumhq.org/selenium-ide/1.8.1/selenium-ide-1.8.1.xpi within the browser and allow it to install.
+2. Now we have the instrumentation environment for functional testing that could be found under "Tools => Selenium IDE" within your FireFox browser menu.
+3. It's about time to check your mail boxes and download a test suite and see how the UI testing(functional testing) is actually happening:
+ a) check your e-mail and download the test suite file called "scrumdo";
+ b) within the Selenium IDE plugin in focus(opened), that is to be opened from within FireFox menu "Tools => Selenium IDE", go to the "File => Open Test Suite" menu option;
+ c) and pick up the "scrumdo" test suite file you have had downloaded at the (3.a) stage above - you should be able to see the list of 22 test available withing the tests suite(left "Test Case" column)
+4. Since there is an option to run the same test suite on different servers(i.e. production server, local developers server, stage server) - there is a very important "Base URL" field that indicates the address of the site where the test suite is to be applied to. So if you are about running the suite on production or any other server, you are to change the Base URL accordingly!
+5. Now lets try to work with the actual "Test Case" from the list to the left. As you see, a test suite is a set of different test cases and you can work(run) with each test case you need separately or/and you can run all the test suite(each test case one by one):
+ a) To work with a some specific test case, you need to double click on the name of the test case you are interested in. If you do so - you should notice that the list of commands that the test case consist of appears to the right of the list of test cases(right column). Now we are in context of the test case you double clicked on. From now on you can:
+    - run the full test case if you press "Play current test case" button(second one from the left top side containing green arrow);
+    - and you can run each step of the test case manually by clicking each the row from the list to the right(second IDE column)
+ b) And to run the entire test suite you should press the first button with a green button called "Play entire test suite".
+6. So it's that simple, set up FireFox, set up Selenium IDE FireFox plugin, open the suite I have mailed you, run a test case or/and the entire suite.
+7.Finally you can write your own test cases to add to the list to the left(test suite) or edit existing ones:
+ a) Right button click on the empty area under the test cases list to the left => then pick up "new test case" menu item of the contextual menu that pops up;
+ b) Double click on the new item appeared in the list called "Untitled";
+ c) Then, IT"S IMPORTANT, click the red circle located in the top right corner of the Selenium IDE plugin! You will see it "pressed" which means the recording has started!
+ d) Now, that the recording had started, you can switch to main FireFox window and do any general browsing activities you usually do when browsing internet:
+   - open scrumdo.com site for instance;
+   - open login form, input your credentials and press login button;
+   - and so on and so force...
+ e) "all" your actions are automatically recorded now, so that when you get back to the Selenium IDE window and switch off that one red button back, this way stopping to recording a test case - you now can automatically playback all the same actions by pressing "Play current test case" button(second one with green arrow)
+ f) cool, isn't it? now open the menu and choose "File => Save test case as" to stare your newly created test case, use file_name.html (.html file type). Same way you can do with all the test suite(save test suite)
+
+There are limitations, tricks and advanced usages that are under the scope of this README file that should be used to handle a big a varieties of all the possible situations to cover, you can always ask me for any help you might need, so we can find the solution for. Still, Selenium and it's Python API is work in progress and it is not the "100% healing pill", but for 90%+ it should be.
+And don't forget to delete records - anything that your tests have created, or you can even write a special selenium automation scripts for this (I hadn't because I just do recreate a test database from scratch).

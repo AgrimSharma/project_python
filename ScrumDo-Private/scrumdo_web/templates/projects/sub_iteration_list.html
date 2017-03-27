@@ -1,0 +1,11 @@
+{% load iteration_tags %}
+<ul id="subIterationList_{{project_slug}}" style="display:none" class="sub-iteration-list">
+  {% for subiteration in iterations %}
+
+    {% ifnotequal subiteration current_iteration %}
+      {% if not subiteration.hidden %}    
+      <li>{% iteration_icon subiteration %} <a class="subIteration" href="#" onclick="moveCurrentlyOpenStoryToIteration({{subiteration.id}}, '{{project_slug}}');return false;">{{subiteration.name}}</a></li>
+      {% endif %}
+    {% endifnotequal %}
+  {% endfor %}
+</ul>

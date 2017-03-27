@@ -1,0 +1,42 @@
+{% extends "organizations/commercial_org_base.html" %}
+
+{% load i18n %}
+
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load subscription_tags %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+{% block body_class %}organization-export-page{% endblock %}
+
+{% block org_body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h1>Get Scrumban Game</h1>
+                <p>The Get Scrumban Game teaches teams how to utilize Kanban
+                   principles in their Scrum projects to achieve better results.
+                </p>
+                {% if has_access %}
+                <p>
+                    ScrumDo subscribers can play the game for free.
+                </p>
+                <a class="scrumdo-btn secondary" href="{{ url|safe }}">Play Now</a>
+                {% else %}
+                <p>
+                    ScrumDo subscribers can play the game for free, <a href="{% url "subscription_options"  organization.slug %}">subscribe now</a>!
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+

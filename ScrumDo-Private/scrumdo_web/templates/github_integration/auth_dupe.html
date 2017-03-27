@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load activity_tags %}
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load extras_tags %}
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+
+{% block body_div_class %}narrow_body_with_sidebar{% endblock %}
+
+{% block body %}
+
+    <div class='container'>
+        <h1>Duplicate Account</h1>
+
+        Each Github account can only be associated with one ScrumDo login, but one already exists for this one.
+        If you don't need the other one, contact support@scrumdo.com and let us know your Github username so we can
+        clear it out for you.
+    </div>
+
+{% endblock %}

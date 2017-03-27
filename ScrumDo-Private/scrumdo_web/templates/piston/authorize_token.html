@@ -1,0 +1,26 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}Authorize Application{% endblock %}
+
+{% block body %}
+<div class="container" >
+	<h1>Integrate with {{token.consumer.name}}</h1>
+	<p>
+		{{token.consumer.name}} is asking for permission to your ScrumDo account.
+	</p>
+	<div style="height: 50px;"></div>
+    <form action="{% url "apps.piston.authentication.oauth_user_auth" %}" method="POST">
+        {% csrf_token %}
+    	<input type="hidden" name="authorize_access" id="id_authorize_access" value="1"/>
+        <input type="hidden" name="oauth_token" value="{{token.key}}" id="id_oauth_token" />
+        <input type="hidden" name="oauth_callback" value="{{token.get_callback_url}}" id="id_oauth_callback" />        
+        
+
+	        <button class="scrumdo-btn secondary" type="submit">Yes, I'll Allow Access</button>
+	        <a class="scrumdo-btn primary" href="/">Don't grant access</a>
+
+    </form>
+</div>
+{% endblock %}

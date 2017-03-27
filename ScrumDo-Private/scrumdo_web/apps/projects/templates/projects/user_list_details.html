@@ -1,0 +1,38 @@
+{% extends "projects/base.html" %}
+
+{% load i18n %}
+{% load avatar_tags %}
+{% load projects_tags %}
+{% load iteration_tags %}
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+{% block head_title %}{{ target_user }}{% endblock %}
+
+
+{% block panel %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+
+
+{% block body %}
+
+<ol>
+{% for target_user in users %}
+	<li>		
+		<a href="/admin/auth/user/{{target_user.id}}/">{{target_user.email}} {{target_user.username}}</a><br/>
+		<ul>
+		{% for team in target_user.teams.all %}
+		<li><a href="{% url "organization_dashboard"  team.organization.slug %}">{{team}}</a></li>
+		{% endfor %}
+		</ul>
+	</li>
+{% endfor %}
+</ol>
+
+{% endblock %}
+

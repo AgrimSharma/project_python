@@ -1,0 +1,95 @@
+{% extends "base_signup.html" %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block body %}
+    <div class="scrumdo-box-modal-header text-center">
+        {% if is_registered %}
+            <h2 class="scrumdo-signup-title">Please verify your email</h2>
+            <p class="scrumdo-signup-description">After you verify your email address, you and your team can get started in ScrumDo.</p>
+        {% else %}
+            <h2 class="scrumdo-signup-title">Sign Up</h2>
+            <p class="scrumdo-signup-description">Please enter your email address to get started in ScrumDo.</p>
+        {% endif %}
+    </div>
+
+    <div class="scrumdo-box-modal-content">
+        {% if not is_registered %}
+            <form method="POST" action="{% url "acct_signup"  %}" id="signupForm">
+                {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-md-offset-3">
+                            <div class="form-group">
+                                <label for="#" class="scrumdo-control-label tertiary">Email Address</label>
+                                <input name="{{ form.email.html_name }}"
+                                       value="{{ form.email.value|default_if_none:'' }}"
+                                       type="text"
+                                       class="{% if form.email.errors %}has-error{% endif %} scrumdo-form primary"/>
+                                {{ form.email.errors }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scrumdo-box-modal-footer text-center">
+                    <div class="row">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <button  type="submit" class="signup-page-button-1 scrumdo-btn secondary extended">Create Account</button>
+                        </div>
+                    </div>
+
+            </form>
+        {% else %}
+            <div class="text-center">
+                {% if is_registered %}
+                    <div class="unreademail"><img title="Mail Inbox" src="{{ STATIC_URL }}images/unreademail.png" alt="unread-email" /></div>
+                {% endif %}
+                <br/>
+                <p>If you did not receive this email, please check your junk/spam folder. <br/>Click <a href="{% url 'acct_signup' %}">here</a>
+                to resend the activation email.</p>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+{% block bottom %}
+        <div class="signup-page-footer-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div class="text-center">
+                            {% if is_registered %}
+                                <div class="social-links tex-center">
+                                    <a style="margin-right:15px;" title="Follow ScrumDo on Facebook" target="_blank"  href="https://www.facebook.com/scrumdo">
+                                        <img src="{{ STATIC_URL }}images/facebook.png" alt="Follow ScrumDo on Facebook" /></a>
+                                    <a title="Follow ScrumDo on Twitter" target="_blank" href="https://twitter.com/scrumdo">
+                                        <img src="{{ STATIC_URL }}images/twitter.png" alt="Follow ScrumDo on Twitter" /></a>
+                                </div>
+                            {% else %}
+                                Free Trial, Cancel Any Time, No Credit Card Needed
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+
+{% block mixpanel %}
+<!-- start Mixpanel --><script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+
+
+mixpanel.init("{{MIXPANEL_TOKEN}}", {'loaded' : function() {}});
+
+</script><!-- end Mixpanel -->
+{% endblock %}
+
+
+{% block pagebottom %}
+    <script>
+        mixpanel.track("View Signup Form");
+    </script>
+{% endblock %}

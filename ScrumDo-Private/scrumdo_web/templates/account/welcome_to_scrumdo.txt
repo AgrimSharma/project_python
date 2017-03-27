@@ -1,0 +1,6 @@
+{% load i18n %}
+Hi there! Thanks for signing up!
+
+Our mission is to help build great teams and organizations, so your success is our success.
+
+You can ask questions or find this message again by clicking the gear menu in the upper right corner in ScrumDo and selecting the option for Help/Support.

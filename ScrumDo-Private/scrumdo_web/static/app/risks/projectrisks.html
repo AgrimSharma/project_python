@@ -1,0 +1,35 @@
+<div class="project-risks">
+    <table class="table risks-table">
+        <tr>
+            <th>Risk</th>
+            <th ng-if="!ctrl.topFive" colspan="{{ctrl.portfolio().risk_types.length}}">Severity</th>
+            <th>Probability</th>
+            <th>Artifacts</th>
+        </tr>
+        <tr ng-repeat="risk in ctrl.risks() | orderBy:ctrl.score"
+            ng-if="ctrl.loaded"
+            ng-click="ctrl.editRisk(risk)">
+            <td class="risk-name-column">
+                <span class="risk-color-blob" ng-style="{'background-color': ctrl.riskColor(risk)}"></span>
+                <b>{{risk.description}}</b>
+            </td>
+            <td ng-if="!ctrl.topFive" ng-repeat="risk_type in ctrl.portfolio().risk_types"
+                class="risk-box {{'severity-' + risk['severity_' + (1+$index)]}}">
+                {{risk_type}}
+                <span class="risk-value">{{ctrl.riskNames[risk['severity_' + ($index+1)]]}}</span>
+            </td>
+            <td class="probability-column">
+                <uib-progressbar value="risk.probability" max="100"></uib-progressbar>
+                {{risk.probability}}%
+            </td>
+            <td>
+                <sd-risk-artifacts-label artifacts="ctrl.riskArtifacts(risk)"></sd-risk-artifacts-label>
+            </td>
+        </tr>
+        <tr ng-if="!ctrl.loaded">
+            <td colspan="3">
+                <div class="alert alert-info"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+            </td>
+        </tr>
+    </table>
+</div>

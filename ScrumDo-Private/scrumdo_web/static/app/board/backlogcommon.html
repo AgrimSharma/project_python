@@ -1,0 +1,161 @@
+<div>
+    <sd-backlog-add-story 
+        project="ctrl.globalBacklogProject"
+        ng-if="(canWrite || canDrag===true)"
+        iteration="ctrl.globalBacklog"
+        epics="[]"
+        iterations="ctrl.globalBacklogIterations">
+    </sd-backlog-add-story>
+
+    <div class="scrumdo-backlog-cards" >
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="input-group small-input-group">
+                                <sd-filter filter="ctrl.filter()"
+                                        name="globalBacklogFilter"
+                                        project="ctrl.globalBacklogProject">
+                                </sd-filter>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-1 no-padding pull-right" 
+                            ng-if="ctrl.showGlobalSelect && ctrl.showSelectMenu">
+                            <div ng-if="::(canWrite || canDrag===true)" uib-dropdown>
+                                <button class="scrumdo-btn primary smaller" 
+                                        type="button" aria-expanded="false"
+                                        uib-dropdown-toggle>
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
+                                </button>
+
+                                <ul class="dropdown-menu pull-right"
+                                    uib-dropdown-menu role="menu"
+                                    aria-labelledby="dLabel">
+                                    <li><a ng-click="ctrl.selectAll($event)">Select All {{::ctrl.WorkItemName | pluralize}}</a></li>
+                                    <li><a ng-click="ctrl.selectNone($event)">Select None</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="backlog-stats" ng-if="!ctrl.loading">
+            <ul class="stats" ng-if="ctrl.stats">
+                <li>{{ctrl.globalBacklogStories.length}}<span>Total<br/>Cards</span></li>
+                <li>{{ctrl.stats[0]}}<span>Total<br/>Points</span></li>
+                <li>{{ctrl.stats[2]}}<span>Business<br/>Value</span></li>
+            </ul>
+        </div>
+
+        <div class="scrumdo-backlog-scroll global-backlog" 
+            ng-if="!ctrl.loading"
+            ng-class="{readonly:!canWrite && canDrag!==true}">
+            <div class="scrumdo-backlog-scroll-reset">
+                
+                <div class="scrumdo-panel primary"
+                    ng-repeat="release in ctrl.parentStories">
+                    <div class="scrumdo-panel-heading"
+                        role="tab" id="headingTwo">
+                        <h4 class="scrumdo-panel-title pull-left">
+                            <a ng-click="ctrl.toggleRelease(release)"
+                                ng-class="{collapsed:release['collapsed'] === false}"
+                                aria-expanded="true" aria-controls="collapseOne">
+                                    {{::release.prefix}}-{{::release.number}} {{release.summary|htmlToPlaintext|decodeHtmlEntities|words:25}}
+                            </a>
+                        </h4>
+                        <div ng-if="::(canWrite || canDrag===true)" uib-dropdown class="pull-right">
+                            <button class="scrumdo-btn primary smaller" 
+                                    type="button" aria-expanded="false"
+                                    uib-dropdown-toggle>
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </button>
+
+                            <ul class="dropdown-menu pull-right"
+                                uib-dropdown-menu role="menu"
+                                aria-labelledby="dLabel">
+                                <li><a ng-click="ctrl.addCard($event, release.id)">Add {{::ctrl.WorkItemName}}</a></li>
+                                <li ng-if="ctrl.showSelectMenu">
+                                    <a ng-click="ctrl.selectAll($event, release.id)">Select All {{::ctrl.WorkItemName | pluralize}}</a></li>
+                                <li ng-if="ctrl.showSelectMenu">
+                                    <a ng-click="ctrl.selectNone($event, release.id)">Select None</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div uib-collapse="release['collapsed'] === false"
+                        class="scrumdo-panel-collapse collapse"
+                        role="tabpanel"
+                        aria-labelledby="headingTwo">
+                        <div class="scrumdo-panel-body">
+                            <ul class="kanban-story-list" 
+                                ng-class="{'no-drag':canDrag===false, 'card-sortable-cell':canDrag!==false}" 
+                                data-project-id="{{ctrl.globalBacklogProject.slug}}"
+                                data-release-id="{{release.id}}"
+                                data-iteration-id="{{ctrl.globalBacklog.id}}">
+                                <sd-story story="::story"
+                                        project="::ctrl.globalBacklogProject"
+                                        epics="::[]"
+                                        layout="'list'"
+                                        ng-repeat="story in $root['globalBacklogStories']|filter: ctrl.filterStory(release.id)|filter: ctrl.quickFilter|orderBy:ctrl.sortOrder"></sd-story>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scrumdo-panel primary">
+                    <div class="scrumdo-panel-heading"
+                        role="tab" id="headingTwo">
+                        <h4 class="scrumdo-panel-title pull-left">
+                            <a ng-click="ctrl.toggleNoRelease()"
+                                ng-class="{collapsed:ctrl.noReleaseCollapsed}"
+                                aria-expanded="true" aria-controls="collapseOne">
+                                    Without {{::ctrl.parentWorkItemName}}
+                            </a>
+                        </h4>
+                        <div ng-if="::(canWrite || canDrag===true)" uib-dropdown class="pull-right">
+                            <button class="scrumdo-btn primary smaller" 
+                                    type="button" aria-expanded="false"
+                                    uib-dropdown-toggle>
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                            </button>
+
+                            <ul class="dropdown-menu pull-right"
+                                uib-dropdown-menu role="menu"
+                                aria-labelledby="dLabel">
+                                <li><a ng-click="ctrl.addCard($event, -1)">Add {{::ctrl.WorkItemName}}</a></li>
+                                <li ng-if="ctrl.showSelectMenu">
+                                    <a ng-click="ctrl.selectAll($event, -1)">Select All {{::ctrl.WorkItemName | pluralize}}</a></li>
+                                <li ng-if="ctrl.showSelectMenu">
+                                    <a ng-click="ctrl.selectNone($event, -1)">Select None</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div uib-collapse="ctrl.noReleaseCollapsed"
+                        class="scrumdo-panel-collapse collapse"
+                        role="tabpanel"
+                        aria-labelledby="headingTwo">
+                        <div class="scrumdo-panel-body primary">
+                            <ul class="kanban-story-list" 
+                                ng-class="{'no-drag':canDrag===false, 'card-sortable-cell':canDrag!==false}" 
+                                data-project-id="{{ctrl.globalBacklogProject.slug}}"
+                                data-release-id="null"
+                                data-iteration-id="{{ctrl.globalBacklog.id}}">
+                                <sd-story story="::story"
+                                        project="::ctrl.globalBacklogProject"
+                                        epics="::[]"
+                                        layout="'list'"
+                                        ng-repeat="story in $root['globalBacklogStories']|filter: ctrl.filterStory(null) |filter: ctrl.quickFilter|orderBy:ctrl.sortOrder"></sd-story>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="ctrl.loading">
+            <i class="fa fa-spinner fa-spin"></i> loading...
+        </div>
+    </div>
+</div>

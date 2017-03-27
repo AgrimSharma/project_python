@@ -1,0 +1,51 @@
+/* @override http://localhost:8000/site_media/static/css/github.css */
+
+
+.github-authentication h1 {
+	font-size: 40px;
+	font-weight: ;
+}
+.github-authentication {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 80px;
+	border: 1px solid #e6e6e6;
+	padding: 5px 20px 20px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.github-body {
+	min-height: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 700px;
+	margin-top: 10px;
+}
+
+.github-auth-info-box img {
+	margin-right: 30px;
+	margin-top: 10px;
+}
+.github-auth-info-box {
+	min-height: 130px;
+	padding: 10px 100px 0 25px;
+}
+
+.github-binding {
+	border: 1px solid #dadada;
+	margin: 30px;
+	padding: 5px 20px 20px;
+	width: 500px;
+}
+
+.github-binding h1 a {
+	color: #555;
+}
+
+.github-binding h1 a:hover {
+	text-decoration: underline;
+	color: #0085b8;
+}

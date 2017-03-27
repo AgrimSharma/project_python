@@ -1,0 +1,7 @@
+{{ object.epic_number }}
+{{ object.summary }}
+{{ object.detail }}
+{{ object.local_id
+{{ object.project_id }}
+{{ object.parent_id }}
+{{ object.order }}

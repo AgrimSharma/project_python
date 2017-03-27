@@ -1,0 +1,294 @@
+.card-grid-container {
+
+  //position: relative;
+  //min-height: 800px;
+
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 45px;
+  bottom: 0px;
+  font-family: roboto, sans-serif;
+  overflow-x: auto;
+  overflow-y: auto;
+
+
+
+
+  .column-sub-title{
+    font-size: 11px;
+    color: #b5b5b5;
+  }
+
+  .card-grid-sidebar {
+    position: absolute;
+    left: 0px;
+    top: 54px;
+    bottom: 0px;
+    width: 205px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    padding: 15px;
+    font-size: 14px;
+    color: #33363d;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 3;
+    .close-sidebar-link {
+      color: #777;
+      font-weight: bold;;
+    }
+    .show-all-link {
+      color: $orangeHighlight;
+    }
+    h1 {
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #bdbdbd;
+    }
+
+    ul {
+      padding: 0px;
+      li {
+        list-style: none;
+        padding: 7px 0px;
+        margin: 0px;
+        font-weight: bold;
+        cursor: pointer;
+        background-color: #ffffff;
+
+        .fa {
+          font-size: 16px;
+          color: #8e8e8e;
+          margin-right: 5px;
+        }
+
+        &.grid-hidden {
+          color: #bdbdbd;
+          .fa {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+  }
+
+  .dependency-graph {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: transparent;
+    min-width: 1500px;
+    min-height: 1500px;
+    z-index: 2;
+    pointer-events: none;
+    .node{
+      opacity: 0.5;
+    }
+
+    .backwards-connector-line, .connector-line {
+      fill: none;
+      stroke-width: 1px;
+      stroke-linecap: round;
+      opacity: 0.5;
+
+    }
+    .backwards-connector-line {
+      stroke: $status-color-8;
+      stroke-width: 2px;
+      opacity: 0.5;
+    }
+    .connector-line {
+      stroke: $orangeHighlight;
+      opacity: 0.5;
+    }
+  }
+
+  .card-grid {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    table-layout: fixed;
+
+    th{
+      padding: 10px !important;
+      &.no-border{
+        border-right: none;
+        border-left: none;
+        &:last-child{
+          border-right: 1px solid #e5e5e5;
+        }
+      }
+    }
+    th, td {
+      border: 1px solid #e5e5e5;
+      width: 295px;
+      min-height: 115px;
+      padding: 10px;
+      vertical-align: top;
+      .extraHeader{
+        display: block;
+        width: 100%;
+        padding: 11px 15px;
+        margin: -9px 0 0 0;
+        font-weight: 700;
+        border-bottom: 1px solid #e5e5e5;
+
+      }
+      &.faded{
+        background: #ececec;
+      }
+      .card-grid-list {
+        min-height: 95px;
+        margin-bottom: 20px;
+        .cards.selected {
+          border-color: #eeeeee;
+        }
+      }
+      &.wide-row{
+        width: 100%;
+        padding: 10px 0;
+        .alert{
+          width: 295px;
+        }
+        .kanban-story-list{
+          width: 100%;
+          float: left;
+          padding: 10px 0;
+          .sortable-drag-placeholder{
+            display: inline-block;
+          }
+          .cards{
+            float: left;
+            width: 264px;
+            margin: 0 15px 10px 15px;
+            .cards-text{
+              max-height: 40px;
+              min-height: 40px;
+            }
+          }
+        }
+      }
+    }
+
+    .top-left-corner {
+      background-color: #ffffff;
+      width: 160px;
+      min-width: 160px;
+      img {
+        cursor: pointer;
+      }
+    }
+
+
+    .top-row {
+      font-family: robotobold, sans-serif;
+      vertical-align: middle;
+      .column-title {
+        height: 48px;
+        display: inline;
+        a{
+          color: #333;
+        }
+      }
+    }
+
+    .left-column {
+      vertical-align: top;
+      font-family: robotobold, sans-serif;
+      padding: 10px;
+      padding-top: 50px;
+      .actions{
+        padding: 5px 10px;
+        border-bottom: 1px solid #ededed;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #f6f6f6;
+        right: 0;
+        .items-count{
+          color: #f6764e;
+          font-size: 20px;
+          padding: 2px;
+          display: inline-block;
+          small{
+            font-size: 12px;
+            color: #b5b5b5;
+          }
+        }
+      }
+      td {
+        width: 120px;
+      }
+    }
+
+    td {
+
+      position: relative;
+
+      .new-story-button {
+        opacity: 0.1;
+        background: none;
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        width: 285px;
+      }
+
+
+      &:hover {
+        .new-story-button {
+          opacity: 1;
+        }
+      }
+    }
+
+
+  }
+}
+.dependencies-grid{
+  .card-grid-container{
+    .card-grid{
+      .kanban-story-list{
+        width: 100%;
+        float: left;
+        padding: 10px 0;
+        .sortable-drag-placeholder{
+          display: inline-block;
+        }
+        .cards{
+          float: left;
+          width: 264px;
+          margin: 0 15px 10px 15px;
+          .cards-text{
+            max-height: 40px;
+            min-height: 40px;
+          }
+        }
+      }
+      .left-column{
+        .remove-feature{
+          display: none;
+        }
+      }
+    }
+  }
+  &.hide-independent-cards{
+    .kanban-story-list{
+      .cards{
+        display: none;
+        &.has-dependency{
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+body{
+  &.subscribe-alert{
+    .dependency-graph {
+      top: -55px;
+    }
+  }
+}

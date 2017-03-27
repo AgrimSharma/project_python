@@ -1,0 +1,49 @@
+<div class="iteration-overview-wrapper" ng-class="{'kanban': viewType=='kanban'}">
+    <div ng-if="viewType=='list'" class="iteration-progress" ng-if="iteration.story_count>0">
+        <uib-progress max="100" animate="false">
+            <uib-bar value="ctrl.percentage(iteration.done_count, iteration.story_count)" type="success"></uib-bar>
+            <uib-bar value="ctrl.percentage(iteration.doing_count, iteration.story_count)"></uib-bar>
+            <uib-bar value="ctrl.todoPercentage()" type="warning"></uib-bar>
+        </uib-progress>
+    </div>
+    <div class="actions" ng-if="canWrite">
+        <ul>
+            <li ng-if="iteration.increment !== null"
+                ng-click="ctrl.showProgress()" uib-tooltip="{{::ctrl.timePeriodName}} Progress"><span class="fa fa-line-chart"></span></li>
+            <li ng-click="ctrl.editIteration()" uib-tooltip="Edit {{::ctrl.timePeriodName}}"><span class="fa fa-cogs"></span></li>
+            <li ng-if="iteration.iteration_type==1" 
+                ng-click="ctrl.deleteIteration()" uib-tooltip="Delete {{::ctrl.timePeriodName}}"><span class="fa fa-trash"></span></li>
+        </ul>
+    </div>
+
+    <div class="content" ng-click="ctrl.gotoIteration()">
+        <div ng-if="viewType=='kanban'"  class="board-preview">
+            <sd-board-preview 
+                cells="ctrl.cells"
+                headers="ctrl.headers"
+                draw-mode="false"
+                grid="false"
+                workflow-steps="[]"
+                gridsize="3"
+                hover="null"
+                selection-mode="false"
+                single-select-mode="false"
+                width="230"
+                height="200"></sd-board-preview>
+        </div>
+        <div class="meta-info">
+            <p class="title"><i uib-tooltip="Archived" ng-if="iteration.hidden" class="glyphicon glyphicon-folder-close"></i>
+                <a ui-sref="app.iteration.board({iterationId:iteration.id})">{{iteration.name}}</a></p>
+            <p ng-if="iteration.start_date && iteration.end_date" 
+                class="time">{{iteration.start_date | mdydate}} - {{iteration.end_date | mdydate}}</p>
+        </div>
+        <ul ng-if="viewType=='list'" class="stats">
+            <li>{{::iteration.story_count}} <small>total<br/>cards</small></li>
+            <li>{{::iteration.doing_count}} <small>cards in<br/>progress</small></li>
+            <li>{{::iteration.done_count}} <small>cards<br/>done</small></li>
+        </ul>
+        <div ng-if="viewType=='kanban'"  class="cards-count">
+            {{::iteration.story_count}} <small>cards</small>
+        </div>
+    </div>
+</div>

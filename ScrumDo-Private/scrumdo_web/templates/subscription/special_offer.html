@@ -1,0 +1,73 @@
+{% extends "organizations/commercial_org_base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load subscription_tags %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+{% block body_class %}special-offer-page{% endblock %}
+
+{% block org_body %}
+
+<h1>Special Offer{{plans|length|pluralize}}</h1>
+
+{% for plan in plans %}
+<div class="special-offer-box">
+
+        <div class="special-header">
+            <h2>{{plan.name}} <small>{{plan.price}}</small></h2>            
+        </div>
+        
+        
+        <div class="special-body">
+
+
+                <b>{{plan.users}}</b> <small>users</small>,
+
+                <b>{% ifequal plan.projects 999 %}
+                          unlimited
+                    {% else %}
+                          {{plan.projects}}
+                    {% endifequal %} 
+                </b>
+                    projects, and
+
+                <b>{{plan.storage}}GB</b> of file storage
+            
+
+
+
+        <div class="included-features">    
+        {% if plan.premium_integrations %}<i class="icon-check"></i>  Integrations<br/>{% endif %}
+
+        {% if plan.planning_poker %}<i class="icon-check"></i>  Planning Poker<br/>{% endif %}
+
+        {% if plan.epic_tool %}<i class="icon-check"></i>  Epics Tool<br/>{% endif %}
+           
+            
+        {% if plan.emails %}<i class="icon-check"></i>  Communication Tools<br/>{% endif %}  
+            
+        {% if plan.custom_status %}<i class="icon-check"></i>  Custom Statuses <br/>{% endif %}    
+
+            
+        {% if plan.time_tracking %}<i class="icon-check"></i>  Time Tracking <br/>{% endif %}
+        </div>
+         
+
+    </div>
+
+    <div class="clearfix subscribe-box">
+        <hr />
+        <a class="btn btn-success pull-right" href="{{spreedly_path}}/subscribers/{{organization.id}}/subscribe/{{plan.spreedly_id}}/{{organization.slug}}?email={{user|probable_email}}&amp;first_name={{user.first_name}}&amp;last_name={{user.last_name}}&amp;return_url={{BASE_URL}}/subscription/completed/{{organization.slug}}">Subscribe</a> 
+    </div>  
+</div>
+{% endfor %}   
+
+
+{% endblock %}

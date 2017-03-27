@@ -1,0 +1,235 @@
+{% load ifsetting_tag %}{% load cache %}{% load subscription_tags %}{% load organizations_tags %}<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head lang="en">
+
+    <meta charset="utf-8">
+
+    {% ifnotsetting TEMPLATE_DEBUG %}
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    {% endifnotsetting %}
+
+    <title>ScrumDo {% block head_title %}{% endblock %}</title>
+
+    <meta name="description" content="Agile / Scrum Tool">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width">
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}legacy/legacy.css">
+    {% ifsetting TEMPLATE_CSS_DEBUG %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/bower.css">
+    {% else %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/bower.css">
+    {% endifsetting %}
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/scrumdo-blessed1.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}generated_css/scrumdo.css">
+
+    <!--[if lt IE 9]>
+        <script src="js/vendor/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+    <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/bower.min.js"></script>
+    <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/legacy_bower.js"></script>
+    <script crossorigin="anonymous" src="{{ STATIC_URL }}legacy/release.js"></script>
+
+
+    {% block extra_css_includes %}{% endblock %}
+
+    <!-- Roll Bar Configuration... -->
+    <script>
+    var _rollbarConfig = {
+        accessToken: "668cff79c1714d189a534d5d1787dbcf",
+        captureUncaught: true,
+        payload: {
+            environment: {% ifsetting TEMPLATE_DEBUG %}"development"{% else %}"production"{% endifsetting %}{% if user and user.id %},
+            person: {
+              id: {{user.id}},
+              username: "{{user.username|escapejs}}"
+            }
+            {% endif %}
+        }
+    };
+    !function(a,b){function c(b){this.shimId=++h,this.notifier=null,this.parentShim=b,this.logger=function(){},a.console&&void 0===a.console.shimId&&(this.logger=a.console.log)}function d(b,c,d){a._rollbarWrappedError&&(d[4]||(d[4]=a._rollbarWrappedError),d[5]||(d[5]=a._rollbarWrappedError._rollbarContext),a._rollbarWrappedError=null),b.uncaughtError.apply(b,d),c&&c.apply(a,d)}function e(b){var d=c;return g(function(){if(this.notifier)return this.notifier[b].apply(this.notifier,arguments);var c=this,e="scope"===b;e&&(c=new d(this));var f=Array.prototype.slice.call(arguments,0),g={shim:c,method:b,args:f,ts:new Date};return a._rollbarShimQueue.push(g),e?c:void 0})}function f(a,b){if(b.hasOwnProperty&&b.hasOwnProperty("addEventListener")){var c=b.addEventListener;b.addEventListener=function(b,d,e){c.call(this,b,a.wrap(d),e)};var d=b.removeEventListener;b.removeEventListener=function(a,b,c){d.call(this,a,b&&b._wrapped?b._wrapped:b,c)}}}function g(a,b){return b=b||this.logger,function(){try{return a.apply(this,arguments)}catch(c){b("Rollbar internal error:",c)}}}var h=0;c.init=function(a,b){var e=b.globalAlias||"Rollbar";if("object"==typeof a[e])return a[e];a._rollbarShimQueue=[],a._rollbarWrappedError=null,b=b||{};var h=new c;return g(function(){if(h.configure(b),b.captureUncaught){var c=a.onerror;a.onerror=function(){var a=Array.prototype.slice.call(arguments,0);d(h,c,a)};var g,i,j="EventTarget,Window,Node,ApplicationCache,AudioTrackList,ChannelMergerNode,CryptoOperation,EventSource,FileReader,HTMLUnknownElement,IDBDatabase,IDBRequest,IDBTransaction,KeyOperation,MediaController,MessagePort,ModalWindow,Notification,SVGElementInstance,Screen,TextTrack,TextTrackCue,TextTrackList,WebSocket,WebSocketWorker,Worker,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestUpload".split(",");for(g=0;g<j.length;++g)i=j[g],a[i]&&a[i].prototype&&f(h,a[i].prototype)}return a[e]=h,h},h.logger)()},c.prototype.loadFull=function(a,b,c,d,e){var f=g(function(){var a=b.createElement("script"),e=b.getElementsByTagName("script")[0];a.src=d.rollbarJsUrl,a.async=!c,a.onload=h,e.parentNode.insertBefore(a,e)},this.logger),h=g(function(){var b;if(void 0===a._rollbarPayloadQueue){var c,d,f,g;for(b=new Error("rollbar.js did not load");c=a._rollbarShimQueue.shift();)for(f=c.args,g=0;g<f.length;++g)if(d=f[g],"function"==typeof d){d(b);break}}"function"==typeof e&&e(b)},this.logger);g(function(){c?f():a.addEventListener?a.addEventListener("load",f,!1):a.attachEvent("onload",f)},this.logger)()},c.prototype.wrap=function(b,c){try{var d;if(d="function"==typeof c?c:function(){return c||{}},"function"!=typeof b)return b;if(b._isWrap)return b;if(!b._wrapped){b._wrapped=function(){try{return b.apply(this,arguments)}catch(c){throw c._rollbarContext=d(),c._rollbarContext._wrappedSource=b.toString(),a._rollbarWrappedError=c,c}},b._wrapped._isWrap=!0;for(var e in b)b.hasOwnProperty(e)&&(b._wrapped[e]=b[e])}return b._wrapped}catch(f){return b}};for(var i="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError".split(","),j=0;j<i.length;++j)c.prototype[i[j]]=e(i[j]);var k="//d37gvrvc0wt4s1.cloudfront.net/js/v1.1/rollbar.min.js";_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||k;var l=c.init(a,_rollbarConfig);l.loadFull(a,b,!1,_rollbarConfig)}(window,document);
+    </script>
+
+    <!-- KISS Metrics Configuration... -->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];  // For Google Analytics below.
+
+      var _kmq = _kmq || [];
+      var _kmk = _kmk || '03519b5a41c175953eb8c1963e55054f5dc16063';
+      function _kms(u){
+        setTimeout(function(){
+          var d = document, f = d.getElementsByTagName('script')[0],
+          s = d.createElement('script');
+          s.type = 'text/javascript'; s.async = true; s.src = u;
+          f.parentNode.insertBefore(s, f);
+        }, 1);
+      }
+      _kms('//i.kissmetrics.com/i.js');
+      _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+    </script>
+
+    {% block extra_head %}{% endblock %}
+
+</head>
+<body class="releases-page {% block body_class %}{% endblock %}"  {% block body_app %}ng-app="ReleaseApp" id="ng-app"{% endblock %}>
+<toast></toast>
+<header id="boardHeader">
+    <nav class="navbar scrumdo-navbar" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">
+                    <img src="{{ STATIC_URL }}img/scrumdo-logo-dark-48.png">
+                </a>
+            </div>
+
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                {% if user.is_authenticated %}
+
+                  {% if organization %}
+                      <sd-org-top-navbar></sd-org-top-navbar>
+                  {% endif %}
+
+
+
+                <ul class="nav navbar-nav navbar-right">
+
+
+                    {% if organization %}
+                    <li class="dropdown nav-view" uib-dropdown>
+                        <a href="#" class="nav-view-changer" uib-dropdown-toggle>{{ organization.name|truncatechars:18 }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                            {% isorgstaff organization %}
+                                <li><a href="{% url "subscription_options"  organization.slug %}">Subscription</a></li>
+                            {% endisorgstaff %}
+
+                            <li><a href="{% url "organization_dashboard"  organization.slug %}#/">Dashboard</a></li>
+                            <li><a href="{% url "organization_dashboard"  organization.slug %}#/projects">Project List</a></li>
+                            <li><a href="{% url "organization_dashboard"  organization.slug %}#/teams">Teams</a></li>
+
+                        </ul>
+                    </li>
+                    {% endif %}
+
+
+                    <li class="dropdown nav-settings" uib-dropdown>
+                        <a href="#" class="nav-settings-link dropdown-toggle" uib-dropdown-toggle data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-cog"></i>
+                        </a>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+
+                            {% isorgstaff organization %}
+                                <li><a href="{% url "subscription_options"  organization.slug %}">Subscription</a></li>
+                            {% endisorgstaff %}
+
+                            <li><a href="{% url "account_default"  %}">Account Settings</a></li>
+                            <li><a href="{% url "email_notification_config"  %}">Email Notifications</a></li>
+                            <li><a id="IntercomStartLink">Help / Support</a></li>
+                            <li><a href="/?force_org_view=1">Organization List</a></li>
+                            <li><a href="{% url "acct_logout"  %}">Log Out</a></li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+                <sd-poker-notifier></sd-poker-notifier>
+                {% else %}
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="">
+                        <a href="{% url "acct_login"  %}" class="nav-settings-link">
+                            Log In
+                        </a>
+                    </li>
+
+
+                </ul>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </nav>
+
+    <nav class="sub-nav">
+            <nav class="sub-nav-sublist">
+                <ul ui-view="navContent" class="ng-scope">
+                    <li><a href="/organization/{{organization.slug}}/dashboard#/overview">Overview</a></li>
+                    <li><a href="/organization/{{organization.slug}}/dashboard#/projects">Workspaces</a></li>
+                    <li><a href="/organization/{{organization.slug}}/dashboard#/teams">Teams</a></li>
+                    <li class="ng-scope"><a class="active" href="/projects/{{ organization.slug }}/releases">Releases</a></li>
+                </ul>
+            </nav>
+    </nav>
+
+    {% block subnav %}{% endblock %}
+</header>
+
+<div class="container legacy-content">
+{% block body %}
+{% endblock %}
+</div>
+
+
+<script type="text/javascript" charset="utf-8">
+    var STATIC_URL = "{{STATIC_URL}}";
+</script>
+
+<script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/app.templates.js"></script>
+<script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/scrumdo-angular.js"></script>
+
+
+<script type="text/javascript" charset="utf-8">
+
+    var chatUrl;
+    var chatHistoryUrl;
+    var PUBNUB_SUB_KEY;
+    var PUBNUB_PUB_KEY;
+    var REALTIME_CHANNEL;
+    var ENABLE_LIVE_UPDATES = false;
+
+{#    {% canchat project %}#}
+{#      PUBNUB_SUB_KEY = "{{PUBNUB_SUB_KEY}}";#}
+{#      PUBNUB_PUB_KEY = "{{PUBNUB_PUB_KEY}}";#}
+{#      REALTIME_CHANNEL = "{{project|realtime_channel}}";#}
+{#      PUBNUB_UUID = "{{request.user|realtime_uuid|escapejs}}";#}
+{#      chatUrl = "{% url "realtime_chat"  project.slug %}";#}
+{#      chatHistoryUrl = "{% url "realtime_chat_history"  project.slug %}";#}
+{#      {% if project.live_updates %}#}
+{#          ENABLE_LIVE_UPDATES = true;#}
+{#      {% endif %}#}
+{#    {% endcanchat %}#}
+
+
+    {% if GOOGLE_ANALYTICS %}
+      _gaq.push(['_setAccount', '{{GOOGLE_ANALYTICS_ACCOUNT}}']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(['_trackPageLoadTime']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    {% endif %}
+
+
+    {% block appinit %}
+        scrumdo.setupReleaseApp("{{ STATIC_URL }}", "{{organization.slug}}");
+    {% endblock %}
+  </script>
+
+
+  {% cache 1000 customer_io user %}
+    {% customer_io_snippet %}
+  {% endcache %}
+
+
+</body>
+</html>

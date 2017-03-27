@@ -1,0 +1,6 @@
+{% if tip %}
+    <div class="alert alert-info bottom-tip">
+      <a href="#" class="close" data-dismiss="alert">&times;</a>
+      <strong>ScrumDo Tip:</strong> {{ tip.text|safe }}
+    </div>  
+{% endif %}

@@ -1,0 +1,25 @@
+{% load iteration_tags %}
+{% load projects_tags %}
+
+{% for iteration in iterations %}
+	<div class="popout-iteration">
+		<a class="tiptip" title="Story List" href="{% url "iteration"  project.slug iteration.id %}"><i class="icon-glyph icon-reorder"></i></a>
+		{% scrumproject project %}
+  		  <a class="tiptip" title="Scrum Board" href="{% url "scrum_board"  project.slug iteration.id %}"><i class="icon-glyph icon-th"></i></a>
+		{% else %}
+		  {% if iteration.iteration_type == 1 %}
+	 	  <a class="tiptip" title="Board" href="{% url "kanban_board"  project.slug %}?iterationId={{iteration.id}}"><i class="icon-glyph icon-th"></i></a>
+		  {% endif %}
+		{% endscrumproject %}
+
+		{% if iteration.isCurrent %}
+		<b><a href="{% url "iteration"  project.slug iteration.id %}">{{iteration.name}}</a></b>
+		{% else %}
+		<a href="{% url "iteration"  project.slug iteration.id %}">{{iteration.name}}</a>
+		{% endif %}
+		
+		<br/>
+		<small>{{iteration.stories.count}} stor{{iteration.stories.count|pluralize:"y,ies"}}</small>
+	</div>
+{% endfor %}
+

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9000/" />
+<title>32_update_story_points</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">32_update_story_points</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/account/logout/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/account/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_username</td>
+	<td>scrumdoselenium</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>scrumdotesting</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Log In »']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/projects/project/testproject/iteration/1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#story_2 &gt; div.block_story_body.story-border &gt; span.storyIcons &gt; a.edit-story-button &gt; img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>xpath=(//input[@id='id_points_6'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//input[@id='id_points_6'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//input[@value='Update Story']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/projects/project/testproject/iteration/1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=li#story_2.story_block div.pointsBox</td>
+	<td>5</td>
+</tr>
+</tbody></table>
+</body>
+</html>

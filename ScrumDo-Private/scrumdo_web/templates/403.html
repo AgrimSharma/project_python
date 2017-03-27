@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="container">
+    <h1>Access Denied</h1>
+    <img src="{{ STATIC_URL }}images/mascot/sad.png" class="pull-right" />
+    <p>
+    You don't have access to do that.  Please contact your organization admin to grant the correct privileges.
+    </p>
+    </div>
+{% endblock %}

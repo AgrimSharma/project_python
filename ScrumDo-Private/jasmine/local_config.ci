@@ -1,0 +1,6 @@
+var exports = module.exports = {
+    api_root: "http://localhost:8000/api/v3",
+    org_slug: "jasmine-org",
+    username: "jasmine",
+    password: "jasmine"
+};

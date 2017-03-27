@@ -1,0 +1,12 @@
+{% load projects_tags %}{% load activity_tags %}Hello,
+
+{{inviter|name_or_username}} has just added you to the ScrumDo team {{ team.name }}
+in the {{ team.organization.name }} organization.
+
+Please follow the link below to accept.
+
+{{org_url}}
+
+Thank you!
+The ScrumDo Staff
+

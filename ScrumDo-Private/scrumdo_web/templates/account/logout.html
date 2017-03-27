@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Logout" %}{% endblock %}
+
+{% block body %}
+    <div class="row" style="padding-top: 100px">
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4 panel panel-default">
+          <div class="panel-body">
+            You've been logged out.
+          </div>
+        </div>
+    </div>
+{% endblock %}

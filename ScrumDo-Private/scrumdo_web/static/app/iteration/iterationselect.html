@@ -1,0 +1,47 @@
+<div id="safe-iteration-select" class="scrumdo-select scrumdo-input-group-extended dropdown" uib-dropdown is-open="ctrl.menuOpen">
+    <div class="dropdown-toggle safe-iteration-dropdown-toggle" ng-click="ctrl.toggleMenu($event)">
+        <button type="button"
+                class="scrumdo-btn dropdown-main-button primary extended scrumdo-select-button">
+            <span class="scrumdo-icons iteration"></span>
+            <span ng-if="currentValue">{{currentValue.name}}</span>
+            <span ng-if="null == currentValue">{{ctrl.defaultLabel}}</span>
+        </button>
+        <div class="input-group-btn dropdown-button-container">
+            <button type="button" class="scrumdo-btn primary dropdown-button" aria-expanded="false">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+        </div>
+    </div>
+    <ul ng-if="ctrl.menuOpen" class="dropdown-menu scrumdo-dropdown iteration-dropdown" ng-class="alignment" uib-dropdown-menu role="menu">
+        <li ng-repeat="iteration in iterations|filter:ctrl.filterIteration|orderBy:iterationSortOrder"
+            ng-if="iteration.iteration_type ==1 || !ctrl.workingOnly"
+            ng-class="{'children-toggle': ctrl.parentToggle[iteration.id]}">
+            <ul ng-if="iteration.increment != null" ng-show="ctrl.parentToggle[iteration.id]">
+                <li ng-repeat="parent in iteration.increment">
+                    <span class="project-icon" style="color: {{::parent.project_color|decimalToHexColor}}">
+                        <i class="fa" ng-class="parent.project_icon"></i></span>
+                    {{:: parent.project_name}} / {{::parent.name}}
+                </li>
+            </ul>
+            <a class="iteration-name" 
+                ng-class="{'selected-option':(iteration==currentValue), 'marginleft10': ctrl.parentToggle[iteration.id]}"
+                id="child-iteration-{{::iteration.id}}"
+                ng-click='ctrl.select($event, iteration)' href='#'>
+                <i uib-tooltip="Archived" ng-if="iteration.hidden" class="glyphicon glyphicon-folder-close"></i>
+                {{iteration.name}}
+            </a>
+            <i class="fa pull-right show-parent" aria-hidden="true" 
+                ng-class="{'fa-chevron-down': !ctrl.parentToggle[iteration.id], 'fa-chevron-right': ctrl.parentToggle[iteration.id]}"
+                ng-if="iteration.increment != null" 
+                ng-click="ctrl.showParents($event, iteration)"
+                uib-tooltip="Toggle Parent"></i>
+        </li>
+        <li ng-if="showArchiveOption !== false" role="separator" class="divider"></li>
+        <li ng-if="showArchiveOption !== false">
+            <a href="#" ng-click="ctrl.displayArchived($event)">
+                <span ng-if="ctrl.showArchived" class="glyphicon glyphicon-ok"></span> Show Archived {{::ctrl.timePeriodName|pluralize}}
+            </a>
+        </li>
+    </ul>
+</div>

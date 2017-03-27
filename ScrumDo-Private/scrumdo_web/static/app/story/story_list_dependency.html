@@ -1,0 +1,21 @@
+<ul class="cards-tag dependency-view">
+    <li ng-repeat="label in story.labels"
+        ng-style="{'background-color': (label.color|decimalToHexColor) }"
+        uib-tooltip="{{label.name}}"
+        tooltip-placement="bottom"
+        tooltip-trigger="mouseenter"></li>
+</ul>
+<div class="cards-header card-dependency-header">
+    <span ng-if="project.prefix" class="cards-number">{{::project.prefix}}-{{::story.number}}&nbsp;</span>
+    <!-- for org wide search page we don't have project -->
+    <span ng-if="!project.prefix" class="cards-number">{{::story.prefix}}-{{::story.number}}&nbsp;</span>
+    <span ng-click="ctrl.onEdit()" class="glyphicon glyphicon-pencil cards-edit pull-right" ng-class="{'glyphicon-eye-open': !ctrl.canWrite}"></span>
+    <a class="nudge-up-2 pull-right pad-right-2" href="{{::story.commits[0].link}}" ng-if="story.commits.length>0" uib-tooltip="Commit {{::story.commits[0].name}}"><i class="fa fa-github"></i> </a>
+    <a class="nudge-up-2 pull-right pad-right-2"
+       ng-class="{'pr-open':pr.state==0, 'pr-closed':pr.state==1}"
+       target="_blank"
+       href="{{::pr.link}}" ng-repeat="pr in story.pull_requests" uib-tooltip="PR {{::pr.name}}"><i class="fa fa-github"></i> </a>
+
+    <span class="cards-text" ng-bind-html="story.summary|to_trusted|htmlToPlaintext|shorttext:false:30"></span>
+
+</div>

@@ -1,0 +1,31 @@
+<div class="limit-bar">
+    <a ng-if="canWrite !== false && ctrl.displayType === 'wipbox'" href="#" 
+        class="block-link"
+        ng-click="ctrl.setLimits($event)" class="black-link">{{::ctrl.workItemName}} Limits</a>
+    <ul ng-repeat="group in stats">
+       <li ng-repeat="stat in group"
+            ng-if="ctrl.displayType === 'wipbox'">
+            <i ng-if="stat.limit>0 && stat.value>stat.limit" 
+                 uib-tooltip="Exceeded Limit"
+                 class="legends-icons legend-icon-wip" aria-hidden="true"></i>
+            <div class="wip-limit-holder"
+                ng-class="{'over-wip':stat.limit>0 && stat.value>stat.limit}"
+                uib-tooltip-html="ctrl.getToolTip(stat)">
+                <span class="stat-numeric wip-value">{{stat.value | setDecimal:2}}</span>
+                <span ng-if="stat.limit>0" class="wip-max"> / {{stat.limit}}</span>
+                <span ng-if="stat.limit<=0 || stat.limit == null" class="wip-max"> / Inf</span>
+           </div>
+       </li>
+
+       <li ng-repeat="stat in group"
+           ng-if="stat.value>0 && ctrl.displayType !== 'wipbox'"
+           class="lable-display"
+           ng-class="{'over-limit':stat.limit>0 && stat.value>stat.limit}">
+           <span class="stat-numeric">
+               <i ng-if="stat.limit>0 && stat.value>stat.limit" class="fa fa-exclamation-triangle" aria-hidden="true"></i>{{stat.value | setDecimal:2}}</span>
+           <span class="stat-label">{{stat.label}}</span>
+       </li>
+    </ul>
+    <a ng-if="canWrite !== false && ctrl.displayType !== 'wipbox'" href="#" 
+        ng-click="ctrl.setLimits($event)" class="black-link">{{::ctrl.workItemName}} Limits</a>
+</div>

@@ -1,0 +1,68 @@
+{% extends "base_legacy.html" %}
+
+{% load bootstrap3 %}
+
+{% block head_title %}Create Workspace{% endblock %}
+
+{% block body %}
+
+    <div class="container ">
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="scrumdo-box-modal">
+                    {% if personal %}
+                        <div class="scrumdo-box-modal-header text-center">
+                            <h2 class="scrumdo-signup-title">Create Personal Workspace</h2>
+                            <p class="scrumdo-signup-description">
+                                <b>Note:</b> You are creating a personal workspace that only you will
+                                be able to view.  Read more about <a href="http://help.scrumdo.com/help/personalprojects.html" target="_blank">personal workspaces here</a>.
+                            </p>
+                        </div>
+                    {% else %}
+                        <div class="scrumdo-box-modal-header text-center">
+                            <h2 class="scrumdo-signup-title">Create Workspace</h2>
+                        </div>
+                    {% endif %}
+
+                    <form id="project_form" method="POST" action="" class="project-create">
+                        <div class="scrumdo-box-modal-content">
+
+
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="create" />
+                                <fieldset class="inlineLabels">
+
+                                    {% bootstrap_form project_form %}
+                                </fieldset>
+
+                        </div>
+
+                        <div class="scrumdo-box-modal-footer text-center">
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-4">
+                                    {% buttons %}
+                                        {% if personal %}
+                                            <button class="scrumdo-btn secondary" type="submit" >Create Personal Workspace</button>
+                                        {% else %}
+                                            <button class="scrumdo-btn secondary" type="submit" >Create New Workspace</button>
+                                        {% endif %}
+                                    {% endbuttons %}
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+    
+                </div>
+            </div>
+        </div>
+        {% block bottom %}{% endblock %}
+    </div>
+    <script type="text/javascript" charset="utf-8">
+      {% if GOOGLE_ANALYTICS %}     
+         _gaq.push(['_trackEvent',"ViewPage", "Project Creation", "", 1]); 
+      {% endif %}      
+    </script>
+    
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base_signup.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    <div class="scrumdo-box-modal-header text-center">
+        <h1>{{ title }}</h1>
+    </div>
+
+    <div class="scrumdo-box-modal-content">
+        <p>{{ message }}</p>
+    </div>
+
+    <div class="scrumdo-box-modal-footer text-center">
+    <a href="/account/#/openID">Back to account settings.</a>
+    </div>
+{% endblock %}

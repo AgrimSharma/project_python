@@ -1,0 +1,140 @@
+<div class="scrumdo-panel primary scrumdo-panel-safe"
+    data-container-type="safe-backlog-container"
+    data-project-id="{{backlogProject.slug}}"
+    data-iteration-id="{{ctrl.backlogIteration.id}}">
+    <div class="scrumdo-panel-heading" role="tab" id="headingOne">
+        <h4 class="scrumdo-panel-title pull-left">
+            <a ng-click="ctrl.toggleExpanded()"
+                ng-class="{collapsed:!ctrl.isExpanded}"
+                aria-expanded="true" aria-controls="collapseOne">
+                <i uib-tooltip="Archived" ng-if="epic.archived" class="glyphicon glyphicon-folder-close"></i>
+                <span class="project-icon">
+                    <i style="color: {{backlogProject.color|decimalToHexColor}}" 
+                        class="fa" ng-class="backlogProject.icon"></i>
+                        Uncommitted {{::backlogProject.name | pluralize}}</span>
+            </a>
+        </h4>
+    </div>
+    
+    <div uib-collapse="!ctrl.isExpanded"
+            class="scrumdo-panel-collapse collapse"
+            role="tabpanel"
+            aria-labelledby="headingOne">
+        <div class="scrumdo-panel-body">
+            <div class="column-summary" ng-if="ctrl.stories.length > 0 ">
+                <div class="column-summary-stat">
+                    <span class="stat-num">{{ctrl.programStats().totalCards}}</span> 
+                    {{::backlogProject.work_item_name | pluralize}}</div>
+                <div class="column-summary-stat" ng-if="ctrl.programStats().totalPoints">
+                    <span class="stat-num">{{ctrl.programStats().totalPoints|setDecimal:2}}</span> Points</div>
+                <div class="column-summary-stat" ng-if="ctrl.programStats().totalMinutes">
+                    <span class="stat-num">{{ctrl.programStats().totalMinutes|formatMinutes}}</span> Estimated Time</div>
+                <div class="column-summary-stat" ng-if="ctrl.programStats().businessValue">
+                    <span class="stat-num">{{ctrl.programStats().businessValue|number:2}}</span> Business Value</div>
+            </div>
+
+            <div class="scrumdo-panel primary"
+                ng-if="!ctrl.loading"
+                ng-repeat="release in ctrl.parentStories">
+                <div class="scrumdo-panel-heading"
+                    role="tab" id="headingTwo">
+                    <h4 class="scrumdo-panel-title pull-left">
+                        <a ng-click="ctrl.toggleRelease(release)"
+                            ng-class="{collapsed:release['collapsed'] === false}"
+                            aria-expanded="true" aria-controls="collapseOne">
+                                {{::release.prefix}}-{{::release.number}} {{release.summary|htmlToPlaintext|decodeHtmlEntities|words:25}}
+                        </a>
+                    </h4>
+                    <div ng-if="::canWrite" uib-dropdown class="pull-right">
+                        <button class="scrumdo-btn primary smaller" 
+                                type="button" aria-expanded="false"
+                                uib-dropdown-toggle>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+
+                        <ul class="dropdown-menu pull-right"
+                            uib-dropdown-menu role="menu"
+                            aria-labelledby="dLabel">
+                            <li><a ng-click="ctrl.backlogAddCard($event, release.id)">Add {{::ctrl.WorkItemName}}</a></li>
+                            <li><a ng-click="ctrl.selectAll($event, release.id)">Select All {{::ctrl.WorkItemName | pluralize}}</a></li>
+                            <li><a ng-click="ctrl.selectNone($event, release.id)">Select None</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div uib-collapse="release['collapsed'] === false"
+                    class="scrumdo-panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingTwo">
+                    <div class="scrumdo-panel-body">
+                        <ul class="kanban-story-list"
+                            ng-class="{'no-drag':!canWrite, 'card-sortable-cell':canWrite}" 
+                            data-project-id="{{backlogProject.slug}}"
+                            data-release-id="{{release.id}}"
+                            data-iteration-id="{{ctrl.backlogIteration.id}}"
+                            data-container-type="safe-backlog-container">
+                            <sd-story
+                                story="story"
+                                project="ctrl.backlogProject"
+                                epics="null"
+                                iterations="[ctrl.backlogIteration]"
+                                layout="'list'"
+                                ng-repeat="story in ctrl.stories|filter: ctrl.filterStory(release.id) |orderBy:ctrl.sortOrder">
+                            </sd-story>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="scrumdo-panel primary"
+                ng-if="!ctrl.loading">
+                <div class="scrumdo-panel-heading"
+                    role="tab" id="headingTwo">
+                    <h4 class="scrumdo-panel-title pull-left">
+                        <a ng-click="ctrl.toggleNoRelease()"
+                            ng-class="{collapsed:ctrl.noReleaseCollapsed}"
+                            aria-expanded="true" aria-controls="collapseOne">
+                                Without {{::ctrl.parentWorkItemName}}
+                        </a>
+                    </h4>
+                    <div ng-if="::(canWrite || canDrag===true)" uib-dropdown class="pull-right">
+                        <button class="scrumdo-btn primary smaller" 
+                                type="button" aria-expanded="false"
+                                uib-dropdown-toggle>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </button>
+
+                        <ul class="dropdown-menu pull-right"
+                            uib-dropdown-menu role="menu"
+                            aria-labelledby="dLabel">
+                            <li><a ng-click="ctrl.backlogAddCard($event, -1)">Add {{::ctrl.WorkItemName}}</a></li>
+                            <li><a ng-click="ctrl.selectAll($event, -1)">Select All {{::ctrl.WorkItemName | pluralize}}</a></li>
+                            <li><a ng-click="ctrl.selectNone($event, -1)">Select None</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div uib-collapse="ctrl.noReleaseCollapsed"
+                    class="scrumdo-panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingTwo">
+                    <div class="scrumdo-panel-body primary">
+                        <ul class="kanban-story-list" 
+                            ng-class="{'no-drag':!canWrite, 'card-sortable-cell':canWrite}" 
+                            data-project-id="{{ctrl.backlogProject.slug}}"
+                            data-release-id="null"
+                            data-container-type="safe-backlog-container"
+                            data-iteration-id="{{ctrl.backlogIteration.id}}">
+                            <sd-story story="::story"
+                                    project="::ctrl.backlogProject"
+                                    epics="::[]"
+                                    iterations="[ctrl.backlogIteration]"
+                                    layout="'list'"
+                                    ng-repeat="story in ctrl.stories|filter: ctrl.filterStory(null) |orderBy:ctrl.sortOrder"></sd-story>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="ctrl.loading">
+                <i class="fa fa-spinner fa-spin"></i> loading...
+            </div>
+        </div>
+    </div>
+</div>

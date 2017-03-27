@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" xml:lang="en" lang="en">
+    <head>
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		
+		
+		
+		<link href='https://fonts.googleapis.com/css?family=Telex' rel='stylesheet' type='text/css'>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>		
+        <meta name="keywords" content="scrum,tool,agile,software,scrum tool" />
+
+        <title>Online Scrum Tool / Agile Scrum Software</title>
+        <!--[if IE]><style>
+            div {
+                zoom: 1; /* trigger hasLayout */
+            }
+        </style><![endif]-->
+	<style type="text/css" media="screen"></style>
+	<link type="text/css" rel="stylesheet" href="{{STATIC_URL}}css/commercial_homepage_alt_d.css" />
+{#	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>#}
+
+	<!-- My flip counter script, REQUIRED -->
+	<script type="text/javascript" src="{{STATIC_URL}}flip_counter/js/flipcounter.js"></script>
+	<!-- Style sheet for the counter, REQUIRED -->
+	<link rel="stylesheet" type="text/css" href="{{STATIC_URL}}flip_counter/css/counter.css" />
+	
+	
+	<!-- start Mixpanel --><script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+mixpanel.init("{{MIXPANEL_TOKEN}}");
+    mixpanel.track("View homepage");</script><!-- end Mixpanel -->
+
+
+		
+	<link type="text/css" rel="stylesheet" href="{{STATIC_URL}}bootstrap/css/bootstrap.min.css" />
+        <!--[if IE 7]>    
+          <link rel="stylesheet" href="{{STATIC_URL}}css/homepage-ie7.css" />
+        <![endif]-->
+ 
+    </head>
+    
+    <body>		
+		<div id="home_top_half">
+			<div class="center-column">
+				<div class="navbar navbar-inverse">
+					
+					<div class="navbar-inner">
+						<a class="brand" href="#"><img src="{{STATIC_URL}}images/small-logo.png" id="logo"></a>
+					    <ul class="nav">
+					      <li class="active"><a href="#">Home</a></li>
+					      <li><a href="http://support.scrumdo.com/">Support</a></li>
+						  <li><a href="/plans">Pricing</a></li>
+						</ul>
+						<ul class="nav pull-right">
+	  					  <li class="pull-right"><a href="{{SSL_BASE_URL}}/account/login/">Login</a></li>
+	  					  <li class="pull-right"><a href="{{SSL_BASE_URL}}/account/signup/">Sign Up</a></li>				
+						  
+					    </ul>
+					  </div>
+				</div>
+				
+				
+			
+				<div class="right-top-section">
+					<img src="{{STATIC_URL}}homepage-alt-c/main-screenshot.png">
+				</div>
+				
+				<div class="left-top-section-b">
+					<h1>
+					Spend Your <span class="blue-text">Time</span>
+					Developing Software, 
+					not <span class="blue-text">Managing Scrum</span>.
+					</h1>
+                    <div class="well">
+                        <form method="POST" class="form-horizontal form" action="{% url "acct_signup"  %}">
+                            {% csrf_token %}
+                            <div class="control-group">
+                                <label class="control-label" for="inputPassword">Username</label>
+                                <input name="username" type="text" placeholder="Username"><br/>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="inputPassword">Password</label>
+                                <input name="password1" type="password" placeholder="Password"><br/>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="inputPassword">Email</label>
+                                <input name="email" type="text" placeholder="Email Address"><br/>
+                            </div>
+                            <input type="submit" href="/account/signup/" class="btn btn-danger btn-large" id="get-started-button-b" value="Create Account">
+                            <div class="tagline">Free Trial Available</div>
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="/subscription/register" />
+                            <input type="hidden" name="skippasswordcheck" value="True" id="id_skippasswordcheck" />
+                        </form>
+                    </div>
+
+
+				</div>
+				
+			</div>
+		</div>
+
+		<div id="home_middle_half" >
+			<div class="container">
+				
+				<div id="counter_box">
+					<div style="margin-left: 50px">
+						<div style="width: 450px" id="flip-counter" class="flip-counter"></div>
+						<div style="font-size: 54px; font-weight: bold; padding-top: 29px; padding-left: 335px">Stories Completed</div>
+						<br style="clear:both" /><br/>
+						<p>Thousands of people get work done with ScrumDo every day.</p>
+					</div>
+					<br style="clear:both">
+					<script type="text/javascript" charset="utf-8">
+						var start_date = 1372061888; 
+						var now_date = Math.round((new Date()).getTime() / 1000);
+						var start_count = Math.round( (now_date - start_date) / 7.213 );
+						var myCounter = new flipCounter('flip-counter', {value:start_count, inc:1, pace:5113, auto:true});
+					</script>
+
+				</div>
+				
+				<h1>ScrumDo Features</h1>
+				<div class="row">		
+								
+					<div class="span4">
+						<div style="min-height: 400px" class="thumbnail">
+							
+							<img src="{{STATIC_URL}}homepage-alt/poker-screenshot-360.png" >
+							<div class="caption">
+								<h3>Planning Poker<sup style="font-size:12px">&reg;</sup></h3>
+								<p>Use planning poker with teamates in the room, or across the world to estimate and size your stories.</p>
+								<p>Since it's integrated into ScrumDo, there is no copy &amp; pasting your stories to other websites.</p>
+							</div>
+						</div>
+					</div>
+					
+					
+					<div class="span4">
+						<div style="min-height: 400px" class="thumbnail">							
+							<img src="{{STATIC_URL}}homepage-alt/charts-screenshot-360.png">
+							<div class="caption">
+								<h3>Charts</h3>
+								<p>See your progress during an iteration using a <b>Burnup</b>, <b>Burndown</b>, or <b>Stacked</b> chart.</p>
+								<p>Define custom statuses to report your stories by.</p>
+							</div>
+						</div>
+					</div>
+
+					
+
+					<div class="span4 ">
+						<div style="min-height: 400px" class="thumbnail">							
+						
+						<img src="{{STATIC_URL}}homepage-alt/scrumboard-screenshot-360.png">
+							<div class="caption">
+								<h3>Scrum Board</h3>
+								<p>The Scrum Board gives you a quick way of visually seeing the status of your iteration.  
+									Drag and drop stories into different columns to change their statuses.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row" style="margin-top: 20px">
+					<div class="span4">
+						<div style="min-height: 400px" class="thumbnail">
+							
+							<img src="{{STATIC_URL}}homepage-alt/iterationplanning-screenshot-360.png">
+							<div class="caption">
+								<h3>Iteration Planning</h3>
+								<p>Our iteration planning tool helps you plan out your work and move stories from your backlog into an iteration.</p>
+								<p>Compare the amount of work in previous iterations with the current one, so as not to overload your team.</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="span4 ">
+						<div style="min-height: 400px" class="thumbnail">							
+							<img src="{{STATIC_URL}}homepage-alt/epic-screenshot-360.png">
+							<div class="caption">
+								<h3>Epic Stories</h3>
+								<p>Use the epic tool to make a high level plan of the work before you start.  
+								Create a hierarchy of tasks to keep your work organized.</p>						
+							</div>
+						</div>
+					</div>
+
+					
+					<div class="span4">
+						<div style="min-height: 400px" class="thumbnail">
+							
+							<img src="{{STATIC_URL}}homepage-alt/releaseplanning-screenshot-360.png">
+							<div class="caption">
+								<h3>Release Planning</h3>
+								<p>Create a bigger picture view of your organization's work with our release planning tool.</p>
+								<p>Add projects, or parts of projects, to a release to track stats for an entire release.</p>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+				
+				<div class="row" style="margin-top: 20px">
+
+					<div class="span4 ">
+						<div style="min-height: 230px" class="thumbnail">							
+							<div class="caption">
+								<h3>Developer API</h3>
+								<p>Use ScrumDo's REST based developer API to extract data or to integrate with your own
+								internal software development systems.</p>						
+								
+							</div>
+						</div>
+					</div>
+
+					<div class="span4">
+						<div style="min-height: 230px" class="thumbnail">
+							<div class="caption">
+								<h3>ATDD</h3>
+								Acceptance Test Driven Development is a software development practice in which teams 
+								document specifications in the form of acceptance tests.  ScrumDo
+								allows you to author and export tests in the Gherkin format to use with automated tools.
+							</div>
+						</div>
+					</div>
+					
+					
+					<div class="span4">
+						<div style="min-height: 230px" class="thumbnail">
+							<div class="caption">
+								<h3>Excel Exports</h3>
+								<p>Export your project, iteration, or entire organization to Excel for easy manipulation or reporting.</p>
+								<p>Import stories from Excel to create a custom workflow that suits your needs.</p>
+								
+							</div>
+						</div>
+					</div>
+					
+				</div>
+
+                <div class="row">
+                    <div class="span6">
+                        <a href="/account/signup/" class="btn btn-danger btn-large" id="get-started-button">Get Started Now</a>
+			            <div class="tagline">Free Trial</div>
+                    </div>
+                    <div class="span6">
+                        <div class="well guide-download">
+                            <a href="https://digioh.com/em/10681/16771/amwfpuf8kc"
+                               title="Download our Comprehensive Scrum Guide"
+                               onClick="_gaq.push(['_trackEvent', 'Downloads', 'Download','Scrum Process (img)']); ">
+                                <img class="pull-left" style="z-index: 100;" src="https://scrumdo-cdn.s3.amazonaws.com/manual_uploads/scrumOverview.png" alt="Download our Comprehensive Scrum Guide" height="150"/>
+                            </a>
+                            <a href="https://digioh.com/em/10681/16771/amwfpuf8kc"
+                               style="font-size:18px; font-weight: bold;text-decoration: none;"
+                               onClick="_gaq.push(['_trackEvent', 'Downloads', 'Download', 'Scrum Process (text)']);">
+                                New to Scrum?
+                                <br />
+                                Download our Comprehensive Scrum Guide
+                            </a>
+                         </div>
+                    </div>
+                </div>
+				
+
+			<br style="clear:both;"><br/>
+		</div>
+		
+		<div id="home_bottom_half">
+			<div class="center-column">
+				<h1>What others are saying...</h1>
+				
+				<div class="row">
+					<div class="testimonial span6">
+					
+						<div class="well">
+							Scrumdo does what it does simply and easily without fuss. It is the ideal tool for those using Scrum and finding that all the tools they look at are overcomplicated, cumbersome and expensive. While it does not have all the bells &amp; whistles, it enables you to easily manage those scrum artefacts essential to the correct implementation and use of Scrum.
+							It is under active development that looks to be based on feedback and has a responsive and active forum.
+							If you are looking for a tool without a huge learning curve, to help you manage your scrum process, this is definitely worth a look.<br/>
+							<b>Paul Labuschagne<br/>
+							First Databank</b>
+						</div>
+						
+						<div class="well">
+						I wanted to also convey my admiration for ScrumDo. I was brought in as
+                        ScrumMaster at a company after 14 months of failed development on their
+                        latest project, Scrum and ScrumDo has moved their efforts to achievable
+                        functionality in just three 2 weeks Sprints.
+                        <br/>
+						<b>
+                            Mark Charles<br/>
+                        </b>
+						</div>
+						
+					</div>
+				
+					<div class="testimonial span6">
+						<div class="well">
+							ScrumDo is as agile and as user-friendly as Scrum!<br/>
+							<b>Dilip Ittyera<br/>Aikon Labs</b>
+						</div>
+						
+						
+						<div class="well">
+							I manage 10 or so projects at a time. Scrumdo is attractive because of it's integration with Harvest, Basecamp, and GitHub. Each of those tools are good at what they do but they don't support a planning process.<br/>
+							<b>
+								Carol Shepherd<br/>
+								Tech Zest Advisors						
+							</b>
+						</div>
+						
+						
+						<div class="well">
+						I have played with Pivotal Tracker, Rally and AgileZen and so far I am loving ScrumDo. The prediction feature looks very interesting especially if you guys improve it so you can model potential outcomes when first setting up a backlog.	Keep it up.<br/>
+						<b>
+							Mark Curphey					
+						</b>
+						</div>
+						
+					</div>
+				</div>
+				<div class="row">
+				
+				
+				</div>
+				
+			</div>
+		</div>
+		<div id="home_footer">
+			<div class="center-column">
+			<a href="/plans">Plans &amp; Pricing</a>  |  
+			<a href="/account/signup/">Sign Up</a>  |  
+			<a href="http://support.scrumdo.com/">Help</a> | 			
+			<a href="https://twitter.com/scrumdo" rel="publisher">Twitter</a> | 
+			<a href="https://facebook.com/scrumdo" rel="publisher">Facebook</a> | 
+			<a href="https://plus.google.com/109789747698048984241" rel="publisher">Google+</a>
+
+			<br/><br/>
+
+			ScrumDo is THE <b>scrum tool</b> for agile teams<br/>
+			Copyright (C) 2014 ScrumDo, LLC.  ScrumDo is a registered trademark of ScrumDo, LLC.<br/>
+			Planning Poker &reg; is a registered trademark of Mountain Goat Software &reg;<br/>
+			</div>
+		</div>
+		
+	<script type="text/javascript" charset="utf-8">		
+
+	
+	_gaq = _gaq || [];
+					    _gaq.push(['_setAccount', 'UA-19817142-1']);
+					    _gaq.push(['_trackPageview']);
+			
+					    (function() {
+					      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+					      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+					      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+					    })();
+      var google_conversion_id = 1021662849;
+      var google_custom_params = window.google_tag_params;
+      var google_remarketing_only = true;
+  </script>
+
+  <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
+  <noscript>
+    <div style="display:inline;">
+    <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/1021662849/?value=0&amp;guid=ON&amp;script=0"/>
+    </div>
+  </noscript>
+
+ </body>
+</html>

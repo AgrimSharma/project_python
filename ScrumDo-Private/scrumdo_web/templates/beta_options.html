@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+{% load subscription_tags %}
+
+{% load avatar_tags %}
+{% load activity_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load ifsetting_tag %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+{% block body_class %}organization-dashboard{% endblock %}
+
+{% block container_class %}org-container{% endblock %}
+
+
+{% block body_app %} id="ng-app" ng-app="BetaOptionsApp" {% endblock %}
+
+
+{% block subnav %}
+{% endblock %}
+
+
+{% block preloader_area %}
+        <div class="page-preloader" ng-if="!preloader.fullyLoaded">
+            <img src="{{ STATIC_URL }}img/ScrumDoSignupLogo.png" class="scrumdo-signup-logo img-responsive center-block"/>
+            <p class="scrumdo-tip">
+                {% autoescape off %} {% scrumdo_tip %} {% endautoescape %}
+            </p>
+    </div>
+{% endblock %}
+
+
+
+{% block body %}
+
+
+    <div ng-controller="BetaController" class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+            <h1><i class="fa fa-flask"></i> Experimental Options</h1>
+            <div class="alert alert-danger">
+                <b>Warning:</b>
+                These options are still in development,
+                experimental, and not guaranteed to always play nice with the rest of ScrumDo.
+            </div>
+            <p>
+                Options are stored in your browser's local storage.  You'll need to visit this page for each
+                browser/computer you use, and you'll need to come back if you clear it.  This will not persist
+                between sessions when using browser incognito modes.
+            </p>
+
+
+{#            <hr />#}
+{#            <h2><i class="fa fa-pencil-square"></i> Text Editor</h2>#}
+{##}
+{#            <div class="progress" style="max-width: 300px;">#}
+{#              <div class="progress-bar progress-bar-success"#}
+{#                   role="progressbar"#}
+{#                   aria-valuenow="75"#}
+{#                   style="width: 75%;">#}
+{#                Completion Status#}
+{#              </div>#}
+{#            </div>#}
+{##}
+{#            <p>We're currently working on replacing the text editor used in various parts of the site#}
+{#               with a more full featured and better maintained version.#}
+{#            </p>#}
+{#            <p>#}
+{#                Current Option:#}
+{#                {% verbatim %}#}
+{#                {{ betaOptions.textEditor }}#}
+{#                {% endverbatim %}#}
+{#            </p>#}
+{#            <button ng-click="ctrl.setOption('textEditor','textangular')" class="scrumdo-btn primary big">#}
+{#                Textangular (default)#}
+{#            </button>#}
+{#            <button ng-click="ctrl.setOption('textEditor','tinymce')" class="scrumdo-btn primary big">#}
+{#                TinyMCE#}
+{#            </button>#}
+
+{#            <hr />#}
+{#            <h2><i class="fa fa-film"></i> Animations</h2>#}
+{#            <p>Do the small animations throughout the app bug you?  Turn them off.</p>#}
+{#            <p>Current Option:#}
+{#                {% verbatim %}#}
+{#                {{ betaOptions.animations }}#}
+{#                {% endverbatim %}#}
+{##}
+{#            </p>#}
+{#            <br/>#}
+{#            <button ng-click="ctrl.setOption('animations',true)" class="scrumdo-btn primary">Enabled (default)</button>#}
+{#            <button ng-click="ctrl.setOption('animations',false)" class="scrumdo-btn primary">Disabled</button>#}
+
+            <hr />
+            <h2><i class="fa fa-envelope"></i> Dashboard / Inbox</h2>
+            <div class="progress" style="max-width: 300px;">
+              <div class="progress-bar progress-bar-warning"
+                   role="progressbar"
+                   aria-valuenow="75"
+                   style="width: 50%;">
+                Completion Status
+              </div>
+            </div>
+            <p>The page you get immiediately after logging into your organization.</p>
+            <p>We're working on an inbox style interface to help get the most important information to you in an
+                actionable format.  When you enable this, you'll be redirected to the inbox whenever you try
+                to view the dashboard overview.
+            </p>
+            <p>Current Option:
+                {% verbatim %}
+                {{ betaOptions.dashboard }}
+                {% endverbatim %}
+
+            </p>
+            <br/>
+            <button ng-click="ctrl.setOption('dashboard','dashboard')" class="scrumdo-btn primary">Dashboard (default)</button>
+            <button ng-click="ctrl.setOption('dashboard','inbox')" class="scrumdo-btn primary">ScrumDo Inbox</button>
+
+
+            <hr />
+            <h2><i class="fa fa-envelope"></i> Dropbox Support</h2>
+            <p>Having troubles with your corporate firewall blocking DropBox and causing loading issues?
+            Try disabling it here.</p>
+            <p>Current Option:
+            {% verbatim %}
+                {{ betaOptions.dropbox }}
+            {% endverbatim %}
+            </p>
+            <button ng-click="ctrl.setOption('dropbox','enabled')" class="scrumdo-btn primary">Enabled (default)</button>
+            <button ng-click="ctrl.setOption('dropbox','disabled')" class="scrumdo-btn primary">Disabled</button>
+
+
+
+
+            <hr />
+            <h2><i class="fa fa-envelope"></i> Portfolio Projects</h2>
+            <p>Turn on support for portfolio level projects</p>
+            <p>Current Option:
+            {% verbatim %}
+                {{ betaOptions.portfolio }}
+            {% endverbatim %}
+            </p>
+            <button ng-click="ctrl.setOption('portfolio','enabled')" class="scrumdo-btn primary">Enabled</button>
+            <button ng-click="ctrl.setOption('portfolio','disabled')" class="scrumdo-btn primary">Disabled (default)</button>
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block appinit %}
+    scrumdo.setupBetaOptionsApp( "{{ STATIC_URL }}");
+
+{% endblock %}

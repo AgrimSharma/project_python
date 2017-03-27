@@ -1,0 +1,189 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectEpics", 
+                    "notes": "Only epics which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Epic", 
+                    "summary": "Retrieve epics from a project"
+                }, 
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "POST", 
+                    "nickname": "createProjectEpic", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>    \"archived\": false,<br/>    \"detail\": \"\",<br/>    \"parent_id\": 6975,<br/>    \"points\": \"?\",<br/>    \"summary\": \"TFS\",<br/>    \"order\": 5071<br/>  }", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Epic", 
+                    "summary": "Create a new epic within a project"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/epics"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectEpicById", 
+                    "notes": "Only iterations which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Epic ID to fetch", 
+                            "name": "epic_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Iteration", 
+                    "summary": "Retrieve epic within a project by ID"
+                }, 
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "PUT", 
+                    "nickname": "updateProjectEpic", 
+                    "notes": "If you specify a parent epic that would cause a loop, the parent epic will be ignored", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Iteration ID to fetch", 
+                            "name": "epic_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>    \"archived\": false,<br/>    \"detail\": \"\",<br/>    \"parent_id\": 6975,<br/>    \"points\": \"?\",<br/>    \"summary\": \"TFS\",<br/>    \"order\": 5071<br/>  }", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Epic", 
+                    "summary": "Update an epic within a project"
+                }, 
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "DELETE", 
+                    "nickname": "deleteEpic", 
+                    "notes": "Stories or child epics assigned to this epic will not be deleted.", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Iteration ID to fetch", 
+                            "name": "epic_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Epic", 
+                    "summary": "Delete's an exsiting epic"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/epics/{epic_id}"
+        }
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "organizations", 
+    "swaggerVersion": "1.1"
+}

@@ -1,0 +1,60 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getComments", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Story to get the comments for", 
+                            "name": "story_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+
+                    ], 
+                    "responseClass": "Comment", 
+                    "summary": "Get comments for a story"
+                },
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "POST", 
+                    "nickname": "createComment", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Story to post to", 
+                            "name": "story_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>  \"comment\": \"test comment\"<br/>}",
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Task", 
+                    "summary": "Create a comment"
+                }
+               
+            ], 
+            "path": "/comments/story/{story_id}"
+        }
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "organizations", 
+    "swaggerVersion": "1.1"
+}

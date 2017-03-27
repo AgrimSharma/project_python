@@ -1,0 +1,51 @@
+{% extends "projects/base.html" %}
+
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load projects_tags %}
+{% load iteration_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+{% block head_title %}{{ target_user }}{% endblock %}
+
+
+{% block panel %}
+{% endblock %}
+
+
+
+
+{% block body %}
+<a href="/admin/auth/user/{{target_user.id}}/">{{target_user}}</a>
+
+<h2>Team memberships</h2>
+<ul>
+	{% for team in teams %}
+	<li>
+		<a href="{% url "organization_dashboard"  team.organization.slug %}">{{team}}</a>
+		<ul>
+		{% for project in team.projects.all %}
+			<li>
+				<a href="{% url "project_detail"  project.slug %}">{{project.name}}</a>
+			</li>		
+		{% endfor %}
+		</ul>
+	</li>
+	{% endfor %}
+</ul>
+
+<h2>Project memberships</h2>
+<ul>
+{% for membership in target_user.projects.all %}
+	<li>
+	<a href="{% url "project_detail"  membership.project.slug %}">{{membership.project.name}}</a>
+	</li>
+{% endfor %}
+</ul> 
+
+{% endblock %}
+

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load activity_tags %}
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load extras_tags %}
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+
+{% block body_div_class %}narrow_body_with_sidebar{% endblock %}
+
+{% block body %}
+
+<h1>Authentication Failure</h1>
+Could not log in via GitHub.
+
+{% endblock %}

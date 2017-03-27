@@ -1,0 +1,41 @@
+{% extends "projects/base.html" %}
+{% load projects_tags %}
+
+{% block head_title %}
+{{ project.name }} - {{ iteration.name }}
+{% endblock %}
+
+
+{% block top_navbar %}
+<ul class="nav navbar-nav nav-shared-board">
+    <li>{{ project.name }} - {{ iteration.name }}</li>
+</ul>
+{% endblock %}
+
+
+
+{% block body_class %}kanban-page shared-board-page{% endblock %}
+
+
+{% block body_app %}ng-class='{kiosk:kiosk.enabled}' ng-app="ScrumDoSharedBoardApp" id="ng-app"{% endblock %}
+
+
+{% block appinit %}scrumdo.setupSharedBoard("{{ STATIC_URL }}", "{{ project.slug }}", "{{ share_key }}", "{{ organization.slug }}");{% endblock %}
+
+{% block preloader_area %}
+        <div class="page-preloader" ng-if="!preloader.fullyLoaded">
+            <img src="{{ STATIC_URL }}img/ScrumDoSignupLogo.png" class="scrumdo-signup-logo img-responsive center-block"/>
+            <p class="scrumdo-tip">
+                You can get your own workspace on ScrumDo!
+            </p>
+    </div>
+{% endblock %}
+
+{% block innerbody %}
+
+    <div ng-controller="BoardController" ng-cloak class="ng-cloak">
+        <div ui-view="bodyContent"></div>
+    </div>
+{% endblock %}
+
+

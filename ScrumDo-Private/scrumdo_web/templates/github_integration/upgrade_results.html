@@ -1,0 +1,28 @@
+{% extends "github_integration/base.html" %}
+
+{% load activity_tags %}
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load extras_tags %}
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+
+
+
+{% block gh_body %}
+
+<h1>Upgrade Results</h1>
+<ul>
+	{% for result in results %}
+	<li>{{result}}</li>
+	{% endfor %}
+</ul>
+
+<a href="{% url "github_options"  project.slug %}">Back to GitHub integration options</a>
+
+{% endblock %}

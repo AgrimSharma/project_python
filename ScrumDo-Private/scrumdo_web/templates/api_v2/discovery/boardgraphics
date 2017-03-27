@@ -1,0 +1,193 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getGraphics", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "", 
+                            "name": "graphic_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Graphic", 
+                    "summary": "Get a graphic of a project"
+                },
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "DELETE", 
+                    "nickname": "deleteGraphics", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "", 
+                            "name": "graphic_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Graphic", 
+                    "summary": "Get a graphic of a project"
+                },
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "PUT", 
+                    "nickname": "getGraphics", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "", 
+                            "name": "graphic_id", 
+                            "paramType": "path", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{ <br/>    \"foreground\": 11184810, <br/>    \"sy\": 0, <br/>    \"sx\": 0, <br/>    \"label\": \"Hi There\", <br/>    \"ey\": 0, <br/>    \"ex\": 0, <br/>    \"background\": 11184810, <br/>    \"graphic_type\": 1, <br/>    \"project_id\": 30006<br/>  } <br/>", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Graphic", 
+                    "summary": "Get a graphic of a project"
+                } 
+                
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/graphic/{graphic_id}"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getGraphicById", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Graphic", 
+                    "summary": "Get all workslflows for a project"
+                },
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "POST", 
+                    "nickname": "createGraphic", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{ <br/>    \"foreground\": 11184810, <br/>    \"sy\": 0, <br/>    \"sx\": 0, <br/>    \"label\": \"Hi There\", <br/>    \"ey\": 0, <br/>    \"ex\": 0, <br/>    \"background\": 11184810, <br/>    \"graphic_type\": 1, <br/>    \"project_id\": 30006<br/>  } <br/>", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Task", 
+                    "summary": "Create a new graphic."
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/graphic"
+        }
+
+
+
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "organizations", 
+    "swaggerVersion": "1.1"
+}

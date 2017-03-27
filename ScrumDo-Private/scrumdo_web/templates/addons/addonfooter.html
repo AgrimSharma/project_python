@@ -1,0 +1,33 @@
+{% load projects_tags %}
+
+<div id="homepage_bottom_section">
+    <div class="homepage_container footer_highlight">
+        <a href="/">Home</a>  |
+        <a rel="facebox" href="#introVideo">Introductory Video</a>  |
+        <a href="/plans">Plans &amp; Pricing</a>  |
+        <a href="/account/login/">Login</a>  |
+        <a href="/account/signup/">Sign Up</a>  |
+        <a href="http://support.scrumdo.com/">Help</a>
+        <br/><br/>
+        ScrumDo is THE <b>scrum tool</b> for agile teams<br/>
+        Copyright (C) 2014 ScrumDo, LLC.  ScrumDo is a registered trademark of ScrumDo, LLC.<br/>
+    </div>
+</div>
+
+<div id="introVideo" style="display:none">
+    <object width="921" height="716"><param name="movie" value="https://www.youtube.com/v/Y86nnpAZ6NA?fs=1&amp;hl=en_US&amp;hd=1&amp;color1=0x234900"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="https://www.youtube.com/v/Y86nnpAZ6NA?fs=1&amp;hl=en_US&amp;hd=1&amp;color1=0x234900" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="921" height="716"></embed></object>
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}javascript/nivoslider/jquery.nivo.slider.pack.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+
+<script type="text/javascript">
+    $(window).load(function() {
+        $('#slider').nivoSlider({animSpeed: 300, // Slide transition speed
+		        			    pauseTime: 4000,
+								effect:'fade'});
+		$("*[rel=fancybox]").fancybox();
+    });
+
+</script>

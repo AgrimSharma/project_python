@@ -1,0 +1,42 @@
+{% extends "base_legacy.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+
+
+{% block body %}
+
+
+<h1>Invoices</h1>
+
+<ul>
+{% for invoice in invoices %}
+	<li> <a target="_blank" href="{% url "invoice"  organization.slug invoice.token %}"> {{ invoice.date }}</a> {{ invoice.price }}</li>
+{% endfor %}
+</ul>
+
+<div class="alert alert-info">
+    <strong>Tip: </strong> You can change the Bill To on your invoices from the <a href="{% url "organization_edit"  organization.slug %}">Organization Admin</a> page.
+</div>
+
+
+
+
+{% if not invoices %}
+<h2>You don't currently have any invoices.</h2>
+{% endif %}
+
+{% endblock %}
+
+
+
+{% block tip %}
+{% endblock %}

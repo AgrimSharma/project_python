@@ -1,0 +1,7 @@
+{% load i18n %}
+
+To complete the sign-up process, please follow this link:
+
+{{domain}}/account/signup/{{confirmation_key}}/
+
+Thanks for using our site!

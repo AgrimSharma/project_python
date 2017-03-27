@@ -1,0 +1,54 @@
+{% extends "github_integration/base.html" %}
+
+{% load activity_tags %}
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load extras_tags %}
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+{% block body_class %}github-pages{% endblock %}
+
+{% block gh_body %}
+
+<h1>Something went wrong when trying to communicate with GitHub.</h1>
+
+<div class="error_details">
+	<b>Error Details</b>:<br/>
+	{{error}}
+</div>
+
+<h3>Possible causes:</h3>
+<ul class="error_cause_list">
+	<li> Your GitHub password has changed.<br/>
+		 <i>Try <a href="{{auth_url}}">reauthenticating</a> your account.</i>
+	</li>
+
+	<li> You removed the ScrumDo application from your GitHub account settings.<br/>
+		 <i>Try <a href="{{auth_url}}">reauthenticating</a> your account.</i>
+	</li>
+	
+	<li>
+		GitHub is temporarily unavailble.<br/>
+		<i>Try again in a few minutes</i>
+	</li>
+
+	<li>
+		The GitHub repo was deleted or changed names.<br/>
+		<i>Unlink and re-add that repo to this project on the <a href="{% url "github_options"  project.slug %}">options</a> page.</i>
+	</li>
+	
+	<li>
+		We messed up.<br/>
+		<i>Sometimes it happens, head over to the <a href="http://support.scrumdo.com/">support page</a> to let us know.</i>
+	</li>
+	
+</ul>
+
+
+
+{% endblock %}

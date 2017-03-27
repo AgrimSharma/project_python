@@ -1,0 +1,15 @@
+{% load projects_tags %}
+{% load avatar_tags %}
+<tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; font-size: 100%; line-height: 1.6; margin: 0; padding: 0;">
+    <td style="width: 45px;">
+        <img width="32" src="{{base_url}}{% url "avatar_redirect"  32 user.username %}"><br/>
+         {{user}}
+    </td>
+    <td style="padding-left: 10px; text-align: left;">
+        <h4>Created Collection</h4>
+         <a style="color: #f6764e; font-weight: bold" href="/projects/{{ epic.project.slug }}/#/planning/planningcolumn">#{{epic.local_id}}</a> in {{epic.project.name}}.
+            {{epic.summary|markdown_save|link_stories_v2:epic.project|urlify2|safe}}<br/>
+            {{epic.detail|markdown_save|link_stories_v2:epic.project|urlify2|safe}}
+    </td>
+</tr>
+

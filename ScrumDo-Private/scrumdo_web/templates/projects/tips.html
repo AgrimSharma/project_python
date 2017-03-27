@@ -1,0 +1,286 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="getting-started">
+
+
+
+        <div class="row getting-started-a">
+            <div class="col-sm-12 text-center section-header">
+                <h3>Using ScrumDo</h3>
+            </div>
+            <div class="col-sm-12">
+                 <div class="thumbnail video-thumbnail">
+                    <iframe src="https://player.vimeo.com/video/140543162?color=F5764E&amp;byline=0&amp;portrait=0" width="900" height="505" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen=""></iframe>
+                    <div class="caption">
+                        <h3>Intro Video</h3>
+                        <p>Watch a 10 minute video that walks through most of the basic features of ScrumDo, or see below for other help.</p>
+                    </div>
+                 </div>
+            </div>
+            <div class="col-md-offset-0 col-md-4 col-sm-offset-1 col-sm-10 text-center">
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Customize your Project
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                    <ul>
+                        <li>
+                            <b>The Board Wizard</b> <br/>
+                            Visualize your workflow in 4 steps. <br/>
+                            <a target="_blank" href="http://help.scrumdo.com/help/projectconfigure.html">Get Help</a>
+                            {% if project %}or
+                            <a href="{% url "kanban_board"  project.slug %}#/settings/settings/board">Try It</a>
+                            {% endif %}
+                        </li>
+                        <li>
+                            <b>Editing your board</b> <br/>
+                            Draw your perfect board.<br/>
+                            <a target="_blank" href="http://help.scrumdo.com/help/editboard.html">Get Help</a>
+                            {% if project %}or
+                            <a href="{% url "kanban_board"  project.slug %}#/settings/settings/board">Try It</a>
+                            {% endif %}
+                        </li>
+                        <li>
+                            <b>Project Properties</b> <br/>
+                            Custom Fields, Statuses and more.<br/>
+                            <a target="_blank" href="http://help.scrumdo.com/help/projectsettings.html">Get Help</a>
+                            {% if project %}or
+                            <a href="{% url "kanban_board"  project.slug %}#/settings/settings/project">Try It</a>
+                            {% endif %}
+                        </li>
+
+                    </ul>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-offset-0 col-md-4 col-sm-offset-1 col-sm-10 text-center">
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Plan your Work
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                    <ul>
+                        <li>
+                            <b>Project Planning Tool</b> <br/>
+                            Work breakdown and sprint planning. <br/>
+                            <a target="_blank" href="http://help.scrumdo.com/help/planningtool.html">Get Help</a>
+                            {% if project %} or
+                            <a href="{% url "planning_tool"  project.slug %}">Try It</a>
+                            {% endif %}
+                        </li>
+                        <li>
+                            <b>Organization Planning Tool</b> <br/>
+                            Releases and Milestones<br/>
+                            <a target="_blank" href="http://help.scrumdo.com/help/valuestream.html">Get Help</a> or
+                            <a href="{% url "organization_planning"  organization.slug %}">Try It</a>
+
+                        </li>
+                        <li>
+                            <b>Estimation and Prioritization</b> <br/>
+                            What needs to be done next.<br/>
+                            <a target="_blank" href="http://help.scrumdo.com/2015/09/16/estimation-planning.html">Get Help</a>
+                        </li>
+
+                    </ul>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-offset-0 col-md-4 col-sm-offset-1 col-sm-10 text-center">
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Your Account
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                    <ul>
+                        <li>
+                            <b>Invite Others</b> <br/>
+                            Teams define user permissions.<br/>
+                            <a target="_blank" href="http://help.scrumdo.com/help/invite.html">Get Help</a> or
+                            <a href="{% url "organization_dashboard"  organization.slug %}#/teams">Try It</a>
+                        </li>
+                        <li>
+                            <b>Personal Details</b> <br/>
+                            Name, Email, Avatar and more<br/>
+                            <a href="/account/">Try It</a>
+                        </li>
+                        <li>
+                            <b>Subscription</b> <br/>
+                            Subscribe or upgrade.<br/>
+                            <a href="{% url "subscription_options"  organization.slug %}">Try It</a>
+                        </li>
+
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row getting-started-b">
+            <div class="col-sm-12 text-center section-header">
+                <h3>Learning Scrum</h3>
+            </div>
+
+            <div class="col-md-3 col-sm-6 text-center">
+
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Beginners guide to ScrumDo
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                      <div class="scrumdo-panel-content">
+                         We walk you through your first 20 minutes of
+                         ScrumDo use and explain a few of the basic Scrum principles.<br/>
+                         <a target="_blank" href="http://help.scrumdo.com/beginners/scrum.html">Read Guide</a>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Downloadable Scrum Guide
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                      <div class="scrumdo-panel-content">
+                          A guide to explain what is Scrum, the roles people play, and the process to
+                          follow to be successful.
+                          <br/>
+                         <a target="_blank" href="https://scrumdo-cdn.s3.amazonaws.com/manual_uploads/Scrum%20-%20An%20Overview.pdf">
+                             Download (pdf)
+                         </a>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Scrum Practices
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                      <div class="scrumdo-panel-content">
+                          View a description of scrum practices you can follow to be succesfull on
+                          your project.
+                          <br/>
+                         <a target="_blank" href="http://help.scrumdo.com/help/scrumpractices.html">
+                             Read More
+                         </a>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center">
+
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Scrumban
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                      <div class="scrumdo-panel-content">
+                          Learn how Scrumban can supercharge your Scrum
+                          team and help you succeed.
+                          <br/>
+                         <a target="_blank" href="http://www.scrumban.io/">
+                             Read More
+                         </a>
+                      </div>
+                  </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row getting-started-c">
+            <div class="col-sm-12 text-center section-header">
+                <h3>Get Help</h3>
+            </div>
+
+            <div class="col-md-3 col-sm-6 text-center text-center">
+
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Customer Support
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                      <div class="scrumdo-panel-content">
+                          <a class="IntercomStartLink">Contact us from right inside the app.</a>
+                          Choose the Gear menu in the upper right hand corner
+                          and select Help/Support.  Or send an email
+                          to <a href="mailto:support@scrumdo.com">support@scrumdo.com</a>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center text-center">
+
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                         Video F.A.Q.
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                      <div class="scrumdo-panel-content">
+                          Video answers to some frequently asked questions can
+                          be <a href="http://help.scrumdo.com/help/videofaq.html" target="_blank">found here</a>.
+                      </div>
+                  </div>
+                </div>
+
+            </div>
+            <div class="col-md-3 col-sm-6 text-center text-center">
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Training and Coaching
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                      <div class="scrumdo-panel-content">
+                          We have partnered with a world-class
+                          training company to provide ScrumDo
+                          training.  <a href="mailto:support@scrumdo.com">Email us</a>
+                          and we'll help you figure out the right solution.
+                      </div>
+
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 text-center text-center">
+
+                <div class="scrumdo-panel secondary">
+                  <div class="scrumdo-panel-title">
+                      <h5 class="scrumdo-panel-heading">
+                        Help Articles and Guides
+                      </h5>
+                  </div>
+                  <div class="scrumdo-panel-body">
+                      <div class="scrumdo-panel-content">
+                          <a target="_blank" href="http://help.scrumdo.com/">help.scrumdo.com</a> contains help articles,
+                          getting started guides, blog posts, and tutorial videos.
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

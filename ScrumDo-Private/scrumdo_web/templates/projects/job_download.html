@@ -1,0 +1,73 @@
+{% extends "organizations/commercial_org_base.html" %}
+
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+{% block head_title %}Download File{% endblock %}
+
+{% block body_div_class %}narrow_body{% endblock %}
+
+{% block extra_head %}   
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/scrum-board.css" />
+{% endblock %}
+
+
+{% block body %}
+    <div class="container">
+
+        <div class="well" >
+            <h1>Download File</h1>
+
+            <div id="wait_message">
+                <i class="fa fa-spinner fa-spin"></i>
+
+                Please wait, generating file.
+            </div>
+            <div id="file_info" style="display: none">
+                <a href="{% url "file_job_download_file"  job.id %}">Download File</a>
+            </div>
+        </div>
+    </div>
+
+<script>
+	var job_id = {{job.id}};
+
+	function queueCheck() {
+		setTimeout(checkFile, 3000);
+	}
+
+	function checkFile() {
+		$.ajax({
+            url:"/api/v2/job/" + job_id,
+			dataType: "json",
+			error: function(  jqXHR,  textStatus,  errorThrown ) {
+				queueCheck();
+			},
+			success: function(  data,  textStatus,  jqXHR ) {
+				if( data.completed ) {
+					$("#wait_message").hide();
+					$("#file_info").show();
+				} else {
+					queueCheck();
+				}
+
+
+			},
+
+		});
+
+	}
+
+    queueCheck();
+
+
+	
+</script>
+
+{% endblock %}

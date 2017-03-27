@@ -1,0 +1,145 @@
+{% extends "base_release.html" %}
+{% load organizations_tags %}
+{% load time_entry_tags %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+{% load pagination_tags %}
+{% block body_div_class %}narrow_body{% endblock %}
+
+{% block body_class %}releases-page{% endblock %}
+
+
+{% block body %}
+{% if not releases %}
+
+<div class="tutorial-box" style="text-align:left; padding:30px">
+<h1>Create your first release</h1>
+<p>Releases are a way to group work from multiple projects into one logical unit.  You can either add entire projects, or parts of projects to a release.  Then, you can track stats and view a burndown chart across the entire release.</p><br/><br/>
+<a href="{% url "create_release"  organization.slug %}" class="scrumdo-btn secondary">New Release</a>
+</div>
+{% else %}
+  <a href="{% url "create_release"  organization.slug %}" class="scrumdo-btn primary pull-right new-release-button">New Release</a>
+  <h1>{{organization.name}} Releases</h1>
+<hr/>
+{% endif %}
+
+
+
+{% autopaginate releases 50 %}
+<ul class="release-list">
+{% for release in releases %}
+	<li class="release-summary" data-release-id="{{release.id}}">
+		<div class="gauges" style="float:right">
+			<div class="stats-bubble">
+                <div class="gauge">
+                	<justgage title="Points In Progress"
+                          value="{{release.points_progress}}"
+                          width="200"
+                          gaugeColor="#1E95E0"
+                          height="100"
+                          max="{{release.points_total}}"
+                          min="0"></justgage>
+				</div>
+			</div>
+
+			<div class="stats-bubble">
+				<div class="gauge">
+					<justgage title="Points Completed"
+                          value="{{release.points_completed}}"
+                          gaugeColor="#94CC51"
+                          width="200"
+                          height="100"
+                          max="{{release.points_total}}"
+                          min="0"></justgage>
+				</div>
+			</div>
+			
+			<div class="stats-bubble">
+                <div class="gauge">
+                	<justgage title="Days Left"
+                          value="{{release.days_left}}"
+                          gaugeColor="#1E95E0"
+                          width="200"
+                          height="100"
+                          max="{{release.total_days}}"
+                          min="0"></justgage>
+				</div>
+			</div>
+		</div>
+		
+		<h1>{{release.name}}</h1>
+		{{release.start_date|date:"M d Y"}} - {{release.delivery_date|date:"M d Y"}}<br/><br/>		
+		<a class="scrumdo-btn primary" href="{% url "release"  organization.slug release.id %}">View Release</a>
+		<div class="clearfix"></div>
+	</li>
+
+{% endfor %}
+</ul>
+
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+
+		{% isorgstaff organization %}
+		$(".release-list").sortable({
+			"update": _.debounce(onSortRelease,10) 
+		});
+	    $(".release-list").disableSelection();
+		{% endisorgstaff %}
+
+	});
+</script>
+
+{% paginate %}
+
+
+
+
+{% isorgstaff organization %}
+
+<a href="#" onclick="saveOrder();return false;" class="save-order-button btn btn-primary hide">Save Order</a>
+
+<br/><br/>
+<i class="icon-info-sign"></i> Drag releases to reorder.
+{% endisorgstaff %}
+
+
+{% if old_releases %}		
+<h3>Past Releases</h3>
+<ul>
+	{% for release in old_releases %}
+		<li><a href="{% url "release"  organization.slug release.id %}">{{release.name}}</a> {{release.start_date|date:"M d Y"}} - {{release.delivery_date|date:"M d Y"}}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+		
+		
+
+<script type="text/javascript" charset="utf-8">
+	var releaseUrl = "/api/v2/organizations/{{organization.slug}}/releases/";
+	
+	function saveOrder() {
+	  var list, release, releaseId, _i, _len, _results;
+
+	  list = $(".release-summary");
+	  
+	  for (_i = 0, _len = list.length; _i < _len; _i++) {
+	    release = list[_i];
+	    releaseId = $(release).attr("data-release-id");
+	    url = releaseUrl + releaseId;
+	    $.ajax({
+	    	url: url,
+	    	type: "PUT",
+	    	data: {order:_i}
+	    });
+	  }
+	  $(".save-order-button").hide();	  
+	}
+	function onSortRelease(e) {
+	  $(".save-order-button").show();	  
+	}
+
+</script>
+{% endblock %}
+
+

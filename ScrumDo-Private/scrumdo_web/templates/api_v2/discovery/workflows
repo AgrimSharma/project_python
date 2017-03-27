@@ -1,0 +1,456 @@
+{
+  "apiVersion": "0.2",
+  "apis": [
+    {
+      "operations": [
+        {
+          "errorResponses": [],
+          "httpMethod": "GET",
+          "nickname": "getWorkflows",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            }
+          ],
+          "responseClass": "Workflow",
+          "summary": "Get a workflow of a project"
+        },
+        {
+          "errorResponses": [],
+          "httpMethod": "PUT",
+          "nickname": "getWorkflows",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "{<br/> \"name\":\"Workflow Name\"<br/> }",
+              "name": "body",
+              "paramType": "body",
+              "required": true
+            }
+          ],
+          "responseClass": "Workflow",
+          "summary": "Get a workflow of a project"
+        }
+      ],
+      "path": "/organizations/{organization_slug}/projects/{project_slug}/workflows/{workflow_id}"
+    },
+    {
+      "operations": [
+        {
+          "errorResponses": [],
+          "httpMethod": "GET",
+          "nickname": "getWorkflowById",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            }
+          ],
+          "responseClass": "Workflow",
+          "summary": "Get all workslflows for a project"
+        },
+        {
+          "errorResponses": [],
+          "httpMethod": "POST",
+          "nickname": "createWorkflow",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "{<br/> \"name\":\"Workflow Name\"<br/> }",
+              "name": "body",
+              "paramType": "body",
+              "required": true
+            }
+          ],
+          "responseClass": "Task",
+          "summary": "Create a new workflow."
+        }
+      ],
+      "path": "/organizations/{organization_slug}/projects/{project_slug}/workflows"
+    },
+    {
+      "operations": [
+        {
+          "errorResponses": [],
+          "httpMethod": "GET",
+          "nickname": "getWorkflowSteps",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            }
+          ],
+          "responseClass": "Workflow",
+          "summary": "Get all works flow steps for a workflow"
+        },
+        {
+          "errorResponses": [],
+          "httpMethod": "POST",
+          "nickname": "createWorkflowStep",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "{<br/> \"name\":\"Workflow Name\",<br/>\"on_hold\":false,<br/>\"status_code\":1<br/>\"order\":1 }",
+              "name": "body",
+              "paramType": "body",
+              "required": true
+            }
+          ],
+          "responseClass": "Task",
+          "summary": "Create a new workflow step."
+        }
+      ],
+      "path": "/organizations/{organization_slug}/projects/{project_slug}/workflows/{workflow_id}/steps"
+    },
+    {
+      "operations": [
+        {
+          "errorResponses": [],
+          "httpMethod": "GET",
+          "nickname": "getSingleStep",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "step_id",
+              "paramType": "path",
+              "required": true
+            }
+          ],
+          "responseClass": "Workflow",
+          "summary": "Get a single step"
+        },
+        {
+          "errorResponses": [],
+          "httpMethod": "DELETE",
+          "nickname": "deleteWorkflowStep",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "step_id",
+              "paramType": "path",
+              "required": true
+            }
+          ],
+          "responseClass": "Workflow",
+          "summary": "Get all works flow steps for a workflow"
+        },
+        {
+          "errorResponses": [],
+          "httpMethod": "PUT",
+          "nickname": "updateWorkflowStep",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "step_id",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "{<br/> \"name\":\"Workflow Name\",<br/>\"on_hold\":false,<br/>\"status_code\":1<br/>\"order\":1 }",
+              "name": "body",
+              "paramType": "body",
+              "required": true
+            }
+          ],
+          "responseClass": "Task",
+          "summary": "Create a new workflow step."
+        }
+      ],
+      "path": "/organizations/{organization_slug}/projects/{project_slug}/workflows/{workflow_id}/steps/{step_id}"
+    },
+    {
+      "operations": [
+        {
+          "errorResponses": [],
+          "httpMethod": "GET",
+          "nickname": "getWorkflows",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            }
+          ],
+          "responseClass": "Workflow",
+          "summary": "Get a workflow of a project"
+        },
+        {
+          "errorResponses": [],
+          "httpMethod": "PUT",
+          "nickname": "getWorkflows",
+          "notes": "",
+          "parameters": [
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the organization to be fetched",
+              "name": "organization_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "Slug of the project to be fetched",
+              "name": "project_slug",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "",
+              "name": "workflow_id",
+              "paramType": "path",
+              "required": true
+            },
+            {
+              "allowMultiple": false,
+              "dataType": "String",
+              "description": "{<br/> \"name\":\"Workflow Name\"<br/> }",
+              "name": "body",
+              "paramType": "body",
+              "required": true
+            }
+          ],
+          "responseClass": "Workflow",
+          "summary": "Get a workflow of a project"
+        }
+      ],
+      "path": "/organizations/{organization_slug}/projects/{project_slug}/workflows/{workflow_id}"
+    }
+  ],
+  "basePath": "{{SSL_BASE_URL}}/api/v3/",
+  "models": [],
+  "resourcePath": "organizations",
+  "swaggerVersion": "1.1"
+}

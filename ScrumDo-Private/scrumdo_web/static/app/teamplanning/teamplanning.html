@@ -1,0 +1,88 @@
+<div class="team-planning">
+    <nickeled-guide-link
+        ng-if="::ctrl.projectData.isPremiumUser()" 
+        url="http://guides.scrumdo.com/downstream-planning" 
+        title="Take a tour of how to Break down work and do effective Program Increment Planning"></nickeled-guide-link>
+
+    <sd-restricted-feature ng-if="::!ctrl.projectData.isPremiumUser()" 
+        feature-name="'Downstream Planning'" organization-slug="ctrl.projectData.organizationSlug" 
+        feature-image="'TeamPlanningSample.jpg'"></sd-restricted-feature>
+
+    <div ng-if="::ctrl.projectData.isPremiumUser()" 
+        ng-class="{'backlog-open':ctrl.backlogBoardProject().uiState.loadBacklog}">
+        <div>
+            <div class="width220px margin5 display-inline-block">
+                <select class="form-control"
+                        ng-model="ctrl.selectedTeam"
+                        ng-change="ctrl.teamSelected()"
+                        ng-options="project.project_name for project in ctrl.teamOptions">
+                </select>
+            </div>
+
+            <div class="limit-container hidden-sm hidden-xs">
+                <sd-limit-bar 
+                    set-limit="ctrl.setLimit()" 
+                    stats="ctrl.getStats()" 
+                    display-type="'wipbox'"
+                    work-item-name="ctrl.workItemName"
+                    can-write="ctrl.projectData.canWrite()"></sd-limit-bar>
+            </div>
+
+            <div ng-if="ctrl.rows.length!=0" class="btn-group pull-right export-group">
+                <button uib-tooltip="Export to xls" ng-click="ctrl.exportPlanning($event)" type="button" 
+                    class="scrumdo-btn primary"><span class="glyphicon glyphicon-arrow-down"></span><span class="hidden-sm hidden-xs"> Export</span></button>
+            </div>
+
+            <div class="btn-group pull-right export-group" 
+                ng-if="::!ctrl.projectData.currentTeam.project.continuous_flow && ctrl.projectData.currentTeam.canWrite">
+                <button uib-tooltip="Add new {{ctrl.childTimePeriodName}}" ng-click="ctrl.addIteration($event)" type="button" 
+                    class="scrumdo-btn primary"><span class="fa fa-plus"></span>
+                    <span class="hidden-sm hidden-xs"> Add {{::ctrl.childTimePeriodName}}</span></button>
+            </div>
+        </div>
+        
+        <sd-backlog project="project" 
+                    ng-if="ctrl.backlogBoardProject().globalBacklogSlug"
+                    board-project="ctrl.backlogBoardProject()"
+                    global-backlog="true" 
+                    can-drag="ctrl.projectData.currentTeam.canWrite"></sd-backlog>
+
+        <sd-card-grid card-provider="ctrl.gridCardProvider"
+                      rows="ctrl.rows"
+                      sort-order="rank"
+                      dependencies="ctrl.dependencies"
+                      story-layout="'normal'"
+                      columns="ctrl.columns">
+            <topright>
+                <div class="btn-group" uib-dropdown ng-if="ctrl.projectData.canWrite(ctrl.projectData.currentTeam.project.slug)">
+                    <button class="scrumdo-btn primary"
+                            uib-dropdown-toggle>Pull {{::ctrl.workItemName}}</button>
+                    <ul class="dropdown-menu pull-feature-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+
+                        <li ng-repeat='story in ctrl.projectData.currentStories |orderBy:"rank"'
+                            ng-click="$event.preventDefault(); ctrl.pullFeature(story);"
+                            role="menuitem">
+                            <a href="#">
+                                <i ng-if="ctrl.isSelectedFeature(story)" class="fa fa-check icon" aria-hidden="true"></i>
+                                {{ctrl.projectData.currentProject.prefix}}-{{story.number}}
+                                <span ng-bind-html="story.summary|htmlToPlaintext|words:10|to_trusted"></span>
+                            </a>
+                        </li>
+                        <li ng-if="!ctrl.projectData.currentStories.length" ng-click="$event.preventDefault();">
+                            <a href="#" style="cursor: default;"><small><i class="fa fa-info-circle" aria-hidden="true"></i> 
+                                Please first create {{::ctrl.workItemName|pluralize}} into {{ctrl.projectData.currentProject.name}}/{{::ctrl.projectData.currentIteration.name}}.<br/> You can add {{::ctrl.workItemName|pluralize}} from the Portfolio Backlog tool.</small></a>
+                        </li>
+                    </ul>
+                </div>
+            </topright>
+
+        </sd-card-grid>
+
+        <div ng-if="ctrl.rows.length==0" class="alert alert-info infobox">
+            Pull a {{::ctrl.workItemName}} into your plan to start.
+        </div>
+    </div>
+</div>
+<div class="kiosk-toggle" ng-click="kiosk.toggle()">
+    <i class="fa fa-list-alt"></i>
+</div>

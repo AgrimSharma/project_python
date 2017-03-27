@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% load projects_tags %}
+{% load avatar_tags %}
+{% load projects_tags %}
+{% load i18n %}
+{% load ifsetting_tag %}
+
+{% block head_title %}{% trans "Scrumdo - Agile Development Story Management Site" %}{% endblock %}
+
+{% block body_class %}organization-picker{% endblock %}
+
+
+
+{% block body %}
+    <div class=container>
+        {% if my_organizations %}
+                <div class="organization-wrap">
+                    <div class="organisations">
+
+                        <h1 class="org-title">Organizations</h1>
+                        <table class="table">
+                        	{% for organization in my_organizations %}
+                            <tr>
+                                <td>
+                                <a href="{{organization.redirect_to_url}}">{{organization.name}}</a>
+                                </td>
+                                <td>
+                                    {{organization.activeProjects.count}} Workspace{{organization.activeProjects.count|pluralize}}
+                                </td>
+                                <td>
+                                    {{organization.teams.count}} Team{{organization.teams.count|pluralize}}
+                                </td>
+{#                                <a href="{{organization.get_absolute_url}}" class="bgg"><i class="icon-signin"></i></a>#}
+
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="3">
+                                    <a class="pull-right" href="/subscription/register"><span class="sec-bg"></span>Create New Organization</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <img src="{{ STATIC_URL }}img/ScrumDoSignupLogo.png" alt="" class="scrumdo-signup-logo img-responsive center-block"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+
+                    <div class="scrumdo-box-modal">
+                        <div class="scrumdo-box-modal-header text-center">
+                            <h2 class="scrumdo-signup-title">Join A Team</h2>
+                        </div>
+                        <div class="scrumdo-box-modal-content">
+                            <div class="row">
+                                <div class="col-md-12 no-org-box">
+                                    <h4>Do you have an invitation email?</h4>
+                                    <ul>
+                                        <li><b style="width:35px; display:inline-block" class="label label-success">YES</b> Try clicking the link again.  It should
+                                            add the invite to this account.
+                                        </li>
+                                        <li><b style="width:35px; display:inline-block" class="label label-danger">NO</b> Ask the account holder to
+                                            add you with your username <b>{{ user.username }}</b>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scrumdo-box-modal-footer text-center">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Need Help?  Email Us: <a href="mailto:support@scrumdo.com">support@scrumdo.com</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="scrumdo-box-modal">
+                        <div class="scrumdo-box-modal-header text-center">
+                            <h2 class="scrumdo-signup-title">Create an Organization</h2>
+                        </div>
+                        <div class="scrumdo-box-modal-content">
+                            <div class="row">
+                                <div class="col-md-12 no-org-box">
+                                    <h4>Start a new organization and workspace to work on.</h4>
+                                    <p>An organization represents your company or group of people in ScrumDo.</p>
+                                    <p>
+                                        Organizations have projects and teams inside them.  You can invite other
+                                        people to your organization.
+                                    </p>
+                                    <p>
+                                        You will get a 30 day free trial when you create it.
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scrumdo-box-modal-footer text-center">
+                            <div class="row">
+                                <div class="col-md-4 col-md-offset-4">
+                                    <a href="/subscription/register" class="scrumdo-btn secondary extended">Create Organization</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

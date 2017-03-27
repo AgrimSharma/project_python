@@ -1,0 +1,20 @@
+[
+    {
+        "pk": 99,
+        "model": "auth.user",
+        "fields": {
+            "username": "reporttestuser",
+            "first_name": "Report",
+            "last_name": "User",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": true,
+            "last_login": "2017-01-29 12:00:00",
+            "groups": [],
+            "user_permissions": [],
+            "password": "sha1$eEbUOmOgOMcD$d125b166f3448e04ef137180a361cc7b42ba6811",
+            "email": "badaddress@scrumdo.com",
+            "date_joined": "2009-05-11 12:00:00"
+        }
+    }
+]

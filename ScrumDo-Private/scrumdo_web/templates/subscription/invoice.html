@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)http://www.jonathantneal.com/examples/invoice/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display:block}audio[controls],canvas,video{display:inline-block}[hidden],audio{display:none}mark{background:#FF0;color:#000}</style>
+        <meta charset="utf-8">
+        <title>Invoice</title>
+        <link rel="stylesheet" href="{{STATIC_URL}}css/invoice.css">
+
+        <!--[if lt IE 9]>
+        <script src="{{STATIC_URL}}/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <header>
+            <h1>Invoice</h1>
+            <address>
+                <p>ScrumDo LLC</p>
+                <p>PO Box 2184<br/>South Portland, ME 04106</p>
+                <p></p>
+                <p>support@scrumdo.com</p>
+            </address>
+            <span><img alt="" src="{{STATIC_URL}}images/logo_dark.png"></span>
+        </header>
+        <article>
+            <h1>Recipient</h1>
+            <address>
+                <pre>
+{{bill_to}}
+                </pre>
+            </address>
+            <table class="meta">
+                <tbody><tr>
+                    <th><span >Invoice #</span></th>
+                    <td><span>{{invoice.token|slice:":8"}}</span></td>
+                </tr>
+                <tr>
+                    <th><span >Date</span></th>
+                    <td><span >{{invoice.date}}</span></td>
+                </tr>
+            </tbody></table>
+            <table class="inventory">
+                <thead>
+                    <tr>
+                        <th><span >Subscription</span></th>
+                        <th><span >Duration</span></th>
+                        <th><span >Rate</span></th>
+                        <th><span >Quantity</span></th>
+                        <th><span >Price</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span >{{invoice.plan}}</span></td>
+                        <td>{{invoice.duration}}</td>
+                        <td><span data-prefix=""></span><span >{{invoice.price}} (USD)</span></td>
+                        <td><span >1</span></td>
+                        <td><span data-prefix=""></span><span>{{invoice.price}} (USD)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="balance">
+                <tbody><tr>
+                    <th><span >Total</span></th>
+                    <td><span data-prefix="">{{invoice.price}} (USD)</td>
+                </tr>
+                <tr>
+                    <th><span >Amount Paid</span></th>
+                    <td><span data-prefix="">{{invoice.amount}} (USD)</td>
+                </tr>
+            </tbody></table>
+        </article>
+
+</body></html>

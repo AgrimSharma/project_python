@@ -1,0 +1,46 @@
+{% extends "organizations/base.html" %}
+{% load organizations_tags %}
+
+
+{% block body_div_class %}{% endblock %}
+
+{% block body_top_page %}
+	{% if not first_time %}
+	{% if not hide_free_box %}
+	{% if organization %}
+		{% if not first_time %}
+		  {% if organization.subscription.plan.isFree %}
+		  	{% isorgstaff organization %}
+				<div class="what_missing_box">
+				
+				<h2>You are on our free plan - <a href="{% url "subscription_options"  organization.slug %}">Subscribe now</a> to get:</h2>
+
+				<ul>				
+					<li>Email Notifications</li>					
+					<li>File Attachments</li>
+					<li>Organization Exports</li>
+					<li>Premium Integrations</li>
+					<li>SSL Security</li>
+					<li>Instant Charts</li>
+					<li>Time Tracking</li>
+				</ul>
+				</div>	 
+			{% endisorgstaff %}
+		  {% endif %}
+		{% endif %}
+		{% endif %}
+	{% endif %}
+	{% endif %}
+{% endblock %}
+
+{% block body %}
+
+
+<div id="organization_body">
+  <div id="organization-body-holder">
+    {% block org_body %}
+    {% endblock %}  
+  </div>
+</div>
+
+{% endblock %}

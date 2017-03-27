@@ -1,0 +1,239 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+
+{% load projects_tags %}
+{% block head_title %}{% trans "Scrumdo - Subscription" %}{% endblock %}
+
+
+{% block body %}
+
+  <table class="table">
+    <tr>
+        <th>Plan</th>
+        <th>Active</th>
+        <th>Recurring</th>
+        <th>Value</th>
+    </tr>
+          {% for key,value in levels.items %}
+            <tr>
+            <td>{{key}}</td>
+            <td>{{ value.active}}</td>
+            <td>{{value.recurring}}</td>
+            <td>${{value.value}}</td>
+            </tr>
+          {% endfor %}
+  </table>
+
+  {% if total %}
+  <br/>
+  Overall, thats <b>${{total}}</b> per month.  Go ScrumDo!
+  <hr/>
+  {% endif %}
+
+  <div id="subscriptionGraphMonthly" style="width:900px;height:400px;"></div>
+  <div id="subscriptionGraph" style="width:900px;height:400px;"></div>  
+  <div id="subscriptionGraph2" style="width:900px;height:400px;"></div>  
+  <div id="statGraph" style="width:900px;height:400px;"></div>
+
+   <script type="text/javascript" charset="utf-8">          
+   // then fetch the data with jQuery
+          function onDataReceived(series) {
+              // extract the first coordinate pair so you can see that
+              // data is now an ordinary Javascript object
+              var options = {
+                 colors: ["#2292ff", "#ADD75C"],
+                 xaxis: { minTickSize: [1, "day"] , mode: "time", timeformat: "%m/%d/%y" },
+                 legend: {  position: "nw" },
+           grid: {  hoverable: true } ,
+                 yaxis: {minTickSize:1},
+                 series: { lines: {   show: true }
+                         }                   
+              };
+              // and plot all we got
+              $.plot($("#statGraph"), series, options);
+
+           }
+
+          $.ajax({
+              url: "/staff/stats_data",
+              method: 'GET',
+              dataType: 'json',
+              success: onDataReceived
+          });
+
+          function interestingData(d) {
+            d = new Date(d[0])            
+            return d.getDate() == 1 && d.getFullYear() >= 2013;            
+          }
+
+          var startDate = new Date(2013,1,1);          
+          function recentData(d) {
+            d = new Date(d[0])            
+            return d.getTime() >= startDate.getTime();
+          }
+
+          function onSubDataReceived(series) {
+              // extract the first coordinate pair so you can see that
+              // data is now an ordinary Javascript object
+              var options = {
+                 colors: ["#2292ff", "#ADD75C"],
+                 xaxis: { minTickSize: [1, "day"] , mode: "time", timeformat: "%m/%d/%y" },
+                 legend: {    position: "nw" },
+                 yaxis: {minTickSize:1},
+           grid: {  hoverable: true } ,
+                 series: { lines: {   show: true }, 
+                           points: { radius:3, show: true, fill: true} 
+                             }                   
+              };
+              // and plot all we got
+              $.plot($("#subscriptionGraph"), series, options);
+
+
+              reducedSeries = [
+                {},{},
+                {label:series[2].label, data:_.filter(series[2].data, recentData) }                
+                
+              ]
+
+              $.plot($("#subscriptionGraph2"), reducedSeries, options);
+
+
+
+              reducedSeries = [
+                {label:series[0].label, data:_.filter(series[0].data, interestingData) },
+                {label:series[1].label, data:_.filter(series[1].data, interestingData) },
+                {label:series[2].label, data:_.filter(series[2].data, interestingData) }                
+              ]
+              $.plot($("#subscriptionGraphMonthly"), reducedSeries, options);
+
+              
+
+           }
+
+          $.ajax({
+              url: "/subscription/stats_data",
+              method: 'GET',
+              dataType: 'json',
+              success: onSubDataReceived
+          });
+
+          $("#subscriptionGraph, #statGraph, #subscriptionGraph2, #subscriptionGraphMonthly").bind("plothover", function (event, pos, item) {
+              //$("#x").text(pos.x.toFixed(2));
+              //$("#y").text(pos.y.toFixed(2));
+
+                  if (item) {
+                      if (previousPoint != item.dataIndex) {
+                          previousPoint = item.dataIndex;
+                          $("#tooltip").remove();
+                          var d = new Date(item.datapoint[0]);
+                          var curr_date = d.getDate();
+                          var curr_month = d.getMonth() + 1; //Months are zero based
+                          var curr_year = d.getFullYear();
+                          var tip = "$" + item.datapoint[1] + "<br/>" + curr_month + "/" + curr_date + "/" +  curr_year;
+
+                          // var y = item.datapoint[1];
+                          showTooltip(item.pageX, item.pageY - 40,  tip );
+                      }
+                  }
+                  else {
+                      $("#tooltip").remove();
+                      previousPoint = null;            
+                  }
+
+          });
+   </script>
+  
+  {% if total %}
+  <h2>Revenue Sources</h2>
+  <ul>
+  {% for source,value in sources.items %}
+    <li>${{value}} {{source}}</li>
+  {% endfor %}
+  </ul>
+
+  <div style="width:45%; float:left; margin-right:20px; padding-left:5px; background-color:#eeeeee">
+      <h1>Trials:</h1>
+      {% for subscriber in subscribers %}
+      {% if subscriber.recurring %}
+      {% if subscriber.trial %}
+        {% ifchanged subscriber.level %}
+          <h2>{{subscriber.org.subscription.planName}}</h2>
+        {% endifchanged %}
+
+
+      {% if subscriber.name %}
+      <a href="{% url "organization_detail"  subscriber.name %}">{{ subscriber.org.name }} [{{subscriber.name}}]</a>
+      {% else %}
+      {{ subscriber.org.name }} [{{subscriber.name}}]
+      {% endif %}
+      {{subscriber.org.creator.email}}<br/>
+        {{subscriber.org.projects.count}}  ${{subscriber.org.subscription.total_revenue}}   <i>{{subscriber.org.source}}</i>
+
+      <hr/>
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+   </div>
+
+
+  <div style="width:45%; float:left; margin-right:20px; padding-left:5px; background-color:#eeeeee">
+      <h1>Subscribers:</h1>
+      {% for subscriber in subscribers %}
+        {% if subscriber.recurring %}   
+      {% if not subscriber.trial %}
+      {% ifchanged subscriber.level %}
+          <h2>{{subscriber.org.subscription.planName}}</h2>
+        {% endifchanged %}
+
+      {% if subscriber.name %}
+      <a href="{% url "organization_detail"  subscriber.name %}">{{ subscriber.org.name }} [{{subscriber.name}}]</a>
+      {% else %}
+      {{ subscriber.org.name }} [{{subscriber.name}}]
+      {% endif %}
+
+{{subscriber.org.creator.email}}<br/>
+        {{subscriber.org.projects.count}}  ${{subscriber.org.subscription.total_revenue}}   <i>{{subscriber.org.source}}</i>
+
+
+      {% if not subscriber.recurring %}<b>(Non-Recurring)</b>{% endif %}
+      <hr/>
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+   </div>
+ 
+
+  <div style="width:45%; margin-right:20px; float:left; margin-top:20px; padding-left:5px; background-color:#eeeeee">
+      <h1>Non-Recurring:</h1>
+      {% for subscriber in subscribers %}
+        {% if not subscriber.recurring %}   
+      {% ifchanged subscriber.level %}
+          <h2>{{subscriber.org.subscription.planName}}</h2>
+        {% endifchanged %}
+
+
+      {% if subscriber.name %}
+      <a href="{% url "organization_detail"  subscriber.name %}">{{ subscriber.org.name }} [{{subscriber.name}}]</a>
+      {% else %}
+      {{ subscriber.org.name }} [{{subscriber.name}}]
+      {% endif %}
+
+      {{subscriber.org.creator.email}}<br/>
+        {{subscriber.org.projects.count}}  ${{subscriber.org.subscription.total_revenue}}   <i>{{subscriber.org.source}}</i>
+
+
+      {% if not subscriber.recurring %}<b>(Non-Recurring)</b>{% endif %}
+      <hr/>
+      {% endif %}
+      {% endfor %}
+   </div>
+   {% endif %}
+
+<!--
+Now included in js/libs.js
+<script src="{{ STATIC_URL }}js/flot.js" type="text/javascript"></script>  
+-->
+
+{% endblock %}

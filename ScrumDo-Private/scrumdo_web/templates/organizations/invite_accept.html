@@ -1,0 +1,58 @@
+{% extends "base_signup.html" %}
+
+{% block title %}Accept Invitation{% endblock %}
+
+{% block body %}
+    <div class="scrumdo-box-modal-header text-center">
+        <h2 class="scrumdo-signup-title">Accept Invitation</h2>
+
+        {% if user.is_authenticated %}
+            <p class="scrumdo-signup-description">
+            You are currently logged in as <u>{{ user.username }}</u>.
+            You can <a href="{% url "logged_in_team_invite_accept"  invite.key %}">accept the invitation</a> on that account
+            or you can create a new account below.
+            </p>
+        {% else %}
+            <p class="scrumdo-signup-description">You have been invited to a ScrumDo team.
+                Create an account for yourself to accept this invitation.
+            </p>
+        {% endif %}
+
+    </div>
+    <form method="POST" action="">
+    {% csrf_token %}
+    {% include 'account/inc_signup_form.html' %}
+    </form>
+    
+{% endblock %}
+
+
+{% block bottom %}
+    {% if not user.is_authenticated %}
+        <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    <div class="scrumdo-box-modal">
+                        <div class="scrumdo-box-modal-content text-center">
+                            <h4>Already have a ScrumDo account?</h4>
+                            If you already have a ScrumDo account, you can <a href="/account/login/?next={% url "logged_in_team_invite_accept"  invite.key %}">log in</a> and use that.
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-8 col-sm-offset-2">
+                <div class="scrumdo-box-modal">
+                    <div class="scrumdo-box-modal-content text-center">
+                        <h4>Google Login</h4>
+                        You can log in with your google account to skip this step.
+                        <div class="text-center" style="padding-top: 15px;">
+                            <a href="{% url "google_login_redirect"  %}?next={% url "logged_in_team_invite_accept"  invite.key %}"><img src="{{ STATIC_URL }}img/googlesigning.png"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}

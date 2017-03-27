@@ -1,0 +1,75 @@
+<div id="story-column-2" class="planning-column-content">
+    <div class="row">
+        <div class="col-sm-12">
+            <!-- Parent Projets -->
+            <div class="scrumdo-panel primary">
+                <div class="scrumdo-panel-heading" role="tab" id="headingOne">
+                    <h4 class="scrumdo-panel-title pull-left">
+                        <a ng-click="ctrl.toggleParents()"
+                            ng-class="{collapsed:!ctrl.parentsExpended}"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            Parent Workspaces
+                        </a>
+                    </h4>
+                </div>
+                <div uib-collapse="!ctrl.parentsExpended"
+                    class="scrumdo-panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingOne">
+                    <div class="scrumdo-panel-body">
+                        <sd-planning-safe-parents project="project"
+                            parent="parent"
+                            card-size="cardSize"
+                            ng-repeat="parent in project.parents|orderBy:['slug']"></sd-planning-safe-parents>
+                    </div>
+                </div>
+            </div>
+            <!-- Sibling Projets -->
+            <div class="scrumdo-panel primary">
+                <div class="scrumdo-panel-heading" role="tab" id="headingOne">
+                    <h4 class="scrumdo-panel-title pull-left">
+                        <a ng-click="ctrl.toggleSibling()"
+                            ng-class="{collapsed:!ctrl.siblingExtended}"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            Sibling Workspaces
+                        </a>
+                    </h4>
+                </div>
+                <div uib-collapse="!ctrl.siblingExtended"
+                    class="scrumdo-panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingOne">
+                    <div class="scrumdo-panel-body">
+                        <sd-planning-safe-sibling project="project"
+                            parent="sibling"
+                            card-size="cardSize"
+                            ng-repeat="sibling in ctrl.siblingProjects|orderBy:['slug']"></sd-planning-safe-sibling>
+                    </div>
+                </div>
+            </div>
+            <!-- Gloabl Backlog Projets -->
+            <div class="scrumdo-panel primary">
+                <div class="scrumdo-panel-heading" role="tab" id="headingOne">
+                    <h4 class="scrumdo-panel-title pull-left">
+                        <a ng-click="ctrl.toggleGlobalBacklog()"
+                            ng-class="{collapsed:!ctrl.backlogExtended}"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            Shared Backlog
+                        </a>
+                    </h4>
+                </div>
+                <div uib-collapse="!ctrl.backlogExtended"
+                    class="scrumdo-panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingOne">
+                    <div class="scrumdo-panel-body">
+                        <sd-planning-safe-backlog project="project"
+                            backlog-project="ctrl.backlogProject"
+                            portfolio="ctrl.portfolio"
+                            card-size="cardSize"></sd-planning-safe-backlog>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+Hi There,
+
+<p>I noticed you signed up for ScrumDo but didn't take advantage of a free trial on one of our paid plans.  I just enabled a free 30 day gold level trial for you.  No risk, no need to give a credit card.  I'd really appreciate any feedback you have.
+</p>
+<br/>
+-Ajay<br/>
+p.s. In case you forgot, here's a URL to your organization: <a href="https://www.scrumdo.com/organization/{{org_slug}}/dashboard">https://www.scrumdo.com/organization/{{org_slug}}/dashboard</a>

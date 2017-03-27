@@ -1,0 +1,79 @@
+<div class="app-breadcrumbs">
+    <ul class="project-breadcrumbs">
+        <li class="project-breadcrumb dashboard">
+            <a ng-href="/organization/{{projectData.organizationSlug}}/dashboard">
+                <i class="fa fa-chevron-left"></i>
+                Back to Dashboard
+            </a>
+        </li>
+
+        <li class="project-breadcrumb combined" 
+            ng-if="ctrl.projectData.currentProject">
+            <a ng-if="!ctrl.projectData.portfolio.root.continuous_flow && ctrl.projectData.portfolio.root" 
+                ng-href="/projects/{{::ctrl.projectData.portfolio.root.slug}}/#/summary">
+                <span ng-if="ctrl.projectData.currentProject.slug == ctrl.projectData.portfolio.root.slug">{{ctrl.projectData.currentProject.name}}</span>
+                <span ng-if="ctrl.projectData.currentProject.slug != ctrl.projectData.portfolio.root.slug">{{::ctrl.projectData.portfolio.root.name}}</span>
+                </a>
+            <a ng-if="ctrl.projectData.portfolio.root.continuous_flow && ctrl.projectData.portfolio.root" 
+                ng-href="/projects/{{::ctrl.projectData.portfolio.root.slug}}/#/iteration/{{::ctrl.projectData.portfolio.root.continuous_flow_iteration_id}}/board">
+                <span ng-if="ctrl.projectData.currentProject.slug == ctrl.projectData.portfolio.root.slug">{{ctrl.projectData.currentProject.name}}</span>
+                <span ng-if="ctrl.projectData.currentProject.slug != ctrl.projectData.portfolio.root.slug">{{::ctrl.projectData.portfolio.root.name}}</span>
+                </a>
+            <a ng-if="!ctrl.projectData.currentProject.continuous_flow && !ctrl.projectData.portfolio.root"
+                ng-href="/projects/{{::ctrl.projectData.currentProject.slug}}/#/summary">
+                {{ctrl.projectData.currentProject.name}}</a>
+            <a ng-if="ctrl.projectData.currentProject.continuous_flow && !ctrl.projectData.portfolio.root"
+                ng-href="/projects/{{::ctrl.projectData.currentProject.slug}}/#/iteration/{{::ctrl.projectData.currentProject.continuous_flow_iteration_id}}/board">
+                {{ctrl.projectData.currentProject.name}}</a>
+            <safe-project-dropdown
+                    alignment="dropdown-menu"
+                    selector="'icon'"
+                    project-selected="ctrl.projectSelected(project)"
+                    project="ctrl.projectData.currentProject">
+            </safe-project-dropdown>
+        </li>
+
+        <li class="project-breadcrumb" 
+            ng-if="ctrl.projectData.currentProject 
+                                            && ctrl.projectData.portfolio.root
+                && ctrl.projectData.currentProject.slug != ctrl.projectData.portfolio.root.slug">
+            <img ng-src="{{STATIC_URL}}images/breadcrumb-divider.png" />
+        </li>
+
+        <li class="project-breadcrumb combined"
+            ng-if="ctrl.projectData.portfolio.root &&
+                ctrl.projectData.currentProject.slug != ctrl.projectData.portfolio.root.slug">
+            <a ng-if="!ctrl.projectData.currentProject.continuous_flow"
+                ng-href="/projects/{{::ctrl.projectData.currentProject.slug}}/#/summary">
+                {{ctrl.projectData.currentProject.name}}</a>
+            <a ng-if="ctrl.projectData.currentProject.continuous_flow"
+                ng-href="/projects/{{::ctrl.projectData.currentProject.slug}}/#/iteration/{{::ctrl.projectData.currentProject.continuous_flow_iteration_id}}/board">
+                {{ctrl.projectData.currentProject.name}}</a>
+            <safe-project-dropdown
+                    alignment="dropdown-menu"
+                    selector="'icon'"
+                    portfolio-mode="true"
+                    portfolio-slug="ctrl.projectData.portfolio.root.slug"
+                    project-selected="ctrl.projectSelected(project)"
+                    project="ctrl.projectData.currentProject">
+            </safe-project-dropdown>
+        </li>
+
+        <li class="project-breadcrumb" ng-if="ctrl.projectData.currentIteration">
+            <img ng-src="{{STATIC_URL}}images/breadcrumb-divider.png" />
+        </li>
+
+        <li class="project-breadcrumb" 
+            ng-if="ctrl.projectData.currentIteration">
+            <sd-iteration-select 
+                                 ng-model="ctrl.currentIteration"
+                                 ng-change="ctrl.onIterationSelected()"
+                                 alignment="dropdown-menu"
+                                 working-only="true"
+                                 show-archive-option="false"
+                iterations="ctrl.projectData.iterations">
+            </sd-iteration-select>
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </li>
+    </ul>
+</div>

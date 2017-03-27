@@ -1,0 +1,16 @@
+{% load iteration_tags %}
+{% load projects_tags %}
+
+{% for iteration in iterations %}
+<li class="project-menu-iteration-list-item {% if iteration.isCurrent %}project-menu-current-iteration{% endif %}">
+	<a href="{% url "iteration_route"  project.slug iteration.id page_type %}">{{iteration.name}}<br/>
+	<i>{% if iteration.start_date %}{{iteration.start_date|date:"M d Y"}}{% endif %}{% if iteration.end_date %} - {{iteration.end_date|date:"M d Y"}}{% endif %}</i>
+	</a>
+</li>
+{% endfor %}
+
+{% if show_more %}
+<li class="project-menu-iteration-list-item">
+ <a href="{% url "all_iterations"  project.slug %}">More Iterations...</a>
+</li>
+{% endif %}

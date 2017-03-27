@@ -1,0 +1,63 @@
+<uib-accordion close-others="false" ng-if="watchedProjects.length" ng-if="status_open = true">
+    <div uib-accordion-group class="panel-default my-projects-panel"
+        is-open="status_open"
+        is-open="true">
+        <uib-accordion-heading>
+            My Workspaces
+            <i class="pull-right fa" 
+                ng-class="{'fa-chevron-down': status_open, 'fa-chevron-right': !status_open}"></i>
+        </uib-accordion-heading>
+        <div class="scrumdo-overview-cardlist">
+            <ul class="safe-projects-list">
+                <li ng-repeat="(cat, projects) in safeProjectList.nonportfolio.projects | orderProjectByCat:false">
+                    <a href="" ng-if="projects[0].category.length > 0 && ctrl.filterdWatchedHalper[cat].length > 0" 
+                        class="project-category"><span>
+                        {{:: projects[0].category | shorttext:true:20}}</span></a>
+                    <ul>
+                        <li ng-class="{active:(chat.currentProjectSlug==project.slug)}"
+                            ng-repeat="project in ctrl.filterdWatchedHalper[cat] = (projects | orderBy:'name' | filter:ctrl.isWatchedProject)">
+                            <a href="/projects/{{project.slug}}/#/defaultboard">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </a>
+
+                            <a ng-href="/projects/{{project.slug}}/">
+                                <span class="project-icon" style="color: {{project.color|decimalToHexColor}}">
+                                    <i class="fa" ng-class="project.icon"></i></span>
+                                <span>{{:: project.name | shorttext:true:30}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li ng-repeat="(key, projects) in safeProjectList.portfolio" class="portfolio-projects">
+                    <ul>
+                        <li ng-repeat="project in projects"
+                            ng-if="project.isPortfolio && ctrl.filterdWatchedHalper[key].length > 0"
+                            ng-class="{'portfolio-project': project.isPortfolio, active:(chat.currentProjectSlug==project.slug)}">
+                            <a href="/projects/{{project.slug}}/#/defaultboard">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </a>
+
+                            <a ng-href="/projects/{{project.slug}}/">
+                                <span class="project-icon" style="color: {{project.color|decimalToHexColor}}">
+                                    <i class="fa" ng-class="project.icon"></i></span>
+                                <span>{{:: project.name | shorttext:true:30}}</span>
+                            </a>
+                        </li>
+                        <li ng-repeat="project in ctrl.filterdWatchedHalper[key] = (projects | filter:ctrl.isWatchedProject)"
+                            ng-if="!project.isPortfolio && project.project_type != 3"
+                            ng-class="{'portfolio-project': project.isPortfolio, active:(chat.currentProjectSlug==project.slug)}">
+                            <a href="/projects/{{project.slug}}/#/defaultboard">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </a>
+                            <a ng-href="/projects/{{project.slug}}/">
+                                <span class="project-icon" style="color: {{project.color|decimalToHexColor}}">
+                                    <i class="fa" ng-class="project.icon"></i></span>
+                                <span>{{:: project.name | shorttext:true:30}}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</uib-accordion>

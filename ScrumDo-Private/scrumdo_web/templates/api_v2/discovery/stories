@@ -1,0 +1,455 @@
+{
+    "apiVersion": "0.2", 
+    "apis": [
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "searchProject", 
+                    "notes": "Because there can be a lot of stories per project, this request is paged with 200 stories per page.  First page is #1", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Search string, same syntax as on scrumdo.com site", 
+                            "name": "q", 
+                            "paramType": "query", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Page number of results to return, defaults to first", 
+                            "name": "page", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Search a project for stories."
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/search"
+        }, 
+
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "searchIteration",                     
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Iteration to search", 
+                            "name": "iteration_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Search string, same syntax as on scrumdo.com site", 
+                            "name": "q", 
+                            "paramType": "query", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Search a project for stories."
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/iterations/{iteration_id}/search"
+        }, 
+
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectStories", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "ID of a story to fetch", 
+                            "name": "story_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Retrieve a single story from a project"
+                }, 
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "DELETE", 
+                    "nickname": "deleteStory", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "ID of a story to delete", 
+                            "name": "story_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Delete's a story"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/stories/{story_id}"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "PUT", 
+                    "nickname": "updateSingleStory", 
+                    "notes": "Any story parameters ommited from the request will not be changed.  This is functionally identical to the other story update call minus the ability to move stories to a new iteration.", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "ID of a story to fetch", 
+                            "name": "story_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>&quot;epic_rank&quot;:500000,<br/>&quot;labels&quot;:[{&quot;id&quot;:5929},{&quot;id&quot;:5930}],<br/>&quot;rank&quot;:500000,<br/>&quot;assignees&quot;:&quot;mhughes, ajay&quot;,<br/>&quot;detail&quot;:&quot;Here is my story detail, in html format.&quot;,<br/>&quot;cell_id&quot;:23000,<br/>&quot;tags&quot;:&quot;tag1,tag2&quot;,<br/>&quot;summary&quot;:&quot;&lt;p&gt;Here is my summary&lt;/p&gt;&quot;,<br/>&quot;extra_1&quot;:&quot;The first &lt;b&gt;custom&lt;/b&gt; field&quot;<br/>}",
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Modify or move a story"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/stories/{story_id}"
+        },
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "POST", 
+                    "nickname": "reorderStory", 
+                    "notes": "Reorder a story so it exists between two others.  If you want it at the start of the list, don't pass the before story id.  Last, don't pass the after.", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "ID of a the story to reorder.", 
+                            "name": "story_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Story ID that should be before this story.", 
+                            "name": "before", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Story ID that should be after this story.", 
+                            "name": "after", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Reorder a story"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/stories/{story_id}/reorder"
+        },
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getProjectStoryById", 
+                    "notes": "Because there can be a lot of stories per project, this request is paged with 200 stories per page.  First page is #1", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Page number of results to return, defaults to first", 
+                            "name": "page", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Retrieve all stories from a project"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/stories"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "GET", 
+                    "nickname": "getIterationStories", 
+                    "notes": "Only iterations which you have permission to see will be returned", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Iteration ID to fetch", 
+                            "name": "iteration_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Retrieve Stories from an iteration"
+                }, 
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "POST", 
+                    "nickname": "createStory", 
+                    "notes": "", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "Integer", 
+                            "description": "Iteration ID to fetch", 
+                            "name": "iteration_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>&quot;epic_rank&quot;:500000,<br/>&quot;labels&quot;:[{&quot;id&quot;:5929},{&quot;id&quot;:5930}],<br/>&quot;rank&quot;:500000,<br/>&quot;assignees&quot;:&quot;mhughes, ajay&quot;,<br/>&quot;detail&quot;:&quot;Here is my story detail, in html format.&quot;,<br/>&quot;cell_id&quot;:23000,<br/>&quot;tags&quot;:&quot;tag1,tag2&quot;,<br/>&quot;summary&quot;:&quot;&lt;p&gt;Here is my summary&lt;/p&gt;&quot;,<br/>&quot;extra_1&quot;:&quot;The first &lt;b&gt;custom&lt;/b&gt; field&quot;<br/>}", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Create a new story"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/iterations/{iteration_id}/stories"
+        }, 
+        {
+            "operations": [
+                {
+                    "errorResponses": [], 
+                    "httpMethod": "PUT", 
+                    "nickname": "updateStory", 
+                    "notes": "Any story parameters ommited from the request will not be changed.  You can move a story by specifying the new iteration_id in the URL with an empty JSON object \"{}\" as the body of the request.", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the organization to be fetched", 
+                            "name": "organization_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Slug of the project to be fetched", 
+                            "name": "project_slug", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "ID of the iteration the story should be moved to (or is currently in if not moving)", 
+                            "name": "iteration_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "ID of a story to fetch", 
+                            "name": "story_id", 
+                            "paramType": "path", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "{<br/>&quot;epic_rank&quot;:500000,<br/>&quot;labels&quot;:[{&quot;id&quot;:5929},{&quot;id&quot;:5930}],<br/>&quot;rank&quot;:500000,<br/>&quot;assignees&quot;:&quot;mhughes, ajay&quot;,<br/>&quot;detail&quot;:&quot;Here is my story detail, in html format.&quot;,<br/>&quot;cell_id&quot;:23000,<br/>&quot;tags&quot;:&quot;tag1,tag2&quot;,<br/>&quot;summary&quot;:&quot;&lt;p&gt;Here is my summary&lt;/p&gt;&quot;,<br/>&quot;extra_1&quot;:&quot;The first &lt;b&gt;custom&lt;/b&gt; field&quot;<br/>}", 
+                            "name": "body", 
+                            "paramType": "body", 
+                            "required": true
+                        }
+                    ], 
+                    "responseClass": "Story", 
+                    "summary": "Modify or move a story"
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/iterations/{iteration_id}/stories/{story_id}"
+        }
+    ], 
+    "basePath": "{{SSL_BASE_URL}}/api/v3/",
+    "models": [], 
+    "resourcePath": "organizations", 
+    "swaggerVersion": "1.1"
+}

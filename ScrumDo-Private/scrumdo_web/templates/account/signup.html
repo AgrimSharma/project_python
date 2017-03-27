@@ -1,0 +1,94 @@
+{% extends "base_signup.html" %}
+
+{% block extra_head %}
+{#    <link rel="stylesheet" href="{{ STATIC_URL }}css/ab-test.css">#}
+{% endblock %}
+
+{% block title %}Create Account{% endblock %}
+
+{% block body %}
+    <div class="scrumdo-box-modal-header text-center">
+        <h2 class="scrumdo-signup-title">Create An Account</h2>
+        <p class="scrumdo-signup-description">First, create a personal account for you to log in with, we'll set up your company and workspace next.</p>
+    </div>
+    {% if key_expired %}
+        <div class="scrumdo-box-modal-content">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <p>Your registration key is already expired, please request a new key <a href="{% url 'acct_signup' %}">here</a>.</p>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <form method="POST" action="." id="signupForm">
+            {% csrf_token %}
+            {% include 'account/inc_signup_form.html' %}
+        </form>
+    {% endif %}
+
+    {% if not key_expired and welcome_screen %}
+        <div class="singup-welcome-screen" id="singup-welcome-screen">
+            <div class="scrumdo-box-modal-header text-center">
+                <h2 class="scrumdo-signup-title">Welcome to ScrumDo</h2>
+                <div class="welcome-video">
+                    <iframe style="max-width: 100%;" src="https://player.vimeo.com/video/204631579?color=F2754E&title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                </div>
+                <div class="terms-services text-right" style="margin-top:20px;">
+                    <span class="scrumdo-text primary">By continuing, you agree to the 
+                        <a href="http://www.scrumdo.com/terms-of-service" alt="Terms of Service" 
+                        title="Terms of Service" target="_blank">Terms of Service</a>.</span>
+                    <button onClick="$('#singup-welcome-screen').fadeOut(1000)" class="scrumdo-btn secondary">Continue</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block bottom %}
+        <div class="signup-page-footer-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-sm-offset-2">
+                        <div class="text-center">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+
+{% block mixpanel %}
+<!-- start Mixpanel --><script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+
+
+mixpanel.init("{{MIXPANEL_TOKEN}}", {'loaded' : function() {
+{#        var controller = new Scenario({name:'AB Signup Page Button'});#}
+{#        controller.test({name:'AB Signup Page Button 1'});#}
+{#        controller.test({name:'AB Signup Page Button 2'});#}
+{#        controller.test({name:'AB Signup Page Button 3'});#}
+{#        controller.test({name:'AB Signup Page Button 4'});#}
+{#        controller.go();#}
+{##}
+{#        var controller = new Scenario({name:'AB Signup Page Footer'});#}
+{#        controller.test({name:'AB Signup Page Footer 1'});#}
+{#        controller.test({name:'AB Signup Page Footer 2'});#}
+{#        controller.test({name:'AB Signup Page Footer 3'});#}
+{#        controller.test({name:'AB Signup Page Footer 4'});#}
+{#        controller.go();#}
+	}});
+
+</script><!-- end Mixpanel -->
+{% endblock %}
+
+
+{% block pagebottom %}
+    <script>
+        mixpanel.track("View Signup Form");
+    </script>
+{% endblock %}

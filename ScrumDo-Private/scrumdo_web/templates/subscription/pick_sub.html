@@ -1,0 +1,28 @@
+{% extends "organizations/commercial_org_base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load subscription_tags %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+{% block body_class %}subscription-options-page{% endblock %}
+
+{% block org_body %}
+
+<h1>Please choose an organization</h1>
+
+<ul>
+  {% for org in organizations %}
+  <li>
+  <a href="{% url "subscription_options"  org.slug %}">{{org.name}}</a>
+  </li>
+  {% endfor %}  
+</ul>
+
+{% endblock %}

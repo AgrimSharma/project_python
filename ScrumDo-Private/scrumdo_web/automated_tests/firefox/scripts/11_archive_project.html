@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9000/" />
+<title>11_archive_project</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">11_archive_project</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/account/logout/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/account/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_username</td>
+	<td>scrumdoselenium</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>scrumdotesting</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Log In »']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=div.organization_picker &gt; a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=TestOrg</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Projects</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=New Project</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_name</td>
+	<td>TestProjectArchive</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.primaryAction</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=TestProjectArchive</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Project Admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=archiveFormButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>This project is archived. You can not make changes to archived projects. </td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

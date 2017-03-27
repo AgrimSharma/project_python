@@ -1,0 +1,6 @@
+Django==1.4
+Yolk
+South==0.7.5
+-e git+https://github.com/alex/django-filter.git#egg=django-filter
+django-haystack==1.2.7
+django-avatar==1.0.4

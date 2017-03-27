@@ -1,0 +1,16 @@
+// conf.js
+exports.config = {
+  seleniumAddress: 'http://localhost:4444/wd/hub',
+  specs: [
+	'../atomic-tests/spec-login/spec.js',
+	'../atomic-tests/spec-new-project/spec.js',
+	'../atomic-tests/spec-delete-project/spec.js',
+	'../atomic-tests/spec-logout/spec.js'
+	],
+  capabilities: {
+    browserName: 'firefox'
+  },
+  onPrepare: function() {
+    global.By = global.by;
+  }
+}

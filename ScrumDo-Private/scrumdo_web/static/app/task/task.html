@@ -1,0 +1,21 @@
+<li class="task-view" data-task-id="{{::task.id}}">
+    <span ng-if="canWrite"
+          ng-click="ctrl.edit()"
+          class="task-toolbar no-drag glyphicon glyphicon-pencil cards-edit pull-right">
+    </span>
+
+    <div class="task-summary">{{ task.summary }} </div>
+
+    <div ng-if="task.tags || task.assignee || task.estimated_minutes > 0" class="cards-badges-wrapper cards-details">
+        <span class="task-assignee pull-right" ng-if="task.assignee" >
+            <sd-user-portrait user="task.assignee" uib-tooltip={{task.assignee|shortuser}} size="20">
+            </sd-user-portrait>
+        </span>
+
+        <div class="task-tags" ng-bind-html="task.tags | prettytasktags"></div>
+
+        <span ng-if="task.estimated_minutes > 0">
+            {{hours}}:{{minutes}}
+        </span>
+    </div>
+</li>

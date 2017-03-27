@@ -1,0 +1,10 @@
+{% load projects_tags %}
+modified card
+<ul>
+	<li>
+        <a href="{{fileData.file_url}}" target="_blank">{{fileData.file_name}}</a> Attachment Added 
+        {% if fileData.thumb_url %}
+            <br/><br/><a href="{{fileData.file_url}}" target="_blank"><img style="width:auto;height:50px;" src="{{fileData.thumb_url}}" alt="" /></a> 
+        {% endif %}
+	</li>
+</ul>

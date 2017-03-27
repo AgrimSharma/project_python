@@ -1,0 +1,50 @@
+{% extends "account/settings_base.html" %}
+
+{% load i18n %}
+{% block head_title %}{% trans "Delete Account" %}{% endblock %}
+
+{% block body %}
+    <h1>{% trans "Delete Account" %}</h1>       
+    <p>You can delete your account to erase all traces of yourself from our system.  Before you do that, you need to delete, or be removed from, any organizations you are a member of.</p>
+    <p><b>Looking to cancel your subscription?</b>  That is done from the billing link on the subscriptions page of your organization.</p>
+    
+    <p><a href="#" id="DeleteAccountToggleButton" class="button red">Delete Account</a></p>
+    <p style="color:RED;"></p>
+    <div id="confirmDeleteAccount" style="display: none;">
+    	<form id="DeleteAccountForm" action="" method="POST">
+            {% csrf_token %}
+    		{{ form.username }}
+    		{{ form.password1.label }} {{ form.password1 }}
+    		<p>
+    		<input type="submit" value="Confirm Delete Account" name="submit" class="button red" />
+    		<a href="#" id="CancelDeleteAccount">Cancel</a>
+    		</p>
+    	</form>
+    </div>
+{% endblock %}
+
+{% block extra_head %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#DeleteAccountToggleButton").click(function() {
+				$("#confirmDeleteAccount").show();
+				$("#DeleteAccountToggleButton").hide();
+				return false;
+			});
+			
+			$("#CancelDeleteAccount").click(function() {
+				$("#confirmDeleteAccount").hide();
+				$("#DeleteAccountToggleButton").show();
+			});
+			
+			$("#DeleteAccountForm").submit(function() {
+				if( confirm("Are you sure you want to delete your account? All of your workspaces in scrumdo will also be deleted. " ) )
+				{
+					return true;
+				}
+				
+				return false;
+			});
+		});
+	</script>
+{% endblock %}

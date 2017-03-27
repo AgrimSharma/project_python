@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load projects_tags %}
+{% load staff_tags %}
+
+{% block body_div_class %}full_body{% endblock %}
+
+{% block body %}
+    <table class="table table-striped table-hover">
+    <tr>
+        <th>
+            Date
+        </th>
+        <th>Name</th>
+        <th>Creator</th>
+        <th>User Count</th>
+        <th>Project Count</th>
+        <th>Activity Count</th>
+        <th>Trial Account</th>
+        <th>Plan</th>
+
+    </tr>
+        {% for organization in organizations %}
+            <tr>
+                <td>{{ organization.created }}</td>
+                <td><a href="{% url "organization_dashboard" organization.slug %}">{{ organization.name }}</a></td>
+                <td><a href="mailto:{{ organization.creator|probable_email }}">{{ organization.creator|probable_email }}</a></td>
+                <td>{{ organization.memberCount }}</td>
+                <td>{{ organization.projects.count }}</td>
+                <td>
+                    {% with act_count=organization|org_activity_count %}
+                        <span
+                                {% if act_count < 10 %}
+                                    {% if act_count < 1 %}
+                                        class="label label-important"
+                                    {% else %}
+                                        class="label label-warning"
+                                    {% endif %}
+                                {% endif %}
+                                {% if act_count > 100 %}
+                                    class="label label-success"
+                                {% endif %}
+                                >
+                        {{ act_count }}
+                        </span>
+
+                    {% endwith %}
+                </td>
+                <td> <span {% if not organization.subscription.is_trial%}class="label label-success"{% endif %}>{{ organization.subscription.is_trial }}</span></td>
+                <td>{{ organization.subscription.planName }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

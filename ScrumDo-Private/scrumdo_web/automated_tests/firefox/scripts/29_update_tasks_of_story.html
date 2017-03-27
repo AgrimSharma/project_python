@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9000/" />
+<title>29_update_tasks_of_story</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">29_update_tasks_of_story</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/account/logout/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/account/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_username</td>
+	<td>scrumdoselenium</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>scrumdotesting</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Log In »']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=h1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=TestOrg</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Projects</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/projects/project/testproject/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Story List</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=1 Tasks</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>xpath=//input[@id='id_summary']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>//input[@id='id_summary']</td>
+	<td>test task updated</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#edit_task_1 &gt; input.button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=TestProject</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Story List</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=1 Tasks</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>test task updated </td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

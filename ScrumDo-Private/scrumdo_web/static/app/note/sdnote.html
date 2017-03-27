@@ -1,0 +1,37 @@
+<div class="note-content single-note">
+    <div class="note-title form-group">
+        <h2 ng-if="ctrl.currentNote.active == true"
+            ng-bind-html="ctrl.currentNote.title"></h2>
+        <h2 ng-if="ctrl.currentNote.active == false">Note Deleted!</h2>
+
+        <a ng-href="/projects/{{::ctrl.project.slug}}/#/iteration/{{::ctrl.currentNote.iteration_id}}/notes/{{::ctrl.currentNote.id}}" 
+            class="note-link"
+            ng-if="ctrl.currentNote.active == true && ctrl.currentNote.iteration_id">
+            <i ng-if="ctrl.currentNote.active == true && ctrl.currentNote.iteration_id"
+                class="fa fa-link" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="note-body form-group" ng-if="ctrl.currentNote.active == true">
+        <div ng-bind-html="ctrl.currentNote.body"></div>
+    </div>
+    <div class="row" ng-if="ctrl.currentNote.active == true">
+        <div class="note-extras col-md-12" ng-if="!ctrl.loading">
+            <div class="note-attachments col-md-4">
+                <sd-attachments ng-if="ctrl.currentNote && ctrl.canWrite" project="ctrl.project" 
+                    note="ctrl.currentNote"></sd-attachments>
+                <sd-attachments readonly="true" ng-if="ctrl.currentNote && !ctrl.canWrite" project="ctrl.project" 
+                    note="ctrl.currentNote"></sd-attachments>
+            </div>
+            <div class="note-comments col-md-8">
+                <sd-comments-box ng-if="ctrl.currentNote && ctrl.canWrite" user="ctrl.userService.me"
+                        project="ctrl.project"
+                        ng-model="ctrl.newComment"
+                        note="ctrl.currentNote"></sd-comments-box>
+                <sd-comments-box readonly="true" ng-if="ctrl.currentNote && !ctrl.canWrite" user="ctrl.userService.me"
+                        project="ctrl.project"
+                        ng-model="ctrl.newComment"
+                        note="ctrl.currentNote"></sd-comments-box>
+            </div>
+        </div>
+    </div>
+</div>

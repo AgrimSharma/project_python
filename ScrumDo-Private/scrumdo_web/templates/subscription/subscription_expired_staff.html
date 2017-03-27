@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load humanize %}
+{% load projects_tags %}
+
+{% load avatar_tags %}
+{% load extras_tags %}
+{% load organizations_tags %}
+{% load subscription_tags %}
+
+{% block head_title %}{{organization.name}}{% endblock %}
+
+{% block body_class %}subscription-options-page{% endblock %}
+
+
+{% block body_app %}ng-app="SubscriptionApp" id="ng-app"{% endblock %}
+{% block appinit %}scrumdo.setupSubscriptionApp("{{ STATIC_URL }}", "{{ organization.slug }}");{% endblock %}
+
+
+{% block body %}
+
+<div class="current-subscription">
+
+	<h1>Upgrade your subscription</h1>
+
+
+
+	{% if is_expired %}
+        <p><b>Expired: </b>Your subscription has expired.  Subscribe to a plan below to continue using ScrumDo.</p>
+	{% endif %}
+
+	{% if over_users %}
+		<p><b>Users: </b> You are over your user limit (You have <b id="sub_members_count">{{members|length}}</b>, 
+            but your plan allows <b id="sub_members_plan">{{plan_users}}</b>). You can upgrade your plan below to continue using ScrumDo or 
+            you can also manage your organization members to continue using ScrumDo.
+        </p>
+	{% endif %}
+
+	{% if over_projects %}
+		<p><b>Workspaces: </b> You are over your account workspace limit. (You have <b>{{projects|length}}</b>, but your plan allows <b>{{plan_projects}}</b>) You can either upgrade to a higher plan or archive some workspaces below to continue using ScrumDo.</p>
+	{% endif %}
+
+	{% if over_users or over_projects %}
+		<p><b>Not expecting this?</b> There are a few ways your account can go over it's limit.
+			For example, if your subscription lapses, or you downgrade.  It's even possible to send out more
+			team invitations than allowed under certain circumstances.
+		</p>
+	{% endif %}
+
+	
+	<br style="clear:both" />
+	<p>
+	Please feel free to <a class="IntercomStartLink">contact us</a> for help, make sure to include your organization.
+	</p>
+	
+</div>
+    <sd-subscription-page>
+        {% if over_users %}
+            <sd-subscription-members></sd-subscription-members>
+        {% endif %}
+        <sd-subscription-table ng-show="!ctrl.showMembers" ng-if="ctrl.subscription!=null"></sd-subscription-table>
+        <sd-subscription-features ng-show="!ctrl.showMembers"></sd-subscription-features>
+        <div ng-if="ctrl.subscription==null" class="text-center" style="padding-top: 50px;">
+            Retreiving subscription status.
+        </div>
+    </sd-subscription-page>
+
+    {% if is_grace %}
+        <div class="current-subscription">
+			<h2>Grace Period</h2>
+			<p>
+			This organization is in a grace period.  You can access your workspaces from the list below for {{subscription.grace_until|daysuntil}} more day{{subscription.grace_until|daysuntil|pluralize}}.
+			</p>
+        	<ul>
+        	{% for project in organization.projects.all %}
+                <li>
+                <a href="{% url "kanban_board"  project.slug %}">{{ project.name }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+{% endblock %}

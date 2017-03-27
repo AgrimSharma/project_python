@@ -1,0 +1,1 @@
+created workspace <a href="{{project.get_absolute_url}}">{{project.name}}</a>

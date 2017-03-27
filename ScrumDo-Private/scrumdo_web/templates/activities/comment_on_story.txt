@@ -1,0 +1,6 @@
+{% load projects_tags %}
+commented on card
+
+<div class="scrumdo-overview-comment">
+{{item.comment|linebreaks}}
+</div>

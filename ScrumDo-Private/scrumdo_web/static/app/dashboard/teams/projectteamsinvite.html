@@ -1,0 +1,75 @@
+<div class="team-invite-form">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="">
+                <div class="scrumdo-select teams project-assigned-select" uib-dropdown>
+                    <div class="dropdown-toggle safe-project-dropdown-toggle" uib-dropdown-toggle>
+                        <button type="button" class="scrumdo-btn dropdown-main-button primary extended scrumdo-select-button">
+                            <span ng-if="ctrl.selectedTeam == null">Select Team</span>
+                            <span ng-if="ctrl.selectedTeam != null">{{ctrl.selectedTeam.name}}</span>
+                        </button>
+                        <div class="input-group-btn dropdown-button-container">
+                            <button type="button" class="scrumdo-btn primary dropdown-button" aria-expanded="false">
+                                <span class="glyphicon glyphicon-chevron-down"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <ul class="dropdown-menu team-project-list" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <li ng-repeat="team in ctrl.filteredTeams = (ctrl.teams | filter: ctrl.teamFilter)" 
+                            ng-if="project.project_type != 2">
+                            <a href="" ng-click="ctrl.selectTeam(team)" class="project-category">
+                                <span>{{::team.name}}</span> <small><i>({{::ctrl.getAccessName(team.access_type)}})</i></small></a>
+                        </li>
+                        <li ng-repeat="team in ctrl.orgFilteredTeams = (ctrl.orgTeams | filter: ctrl.teamFilter)"
+                            ng-if="project.project_type == 2">
+                            <a href="" ng-click="ctrl.selectTeam(team)" class="project-category">
+                                <span>{{::team.name}}</span> <small><i>({{::ctrl.getAccessName(team.access_type)}})</i></small></a>
+                        </li>
+                        <li ng-if="((!ctrl.orgFilteredTeams.length && project.project_type == 2) 
+                                    || (!ctrl.filteredTeams.length && project.project_type != 2))
+                                    && !ctrl.loading">
+                            <a style="white-space: normal;cursor: default;color:#f6764e;" 
+                                ng-if="ctrl.userService.me.staff"
+                                ui-sref="app.settings.newteam">uh Oh! Looks like you have no teams associated with this workspace.. <br/>
+                                Go to your <i style="color: #428bca;cursor: pointer;">Workpsace Settings</i> to create teams. 
+                                Then you can invite your team mates</a>
+                            <a ng-if="!ctrl.userService.me.staff" href="" ng-click="ctrl.doNothing($event)">No Teams to show.</a></li>
+                        </li>
+
+                        <li class="faded" ng-if="ctrl.loading">
+                            <a href="" ng-click="ctrl.doNothing($event)">Loading...</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12" ng-if="ctrl.selectedTeam" style="margin-top:20px;">
+            <span class="scrumdo-text primary">Enter ScrumDo username or email address to invite</span>
+            <div class="form-group " ng-repeat="invitee in ctrl.invitees">
+                <div class="form-group" ng-class="{'has-error':invitee.result}">
+                    <input ng-change="ctrl.inviteeChanged()"
+                            autocomplete="off"
+                            name="invitee"
+                            ng-model="invitee.name"
+                            typeahead-editable="true"
+                            typeahead-focus-first="false"
+                            uib-typeahead="member.username as member|longuser for member in ctrl.allMembers | filter:$viewValue | limitTo:8"
+                            type="text"
+                            class="scrumdo-form primary scrumdo-teamlist-input-center"
+                            />
+                    <p class="scrumdo-text primary" ng-if="invitee.result">{{invitee.result.reason}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-right">
+                    <button ng-click='ctrl.sendInvitations()' type="button" class="scrumdo-btn secondary">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                        Send Invitation
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Development process &mdash; ScrumDo 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="ScrumDo 1.0 documentation" href="index.html" />
+    <link rel="next" title="Models" href="models.html" />
+    <link rel="prev" title="Setup Guide" href="setup.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="Setup Guide"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ScrumDo 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="development-process">
+<h1>Development process<a class="headerlink" href="#development-process" title="Permalink to this headline">¶</a></h1>
+<p>Being a remote team has certain challenges in managing and organizing.
+This tutorial describes the nominal way the engineering team will work at Codegenesys</p>
+<div class="section" id="daily-updates">
+<h2>Daily updates<a class="headerlink" href="#daily-updates" title="Permalink to this headline">¶</a></h2>
+<p>Instead of a daily phone checkin, we&#8217;re using Slack. Every day, at a convenient time for you, please give the team an update of what&#8217;s going on. Please start it with &#8216;Daily Update:&#8217; to make it easy to identify. Here&#8217;s some examples:</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Daily Update: Today I worked on some bugs related to shortcut keys for card, planning poker and project drop-down. and also worked on my cards section to show Help Topic with empty cards. Will start work on new Blocked feature for cards.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Daily update: Over the weekend I deployed the elasticsearch cluster into production, ran into a lot of problems. Everything seems to be going really well with it now, no customer complaints, CPU usage way down and creating cards feels faster. I&#8217;ve cleared out my backlog of code to review and deployed all that. Today I&#8217;ll be working on writing up specifications for new work and then digging into some myself.</p>
+</div>
+</div>
+<div class="section" id="branches">
+<h2>Branches<a class="headerlink" href="#branches" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>development</li>
+<li>production</li>
+</ul>
+</div></blockquote>
+<p>These two branches are for the classic version of ScrumDo. You should only touch them with explicit orders and they can generally be ignored.</p>
+<blockquote>
+<div><ul class="simple">
+<li>production-v2</li>
+</ul>
+</div></blockquote>
+<p>This represents the version of ScrumDo that runs on app.scrumdo.com and is live for our customers. We have jobs which automatically deploy this branch to the servers. Only Marc should ever push to this branch, so you can probably ignore it.</p>
+<blockquote>
+<div><ul class="simple">
+<li>development-v2</li>
+</ul>
+</div></blockquote>
+<p>This is the main development branch for ScrumDo. We merge all our features into it and test before deploying to production-v2. However, you should not be directly committing changes to it. We use a feature branch and pull request mechanism to review all code first.</p>
+<blockquote>
+<div><ul class="simple">
+<li>feature/<strong>&lt;feature name&gt;</strong></li>
+</ul>
+</div></blockquote>
+<p>These are all the branches we use to develop new features, fix bugs, or do just about any work. Most of your development time will be spent in here.</p>
+<blockquote>
+<div><ul class="simple">
+<li>beta</li>
+</ul>
+</div></blockquote>
+<p>This branch represents the version that is live on beta.scrumdo.com You can push changes here if you want someone else to view them</p>
+<p>git checkout beta</p>
+<p>git pull</p>
+<p>git merge feature/my-feature</p>
+<p>git push</p>
+<p>Doing that will cause it to automatically be deployed to beta.scrumdo.com, so give a warning in the development slack channel so everyone knows.</p>
+<p>When we get a QA person, we&#8217;ll be doing this a lot.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">beta runs on the production database. So that&#8217;s real live data and you have to be careful not to mess up any customer data. Database migrations are not automatically run. If you need a migration, talk with Marc, we need to make sure it&#8217;ll be backward compatible and it needs to be manually run.</p>
+</div>
+</div>
+<div class="section" id="merging">
+<h2>Merging<a class="headerlink" href="#merging" title="Permalink to this headline">¶</a></h2>
+<p>Any time you do a git pull, you might have to manually merge changes from other people. Watch for this. This can get tricky. Here is some help:</p>
+<p>General method via command line: <a class="reference external" href="https://githowto.com/resolving_conflicts">https://githowto.com/resolving_conflicts</a></p>
+<p>I use p4merge as a visual merge tool, here is how to set that up: <a class="reference external" href="https://gist.github.com/tony4d/3454372">https://gist.github.com/tony4d/3454372</a></p>
+<p>Here is how to use p4merge: <a class="reference external" href="http://naleid.com/blog/2013/10/29/how-to-use-p4merge-as-a-3-way-merge-tool-with-git-and-tower-dot-app">http://naleid.com/blog/2013/10/29/how-to-use-p4merge-as-a-3-way-merge-tool-with-git-and-tower-dot-app</a></p>
+<p>If you skip to 2:00 in this video (ignore the perforce parts before that and everything after 3:00) you can see how to use it: <a class="reference external" href="https://www.perforce.com/resources/tutorials/resolving-conflicts">https://www.perforce.com/resources/tutorials/resolving-conflicts</a></p>
+<p>It&#8217;s important to do the merges correctly so you don&#8217;t lose the other persons changes, ask if you have questions.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Development process</a><ul>
+<li><a class="reference internal" href="#daily-updates">Daily updates</a></li>
+<li><a class="reference internal" href="#branches">Branches</a></li>
+<li><a class="reference internal" href="#merging">Merging</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="setup.html"
+                        title="previous chapter">Setup Guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="models.html"
+                        title="next chapter">Models</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/development.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="models.html" title="Models"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="Setup Guide"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">ScrumDo 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, CodeGenesys Team.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{% with file.extra as extra %}
+<tr>
+<td>
+<a href="#" onclick="jQuery.facebox({ajax: '{% url "view_attachment"  file.pk next %}' }); return false;">{{file.filename}}</a>
+</td>
+<td>
+{% if extra.related_project %}
+  <a href="{% url "project_detail"  extra.related_project.slug %}">{{extra.related_project}}</a>
+	{% if extra.related_iteration %}
+	  / <a href="{% url "iteration"  extra.related_project.slug extra.related_iteration.id %}">{{extra.related_iteration.name}}</a>
+	{% endif %}
+{% endif %}
+</td>
+<td>
+	{{ file.created }}
+</td>
+<td>
+{{extra.file_size|filesizeformat}}
+</td>
+
+</tr>
+{% endwith %}

@@ -1,0 +1,33 @@
+{% if display %}
+{# intercom in-app messaging #}
+    <script>
+        window.Intercom('boot', {
+            app_id: '{{INTERCOM_APP_ID}}',
+            email: '{{user.email}}',
+            user_hash: '{{user_hash}}',
+            first_name: '{{user.first_name}}',
+            last_name: '{{user.last_name}}',
+            user_name: '{{user.username}}',
+        });
+
+        $(document).ready(function() {
+            $("#intercom-app").parent().removeClass('hidden');
+            $('#intercom-app').on('click',function() {
+                Intercom('showNewMessage');
+            });
+        });
+    </script>
+    {% include 'subscription/intercom.html' %}
+    <script>
+    $(document).ready(function(){
+        $("#intercom-app").attr('title', 'Live Coaching');
+    });
+    </script>
+{% else %}
+    <script>
+    $(document).ready(function(){
+        $("#intercom-app").css('opacity', 0.5);
+        $("#intercom-app").attr('title', 'Upgrade to premium to enable live coaching support.');
+    });
+    </script>
+{% endif %}

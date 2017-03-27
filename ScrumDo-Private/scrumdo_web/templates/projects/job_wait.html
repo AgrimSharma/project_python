@@ -1,0 +1,62 @@
+
+{% extends "base_legacy.html" %}
+
+{% load i18n %}
+{% load avatar_tags %}
+{% load projects_tags %}
+
+{% load iteration_tags %}
+
+{% block head_title %}Working...{% endblock %}
+
+{% block body_div_class %}narrow_body{% endblock %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{{ STATIC_URL }}css/scrum-board.css" />
+{% endblock %}
+
+
+{% block body %}
+
+
+	<div class="well" style="min-height:100px">
+		<h1>{{ job.job_type }}</h1>
+
+		<div class="clearfix">
+			<i class="icon-spinner icon-spin"></i>
+
+			Please wait, working
+		</div>
+	</div>
+
+
+<script>
+
+	function queueCheck() {
+		setTimeout(checkFile, 3000);
+	}
+
+	function checkFile() {
+		var job_id = {{job.id}};
+		$.ajax({
+			url:"/api/v2/offlinejob/" + job_id,
+			dataType: "json",
+			error: function(  jqXHR,  textStatus,  errorThrown ) {
+				queueCheck();
+			},
+			success: function(  data,  textStatus,  jqXHR ) {
+				if( data.completed ) {
+					window.location.replace("{{ url }}")
+				} else {
+					queueCheck();
+				}
+			}
+		});
+
+	}
+
+	$(document).ready(queueCheck);
+
+</script>
+
+{% endblock %}

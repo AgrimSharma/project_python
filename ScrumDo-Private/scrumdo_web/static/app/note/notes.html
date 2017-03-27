@@ -1,0 +1,47 @@
+<main sd-access class="scrumdo-notes">
+    <div class="scrumdo-notes-wrapper pull-left">
+        <div class="scrumdo-notes-content">
+            <div class="scrumdo-notes-left col-xs-3">
+                <div class="notes-list">
+                    <ul class="scrumdo-account-menu">
+                        <li ng-repeat="note in ctrl.notes | orderBy:'-id' | filter:ctrl.filterNotes"
+                            ng-class="{selected:ctrl.currentNote.id==note.id}">
+                            <a ui-sref="app.iteration.note({noteId:note.id})">
+                                {{note.title | characters:80:y}}<br/>
+                                <small class="owner">Created by <strong>{{::note.creator | shortuser}}</strong>
+                                 on {{::note.created_date | localtime}}</small> 
+                            </a>
+                        </li>
+                        <li ng-if="ctrl.notes.length ==0 && !ctrl.loading" class="text-center alert alert-info">
+                            <a href="" ng-if="ctrl.canWrite" ng-click="ctrl.createNote(-1)">Nothing here!<br/>Create your first Note!</a>
+                            <a href="" ng-if="!ctrl.canWrite">Nothing here!</a>
+                        </li>
+                    </ul>
+                </div>
+                <div ng-if="ctrl.canWrite" class="new-note text-center">
+                    <a class="scrumdo-btn primary" href="" ng-click="ctrl.createNote(-1)">+ New Note</a>
+                </div>
+            </div>
+
+            <div class="scrumdo-notes-right col-xs-9">
+                <div ng-if="ctrl.currentNote.id">
+                    <div ng-include="ctrl.templateName"></div>
+                </div>
+                <div ng-if="!ctrl.currentNote.id">
+                    <div class="scrumdo-box-modal col-md-8 col-md-offset-2" 
+                        ng-if="!ctrl.loading"
+                        style="margin-top:100px;">
+                        <div class="scrumdo-box-modal-header text-center">
+                            <h2 class="scrumdo-signup-title">Pick a Note</h2>
+                            <p class="scrumdo-signup-description">Choose a note on the left to view/edit the note or create a new note.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top:100px;"
+                        class="alert alert-info  col-md-6 col-md-offset-3" ng-if="ctrl.loading">
+                        <i class="fa fa-spinner fa-spin"> </i> Loading...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

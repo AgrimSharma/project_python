@@ -1,0 +1,193 @@
+- model: subscription.subscriptionplan
+  pk: 1000
+  fields:
+    name: Free
+    tagline: All the scrum basics.
+    active: Yes
+    show_in_grid: Yes
+    price: Free
+    price_val: "0.00"
+    users: 7
+    projects: 1
+    storage: 0
+    premium_integrations: No
+    order: 0
+    spreedly_id: -1
+    feature_level: free
+    featured_plan: No
+    planning_poker: No
+    epic_tool: No
+    emails: No
+    yearly: No
+- model: subscription.subscriptionplan
+  pk: 1
+  fields:
+    name: Bronze
+    tagline: Additional features.
+    active: Yes
+    show_in_grid: Yes
+    price: $14.95/month
+    price_val: "14.95"
+    users: 20
+    projects: 10
+    storage: 1
+    premium_integrations: Yes
+    order: 1
+    spreedly_id: 9302
+    feature_level: bronze
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: No
+- model: subscription.subscriptionplan
+  pk: 2
+  fields:
+    name: Silver
+    tagline: Most Popular Plan!
+    active: Yes
+    show_in_grid: Yes
+    price: $24.95/month
+    price_val: "24.95"
+    users: 30
+    projects: 20
+    storage: 5
+    premium_integrations: Yes
+    order: 2
+    spreedly_id: 9303
+    feature_level: silver
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: No
+- model: subscription.subscriptionplan
+  pk: 3
+  fields:
+    name: Gold
+    tagline: Getting bigger?
+    active: Yes
+    show_in_grid: Yes
+    price: $49.95/month
+    price_val: "49.95"
+    users: 60
+    projects: 50
+    storage: 15
+    premium_integrations: Yes
+    order: 3
+    spreedly_id: 9304
+    feature_level: gold
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: No
+- model: subscription.subscriptionplan
+  pk: 4
+  fields:
+    name: Platinum
+    tagline: For large companies
+    active: Yes
+    show_in_grid: Yes
+    price: $149.95/month
+    price_val: "149.95"
+    users: 200
+    projects: 100
+    storage: 50
+    premium_integrations: Yes
+    order: 4
+    spreedly_id: 11290
+    feature_level: platinum
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: No
+
+
+- model: subscription.subscriptionplan
+  pk: 5
+  fields:
+    name: Bronze
+    tagline: Additional features.
+    active: Yes
+    show_in_grid: No
+    price: $140.95/year
+    price_val: "140.95"
+    users: 20
+    projects: 10
+    storage: 1
+    premium_integrations: Yes
+    order: 1
+    spreedly_id: 17665
+    feature_level: bronze-y
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: Yes
+- model: subscription.subscriptionplan
+  pk: 6
+  fields:
+    name: Silver
+    tagline: Most Popular Plan!
+    active: Yes
+    show_in_grid: No
+    price: $240.95/year
+    price_val: "240.95"
+    users: 30
+    projects: 20
+    storage: 5
+    premium_integrations: Yes
+    order: 2
+    spreedly_id: 17666
+    feature_level: silver-y
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: Yes
+- model: subscription.subscriptionplan
+  pk: 7
+  fields:
+    name: Gold
+    tagline: Getting bigger?
+    active: Yes
+    show_in_grid: No
+    price: $490.95/month
+    price_val: "490.95"
+    users: 60
+    projects: 50
+    storage: 15
+    premium_integrations: Yes
+    order: 3
+    spreedly_id: 17667
+    feature_level: gold-y
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: Yes
+- model: subscription.subscriptionplan
+  pk: 8
+  fields:
+    name: Platinum
+    tagline: For large companies
+    active: Yes
+    show_in_grid: No
+    price: $1490.95/year
+    price_val: "1490.95"
+    users: 200
+    projects: 100
+    storage: 50
+    premium_integrations: Yes
+    order: 4
+    spreedly_id: 17668
+    feature_level: platinum-y
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: Yes
+    
+

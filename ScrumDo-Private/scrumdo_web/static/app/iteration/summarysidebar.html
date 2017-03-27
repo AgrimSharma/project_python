@@ -1,0 +1,115 @@
+<div class="workspace-summary-sidebar iteration-summary">
+    <div class="workspace-summary-sidebar-reset">
+        <div class="section backlog">
+            <h4 class="section-title">{{::iteration.name}} 
+                <small ng-if="iteration.end_date && iteration.start_date">
+                    ({{::iteration.start_date | mdydate}} - {{::iteration.end_date | mdydate}})</small>
+                <small ng-if="iteration.end_date && !iteration.start_date">(Ends on: {{::iteration.end_date | mdydate}})</small>
+                <small ng-if="!iteration.end_date">(Continuous)</small>
+            </h4>
+            <div class="stats-wrapper">
+                <ul class="stats" ng-if="ctrl.stats">
+                    <li ng-if="ctrl.stats.daysLeft">{{ctrl.stats.daysLeft|number:0}}<span>Days<br/>Left</span></li>
+                    <li>{{ctrl.stats.total_cards}}<span>Total<br/>Cards</span></li>
+                    <li>{{ctrl.stats.waiting_cards}}<span>Cards<br/>Waiting</span></li>
+                    <li>{{ctrl.stats.in_progress_cards}}<span>Cards<br/>in Progress</span></li>
+                    <li>{{ctrl.stats.completed_cards}}<span>Cards<br/>Done</span></li>
+                    <li>{{ctrl.stats.blocked_cards}}<span>Cards<br/>Blocked</span></li>
+                    <li ng-if="ctrl.stats.total_points">{{ctrl.stats.total_points}}<span>Total<br/>Points</span></li>
+                    <li ng-if="ctrl.stats.in_progress_points">{{ctrl.stats.in_progress_points}}<span>Points<br/>In Progress</span></li>
+                    <li ng-if="ctrl.stats.completed_points">{{ctrl.stats.completed_points}}<span>Completed<br/>Points</span></li>
+                    <li ng-if="ctrl.stats.total_business_value">{{ctrl.stats.total_business_value}}<span>Business<br/>Value</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="section connection" ng-if="iteration.increment != null">
+            <h4 class="section-title">Connections</h4>
+            <div class="project-dpenedencies">
+                <div class="portfolio-view">
+                    <div class="level">
+                        <div svg-connect id="svgConnect" 
+                            layout="horizontal"
+                            strokewidth="1" 
+                            stroke="#f37950"></div>
+                        <div class="project-box-wrapper">
+                            <div class="project-box" id="iteration-box-{{::parent.id}}"
+                                ng-repeat="parent in iteration.increment">
+                                <a ng-href="/projects/{{::parent.project_slug}}/#/iteration/{{::parent.id}}/board">
+                                    <i ng-class="parent.project_icon" class="fa project-icon" 
+                                        style="color: {{::parent.project_color|decimalToHexColor}}"></i>
+                                        {{::parent.project_name}}/{{::parent.name}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level">
+                        <div class="project-box-wrapper">
+                            <div class="project-box current" id="iteration-box-{{::iteration.id}}">
+                                <i ng-class="project.icon" class="fa project-icon" 
+                                    style="color: {{::project.color|decimalToHexColor}}"></i>
+                                    {{::project.name}}/{{::iteration.name}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section mission editor-adjust">
+            <h4 class="section-title">Mission
+                <a href="" 
+                    class="icon"
+                    uib-tooltip="Edit Mission"
+                    ng-if="ctrl.userService.canWrite(ctrl.projectSlug) && !ctrl.editingMission" 
+                    ng-click="ctrl.editMission()">
+                    <i class="fa fa-pencil" aria-hidden="true"></i></a>
+            </h4>
+            <div ng-if="!ctrl.editingMission" class="mission-text" ng-bind-html="iteration.vision"></div>
+            <div class="" ng-if="(!iteration.vision || iteration.vision =='')
+                            && !ctrl.editingMission">
+                No Mission<span ng-if="ctrl.userService.canWrite(ctrl.projectSlug)">
+                    , setup <a href="" ng-click="ctrl.editMission()">now...</a></span>
+            </div>
+            <div ng-if="ctrl.editingMission" name="editIterationVision" clickable-editor="1000" html="iteration.vision"></div>
+            <div class="">
+                <button type="button" 
+                    ng-if="ctrl.editingMission" 
+                    ng-click="ctrl.updateMission()"
+                    class="scrumdo-btn primary">
+                    <span class="glyphicon glyphicon-ok"></span> Update</button>
+                <button type="button" 
+                    ng-if="ctrl.editingMission" 
+                    ng-click="ctrl.cancelEditMission()"
+                    class="scrumdo-btn primary">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel</button>
+            </div>
+        </div>
+
+        <div class="section iteration-sentiments-wrapper sidebar-sentiments">
+            <h4 class="section-title"><a ui-sref="app.iteration.sentiments">Sentiments</a></h4>
+            <div class="team-sentiment-wrapper">
+                <team-sentiments
+                    iteration=iteration
+                    members=project.members
+                    team=ctrl.sentimentTeam
+                    parent=project
+                ></team-sentiments>
+            </div>
+        </div>
+
+        <div class="section iteration-sentiments-wrapper sidebar-sentiments">
+            <h4 class="section-title">CFD
+                <span style="cursor: pointer;" 
+                    ng-if="ctrl.cfdData" 
+                    uib-tooltip="Full Screen View"
+                    ng-click="ctrl.zoomCfd()">
+                    <small><i class="fa fa-search-plus"></i></small></span>
+            </h4>
+            <div sd-report-cfd
+                style="width: 100%; height: 320px; background-color: #ffffff"
+                project="project"
+                legends="[]"
+                report-data="ctrl.cfdData">
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="project-iterations-editor">
+    <div class="row">
+        <div class="col-xs-5 left">
+            <ul class="projects">
+                <li class="header">Child Workspaces</li>
+                <li ng-class="{'selected': ctrl.selectedProject.id == child.id}"
+                    ng-repeat="child in parentProject.children | filter: {'active': true}">
+                    <span style="color: {{child.color|decimalToHexColor}}" class="fa {{child.icon}}"></span>
+                    <a href="" class="name" ng-click="ctrl.selectProject(child)">{{::child.name}}</a>
+                    <a class="go-to" ng-href="/projects/{{::child.slug}}/" uib-tooltip="Go to Workspace">
+                        <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    <i ng-if="ctrl.selectedProject.id == child.id" class="fa fa-chevron-right" aria-hidden="true"></i>
+                </li>
+            </ul>
+        </div>
+        <div class="col-xs-7 right">
+            <ul class="projects">
+                <li class="header">{{::ctrl.timePeriodName}}</li>
+                <li ng-repeat="iteration in ctrl.iterations | filter: {'iteration_type': 1}">{{::iteration.name}}
+                    <a href="" 
+                        ng-if="action == 'edit'"
+                        ng-click="ctrl.editIteration(iteration)" class="pull-right">Edit
+                    </a>
+                    <a href="" 
+                        ng-if="action == 'linktoparent' && !ctrl.isAdded(iteration)"
+                        ng-click="ctrl.linkToParent(iteration)" 
+                        class="pull-right">
+                        <span ng-if="ctrl.workingOn.id!=iteration.id || ctrl.workingOn==null ">Add to Parent</span>
+                        <span ng-if="ctrl.workingOn.id==iteration.id">Adding...</span>
+                    </a>
+                    <span class="pull-right" 
+                        ng-if="action == 'linktoparent' && ctrl.isAdded(iteration)">Added</span>
+                </li>
+            </ul>
+            <div class="loading" ng-if="ctrl.loading || ctrl.selectedProject == null">
+                <div ng-if="ctrl.loading" class="alert alert-info" style="color:#fff">
+                    <i class="fa fa-spinner fa-spin"></i> Loading...</div>
+                <div ng-if="ctrl.selectedProject == null" class="alert alert-info">
+                    Select Workspace</div>
+            </div>
+        </div>
+    </div>
+</div>

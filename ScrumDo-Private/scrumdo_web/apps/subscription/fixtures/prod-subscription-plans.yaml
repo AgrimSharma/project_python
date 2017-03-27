@@ -1,0 +1,726 @@
+- fields: {active: false, custom_status: false, emails: true, epic_tool: true, feature_level: bronze,
+    featured_plan: false, kanban: false, live_updates: false, name: Bronze, order: 1,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $14.95/month,
+    price_val: '14.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 10165, storage: 999, tagline: Additional features., time_tracking: false,
+    users: 20, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 1
+- fields: {active: false, custom_status: false, emails: true, epic_tool: true, feature_level: silver,
+    featured_plan: false, kanban: false, live_updates: false, name: Silver, order: 2,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $24.95/month,
+    price_val: '24.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 10166, storage: 999, tagline: Most Popular Plan!, time_tracking: false,
+    users: 30, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: gold,
+    featured_plan: false, kanban: false, live_updates: true, name: Gold, order: 3,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $49.95/month,
+    price_val: '49.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 10167, storage: 999, tagline: 'Getting bigger?', time_tracking: true,
+    users: 60, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: platinum,
+    featured_plan: false, kanban: false, live_updates: true, name: Platinum, order: 4,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $149.95/month,
+    price_val: '149.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 11292, storage: 999, tagline: For large companies, time_tracking: true,
+    users: 200, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 4
+- fields: {active: false, custom_status: false, emails: true, epic_tool: true, feature_level: bronze-y,
+    featured_plan: false, kanban: false, live_updates: false, name: Bronze, order: 1,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $164.45/year,
+    price_val: '13.70', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 11073, storage: 999, tagline: Additional features., time_tracking: false,
+    users: 20, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 5
+- fields: {active: false, custom_status: false, emails: true, epic_tool: true, feature_level: silver-y,
+    featured_plan: false, kanban: false, live_updates: false, name: Silver, order: 2,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $274.45/year,
+    price_val: '22.87', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 11074, storage: 999, tagline: Most Popular Plan!, time_tracking: false,
+    users: 30, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 6
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: gold-y,
+    featured_plan: false, kanban: false, live_updates: true, name: Gold, order: 3,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $549.45/year,
+    price_val: '45.78', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 11075, storage: 999, tagline: 'Getting bigger?', time_tracking: true,
+    users: 60, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 7
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: platinum-y,
+    featured_plan: false, kanban: false, live_updates: true, name: Platinum, order: 4,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: '$1,649.45/year',
+    price_val: '137.45', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 11291, storage: 999, tagline: For large companies, time_tracking: true,
+    users: 200, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 8
+- fields: {active: false, custom_status: false, emails: false, epic_tool: false, feature_level: basic,
+    featured_plan: false, kanban: false, live_updates: false, name: Basic, order: 5,
+    planning_poker: false, premium_integrations: true, premium_plan: false, price: $5.95/month,
+    price_val: '5.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17680, storage: 999, tagline: Getting started, time_tracking: false,
+    users: 3, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 9
+- fields: {active: false, custom_status: false, emails: true, epic_tool: true, feature_level: bronze-b,
+    featured_plan: false, kanban: false, live_updates: false, name: Bronze, order: 4,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $19.95/month,
+    price_val: '19.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17682, storage: 999, tagline: Full scrum team, time_tracking: false,
+    users: 10, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 10
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: silver-b,
+    featured_plan: true, kanban: false, live_updates: false, name: Silver, order: 3,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $39.95/month,
+    price_val: '39.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17684, storage: 999, tagline: Most Popular Plan!, time_tracking: false,
+    users: 15, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 11
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: gold-b,
+    featured_plan: false, kanban: false, live_updates: true, name: Gold, order: 2,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $69.95/month,
+    price_val: '69.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17686, storage: 999, tagline: Multiple teams, time_tracking: true,
+    users: 25, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 12
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: platinum-b,
+    featured_plan: false, kanban: false, live_updates: true, name: Platinum, order: 1,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $149.95/month,
+    price_val: '149.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17688, storage: 999, tagline: For large companies, time_tracking: true,
+    users: 50, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 13
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: diamond,
+    featured_plan: false, kanban: false, live_updates: true, name: Diamond, order: 6,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $299.95/month,
+    price_val: '299.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17690, storage: 999, tagline: Everything you could need, time_tracking: true,
+    users: 150, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 14
+- fields: {active: false, custom_status: false, emails: false, epic_tool: false, feature_level: basic-y,
+    featured_plan: false, kanban: false, live_updates: false, name: Basic, order: 1,
+    planning_poker: false, premium_integrations: true, premium_plan: false, price: $59.50/year,
+    price_val: '5.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17681, storage: 999, tagline: Getting started, time_tracking: false,
+    users: 3, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 15
+- fields: {active: false, custom_status: false, emails: true, epic_tool: true, feature_level: bronze-b-y,
+    featured_plan: false, kanban: false, live_updates: false, name: Bronze, order: 2,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $199.50/year,
+    price_val: '19.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17683, storage: 999, tagline: Full scrum team, time_tracking: false,
+    users: 10, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 16
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: silver-b-y,
+    featured_plan: true, kanban: false, live_updates: false, name: Silver, order: 3,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $399.50/year,
+    price_val: '39.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17685, storage: 999, tagline: Most Popular Plan!, time_tracking: false,
+    users: 15, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 17
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: gold-b-y,
+    featured_plan: false, kanban: false, live_updates: true, name: Gold, order: 4,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $699.50/year,
+    price_val: '69.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17687, storage: 999, tagline: Multiple teams, time_tracking: true,
+    users: 25, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 18
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: platinum-b-y,
+    featured_plan: false, kanban: false, live_updates: true, name: Platinum, order: 5,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $149.95/month,
+    price_val: '149.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17689, storage: 999, tagline: For large companies, time_tracking: true,
+    users: 50, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 19
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: diamond-y,
+    featured_plan: false, kanban: false, live_updates: true, name: Diamond, order: 6,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $2999.50/year,
+    price_val: '299.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 17691, storage: 999, tagline: Everything you could need, time_tracking: true,
+    users: 150, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 20
+- fields: {active: false, custom_status: false, emails: false, epic_tool: true, feature_level: free,
+    featured_plan: false, kanban: false, live_updates: false, name: Free, order: 0,
+    planning_poker: true, premium_integrations: false, premium_plan: false, price: Free,
+    price_val: '0.00', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: -1, storage: 5, tagline: All the scrum basics., time_tracking: false,
+    users: 10, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 1000
+- fields: {active: false, custom_status: false, emails: false, epic_tool: false, feature_level: free,
+    featured_plan: false, kanban: false, live_updates: false, name: Free, order: 10,
+    planning_poker: false, premium_integrations: false, premium_plan: false, price: Free,
+    price_val: '0.00', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: -1, storage: 5, tagline: All the scrum basics., time_tracking: false,
+    users: 7, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 1001
+- fields: {active: false, custom_status: false, emails: true, epic_tool: true, feature_level: academic,
+    featured_plan: false, kanban: false, live_updates: false, name: Academic Plan,
+    order: 0, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: Academic / Free, price_val: '0.01', projects: 999, show_in_grid: false,
+    special_allowed: false, spreedly_id: -1, storage: 999, tagline: Academic Plan,
+    time_tracking: true, users: 50, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 1002
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: diamond-y-b,
+    featured_plan: false, kanban: false, live_updates: true, name: Diamond, order: 7,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $2699.50/year,
+    price_val: '269.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 18151, storage: 999, tagline: Everything you could need, time_tracking: true,
+    users: 150, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 1003
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: scholastic,
+    featured_plan: false, kanban: true, live_updates: true, name: 350-user, order: 7,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $4000/yr,
+    price_val: '167.00', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: -1, storage: 999, tagline: Just for Education Inst, time_tracking: true,
+    users: 350, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 1004
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: opensource,
+    featured_plan: false, kanban: false, live_updates: false, name: Open Source, order: 7,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: Free,
+    price_val: '0.01', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: -1, storage: 999, tagline: Free plan for an Open Source project.,
+    time_tracking: false, users: 25, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 1005
+- fields: {active: false, custom_status: false, emails: false, epic_tool: true, feature_level: bronze-c,
+    featured_plan: false, kanban: false, live_updates: false, name: Bronze, order: 4,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $15.95/month,
+    price_val: '15.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 19945, storage: 999, tagline: Entry level Scrum, time_tracking: false,
+    users: 7, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2000
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: silver-c,
+    featured_plan: true, kanban: false, live_updates: false, name: Silver, order: 3,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $34.95/month,
+    price_val: '34.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 19946, storage: 999, tagline: Great for teams, time_tracking: false,
+    users: 15, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2001
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: gold-c,
+    featured_plan: false, kanban: false, live_updates: true, name: Gold, order: 2,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $69.95/month,
+    price_val: '69.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 19947, storage: 999, tagline: Most popular plan!, time_tracking: true,
+    users: 25, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2002
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: platinum-c,
+    featured_plan: false, kanban: false, live_updates: true, name: Platinum, order: 1,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $149.95/month,
+    price_val: '149.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 19948, storage: 999, tagline: For large companies, time_tracking: true,
+    users: 50, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2003
+- fields: {active: false, custom_status: false, emails: false, epic_tool: true, feature_level: bronze-c-y,
+    featured_plan: false, kanban: false, live_updates: false, name: Bronze, order: 4,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $159.50/year,
+    price_val: '15.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 19949, storage: 999, tagline: Entry level Scrum, time_tracking: false,
+    users: 7, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 2004
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: silver-c-y,
+    featured_plan: true, kanban: false, live_updates: false, name: Silver, order: 3,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $349.50/year,
+    price_val: '34.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 19950, storage: 999, tagline: Great for teams, time_tracking: false,
+    users: 15, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 2005
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: gold-c-y,
+    featured_plan: true, kanban: false, live_updates: true, name: Gold, order: 2,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $699.50/year,
+    price_val: '69.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 19951, storage: 999, tagline: Most Popular Plan, time_tracking: true,
+    users: 25, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 2006
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: platinum-c-y,
+    featured_plan: false, kanban: false, live_updates: true, name: Platinum, order: 1,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $1499.50/year,
+    price_val: '149.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 19952, storage: 999, tagline: For large companies, time_tracking: true,
+    users: 50, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 2007
+- fields: {active: false, custom_status: false, emails: false, epic_tool: false, feature_level: free,
+    featured_plan: false, kanban: false, live_updates: false, name: Free, order: 10,
+    planning_poker: false, premium_integrations: false, premium_plan: false, price: Free,
+    price_val: '0.00', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: -1, storage: 5, tagline: All the scrum basics, time_tracking: false,
+    users: 3, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2008
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: custom-1,
+    featured_plan: false, kanban: false, live_updates: true, name: Custom, order: 1,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $149.95/month,
+    price_val: '149.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 21670, storage: 999, tagline: '', time_tracking: true, users: 80,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2009
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: academic,
+    featured_plan: false, kanban: false, live_updates: false, name: Academic Plan
+      2, order: 0, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: Academic / Free, price_val: '0.01', projects: 999, show_in_grid: false,
+    special_allowed: false, spreedly_id: -1, storage: 999, tagline: Academic Plan,
+    time_tracking: true, users: 100, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2010
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: freeacademic,
+    featured_plan: false, kanban: false, live_updates: false, name: Academic - Small,
+    order: 1, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: Free, price_val: '0.01', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: -1, storage: 999, tagline: '', time_tracking: true, users: 5, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2011
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: 100user,
+    featured_plan: false, kanban: false, live_updates: true, name: Standard 100, order: 10,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $225.00/month,
+    price_val: '225.00', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 23956, storage: 999, tagline: Custom Plan, time_tracking: true, users: 100,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 2012
+- fields: {active: false, custom_status: false, emails: false, epic_tool: true, feature_level: bronze-d,
+    featured_plan: false, kanban: false, live_updates: false, name: Bronze, order: 4,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $19.95/month,
+    price_val: '19.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24508, storage: 999, tagline: Entry level Scrum, time_tracking: false,
+    users: 7, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3000
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: silver-d,
+    featured_plan: true, kanban: false, live_updates: false, name: Silver, order: 3,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $49.99/month,
+    price_val: '49.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24510, storage: 999, tagline: Great for teams, time_tracking: false,
+    users: 15, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3001
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: gold-d,
+    featured_plan: false, kanban: false, live_updates: true, name: Gold, order: 2,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $89.99/month,
+    price_val: '89.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24512, storage: 999, tagline: Most popular plan!, time_tracking: true,
+    users: 30, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3002
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: platinum-d,
+    featured_plan: false, kanban: false, live_updates: true, name: Platinum, order: 1,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $199.99/month,
+    price_val: '199.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24514, storage: 999, tagline: For large companies, time_tracking: true,
+    users: 60, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3003
+- fields: {active: false, custom_status: false, emails: false, epic_tool: true, feature_level: bronze-d-y,
+    featured_plan: false, kanban: false, live_updates: false, name: Bronze, order: 4,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $199.50/year,
+    price_val: '19.95', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24509, storage: 999, tagline: Entry level Scrum, time_tracking: false,
+    users: 7, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3004
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: silver-d-y,
+    featured_plan: true, kanban: false, live_updates: false, name: Silver, order: 3,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $499.90/year,
+    price_val: '49.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24511, storage: 999, tagline: Great for teams, time_tracking: false,
+    users: 15, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3005
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: gold-d-y,
+    featured_plan: true, kanban: false, live_updates: true, name: Gold, order: 2,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $899.90/year,
+    price_val: '89.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24513, storage: 999, tagline: Most Popular Plan, time_tracking: true,
+    users: 30, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3006
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: platinum-d-y,
+    featured_plan: false, kanban: false, live_updates: true, name: Platinum, order: 1,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $1999.90/year,
+    price_val: '199.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24515, storage: 999, tagline: For large companies, time_tracking: true,
+    users: 60, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3007
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: diamond-d,
+    featured_plan: false, kanban: false, live_updates: true, name: Diamond, order: 0,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $399.99/month,
+    price_val: '399.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24516, storage: 999, tagline: All you could need, time_tracking: true,
+    users: 150, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3008
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: diamond-d-y,
+    featured_plan: false, kanban: false, live_updates: true, name: Diamond, order: 0,
+    planning_poker: true, premium_integrations: true, premium_plan: true, price: $3999.90/year,
+    price_val: '399.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 24517, storage: 999, tagline: All you could need, time_tracking: true,
+    users: 150, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3009
+- fields: {active: false, custom_status: true, emails: true, epic_tool: true, feature_level: custom-2,
+    featured_plan: false, kanban: true, live_updates: true, name: Custom 75 User,
+    order: 1, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $199.99/month, price_val: '199.99', projects: 999, show_in_grid: false,
+    special_allowed: true, spreedly_id: 25529, storage: 999, tagline: '', time_tracking: true,
+    users: 75, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3010
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-10,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 10 User,
+    order: 1, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $17.99/month, price_val: '17.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 25737, storage: 999, tagline: '', time_tracking: true, users: 10,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3011
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-15,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 15 User,
+    order: 2, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $59.99/month, price_val: '59.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25738, storage: 999, tagline: '', time_tracking: true, users: 15,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3012
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-30,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 30 User,
+    order: 3, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $119.99/month, price_val: '119.99', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 25739, storage: 999, tagline: '', time_tracking: true,
+    users: 30, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3013
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-60,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 60 User,
+    order: 4, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $239.99/month, price_val: '239.99', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 25740, storage: 999, tagline: '', time_tracking: true,
+    users: 60, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3014
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-100,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 100, order: 5,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $299.99/month,
+    price_val: '299.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25741, storage: 999, tagline: '', time_tracking: true, users: 100,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3015
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-150,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 150, order: 6,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $399.99/month,
+    price_val: '399.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25742, storage: 999, tagline: '', time_tracking: true, users: 150,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3016
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-200,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 200, order: 7,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $479.99/month,
+    price_val: '479.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25743, storage: 999, tagline: '', time_tracking: true, users: 200,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3017
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-500,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 500, order: 8,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $719.99/month,
+    price_val: '719.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25744, storage: 999, tagline: '', time_tracking: true, users: 500,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3018
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-1000,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 1000, order: 9,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $1499.99/month,
+    price_val: '1499.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25745, storage: 999, tagline: '', time_tracking: true, users: 1000,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3019
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-2000,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 2000, order: 10,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $1899.99/month,
+    price_val: '1899.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25746, storage: 999, tagline: '', time_tracking: true, users: 2000,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3020
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-10,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 10 User,
+    order: 1, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $179.90/year, price_val: '14.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 25747, storage: 999, tagline: '', time_tracking: true, users: 10,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3021
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-15,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 15 User,
+    order: 2, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $599.90/year, price_val: '49.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25748, storage: 999, tagline: '', time_tracking: true, users: 15,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3022
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-30,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 30 User,
+    order: 3, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $1199.90/year, price_val: '99.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25749, storage: 999, tagline: '', time_tracking: true, users: 30,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3023
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-60,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 60 User,
+    order: 4, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $2399.90/year, price_val: '199.99', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 25750, storage: 999, tagline: '', time_tracking: true,
+    users: 60, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3024
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-100,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 100, order: 5,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $2999.90/year,
+    price_val: '249.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25751, storage: 999, tagline: '', time_tracking: true, users: 100,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3025
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-150,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 150, order: 6,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $3999.90/year,
+    price_val: '333.33', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25752, storage: 999, tagline: '', time_tracking: true, users: 150,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3026
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-200,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 200, order: 7,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $4799.90/year,
+    price_val: '399.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25753, storage: 999, tagline: '', time_tracking: true, users: 200,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3027
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-500,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 500, order: 8,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $7199.90/year,
+    price_val: '599.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25754, storage: 999, tagline: '', time_tracking: true, users: 500,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3028
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-1000,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 1000, order: 9,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $14999.90/year,
+    price_val: '1249.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25755, storage: 999, tagline: '', time_tracking: true, users: 1000,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3029
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-2000,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 2000, order: 10,
+    planning_poker: true, premium_integrations: true, premium_plan: false, price: $18999.90/year,
+    price_val: '1583.33', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 25756, storage: 999, tagline: '', time_tracking: true, users: 2000,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3030
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: free,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 2 User,
+    order: 0, planning_poker: true, premium_integrations: false, premium_plan: false,
+    price: Free, price_val: '0.00', projects: 3, show_in_grid: false, special_allowed: false,
+    spreedly_id: -1, storage: 0, tagline: '', time_tracking: false, users: 2, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3031
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-2,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 2 User,
+    order: 1, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $15.00/month, price_val: '15.00', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 25998, storage: 999, tagline: '', time_tracking: true, users: 2,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3032
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-10,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 10 User,
+    order: 2, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $59.99/month, price_val: '59.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 25999, storage: 999, tagline: '', time_tracking: true, users: 10,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3033
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-15,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 15 User,
+    order: 3, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $89.99/month, price_val: '89.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26000, storage: 999, tagline: '', time_tracking: true, users: 15,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3034
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-30,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 30 User,
+    order: 4, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $164.99/month, price_val: '164.99', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 26001, storage: 999, tagline: '', time_tracking: true,
+    users: 30, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3035
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-60,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 60 User,
+    order: 5, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $314.99/month, price_val: '314.99', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 26002, storage: 999, tagline: '', time_tracking: true,
+    users: 60, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3036
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-100,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 100 User,
+    order: 6, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $449.99/month, price_val: '449.99', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 26003, storage: 999, tagline: '', time_tracking: true,
+    users: 100, yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3037
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-2,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 2 User,
+    order: 1, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $150.00/year, price_val: '12.50', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 26004, storage: 999, tagline: '', time_tracking: true, users: 2,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3038
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-10,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 10 User,
+    order: 2, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $599.90/year, price_val: '49.99', projects: 999, show_in_grid: false, special_allowed: false,
+    spreedly_id: 26005, storage: 999, tagline: '', time_tracking: true, users: 10,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3039
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-15,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 15 User,
+    order: 3, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $899.90/year, price_val: '74.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26006, storage: 999, tagline: '', time_tracking: true, users: 15,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3040
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-30,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 30 User,
+    order: 4, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $1649.90/year, price_val: '137.99', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 26007, storage: 999, tagline: '', time_tracking: true,
+    users: 30, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3041
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-60,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 60 User,
+    order: 5, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $3149.90/year, price_val: '262.49', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 26008, storage: 999, tagline: '', time_tracking: true,
+    users: 60, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3042
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-100,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 100 User,
+    order: 6, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $4499.90/year, price_val: '374.49', projects: 999, show_in_grid: true,
+    special_allowed: false, spreedly_id: 26009, storage: 999, tagline: '', time_tracking: true,
+    users: 100, yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3043
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-5,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 5 User,
+    order: 1, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $59.99/month, price_val: '59.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26023, storage: 999, tagline: '', time_tracking: true, users: 5,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3044
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-5,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 5 User,
+    order: 1, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $599.90/year, price_val: '49.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26022, storage: 999, tagline: '', time_tracking: true, users: 5,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3045
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-5,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 5 User,
+    order: 2, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $17.99/month, price_val: '17.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26020, storage: 999, tagline: '', time_tracking: true, users: 5,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3046
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-5,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 5 User,
+    order: 2, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $179.90/year, price_val: '14.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26021, storage: 999, tagline: '', time_tracking: true, users: 5,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3047
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-10,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 10 User,
+    order: 3, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $74.99/month, price_val: '74.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26024, storage: 999, tagline: '', time_tracking: true, users: 10,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3048
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-10,
+    featured_plan: false, kanban: true, live_updates: true, name: Premium 10 User,
+    order: 3, planning_poker: true, premium_integrations: true, premium_plan: true,
+    price: $749.90/year, price_val: '62.49', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26025, storage: 999, tagline: '', time_tracking: true, users: 10,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3049
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-10,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 10 User,
+    order: 4, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $39.99/month, price_val: '39.99', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26027, storage: 999, tagline: '', time_tracking: true, users: 10,
+    yearly: false}
+  model: subscription.subscriptionplan
+  pk: 3050
+- fields: {active: true, custom_status: true, emails: true, epic_tool: true, feature_level: user-10,
+    featured_plan: false, kanban: true, live_updates: true, name: Standard 10 User,
+    order: 4, planning_poker: true, premium_integrations: true, premium_plan: false,
+    price: $399.90/year, price_val: '33.33', projects: 999, show_in_grid: true, special_allowed: false,
+    spreedly_id: 26026, storage: 999, tagline: '', time_tracking: true, users: 10,
+    yearly: true}
+  model: subscription.subscriptionplan
+  pk: 3051

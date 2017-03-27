@@ -1,0 +1,41 @@
+<div class="modal-header card-modal epic-modal-header">
+    <button type="button" class="close"  ng-click="$dismiss('canceled')">
+        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+    </button>
+    <h4>{{::ctrl.iteration.name}} Progress</h4>
+</div>
+
+<div class="modal-body card-modal iteration-progress-modal">
+    <div class="alert alert-info" ng-if="ctrl.loading">
+        <i class="fa fa-spinner fa-spin"></i> Loading...</div>
+    <table class="card-grid" style="width: 100%" ng-if="!ctrl.loading">
+        <thead>
+            <tr class="top-row">
+                <th class="title">Features</th>
+                <th>Feature Progress</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="(key, assignments) in ctrl.assignments">
+            <tr ng-repeat="assignment in assignments">
+                <td>
+                    <span class="cards-number">{{::assignment.prefix}}-{{::assignment.number}}</span>
+                    <span ng-bind-html="::assignment.summary|htmlToPlaintext|words:40|to_trusted"></span>
+                </td>
+                <td class="stats">
+                    <uib-progress max="100" animate="false">
+                        <uib-bar value="ctrl.percentage(ctrl.getCardCounts(assignment.id).done, ctrl.getCardCounts(assignment.id).total)" type="success"></uib-bar>
+                        <uib-bar value="ctrl.percentage(ctrl.getCardCounts(assignment.id).remaining, ctrl.getCardCounts(assignment.id).total)"></uib-bar>
+                    </uib-progress>
+                    <span>{{::ctrl.getCardCounts(assignment.id).total}} <small>TOTAL<br/>CARDS</small></span>
+                    <span>{{::ctrl.getCardCounts(assignment.id).remaining}} <small>CARDS IN<br/>PROGRESS</small></span>
+                    <span>{{::ctrl.getCardCounts(assignment.id).done}} <small>CARDS<br/>DONE</small></span>
+                </td>
+            </tr>
+            <tr ng-if="!ctrl.itemsToShow() && $index==0">
+                <td colspan="2">
+                    Nothing to show
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

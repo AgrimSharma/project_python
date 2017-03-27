@@ -1,0 +1,22 @@
+{% extends "base_signup.html" %}
+
+{% block title %}Invitation Missing{% endblock %}
+
+{% block body %}
+<div class="scrumdo-box-modal-header text-center">
+    <h2 class="scrumdo-signup-title">Invite not found.</h2>
+    <p class="scrumdo-signup-description">We couldn't find that team invitation.</p>
+</div>
+<div class="scrumdo-box-modal-content">
+    <h5>There are a few reasons this could happen.</h5>
+    <ol>
+        <li>The invite was previously used.  Each invite link can only be used once.</li>
+        <li>The organization admin revoked the invitation.</li>
+        <li>If you copied &amp; pasted the link, make sure you got it all.</li>
+    </ol>
+    <p>
+        Feel free to email us: <a href="mailto:support@scrumdo.com">support@scrumdo.com</a> for help.
+    </p>
+</div>
+
+{% endblock %}

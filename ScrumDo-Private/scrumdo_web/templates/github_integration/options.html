@@ -1,0 +1,86 @@
+{% extends "github_integration/base.html" %}
+
+{% load activity_tags %}
+{% load i18n %}
+{% load avatar_tags %}
+
+{% load extras_tags %}
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+{% load iteration_tags %}
+
+
+
+
+{% block gh_body %}
+
+
+	
+	
+	<div class="github-auth-info-box">
+		<img style="float:left;" src="{{STATIC_URL}}extras/github-logo.png">
+		<h1>GitHub Integration</h1>
+		Authenticated to github as: {{token.github_username}}<br/>
+
+
+
+		{% if token.failure_count %}
+		<br/>
+		We've had <b>{{token.failure_count}} errors</b> while attempting to make calls to GitHub.<br/>
+		<a href="{% url "github_log"  project.slug %}">View Log</a>
+		<br/>
+            {% if token.failure_count > 1000 %}
+                Your github integration is temporarily disabled due to this.  Please
+                contact us at support@scrumdo.com for help.
+            {% endif %}
+		{% endif %}
+		<br/><br/>
+		<a class="button red small" onclick="return confirm('Are you sure you want to remove GitHub access to this project?')"  href="{% url "github_unauthenticate"  project.slug %}">Disable Integration</a>
+		<a class="button blue small" href="{{auth_url}}">Reauthenticate</a>
+		
+		{% if pending_updates %}
+		<br/><br/>
+		There {{pending_updates|pluralize:"is,are"}} {{pending_updates}} item{{pending_updates|pluralize}} queued to sync.
+		<img src="{{STATIC_URL}}images/ajax-loader.gif">
+
+		{% endif %}
+	</div>
+	
+	{% if old_config %}
+		<div class="github-binding">
+		  <h1>Upgrade</h1>
+		  <p>It looks like you previously set up our older GitHub issues extra.  We can upgrade the configuration from
+			 that extra and use it here.
+		  </p>
+		  <a class="button green" href="{% url "github_upgrade"  project.slug %}">Upgrade</a>
+		</div>
+	{% else %}
+		<hr/>	
+		<br/>
+		<h1>Repository Connections</h1>
+		
+		{% if upload_multiple %}
+		<div class="error_details">
+			<b>Warning!</b>
+			You have multiple repositories set up to upload your stories to.  We generally don't recommend that.  You might end up with
+			some weird syncronization problems. 
+		</div>
+		{% endif %}
+		
+		<p>You can associate this ScrumDo project with one or more GitHub repositories.</p>
+		{% for binding in bindings %}
+			<div class="github-binding">
+				<h1><a href="http://github.com/{{binding.github_slug}}">{{binding.github_slug}}</a></h1>
+				{% if binding.upload_issues %}{% silk 'accept' %} Upload Stories <br/>{% endif %}
+				{% if binding.download_issues %}{% silk 'accept' %} Download Issues <br/>{% endif %}
+				{% if binding.delete_issues %}{% silk 'accept' %} Delete Issues <br/>{% endif %}
+				{% if binding.log_commit_messages %}{% silk 'accept' %} Log commit messages <br/>{% endif %}
+				{% if binding.commit_status_updates %}{% silk 'accept' %} Update stories from commits <br/>{% endif %}<br/>
+			    <a href="{% url "github_remove_repo"  project.slug binding.id %}" class="button red small" onclick="return confirm('Are you sure you want to remove GitHub access to this project?')" >Unlink Repository</a>
+			</div>
+		{% endfor %}
+		<a class="button blue" href="{% url "github_add_repo"  project.slug %}">Add Repository</a>
+	{% endif %}
+{% endblock %}

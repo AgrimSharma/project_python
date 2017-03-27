@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% load iteration_tags %}
+{% load projects_tags %}
+{% load i18n %}
+
+
+
+{% block rtab_id %}id="account_tab"{% endblock %}
+
+{% block body_div_class %}narrow_body{% endblock %}
+
+{% block panel %}
+    {% if user.is_authenticated %}
+    <div id="panel" class="panel_borders">
+      <div class="box">
+        <div class="box-content">
+            <a href="{% url "acct_name"  %}">{% trans "Name" %}</a>
+        </div>
+        <div class="box-content">
+          <a href="{% url "acct_email"  %}">{% trans "E-Mail Addresses" %}</a>
+        </div><!--box-content-->
+        <div class="box-content">
+          <a href="{% url "email_notification_config"  %}">{% trans "E-Mail Subscriptions" %} </a>
+        </div><!--box-content-->
+        <div class="box-content">
+          <a href="/openid/associations/">{% trans "OpenID Associations" %}</a>
+        </div><!--box-content-->
+        <div class="box-content">
+          {% if user.password %}
+          <a href="{% url "acct_passwd"  %}">{% trans "Change Password" %}</a>
+          {% else %}
+          <a href="{% url "acct_passwd_set"  %}">{% trans "Set Password" %}</a>
+          {% endif %}
+        </div><!--box-content-->
+        {% if user.password and request.openids %}
+        <div class="box-content">
+          <a href="{% url "acct_passwd_delete"  %}">{% trans "Delete Password" %}</a>
+        </div><!--box-content-->
+        {% endif %}
+        <div class="box-content">
+          <a href="{% url "avatar_change"  %}">{% trans "Avatar" %}</a>
+        </div><!--box-content-->
+         <div class="box-content">
+           <a href="{% url "developer_user_keys"  %}">{% trans "API Access Keys" %}</a>
+        </div><!--box-content-->
+         <div class="box-content">
+           <a href="{% url "delete_account"  %}">{% trans "Delete User Account" %}</a>
+        </div>
+      </div><!--box-->
+    </div><!--panel-->
+    {% endif %}
+{% endblock %}
+

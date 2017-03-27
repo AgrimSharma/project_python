@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9000/" />
+<title>38_move_story_from_one_iteration_to_other</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">38_move_story_from_one_iteration_to_other</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/account/logout/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/account/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_username</td>
+	<td>scrumdoselenium</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>scrumdotesting</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Log In »']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/projects/project/testproject/iteration_create</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_name</td>
+	<td>Iteration #2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=id_start_date</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=id_end_date</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=31</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//button[@type='submit']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/projects/project/testproject/stories/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='iterationChooser']</td>
+	<td>label=Iteration #2</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>//select[@id='backlogChooser']</td>
+	<td>label=TestIteration</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>css=#backlog_div li#story_3</td>
+	<td>css=#story_div ul#iteration_column</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>css=#backlog_div li#story_5</td>
+	<td>css=#story_div ul#iteration_column</td>
+</tr>
+<tr>
+	<td>dragAndDropToObject</td>
+	<td>css=#backlog_div li#story_7</td>
+	<td>css=#story_div ul#iteration_column</td>
+</tr>
+<tr>
+	<td>verifyElementIndex</td>
+	<td>css=li#story_2</td>
+	<td>2</td>
+</tr>
+</tbody></table>
+</body>
+</html>

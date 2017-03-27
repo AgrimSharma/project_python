@@ -1,0 +1,232 @@
+<div class="workspace-summary-sidebar">
+    <div class="workspace-summary-sidebar-reset">
+        <div class="section" ng-if="ctrl.portfolio.id">
+            <h4 class="section-title">Portfolio 
+                <a href="" ng-if="ctrl.canStaff" class="icon" ng-click="ctrl.showPortfolioWindow()">
+                    <i class="fa fa-pencil icon" aria-hidden="true"></i></a>
+            </h4>
+            <div class="project-dpenedencies">
+                <div class="portfolio-view" ng-if="ctrl.portfolio.id">
+                    <div class="level root">
+                        <div svg-connect id="svgConnect" 
+                            layout="horizontal"
+                            strokewidth="1" 
+                            stroke="#f37950"></div>
+                        <div class="project-box-wrapper">
+                            <div class="project-box" id="project-box-{{::ctrl.portfolio.root.id}}"
+                                ng-class="{'current': ctrl.portfolio.root.id == ctrl.project.id}">
+                                <a ng-if="!ctrl.portfolio.root.continuous_flow" ng-href="/projects/{{::ctrl.portfolio.root.slug}}/#/summary">
+                                    <i ng-class="ctrl.portfolio.root.icon" class="fa project-icon" 
+                                        style="color: {{::ctrl.portfolio.root.color|decimalToHexColor}}"></i>
+                                        {{::ctrl.portfolio.root.name}}</a>
+                                <a ng-if="ctrl.portfolio.root.continuous_flow" 
+                                    ng-href="/projects/{{::ctrl.portfolio.root.slug}}/#/iteration/{{::ctrl.portfolio.root.continuous_flow_iteration_id}}/board">
+                                    <i ng-class="ctrl.portfolio.root.icon" class="fa project-icon" 
+                                        style="color: {{::ctrl.portfolio.root.color|decimalToHexColor}}"></i>
+                                        {{::ctrl.portfolio.root.name}}</a>
+                                <div id="project-box-end-{{::ctrl.portfolio.root.id}}"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="level" ng-repeat="level in ctrl.portfolio.levels">
+                        <div class="project-box-wrapper">
+                            <div class="project-box" id="project-box-{{::project.id}}"
+                                ng-class="{'current': project.id == ctrl.project.id}"
+                                ng-repeat="project in level.projects">
+                                <a ng-if="!project.continuous_flow" ng-href="/projects/{{::project.slug}}/#/summary">
+                                    <i ng-if="::!project.active" uib-tooltip="Archived" class="glyphicon glyphicon-compressed"></i>
+                                    <i ng-class="project.icon" class="fa project-icon" style="color: {{::project.color|decimalToHexColor}}"></i>
+                                    {{::project.name}}</a>
+                                <a ng-if="project.continuous_flow" 
+                                    ng-href="/projects/{{::project.slug}}/#/iteration/{{::project.continuous_flow_iteration_id}}/board">
+                                    <i ng-if="::!project.active" uib-tooltip="Archived" class="glyphicon glyphicon-compressed"></i>
+                                    <i ng-class="project.icon" class="fa project-icon" style="color: {{::project.color|decimalToHexColor}}"></i>
+                                    {{::project.name}}</a>
+                                <div id="project-box-end-{{::project.id}}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="section">
+        <h4 class="section-title">Team</h4>
+        <ul class="cards-modal-members" ng-if="ctrl.teamMembers.length">
+            <li ng-repeat="user in ctrl.teamMembers"
+                ng-class="{'manager': user.access_type=='admin'}">
+                <sd-user-portrait avatar-tooltip size="38" user="user"></sd-user-portrait>
+            </li>
+        </ul>
+        <div class="" ng-if="!ctrl.teamMembers.length">
+            No members to show.
+        </div>
+        <div class="" style="margin-top:10px;" ng-if="!ctrl.teamIvitationBox && ctrl.canAdmin">
+            <button class="scrumdo-btn primary" ng-click="ctrl.teamIvitationBox = true">
+                <i ng-if="!ctrl.teamIvitationBox" uib-tooltip="Invite Members" class="fa fa-plus-square" aria-hidden="true"></i>
+                Invite Members
+            </button>
+        </div>
+        <div class="team-invitation" ng-if="ctrl.teamIvitationBox && ctrl.canAdmin">
+            <sd-project-teams-invite 
+                project="ctrl.project"></sd-project-teams-invite>
+            
+            <button class="scrumdo-btn primary" ng-click="ctrl.teamIvitationBox = false">
+                <i ng-if="ctrl.teamIvitationBox"  uib-tooltip="Done" class="fa fa-check-square" aria-hidden="true"></i>
+                Done
+            </button>
+        </div>
+    </div>
+
+        <div class="section backlog">
+            <h4 class="section-title">
+                <a ui-sref="app.iteration.cards({iterationId:ctrl.backlogId})">Workspace Backlog</a>
+                    <span style="cursor: pointer;" 
+                        ng-if="!ctrl.loadingBacklogReport" 
+                        uib-tooltip="Full Screen View"
+                        ng-click="ctrl.zoomReport('cfd', ctrl.reportsData['backlog'], 'Workspace Backlog')">
+                        <small><i class="fa fa-search-plus"></i></small></span></h4>
+            <ul class="stats">
+                <li>{{::ctrl.backlogStats.total_cards}}<span>Total<br/>Cards</span></li>
+                <li>{{::ctrl.backlogStats.total_points | setDecimal:2}}<span>Total<br/>Points</span></li>
+            </ul>
+
+            <div class="backlog-cfd col-sm-12 pull-left">
+                <div class="loading-reports" ng-if="ctrl.loadingBacklogReport">
+                    <div class="alert alert-info"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+                </div>
+                <div sd-report-cfd
+                    ng-if="!ctrl.loadingBacklogReport"
+                    style="width: 100%; height: 99%;"
+                    project="ctrl.project"
+                    report-data="ctrl.reportsData['backlog']"
+                    legends="[]">
+                </div>
+            </div>
+        </div>
+
+        <div class="section editor-adjust">
+            <h4 class="section-title">Purpose / Objectives
+                <a href="" 
+                    class="icon"
+                    uib-tooltip="Edit Purpose / Objectives"
+                    ng-if="ctrl.canAdmin && !ctrl.editingMission" 
+                    ng-click="ctrl.editMission()">
+                    <i class="fa fa-pencil" aria-hidden="true"></i></a>
+            </h4>
+            <p ng-if="ctrl.project.vision=='' && !ctrl.editingMission">
+                No Objectives<span ng-if="ctrl.canAdmin">, Setup <a href="" ng-click="ctrl.editMission()">here...</a></span></p>
+            <div ng-if="!ctrl.editingMission" class="vision" ng-bind-html="ctrl.project.vision"></div>
+            
+            <div ng-if="ctrl.editingMission" name="editIterationVision" clickable-editor="1000" html="ctrl.project.vision"></div>
+            <div class="">
+                <button type="button" 
+                    ng-if="ctrl.editingMission" 
+                    ng-click="ctrl.updateMission()"
+                    class="scrumdo-btn primary">
+                    <span class="glyphicon glyphicon-ok"></span> Update</button>
+                <button type="button" 
+                    ng-if="ctrl.editingMission" 
+                    ng-click="ctrl.cancelEditMission()"
+                    class="scrumdo-btn primary">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel</button>
+            </div>
+        </div>
+
+        <div class="section" ng-if="ctrl.portfolio.id">
+            <h4 class="section-title"><a ui-sref="app.risks">Risks</a></h4>
+            <sd-project-risks portfolio="ctrl.portfolio"></sd-project-risks>
+        </div>
+
+        <div class="section">
+            <h4 class="section-title"><a ui-sref="app.reports.cfd">Stats</a>
+                <span style="cursor: pointer;" 
+                    ng-if="!ctrl.loadingReport" 
+                    uib-tooltip="Full Screen View"
+                    ng-click="ctrl.zoomReport()">
+                    <small><i class="fa fa-search-plus"></i></small></span></h4>
+            <div class="project-reports">
+                <div class="loading-reports" ng-if="ctrl.loadingReport">
+                    <div class="alert alert-info"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
+                </div>
+                <uib-tabset active="5">
+                    <uib-tab index="0" select="ctrl.loadReportsData('sentiment')">
+                        <uib-tab-heading>Sentiment</uib-tab-heading>
+                        <div class="report-graph">
+                            <div sd-report-sentiment
+                                ng-if="ctrl.reportsData['sentiment']"
+                                style="width: 100%; height: 99%;"
+                                project="ctrl.project"
+                                report-data="ctrl.reportsData['sentiment']">
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="1" select="ctrl.loadReportsData('blocker')">
+                        <uib-tab-heading>Blocker</uib-tab-heading>
+                        <div class="report-graph">
+                            <div sd-freq-blockers
+                                ng-if="ctrl.reportsData['blocker']"
+                                style="width: 100%; height: 99%;"
+                                project="ctrl.project"
+                                report-manager="null"
+                                organization-slug="{{ctrl.organizationSlug}}"
+                                filters="null"
+                                minireport=true
+                                report-data="ctrl.reportsData['blocker']">
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="2" select="ctrl.loadReportsData('aging')">
+                        <uib-tab-heading>Aging</uib-tab-heading>
+                        <div class="report-graph">
+                            <div sd-report-aging
+                                ng-if="ctrl.reportsData['aging']"
+                                style="width: 100%; height: 99%;"
+                                project="ctrl.project"
+                                chart-type="1"
+                                report-data="ctrl.reportsData['aging']">
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="3" select="ctrl.loadReportsData('cfd')">
+                        <uib-tab-heading>CFD</uib-tab-heading>
+                        <div class="report-graph">
+                            <div sd-report-cfd
+                                ng-if="ctrl.reportsData['cfd']"
+                                style="width: 100%; height: 99%;"
+                                project="ctrl.project"
+                                report-data="ctrl.reportsData['cfd']"
+                                legends="[]">
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <uib-tab index="4" select="ctrl.loadReportsData('burndown')">
+                        <uib-tab-heading>Burndown</uib-tab-heading>
+                            <div class="report-graph">
+                                <div sd-report-burn
+                                    ng-if="ctrl.reportsData['burndown']"
+                                    style="width: 100%; height: 99%;"
+                                    chart-type="1"
+                                    show-ideal="false"
+                                    project="ctrl.project"
+                                    report-data="ctrl.reportsData['burndown']">
+                                </div>
+                            </div>
+                    </uib-tab>
+                    <uib-tab index="5" select="ctrl.loadReportsData('lead')">
+                        <uib-tab-heading>Lead Time</uib-tab-heading>
+                        <div class="report-graph">
+                            <div sd-report-lead
+                                ng-if="ctrl.reportsData['lead']"
+                                style="width: 100%; height: 99%;"
+                                project="ctrl.project"
+                                report-data="ctrl.reportsData['lead']">
+                            </div>
+                        </div>
+                    </uib-tab>
+                </uib-tabset>
+            </div>
+        </div>
+    </div>
+</div>

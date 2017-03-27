@@ -1,0 +1,129 @@
+      <div class="subscription-table1">
+
+
+
+<div class="pricing-1 section-gray">
+            <div class="container">
+                   <div class="row ">
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-10" style="height: 50px;">
+            <button ng-class="{secondary:!ctrl.annual}" class="scrumdo-btn primary pull-right" ng-click="ctrl.toggleAnnual()">
+                Monthly
+            </button>
+            <button style="margin-right: 5px;" ng-class="{secondary:ctrl.annual}" class="scrumdo-btn primary pull-right" ng-click="ctrl.toggleAnnual()">
+                Annual
+            </button>
+        </div>
+   </div>
+                <div class="row">
+                  <h2 class="block-caption text-center">Pricing</h2>
+                  <p class="text-center">Find out which one is right for you</p>
+                  <br>
+                  <br>
+                    <div class="col-md-12">
+
+                        <div class="col-md-3">
+                            <div class="block block-pricing">
+                                <div class="table">
+                                    <h6 class="category">STANDARD</h6>
+                                    <h1 class="block-caption"><small>$</small>{{ctrl.standardPrice}}<small>/mo</small></h1>
+                                    <h3> For individuals, teams and small businesses </h3>
+                                    <ul>
+                                        <li>Multiple workspaces and teams</li>
+                                        <li>Team Visualization tools</li>
+                                        <li>Team Collaboration tools</li>
+                                        <li>Team Reports </li>
+                                        <li>Team Sentiments</li>
+                                        <li>Personalized notifications</li>
+                                         <li>Release, Iteration Planning</li>
+                                         <li>Custom Boards</li>
+                                        <li>Impediments and Blocker tracking</li>
+                                         <li>CFD, Burnup, Burn down, Lead Time histogram</li>
+
+                                    </ul>
+                                    <a  ng-href="{{ctrl.subscription.spreedly_url}}/subscribers/{{user.organization.id}}/subscribe/{{ctrl.selectedStandardPlan.spreedly_id}}/{{user.organization.slug}}?email={{user.email}}&first_name={{user.first_name}}&last_name={{user.last_name}}&return_url={{user.base_url}}/subscription/completed/{{user.organization.slug}}"
+                                        ng-if="ctrl.selectedStandardPlan.users >= ctrl.subscription.users_used"
+                                            class="btn btn-danger btn-round">GET STARTED</a>
+                                       <div class="alert alert-danger" ng-if="ctrl.userCount < ctrl.subscription.users_used">
+                            This plan does not include enough users for your organization.
+                        </div>
+                                    <div ng-if="ctrl.plansPage">
+                            <a href="/account/signup/" class="scrumdo-btn secondary ">Start Free Trial</a>
+                            <br/><br/><small>No Credit Card Required</small>
+                        </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="block block-pricing block-raised">
+                                <div class="table">
+                                    <h6 class="category">PREMIUM</h6>
+
+                                    <h1 class="block-caption" ng-if="ctrl.premiumPrice!=''"><small>$</small>{{ctrl.premiumPrice}}<small>/mo</small></h1>
+                                    <h1 class="block-caption" ng-if="ctrl.premiumPrice==''"><small>Contact Us</h1>
+                                      <h3> For growing businesses and medium to large organizations.  </h3>
+                                    <ul>
+                                      <li>EVERYTHING IN STANDARD PLUS</li>
+                                      <li>Multi-level planning</li>
+                                      <li>Portfolio wide backlog</li>
+                                      <li>Scaled Agile</li>
+                                      <li>Multi level Kanban</li>
+                                      <li>Dependency management</li>
+                                      <li>Value Stream management</li>
+                                      <li>Risk management</li>
+                                      <li>Big Picture live view</li>
+                                      <li>Automated alerts</li>
+                                      <li>Live coaching</li>
+                                      <li>Github, Slack, Dropbox etc</li>
+                                    </ul>
+                                    <a ng-href="{{ctrl.subscription.spreedly_url}}/subscribers/{{user.organization.id}}/subscribe/{{ctrl.selectedStandardPlan.spreedly_id}}/{{user.organization.slug}}?email={{user.email}}&first_name={{user.first_name}}&last_name={{user.last_name}}&return_url={{user.base_url}}/subscription/completed/{{user.organization.slug}}"
+                                       ng-class="{disabled:(ctrl.selectedPremiumPlan.id == ctrl.subscription.plan.id) && (ctrl.subscription.billing.recurring)}"
+                                       ng-if="ctrl.selectedPremiumPlan.users >= ctrl.subscription.users_used"
+                                       class="btn btn-danger btn-round">GET STARTED</a>
+                                    <div class="alert alert-danger" ng-if="ctrl.selectedPremiumPlan.users < ctrl.subscription.users_used">
+                            This plan does not include enough users for your organization.
+                        </div>
+                                     <div ng-if="ctrl.plansPage">
+                            <a href="/account/signup/" class="scrumdo-btn secondary ">Start Free Trial</a>
+                            <br/><br/><small>No Credit Card Required</small>
+                        </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+    <div class="text-center">  <!-- The user count buttons -->
+
+        <div class="visible-xs row">
+            <div class="col-xs-5 text-right">
+                <label class="user-dropdown-label">Number of Users:</label>
+            </div>
+            <div class="col-xs-5" style="margin-bottom: 20px;">
+                <sd-select button-icon="iteration"
+                        ng-model="ctrl.userSelectOption"
+                        buttonIcon=""
+                        ng-change="ctrl.selectPlan(ctrl.userSelectOption.value)"
+                        options="ctrl.longOptions"></sd-select>
+            </div>
+
+        </div>
+
+        <div class="plan-options hidden-xs">
+            <div class="btn-group">
+                <button ng-click="ctrl.selectPlan(userCount)"
+                        class="btn btn-default subscription-option"
+                        ng-class="{active:ctrl.userCount==userCount}"
+                        ng-repeat="userCount in ctrl.userCountLevels">
+                    {{userCount}}
+                    <br/>
+                    <small class="users">users</small>
+                </button>
+            </div>
+        </div>
+    </div>
+        </div>
+
+
+      </div>

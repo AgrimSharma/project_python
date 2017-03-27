@@ -1,0 +1,10 @@
+{% load i18n %}
+
+
+<dt><a href="{{ project.get_absolute_url }}">{{ project.name }}</a> ({{ project.slug }})</dt>
+<dd>{{ project.description }}
+    <div class="stats">
+        {% trans "Members:" %} <b>{{ project.member_count }}</b>
+        <br />
+    </div>
+</dd>

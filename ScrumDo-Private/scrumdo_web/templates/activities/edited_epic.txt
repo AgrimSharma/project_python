@@ -1,0 +1,9 @@
+{% load projects_tags %}
+modified collection <a href="/projects/epic_permalink/{{epic.id}}">#{{epic.local_id}}</a> in <a href="/projects/epic_permalink/{{epic.id}}">{{epic.project.name}}</a>.
+<ul>
+{% for fieldname,values in diffs.items %}
+	<li>
+		{{values}}
+	</li>
+{% endfor %}
+</ul>

@@ -1,0 +1,34 @@
+{% extends "extras/configure-base.html" %}
+
+{% load uni_form_tags %}
+
+
+{% block heading %}
+  <h1>Jira Status Options</h1>
+{% endblock %}
+
+{% block configure_content %}
+
+<p>
+	This page determines how ScrumDo statuses will map to your Jira issues statuses.
+	If you set these options to anything but "None" ScrumDo will:
+	<ul>
+		<li>When a Jira issue is marked with a status, update the ScrumDo status</li>
+	</ul>
+	Due the the complex workflows that Jira supports,
+</p>
+<hr/>
+ <form class="uniForm" id="project_form" method="POST" action="">
+ {% csrf_token %}
+     <fieldset class="inlineLabels">     
+       {{ form|as_uni_form}}
+         <div class="form_block">
+             <div class="buttonHolder"><button class="primaryAction" type="submit" >Next >></button></div>
+         </div>
+     </fieldset>
+ </form>
+ 
+ 
+
+
+{% endblock %}

@@ -1,0 +1,68 @@
+<div sd-access class="sentiments-wrapper">
+    <div class="col-md-12 team-title">
+        <span style="color: {{team.color|decimalToHexColor}}" class="fa {{team.icon}}"></span>
+        <span>{{team.name}}</span>
+        <span class="avg-value" ng-if="ctrl.sentiments.length">collectively feels like 
+            <i title="{{ctrl.emojiTitle(ctrl.averageValue())}}" 
+            class="twa twa-2x twa-{{ctrl.emojiUcode(ctrl.averageValue())}}"></i></span>
+    </div>
+
+    <div class="sentiment-row open" ng-if="canWrite">
+        <div class="col-md-12">
+            <form name="sentimentForm" class="sentimentForm">
+                <div class="row">
+                    <div class="number-box col-sm-12">
+                        <div>I am feeling </div>
+                        <div class="btn-group scrumdo-dropdown dropdown emoji-dropdown" uib-dropdown>
+                            <button type="button" class="scrumdo-select scrumdo-btn primary extended" uib-dropdown-toggle>
+                                <span><i class="twa twa-lg twa-{{ctrl.emojiUcode(ctrl.sentiment.number)}}"></i></span>
+                            </button>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <li role="menuitem" ng-repeat="option in ctrl.emojiOptions"
+                                    ng-click="ctrl.sentiment.number = $index+1;sentimentForm.$setDirty();" 
+                                    ng-class="{'active': ctrl.sentiment.number == $index+1}"
+                                    sd-enter="ctrl.enterKeyPressed(sentimentForm)">
+                                    <span title="{{option.title}}"><i class="twa twa-lg twa-{{option.code}}"></i></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <input type="text" sd-enter="ctrl.enterKeyPressed(sentimentForm)" ng-model="ctrl.sentiment.reason" 
+                                class="scrumdo-form primary" placeholder="because (optional)">
+                        </div>
+                        <div class="submit-box">
+                            <button type="submit"
+                                ng-class="{'disabled': ctrl.isBusy || !sentimentForm.$dirty}"
+                                ng-click="ctrl.enterKeyPressed(sentimentForm)"
+                                class="scrumdo-btn primary"><span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="sentiment-row" ng-repeat="sentiment in ctrl.sentiments| orderBy:'-date'">
+        <div class="col-md-12 user-info">
+            <div class="avatar">
+                <sd-user-portrait user="sentiment.creator" size="32"></sd-user-portrait>
+            </div>
+            <div class="username">
+                {{sentiment.creator|tooshortuser}}
+            </div>
+
+            <p class="number"> is feeling <i title="{{ctrl.emojiTitle(sentiment.number)}}" 
+            class="twa twa-md twa-{{ctrl.emojiUcode(sentiment.number)}}"></i> 
+            about our mission <span ng-if="sentiment.reason">because {{:: sentiment.reason}}</span> <span class="time">{{::sentiment.date|localtime}}</span></p>
+        </div>
+    </div>
+
+    <div class="sentiment-row remaining-members" ng-if="(members | filter: ctrl.filterMembers).length > 0">
+        <span>Not voted yet:</span>
+        <div class="members">
+            <div class="avatar" ng-repeat="user in members | filter: ctrl.filterMembers">
+                <sd-user-portrait user="user" avatar-tooltip size="32"></sd-user-portrait>
+            </div>
+        </div>
+    </div>
+</div>

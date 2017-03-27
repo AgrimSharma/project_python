@@ -1,0 +1,52 @@
+{% extends "base_signup.html" %}
+
+{% block title %}Welcome Back!{% endblock %}
+
+{% block body %}
+    <div class="scrumdo-box-modal-header text-center">
+        <h2 class="scrumdo-signup-title">Welcome Back</h2>
+    </div>
+    <div class="scrumdo-box-modal-content">
+
+      <form class="form-horizontal" method="POST" action="">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">Username</label>
+            <div class="col-sm-8">
+              <input type="text" disabled class="form-control disabled" name="username" value="{{ code.user.username }}">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="inputEmail3" class="col-sm-4 control-label">
+                New Password
+            </label>
+
+            <div class="col-sm-8">
+              <input id="pass" type="password" class="form-control disabled" name="password" value="">
+                <p class="help-block">Any password, just like a forgot-password form.</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-8 col-sm-4">
+              <input id="actbut" disabled type="submit" class="scrumdo-btn secondary extended" name="submit" value="Activate Account">
+            </div>
+          </div>
+      </form>
+
+    </div>
+
+    <script crossorigin="anonymous" src="{{ STATIC_URL }}generated_js/bower.js"></script>
+    <script>
+        $("#pass").keypress(function(){
+            $("#actbut").prop('disabled', $("#pass").val().length < 3);
+        });
+
+
+        $('form').submit(function() {
+          $(this).find("button[type='submit']").prop('disabled',true);
+        });
+
+    </script>
+{% endblock %}

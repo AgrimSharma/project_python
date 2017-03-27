@@ -1,0 +1,39 @@
+{% extends "projects/base.html" %}
+
+{% load i18n %}
+{% load avatar_tags %}
+{% load projects_tags %}
+
+
+{% load wiki_tags %}
+
+{% block body_div_class %}narrow_body{% endblock %}
+
+{% block head_title %}{{ project.name }}{% endblock %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="well span5">
+        <h1>Sync Now</h1>
+            {% if processed %}
+                <p>Working...</p>
+                <p class="alert alert-danger">
+                    It may take several minutes for the missing content to be fetched and processed.
+                </p>
+            {% else %}
+                <p>Clicking this button will cause ScrumDo to queue a job to syncronize your extras.
+                   You can use it if you occasionally find content in third party systems missing
+                   in ScrumDo.
+                </p>
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Sync Now" class="btn btn-primary" />
+                </form>
+
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

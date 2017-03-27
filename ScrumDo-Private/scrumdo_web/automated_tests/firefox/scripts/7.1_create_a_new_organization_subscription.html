@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:9000/" />
+<title>7.1_create_a_new_organization_subscription</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">7.1_create_a_new_organization_subscription</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/account/logout/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/account/login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_username</td>
+	<td>scrumdoselenium</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_password</td>
+	<td>scrumdotesting</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//input[@value='Log In »']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Create New Organization</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=id_name</td>
+	<td>TestOrg</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=button.primaryAction</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Bronze</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=credit_card_first_name</td>
+	<td>Scrum</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=credit_card_last_name</td>
+	<td>Do</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=credit_card_number</td>
+	<td>4222222222222</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=credit_card_verification_value</td>
+	<td>343</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=credit_card_month</td>
+	<td>label=7 - July</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>id=credit_card_year</td>
+	<td>label=2014</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>name=purchase_button</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Continue...</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>TestOrg Projects</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

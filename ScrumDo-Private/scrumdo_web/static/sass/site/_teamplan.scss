@@ -1,0 +1,164 @@
+.team-planning {
+  .column-hide-button {
+    display: none;
+  }
+
+  .export-group{
+    margin-right: 20px;
+    padding: 6px 0;
+  }
+  .pull-feature-menu{
+    max-height: 400px;
+    overflow: auto;
+    li{
+      position: relative;
+      .icon{
+        position: absolute;
+        left: 5px;
+        font-size: 12px;
+        top: 5px;
+        color: #f6764e;
+      }
+    }
+  }
+  
+  .export-group{
+    margin-right: 20px;
+    padding: 6px 0;
+  }
+  
+  .infobox {
+    position: absolute;
+    width: 300px;
+    left: 50%;
+    margin-left: -150px;
+    top: 150px;
+  }
+
+  .limit-container {
+    display: inline-block;
+    position: relative;
+    margin-left: 10px;
+    padding: 0 8px 6px 10px;
+  }
+
+  .card-grid-container {
+    border-top: 1px solid #e5e5e5;
+    margin-left: -1px;
+    left: 40px;
+
+    -webkit-transition: left 0.3s ease-out;
+    -moz-transition: left 0.3s ease-out;
+    -o-transition: left 0.3s ease-out;
+    transition: left 0.3s ease-out;
+
+    th {
+      border-top: none;
+    }
+    th, td{
+      &.wide-row{
+        .cards{
+          margin: 0 10px 10px 0;
+        }
+      }
+    }
+  }
+
+  .backlog-open {
+    .card-grid-container {
+      left: $backlogWidth;
+    }
+  }
+
+
+  .card-grid-container .card-grid .top-left-corner {
+    width: 220px;
+    min-width: 220px;
+    background: none;
+
+    .btn-group {
+      width: 100%;
+      >button {
+        width: 100%;
+      }
+    }
+  }
+
+}
+
+.dependencies-grid{
+  .dependencies-nav{
+    border-bottom: 1px solid #e5e5e5;
+    .scrumdo-checkbox{
+      margin: 12px 0 12px 20px;
+    }
+  }
+  &.current{
+    .card-grid{
+       .top-left-corner{
+         width: 200px;
+       }
+       .left-column{
+         padding-top: 20px;
+         .items-count{
+           display: none;
+         }
+       }
+    }
+    .card-grid-sidebar{
+      .teams{
+        display: none;
+      }
+    }
+    &.filter-data{
+      .card-grid-list{
+        li{
+          &.cards{
+            display: none;
+          }
+          &.has-dependency{
+            display: block;
+          }
+        }
+      }
+    }
+  }
+  .card-filters{
+    .title{
+      display: block;
+      border-bottom: 1px solid #ededed;
+      text-align: center;
+      margin: 0 -10px 15px -10px;
+      padding-bottom: 10px;
+    }
+    .filter-group{
+      margin-bottom: 10px;
+    }
+    .cards-modal-members{
+      min-height: 0px;
+      margin: 5px 0 0 0;
+    }
+    .scrumdo-dropdown{
+      font-size: 12px;
+      left: 0;
+      right: auto;
+      button{
+        width: 100%;
+        text-align: left;
+      }
+      .dropdown-menu{
+        max-height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        li{
+          font-size: 12px;
+          padding: 2px 5px;
+          cursor: pointer;
+          &:hover{
+            background-color: #f2f2f2;
+          }
+        }
+      }
+    }
+  }
+}

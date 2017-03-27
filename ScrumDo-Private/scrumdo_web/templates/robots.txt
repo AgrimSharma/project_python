@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /projects/
+Disallow: /admin/
+Disallow: /site_media/
+Disallow: /attachments/
+Disallow: /avatar/
+Disallow: /account/
+Disallow: /stats
+Disallow: /stats_data
+Disallow: /openid/
+Disallow: /shared/
+Disallow: /api/
+Disallow: /shared/
+Disallow: /retarget/
+Disallow: /organization/accept/
+Crawl-delay: 10
+

@@ -1,0 +1,21 @@
+- model: subscription.subscriptionplan
+  pk: 1000
+  fields:
+    name: Private Server
+    tagline: Private Server
+    active: Yes
+    show_in_grid: No
+    price: Paid via Appsembler
+    price_val: "0.01"
+    users: 5000
+    projects: 5000
+    storage: 50
+    premium_integrations: Yes
+    order: 0
+    spreedly_id: -1
+    feature_level: private
+    featured_plan: No
+    planning_poker: Yes
+    epic_tool: Yes
+    emails: Yes
+    yearly: Yes

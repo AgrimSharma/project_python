@@ -1,0 +1,71 @@
+<div class="dependencies-grid {{ctrl.renderMode}}"
+    ng-class="{'hide-independent-cards': ctrl.hideIndependent}">
+    <sd-restricted-feature ng-if="::!ctrl.project.isPremiumUser()" 
+        feature-name="'Dependencies'" organization-slug="ctrl.project.organizationSlug" 
+        feature-image="'DependenciesSample.png'"></sd-restricted-feature>
+
+    <div class="dependencies-nav" 
+        ng-if="ctrl.project.isPremiumUser()"
+        ng-init="downstreamMode = ctrl.renderMode == 'downstream'">
+        <label class="action-3 scrumdo-checkbox default"
+            ng-if="ctrl.project.currentProject.children_count>0">
+            <label for="RenderMode">Downstream View:</label>
+            <input type="checkbox" id="RenderMode" 
+                ng-change="ctrl.updateRenderMode(downstreamMode)" 
+                ng-model="downstreamMode">
+        </label>
+        <label class="action-3 scrumdo-checkbox default"
+            ng-if="ctrl.renderMode == 'current' && ctrl.getSibling().length">
+            <label for="ShowSiblings">Show Sibling Workspaces:</label>
+            <input type="checkbox" id="ShowSiblings" 
+                ng-change="ctrl.updateSiblingMode()" 
+                ng-model="ctrl.showSiblings">
+        </label>
+        <label class="action-3 scrumdo-checkbox default">
+            <label for="IndependentCards">Hide Independent Cards:</label>
+            <input type="checkbox" id="IndependentCards" 
+                ng-change="ctrl.toggleIndependentCards()" 
+                ng-model="ctrl.hideIndependent">
+        </label>
+    </div>
+
+    <div ng-if="ctrl.noData && ctrl.project.isPremiumUser()" class="alert alert-info margin10 text-center">
+        There is no child <strong>{{::childTimePeriodName}} </strong> associated with 
+        <strong>{{::timePeriodName}} <i>'{{::ctrl.project.currentIteration.name}}'</i></strong>
+        therefore we can not display the Dependency Board. <br/>
+        To associate child <strong>{{::childTimePeriodName}}</strong> please select <strong>
+        <i>'{{::ctrl.project.currentIteration.name}}'</i></strong>
+        as parent of <strong>{{::childTimePeriodName}}</strong>.<br/>Select child <strong>Workspace/{{::childTimePeriodName}}</strong>
+        below to add to this.
+    </div>
+
+    <div class="children-iterations-editorbox col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3"
+        ng-if="ctrl.userService.canWrite(ctrl.project.currentProject.slug) 
+                && ctrl.noData 
+                && ctrl.project.isPremiumUser()">
+        <div class="refresh-btn text-center" style="margin-bottom: 20px;" ng-if="ctrl.showRefresh">
+            <button class="scrumdo-btn primary" ng-click="ctrl.reloadPage()">
+                <i class="fa fa-refresh" aria-hidden="true"></i> Reload Dependency Board</button>
+        </div>
+
+        <children-iterations-editor
+            parent-project="ctrl.project.currentProject"
+            parent-iteration="ctrl.project.currentIteration"
+            action="'linktoparent'"
+        ></children-iterations-editor>
+    </div>
+
+    <sd-card-grid ng-if="!ctrl.noData && ctrl.project.isPremiumUser()"
+                  card-provider="ctrl.gridCardProvider"
+                  rows="ctrl.rows"
+                  dependencies="ctrl.dependencies"
+                  story-layout="'list_dependency'"
+                  columns="ctrl.columns">
+        <cardfilters 
+            ng-if="ctrl.renderMode == 'current'" 
+            ng-include="ctrl.filterTemplate"></cardfilters>
+    </sd-card-grid>
+</div>
+<div class="kiosk-toggle" ng-click="kiosk.toggle()">
+    <i class="fa fa-list-alt"></i>
+</div>

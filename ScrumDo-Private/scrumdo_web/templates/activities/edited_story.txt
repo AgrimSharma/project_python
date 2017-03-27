@@ -1,0 +1,9 @@
+{% load projects_tags %}
+modified card
+<ul>
+{% for fieldname,values in diffs.items %}
+	<li>
+		{{values|striptags}}
+	</li>
+{% endfor %}
+</ul>

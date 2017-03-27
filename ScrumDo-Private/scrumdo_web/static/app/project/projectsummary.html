@@ -1,0 +1,119 @@
+<div class="scrumdo-project-summary">
+    <div class="top-nav row">
+        <div class="col-sm-12">
+            <p class="title pull-left">
+                {{ctrl.projectData.currentProject.name}}
+            </p>
+            <div class="menus pull-right">
+                <a uib-tooltip="Search entire workspace" href="" ng-click="ctrl.openProjectSearch()">
+                    <span class="fa fa-search"></span></a>
+                <a ng-if="ctrl.projectData.canAdmin()" uib-tooltip="Workspace Settings" 
+                    ui-sref="app.settings.project"><span class="fa fa-cog"></span></a>
+            </div>
+            <div class="stats pull-right">
+                <div class="stat" ng-repeat="stat in ctrl.stats">
+                    {{::stat.value}}
+                    <small class="scrumdo-project-boxes-minitext" ng-bind-html="stat.label"></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="scrumdo-backlog-sidebar left-view"
+        ng-class="{'closed-backlog':!ctrl.sidebar, 'opened-backlog':ctrl.sidebar}">
+        <div class="content">
+            <workspace-summary-sidebar
+                project="ctrl.projectData.currentProject"
+            ></workspace-summary-sidebar>
+        </div>
+        <div ng-click="ctrl.toggleSidebar($event)" class="scrumdo-pull-sidebar backlog-pull pull-right">
+            <a class="scrumdo-sidebar-text icon">
+                <span class="glyphicon" 
+                    ng-class="{'glyphicon-chevron-down': !ctrl.boardProject.uiState.loadBacklog,
+                    'glyphicon-chevron-up': ctrl.boardProject.uiState.loadBacklog}"></span>
+            </a>
+            <a class="scrumdo-sidebar-text dashboard">Worksapce Dashboard</a>
+        </div>
+    </div>
+
+    <div class="right-view scrumdo-boards-wrapper"
+        ng-class="{'backlog-open':ctrl.sidebar}">
+        <div class="options row">
+            <div class="iteration-time pull-right tabs">
+                <a href="" ng-class="{'active': ctrl.iterationTime==4}" ng-click="ctrl.setIterationTime(4)">All Iterations</a>
+                <a href="" ng-class="{'active': ctrl.iterationTime==0}" ng-click="ctrl.setIterationTime(0)">Recent</a>
+                <a href="" ng-class="{'active': ctrl.iterationTime==1}" ng-click="ctrl.setIterationTime(1)">Last 2 months</a>
+                <a href="" ng-class="{'active': ctrl.iterationTime==2}" ng-click="ctrl.setIterationTime(2)">Last 6 months</a>
+                <a href="" ng-class="{'active': ctrl.iterationTime==3}" ng-click="ctrl.setIterationTime(3)">Year</a>
+            </div>
+            <div class="iteration-order pull-right">
+                <span class="dropdown" uib-dropdown>
+                    <button tooltip-append-to-body='true'
+                            uib-dropdown-toggle
+                            uib-tooltip="Sort Order" ng-class="{highlight: ctrl.sortOrder != 'system'}"
+                            class="dropdown-toggle scrumdo-btn primary"
+                            type="button"><i class="fa fa-sort-alpha-asc"></i></button>
+
+                <ul class="dropdown-menu">
+                    <li class="dropdown-header">Sort Order:</li>
+                    <li ng-class="{active:ctrl.sortOrder=='start_date'}">
+                        <a ng-click="ctrl.updateSortOrder('start_date')" href>
+                            Start Date</a>
+                    </li>
+                    <li ng-class="{active:ctrl.sortOrder=='end_date'}">
+                        <a ng-click="ctrl.updateSortOrder('end_date')" href>
+                            End Date</a>
+                    </li>
+                    <li ng-class="{active:ctrl.sortOrder=='duration'}">
+                        <a ng-click="ctrl.updateSortOrder('duration')" href>
+                            Duration</a>
+                    </li>
+                    <li ng-class="{active:ctrl.sortOrder=='total_cards'}">
+                        <a ng-click="ctrl.updateSortOrder('total_cards')" href>
+                            Total Cards</a>
+                    </li>
+                    <li ng-if="ctrl.sortOrder != 'system'" class="faded">
+                        <a ng-click="ctrl.clearOrder()" href>
+                            Clear Sort Order</a>
+                    </li>
+                </ul>
+                </span>
+            </div>
+            <div class="show-archived pull-right tabs">
+                <label class="scrumdo-checkbox default">
+                    <label for="ShowArchived">Show Archived</label>
+                    <input type="checkbox" id="ShowArchived" ng-change="ctrl.setTimeTrackingMode()" ng-model="ctrl.showArchived">
+                </label>
+            </div>
+        </div>
+
+        <div class="iterations row">
+            <div ng-if="ctrl.projectData.canWrite()" class="iteration-overview-wrapper new">
+                <div class="content" ng-click="ctrl.newIteration($event)">
+                    <a ng-click="ctrl.newIteration($event)" href=""><span class="fa fa-plus"></span> New {{::ctrl.timePeriodName}}</a>
+                </div>
+            </div>
+            <sd-iteration-overview
+                ng-repeat="iteration in ctrl.allIterations | filter: {iteration_type:1} | filter: ctrl.filterIteration | orderBy: ctrl.iterationOrderBy"
+                ng-if="ctrl.showArchived || ! iteration.hidden" 
+                view-type="ctrl.iterationView"
+                can-write="ctrl.projectData.canWrite()"
+                iteration="iteration"></sd-iteration-overview>
+        </div>
+
+        <div class="trash-bin backlog">
+            <a uib-tooltip="Backlog" ui-sref="app.iteration.cards({iterationId:ctrl.backlog.id})">
+                <span class="fa fa-refresh"></span><small>{{::ctrl.backlog.story_count}}</small></a>
+        </div>
+
+        <div class="trash-bin archive">
+            <a uib-tooltip="Archive" ui-sref="app.iteration.cards({iterationId:ctrl.archive.id})">
+                <span class="glyphicon glyphicon-compressed"></span><small>{{::ctrl.archive.story_count}}</small></a>
+        </div>
+
+        <div class="trash-bin" ng-if="ctrl.trashBin">
+            <a uib-tooltip="Trash Bin" ui-sref="app.iteration.cards({iterationId:ctrl.trashBin.id})">
+                <span class="fa fa-trash"></span><small>{{::ctrl.trashBin.story_count}}</small></a>
+        </div>
+    </div>
+</div>

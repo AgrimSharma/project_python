@@ -1,0 +1,814 @@
+//------------------------------
+// *****************************
+// Scrumdo Workspace Summary
+// *****************************
+//------------------------------
+
+.scrumdo-project-summary{
+  font-family: "robotoregular", sans-serif;
+  position: absolute;
+  left: 0;
+  top:0;
+  height: 100%;
+  width: 100%;
+  .top-nav{
+    border-bottom: 1px solid #e2e2e2;
+    padding: 10px 20px 9px 20px;
+    .title{
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 26px;
+      margin: 0;
+    }
+    .stats{
+      .stat{
+        display: inline-block;
+        font-size: 24px;
+        color: #7a7b7f;
+        vertical-align: middle;
+        margin-left: 18px;
+        small{
+          display: inline-block;
+          font-size: 10px;
+          line-height: 11px;
+          vertical-align: middle;
+          position: relative;
+          top: -2px;
+          text-transform: uppercase;
+          color: #888888;
+        }
+      }
+    }
+    .menus{
+      padding: 0;
+      margin: 0 0 0 50px;
+      a{
+        padding: 3px 8px;
+        background: #b1b1b1;
+        text-align: center;
+        color: #fff;
+        font-size: 20px;
+        display: inline-block;
+        &:focus{
+          outline: none;
+        }
+      }
+    }
+  }
+  .left-view{
+    top: 55px;
+    .scrumdo-pull-sidebar{
+      position: absolute;
+      right: 0
+    }
+  }
+
+  .right-view{
+    top: 55px;
+    background: #f6f6f6;
+    .dropdown-menu{
+      .faded{
+        a{
+          font-size: 85%;
+          color: #9e9e9e;
+        }
+      }
+    }
+    .options{
+      margin: 15px 0 20px 0;
+      padding: 0 20px;
+      .tabs{
+        a{
+          float: left;
+          padding: 5px 10px;
+          background: #efefef;
+          color: #333;
+          font-family: "robotoregular", sans-serif;
+          border: 1px solid #e2e2e2;
+          border-right: none;
+          margin: 0px;
+          &.active{
+            background: #fff;
+          }
+          &:last-child{
+            border-right: 1px solid #e2e2e2;
+          }
+          &:hover, &:focus{
+            text-decoration: none;
+            background: #fff;
+          }
+        }
+      }
+      .show-archived{
+        margin-right: 20px;
+      }
+      .iteration-order{
+        margin-right: 20px;
+      }
+    }
+    .iterations{
+      margin: 0 0 20px 0;
+      padding: 0 20px;
+    }
+
+    .trash-bin{
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      font-size: 2em;
+      a{
+        color: #333;
+        small{
+          position: absolute;
+          right: 10px;
+          bottom: 0;
+          font-size: 10px;
+          z-index: 2;
+          background: #a5a5a5;
+          color: #fff;
+          text-align: center;
+          padding: 1px 5px;
+          border-radius: 10px;
+          font-weight: 700;
+        }
+      }
+      &.backlog{
+        right: 120px;
+      }
+      &.archive{
+        right: 70px;
+        font-size: 1.8em;
+      }
+    }
+  }
+  /* Activity Tab */
+  &.newsfeed{
+    .timeline-container{
+      .project-name{
+        display: none;
+      }
+    }
+  }
+  /* Activity Tab */
+}
+
+.iteration-overview-wrapper{
+  width: 250px;
+  height: 210px;
+  border: 1px solid #e2e2e2;
+  margin-right: -1px;
+  margin-bottom: -1px;
+  background: #fff;
+  position: relative;
+  float: left;
+  &:hover{
+    box-shadow: 0px 0px 9px 3px #e6e6e6;
+    z-index: 2;
+    .actions{
+      display: block;
+    }
+  }
+  .actions{
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    z-index: 2;
+    display: none;
+    ul{
+      list-style: none;
+      padding: 0;
+      li{
+        float: left;
+        margin-left: 10px;
+        padding: 6px 10px;
+        background: #8c8c8c;
+        color: #fff;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+    }
+  }
+  .content{
+    padding: 10px;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    .title{
+      margin: 0;
+      a{
+        color: #333333;
+      }
+    }
+    .time{
+      font-size: 12px;
+      color: #BBB;
+      margin: 0;
+    }
+    .stats{
+      list-style: none;
+      position: absolute;
+      bottom: 10px;
+      width: 249px;
+      padding: 0 8px 0 30px;
+      left: 0;
+      li{
+        float: left;
+        width: 33%;
+        font-size: 20px;
+        color: #737476;
+        small{
+          font-size: 10px;
+          color: #bbb;
+          display: block;
+          line-height: 12px;
+          text-transform: uppercase;
+        }
+        &:last-child{
+          color: #f6764e;
+        }
+      }
+    }
+  }
+  .iteration-progress{
+    position: absolute;
+    left: -1px;
+    top: -2px;
+    right: -1px;
+    height: 2px;
+    .progress {
+      border-radius: 0px;
+      height: 2px;
+      .progress-bar {
+        height: 2px;
+        box-shadow: none;
+        &.progress-bar-warning {
+          background-color: #DDDDDD;
+        }
+      }
+    }
+  }
+  &.new{
+    text-align: center;
+    display: table;
+    background: #efefef;
+    .content{
+      display: table-cell;
+      vertical-align: middle;
+    }
+    span{
+      display: block;
+    }
+    a{
+      text-decoration: none;
+      color: #333;
+      &:focus{
+        text-decoration: none;
+        outline: none;
+      }
+    }
+  }
+  &.kanban{
+    .cell-rect{
+      stroke: #aaa;
+    }
+    .content{
+      .meta-info{
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+      }
+      .cards-count{
+        position: absolute;
+        bottom: 10px;
+        line-height: 24px;
+        right: 10px;
+        font-size: 25px;
+        text-align: center;
+        color: #737476;
+        small{
+          display: block;
+          font-size: 10px;
+          text-transform: uppercase;
+          color: #bbb;
+          line-height: 1;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}
+
+//------------------------------
+// *****************************
+// Scrumdo Iteration Sentiments
+// *****************************
+//------------------------------
+.emoji-dropdown{
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  min-width: auto;
+  button{
+    width: 65px !important;
+    padding: 0 2px !important;
+    text-align: left;
+  }
+  .dropdown-menu{
+    width: 100%;
+    min-width: auto;
+    padding: 0px;
+    border-radius: 0;
+    margin-top: -1px;
+    text-align: center;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    li{
+      padding: 3px 0px;
+      cursor: pointer;
+      &:hover, &.active{
+        background: #f3f3f3;
+      }
+    }
+  }
+}
+.iteration-sentiments-wrapper{
+  padding: 15px 15px;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  font-family: "robotoregular", sans-serif;
+  &.sidebar-sentiments{
+    padding: 0;
+    height: auto;
+    overflow: visible;
+    .section-title{
+      margin: 0 0 20px 0;
+    }
+    .team-sentiment-wrapper{
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .section-title{
+    color: #F6764E;
+    font-weight: 300;
+    font-size: 18px;
+    margin: 0 15px;
+    position: relative;
+    &::after{
+      content: "";
+      border-bottom: 3px solid #dddddf;
+      width: 40px;
+      top: 30px;
+      left: 0;
+      position: absolute;
+    }
+  }
+  .sentiments-section{
+    .child-teams{
+      border-top:1px dashed #dddddf;
+    }
+  }
+  .team-sentiment-wrapper{
+    padding-right: 35px;
+    margin-top: 40px;
+    &.parent-team{
+      margin-bottom: 20px;
+    }
+    .team-title{
+      border-bottom: 1px solid #dddddf;
+      padding: 0 0 10px 0;
+      span{
+        font-size: 14px;
+        font-weight: 700;
+        &.avg-value{
+          color: #f6764e;
+          font-weight: normal;
+        }
+      }
+    }
+    .sentiment-row{
+      border-bottom: 1px solid #dddddf;
+      width: 100%;
+      float: left;
+      padding: 5px 0 10px 0;
+      position: relative;
+      &:last-child{
+        border-bottom: none;
+      }
+      &.remaining-members{
+        span{
+          display: block;
+          color: #bcbcbe;
+          font-size: 13px;
+          font-weight: 700;
+          margin-bottom: 5px;
+        }
+        .avatar{
+          opacity: 0.5;
+          margin-bottom: 5px;
+        }
+      }
+      &.open{
+        padding: 15px 0;
+      }
+      .user-info{
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .avatar{
+        float: left;
+        margin-right: 10px;
+        img{
+          width: 25px;
+          height: 25px;
+          border-radius: 5px;
+        }
+      }
+      .username{
+        float: left;
+        line-height: 24px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin-right: 5px;
+        color: #f6764e;
+      }
+      .sentimentForm{
+        .number-box{
+          padding-right: 10px;
+          > div{
+            display: inline-block;
+            margin-right: 10px;
+          }
+        }
+      }
+      .time{
+        font-size: 10px;
+        color: #bcbcbe;
+        position: absolute;
+        right: 0;
+        bottom: -10px;
+      }
+    }
+  }
+}
+
+.workspace-summary-sidebar{
+  position: absolute;
+  left: 0px;
+  right: 45px;
+  bottom: 45px;
+  overflow-y: auto;
+  top: 0px;
+  padding: 0 0 0 20px;
+  direction: rtl;
+
+  .workspace-summary-sidebar-reset{
+    direction: ltr;
+  }
+  .section-title{
+    color: #F6764E;
+    font-weight: 300;
+    font-size: 18px;
+    margin-bottom: 20px;
+    display: inline-block;
+    position: relative;
+    a{
+      color: inherit;
+      display: inline-block;
+      outline: none;
+      &.icon{
+        font-size: 14px;
+        padding: 0 5px;
+      }
+    }
+    &::after{
+      content: "";
+      border-bottom: 3px solid #dddddf;
+      width: 40px;
+      top: 30px;
+      left: 0;
+      position: absolute;
+    }
+  }
+  .backlog{
+    .stats{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li{
+        float: left;
+        font-size: 2em;
+        color: #F6764E;
+        width: 33%;
+        span{
+          font-size: 11px;
+          color: #bbb;
+          display: inline-block;
+          font-family: "robotobold", sans-serif;
+          line-height: 12px;
+        }
+      }
+    }
+    .backlog-cfd{
+      min-height: 300px;
+      padding: 0;
+    }
+  }
+  .section{
+    .detail-link{
+      margin: 0;
+      position: absolute;
+      right: 10px;
+      top: 12px;
+      a{
+        font-size: 10px;
+        color: #333;
+        text-transform: uppercase;
+        font-family: "robotobold", sans-serif;
+        &:focus{
+          outline: none;
+        }
+        .fa{
+          margin-left: 5px;
+        }
+      } 
+    }
+    &:last-child{
+      margin-bottom: 50px;
+    }
+    &:first-child{
+      margin-top: 0px;
+    }
+    margin-top: 30px;
+    float: left;
+    width: 100%;
+    position: relative;
+  }
+  .project-risks{
+    padding: 0;
+    .alert{
+      background-color: #f6764e;
+      border-color: #bce8f1;
+      color: #fff;
+    }
+    .showall{
+      a{
+        color: #333;
+        text-decoration: underline;
+        font-size: 12px;
+        font-weight: 700;
+      }
+    }
+  }
+  .cards-modal-members{
+    li{
+      width: 25px;
+      height: 29px;
+      border: none;
+      border-radius: 0;
+      border-bottom: 3px solid transparent;
+      &.manager{
+        border-bottom: 3px solid #F6764E;
+      }
+      &.online{
+        &:after{
+          position: absolute;
+          background: #F6764E;
+          bottom: 0px;
+          right: 0px;
+          content: " ";
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+        }
+      }
+      img{
+        width: 25px;
+        height: 25px;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .project-dpenedencies{
+    overflow-x: auto;
+    overflow-y: hidden;
+    .from-project{
+      margin-top: 10px;
+      border-bottom: 1px dashed #e2e2e2;
+      small{
+        width: 12px;
+        height: 12px;
+        border: 2px solid #F6764E;
+        border-radius: 50%;
+        display: block;
+        margin: 0 auto;
+        top: 7px;
+        position: relative;
+      }
+    }
+    #svgConnect{
+      opacity: 0.6;
+    }
+    .to-projects{
+      margin: 10px 0 0 0;
+      z-index: 2;
+      position: relative;
+      .dependent-project{
+        float: left;
+        margin: 30px 50px 0px 0;
+        a{
+          color: #333;
+        }
+        p{
+          margin: 0;
+          display: block;
+          font-family: "robotomedium", sans-serif;
+        }
+        span{
+          display: inline-block;
+          font-size: 22px;
+        }
+        small{
+          font-size: 12px;
+          color: #bbb;
+        }
+      }
+    }
+  }
+
+  .portfolio-view{
+    .level{
+      display: table;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed rgba(221, 221, 221, 0.5);
+      .project-box-wrapper{
+        display: inline-block;
+        .project-box{
+          display: table-cell;
+          position: relative;
+          padding-left: 15px;
+          padding-right: 15px;
+
+          &.current{
+            a{
+              color: #333;
+              font-family: "robotomedium", sans-serif;
+              .fa{
+                opacity: 1;
+              }
+            }
+          }
+          &:first-child{
+            padding-left: 0;
+          }
+          &:last-child{
+            padding-right: 0;
+          }
+          a{
+            color: #bbb;
+            
+            .fa{
+              display: block;
+              opacity: 0.6;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      &:last-child{
+        border:none;
+      }
+    }
+  }
+
+  .team-invitation{
+    .team-invite-form{
+      padding: 10px 10%;
+      border: 1px solid #ededed;
+      width: 100%;
+      margin: 15px auto;
+
+      .dropdown-menu{
+        max-height: 300px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        li{
+          max-width: 360px;
+        }
+        .faded{
+          a{
+            font-size: 85%;
+            color: #9e9e9e;
+          }
+        }
+      }
+    }
+  }
+
+  .project-reports{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    line-height: 1.42857;
+    color: #333333;
+    min-height: 400px;
+    position: relative;
+    .blocker-report{
+      height: 100% !important;
+    }
+    .full-reports{
+      margin: 0;
+      position: absolute;
+      right: 0;
+      top: -30px;
+      a{
+        font-size: 10px;
+        color: #333;
+        text-transform: uppercase;
+        font-family: "robotobold", sans-serif;
+        .fa{
+          margin-left: 5px;
+        }
+      } 
+    }
+    .loading-reports{
+      position: absolute;
+      left: 0;
+      width: 90%;
+      top: 50px;
+      .alert{
+        background-color: #f6764e;
+        border-color: #bce8f1;
+        color: #fff;
+        width: 70%;
+        margin: 0 auto;
+        opacity: 0.9;
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+    }
+    .report-graph{
+      position: absolute;
+      left: -20px;
+      top: 40px;
+      bottom: 0;
+      right: 0;
+    }
+    .nav-tabs{
+      margin-bottom: 15px; 
+      border: none;
+      .uib-tab{
+        .nav-link{
+          font-family: "robotoregular", sans-serif;
+          font-size: 14px;
+          padding: 5px 0px 5px 0;
+          margin-right: 10px;
+          border: none;
+          color: #333;
+          background: transparent;
+        }
+        &.active{
+          .nav-link{
+            color: #f6764e;
+            border-bottom: 3px solid #f6764e;
+          }
+        }
+      }
+    }
+  }
+
+  &.iteration-summary{
+    .level{
+      &:last-child{
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+    .backlog{
+      .stats-wrapper{
+        padding: 0;
+      }
+      .stats{
+        li{
+        width: 20%;
+        line-height: 25px;
+        margin-bottom: 10px;
+        text-align: center;
+          span{
+            line-height: 11px;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

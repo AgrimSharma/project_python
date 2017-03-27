@@ -1,0 +1,101 @@
+<div class="iteration-settings" ng-controller="ProjectSettingsController as pCtrl">
+    <uib-tabset active="iCtrl.activeTab">
+        <uib-tab index="0" select="iCtrl.filterContinuousIterations()" ng-if="pCtrl.project.project_type!=2">
+            <uib-tab-heading>Flow Setting</uib-tab-heading>
+            <div class="scrumdo-account-details">
+                <h2 class="scrumdo-account-details-title">Workspace Continuous Flow</h2>
+                <div class="scrumdo-account-details-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="scrumdo-account-details-p">
+                                Enable/disable the Workspace Continuous Flow.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="!iCtrl.continuousIterations.length > 0">
+                        <div class="col-md-4">
+                            <div class="alert alert-info">
+                                <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> First create a continous Iteration
+                                <i class="fa fa-question-circle" aria-hidden="true" uib-tooltip="Iteration without End Date is Continuous"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="iCtrl.continuousIterations.length > 0">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="action-3 scrumdo-checkbox default col-md-12">
+                                    <label for="continuous_flow">Continuous Flow:</label>
+                                    <input class="pull-right" type="checkbox" id="continuous_flow" ng-model="pCtrl.project.continuous_flow">
+                                </label>
+                            </div>
+                            <div class="form-group" ng-if="pCtrl.project.continuous_flow">
+                                <label class="action-3 scrumdo-checkbox default col-md-12">
+                                    <br/>
+                                    <label for="continuous_flow_iteration">Continuous Flow Iteration:</label>
+                                    <sd-iteration-select
+                                        ng-model="pCtrl.continuousFlowIteration"
+                                        iterations="iCtrl.continuousIterations"
+                                        ng-if="iCtrl.continousTab"
+                                        show-archive-option="false"
+                                    ></sd-iteration-select>
+                                </label>
+                            </div>
+                            <div class="form-group" ng-if="pCtrl.project.continuous_flow && pCtrl.continuousFlowIteration && pCtrl.showDestinationIteration">
+                                <label class="action-3 scrumdo-checkbox default col-md-12">
+                                    <br/>
+                                    <label for="continuous_flow_iteration">All other Iterations will be archived, where you want you cards to be moved?:</label>
+                                    <div class="scrumdo-select primary medium">
+                                        <select ng-model="pCtrl.destinationIteration"
+                                            ng-options="iteration as iteration.name for iteration in pCtrl.destinationIterationOption">
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="iCtrl.continuousIterations.length > 0">
+                        <div class="col-md-4">
+                            <br/>
+                            <button ng-click="pCtrl.save()" ng-disabled="pCtrl.project.prefix.length < 2" class="scrumdo-btn secondary">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+    <uib-tab index="1" select="iCtrl.filterIterations()">
+        <uib-tab-heading>Iterations</uib-tab-heading>
+            <div>
+                <div class="col-sm-3 iterations">
+                    <h4 class="text-center">Iterations</h4>
+                    <ul>
+                        <li ng-click="iCtrl.editing = iteration"
+                            ng-if="!iteration.hidden || !pCtrl.project.continuous_flow"
+                            ng-class="{'active': iteration.id==iCtrl.editing.id}"
+                            ng-repeat="iteration in iCtrl.allIterations">
+                            <a href=""><i uib-tooltip="Archived" ng-if="iteration.hidden" class="glyphicon glyphicon-folder-close"></i>
+                                {{iteration.name}}</a>
+                        </li>
+                        <li ng-if="!iCtrl.projectDatastore.currentProject.continuous_flow" class="new">
+                            <a href="" class="scrumdo-btn secondary" 
+                            ng-click="iCtrl.addNew()"><span class="fa fa-plus"></span> New Iteration</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-9 col-sm-offset-3 editor">
+                    <div class="empty-iteartion" ng-if="!iCtrl.editing.id" >
+                        <div class="alert alert-info">
+                            Select an Iteration from left to edit.
+                        </div>
+                    </div>
+                    <span ng-if="iCtrl.editing.id && !iCtrl.projectDatastore.currentProject.continuous_flow" class="jump-to" uib-tooltip="Switch to iteration">
+                        <a ui-sref="app.iteration.board({iterationId: iCtrl.editing.id})">Jump to Iteration Board 
+                            <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
+                    </span>
+                    <sd-iteration-edit
+                        ng-repeat="iteration in iCtrl.allIterations"
+                        ng-if="iCtrl.editing.id == iteration.id" 
+                        iteration-copy="iCtrl.editingIteration()"></sd-iteration-edit>
+                </div>
+            </div>
+    </uib-tab>
+</div>

@@ -1,0 +1,19 @@
+{% extends "projects/base.html" %}
+
+
+{% block head_title %}Search {{ project.name }}{% endblock %}
+{% block body_class %}search-page{% endblock %}
+{% block body_app %}ng-app="SearchApp" id="ng-app"{% endblock %}
+
+{% block innerbody %}
+    <sd-search-page></sd-search-page>
+{% endblock %}
+
+
+{% block appinit %}scrumdo.setupSearchApp("{{ STATIC_URL }}",
+                                  "{{ search_terms }}",
+                                  "{{ organization.slug }}",
+                                  "{{ project.slug }}");{% endblock %}
+
+{% block subnavbar %}
+{% endblock %}

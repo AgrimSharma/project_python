@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+{% load projects_tags %}
+
+{% block head_title %}{% trans "Welcome" %}{% endblock %}
+
+
+{% block body %}
+        <h2>Top Scrum Projects by story count:</h2>
+    <table class="table">
+    <tr>
+        <th># Stories</th>
+        <th>Activity Count</th>
+        <th>Last Activity</th>
+        <th>Project Name</th>
+    </tr>
+        {% for project in top_projects %}
+            {% ifchanged project.organization_id %}
+                <tr>
+                {% if project.organization %}
+                    <td colspan="4"><a href="{% url "organization_dashboard" project.organization.slug %}">{{ project.organization.name }}</a></td>
+                {% else %}
+                    <td colspan="4">?</td>
+                {% endif %}
+                </tr>
+            {% endifchanged %}
+            <tr>
+                <td>{{ project.num_stories }}</td>
+                <td>{{ project.newsItems.count }}</td>
+                <td>{{ project|last_activity_date }}</td>
+                <td><a href="{% url "project_detail" project.slug %}">{{ project.name }}</a></td>
+            </tr>
+
+        {% endfor %}
+    </table>
+        
+    
+{% endblock %}
+
+

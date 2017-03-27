@@ -1,0 +1,105 @@
+<div class="app-right-tabs">
+    <a ng-if="projectData.currentProject && projectData.currentProject.tab_chat"
+       ui-sref-active="active"
+       uib-tooltip="Chat"
+       ui-sref="app.chat">
+       <i class="fa fa-comments-o" aria-hidden="true"></i>
+    </a><a ng-if="projectData.currentProject"
+           ng-class="{'active': state.includes('app.reports')}"
+           uib-tooltip="Reports"
+           ui-sref="app.reports.cfd">
+    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+    </a><a ng-if="projectData.currentProject && projectData.currentProject.tab_planning"
+           ng-class="{'active': state.includes('app.planning.planningcolumn') || state.includes('app.planning.storymapping')}"
+           uib-tooltip="Local Planning"
+           ui-sref="app.planning.planningcolumn">
+    <i class="fa fa-bars" aria-hidden="true"></i>
+    </a><a ng-if="projectData.currentProject && projectData.portfolio.id"
+           ng-class="{'active': state.includes('app.planning.portfoliobacklog')}"
+           uib-tooltip="Portfolio Backlog"
+           ui-sref="app.planning.portfoliobacklog">
+    <i class="fa fa-columns" aria-hidden="true"></i>
+    </a><a ng-if="projectData.currentProject && projectData.currentProject.tab_risks && projectData.portfolio.id"
+           uib-tooltip="Risks"
+           ng-class="{'restricted': !projectData.isPremiumUser()}"
+           ui-sref-active="active"
+           ui-sref="app.risks">
+    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+    </a><a ng-if="projectData.currentProject && projectData.canAdmin()"
+           ng-class="{'active': state.includes('app.settings')}"
+           uib-tooltip="Settings"
+           ui-sref="app.settings.project">
+    <i class="fa fa-gears" aria-hidden="true"></i>
+    </a>
+</div>
+<div class="app-tabs">
+    <a class="app-timeline-tab"
+       ng-if="projectData.currentProject
+                && !projectData.currentIteration
+                && !projectData.currentProject.tab_timeline
+                && !projectData.currentProject.tab_milestones"
+       ui-sref="app.redirectdefault">
+        Workspace Home
+    </a><a class="app-timeline-tab" ng-if="projectData.currentProject && !projectData.currentProject.continuous_flow && !projectData.currentIteration"
+       ui-sref-active="active"
+       ui-sref="app.summary">
+        Summary
+    </a><a class="app-timeline-tab" ng-if="projectData.currentProject && projectData.currentProject.continuous_flow && !projectData.currentIteration"
+       ui-sref-active="active"
+       ui-sref="app.iteration.board({iterationId:projectData.currentProject.continuous_flow_iteration_id})">
+        Summary
+    </a><a class="app-board-tab" ng-if="projectData.currentIteration && projectData.currentProject.tab_board 
+        && projectData.currentIteration.iteration_type==1"
+        ui-sref-active="active"
+        ng-class="{'active': state.includes('app.iteration.viewStory')}"
+        ui-sref="app.iteration.board({iterationId:projectData.currentIteration.id})">
+        Board
+    </a><a class="app-summary-tab" ng-if="projectData.currentIteration && projectData.currentProject.project_type==2
+        && projectData.currentIteration.iteration_type==1"
+        ui-sref-active="active"
+        ng-class="{'restricted': !projectData.isPremiumUser()}"
+        ui-sref="app.iteration.bigpicture({iterationId:projectData.currentIteration.id})">
+        Big Picture
+    </a><a class="app-team-planning-tab"
+        ng-if="projectData.currentIteration && projectData.currentProject.tab_teamplanning && projectData.currentIteration.iteration_type==1 && projectData.currentProject.children_count>0 "
+        ng-class="{'active': state.includes('app.iteration.teamplanningteam'), 'restricted': !projectData.isPremiumUser()}"
+        ui-sref="app.iteration.teamplanning({iterationId:projectData.currentIteration.id})">
+        Downstream Planning
+    </a><a class="app-dependencies-tab" ng-if="projectData.currentIteration && projectData.currentProject.tab_dependencies 
+        && projectData.currentIteration.iteration_type==1"
+        ng-class="{'restricted': !projectData.isPremiumUser()}"
+        ui-sref-active="active"
+        ui-sref="app.iteration.dependencies({iterationId:projectData.currentIteration.id})">
+        Dependencies
+    </a><a class="app-summary-tab" ng-if="projectData.currentIteration && projectData.currentProject.tab_sentiments 
+        && projectData.currentIteration.iteration_type==1"
+        ui-sref-active="active"
+        ui-sref="app.iteration.sentiments({iterationId:projectData.currentIteration.id})">
+        Sentiments
+    </a><a class="app-cardlist-tab" ng-if="projectData.currentIteration"
+       ui-sref-active="active"
+       ui-sref="app.iteration.cards({iterationId:projectData.currentIteration.id})">
+        Card List
+    </a><a class="app-timeline-tab" ng-if="projectData.currentProject && projectData.currentIteration 
+        && projectData.currentIteration.iteration_type==1"
+       ng-class="{'active': state.includes('app.iteration.notes') || state.includes('app.iteration.note')}"
+       ui-sref="app.iteration.notes({iterationId:projectData.currentIteration.id})">
+        Notes
+    </a><a class="app-timeline-tab" ng-if="projectData.currentProject && !projectData.currentIteration"
+       ui-sref-active="active"
+       ui-sref="app.activity">
+        Activity
+    </a><a class="app-timeline-tab" ng-if="projectData.currentProject && projectData.currentIteration"
+       ui-sref-active="active"
+       ui-sref="app.iteration.activity({iterationId:projectData.currentIteration.id})">
+        Activity
+    </a><a class="app-risks-tab" ng-if="projectData.currentProject.tab_milestones && projectData.portfolio.id"
+           ui-sref-active="active"
+           ui-sref="app.releases">
+        Progress View
+    </a><a class="app-risks-tab" ng-if="projectData.canWrite() && projectData.currentProject.story_queue_count"
+           ui-sref-active="active"
+           ui-sref="app.storyqueue">
+        <i class="fa fa-cloud-download scrumdo-tab-fa-icon"></i> Import Queue
+    </a>
+</div>
