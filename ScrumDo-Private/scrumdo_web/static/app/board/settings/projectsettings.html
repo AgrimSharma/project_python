@@ -131,38 +131,32 @@
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <!--<div class="form-group">
-                        <label class="action-3 scrumdo-checkbox default col-md-12">
-                            <label for="tabTimeline">Timeline:</label>
-                            <input class="pull-right" type="checkbox" id="tabTimeline" ng-model="ctrl.project.tab_timeline">
-                        </label>
-                    </div>-->
                     <div class="form-group">
-                        <label class="action-3 scrumdo-checkbox default col-md-12">
+                        <label class="action-3 scrumdo-checkbox default col-xs-12">
                             <label for="tabSentiments">Sentiments:</label>
                             <input class="pull-right" type="checkbox" id="tabSentiments" ng-model="ctrl.project.tab_sentiments">
                         </label>
                     </div>
                     <div class="form-group">
-                        <label class="action-3 scrumdo-checkbox default col-md-12">
+                        <label class="action-3 scrumdo-checkbox default col-xs-12">
                             <label for="tabCardList">Board:</label>
                             <input class="pull-right" type="checkbox" id="tabCardList" ng-model="ctrl.project.tab_board">
                         </label>
                     </div>
                     <div class="form-group">
-                        <label class="action-3 scrumdo-checkbox default col-md-12">
+                        <label class="action-3 scrumdo-checkbox default col-xs-12">
                             <label for="tabChat">Chat:</label>
                             <input class="pull-right" type="checkbox" id="tabChat" ng-model="ctrl.project.tab_chat">
                         </label>
                     </div>
                     <div class="form-group">
-                        <label class="action-3 scrumdo-checkbox default col-md-12">
+                        <label class="action-3 scrumdo-checkbox default col-xs-12">
                             <label for="tabPlanning">Planning:</label>
                             <input class="pull-right" type="checkbox" id="tabPlanning" ng-model="ctrl.project.tab_planning">
                         </label>
                     </div>
                     <div class="form-group" ng-if="ctrl.project.portfolio_id || ctrl.project.project_type==2">
-                        <label class="action-3 scrumdo-checkbox default col-md-12">
+                        <label class="action-3 scrumdo-checkbox default col-xs-12">
                             <label for="tabRisks">Risks:</label>
                             <input class="pull-right" type="checkbox" id="tabRisks" ng-model="ctrl.project.tab_risks">
                         </label>
@@ -171,21 +165,21 @@
                     <div ng-if="ctrl.project.children_count>0">
 
                         <div class="form-group">
-                            <label class="action-3 scrumdo-checkbox default col-md-12">
+                            <label class="action-3 scrumdo-checkbox default col-xs-12">
                                 <label for="tabTeamPlanning">Team Planning:</label>
                                 <input class="pull-right" type="checkbox" id="tabTeamPlanning" ng-model="ctrl.project.tab_teamplanning">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label class="action-3 scrumdo-checkbox default col-md-12">
+                            <label class="action-3 scrumdo-checkbox default col-xs-12">
                                 <label for="tabDependencies">Dependencies:</label>
                                 <input class="pull-right" type="checkbox" id="tabDependencies" ng-model="ctrl.project.tab_dependencies">
                             </label>
                         </div>
 
                         <div class="form-group">
-                            <label class="action-3 scrumdo-checkbox default col-md-12">
+                            <label class="action-3 scrumdo-checkbox default col-xs-12">
                                 <label for="tabMilestones">Simplified Releases View:</label>
                                 <input class="pull-right" type="checkbox" id="tabMilestones" ng-model="ctrl.project.tab_milestones">
                             </label>
@@ -700,7 +694,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="hidden-xs">
                 <button ng-click="ctrl.save()" ng-disabled="ctrl.project.prefix.length < 2" class="scrumdo-btn secondary pull-right">Save</button>
             </div>
         </div>

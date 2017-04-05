@@ -63,6 +63,11 @@ module scrumdo {
             $compileProvider.debugInfoEnabled(false);
         }]);
 
+        app.config(['$uibTooltipProvider', ($tooltipProvider) => {
+            var options = tooltipProviderDefaults();
+            $tooltipProvider.options(options);
+        }]);
+
         sdCommonDirectives(app, STATIC_URL);
 
         app.run((userService, realtimeService, $rootScope, $state) => {

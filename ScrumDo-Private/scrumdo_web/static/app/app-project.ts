@@ -63,9 +63,9 @@ module scrumdo {
         app.config(['$stateProvider', '$urlRouterProvider', 'urlRewriter', scrumdo.projectRoutes]);
 
         app.config(['$uibTooltipProvider', ($tooltipProvider) => {
-            $tooltipProvider.options({ appendToBody: true });
-        }
-        ]);
+            var options = tooltipProviderDefaults();
+            $tooltipProvider.options(options);
+        }]);
 
         app.config(['$compileProvider', ($compileProvider) => {
             $compileProvider.debugInfoEnabled(false);

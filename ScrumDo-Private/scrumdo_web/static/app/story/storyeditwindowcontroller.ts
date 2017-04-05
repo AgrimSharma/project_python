@@ -60,6 +60,7 @@ module scrumdo {
         private showFields: boolean = false;
         private dependencies: Array<number>;
         private risks: Array<number>;
+        private activeTab: number = 0;
 
         constructor(
             public organizationSlug: string,

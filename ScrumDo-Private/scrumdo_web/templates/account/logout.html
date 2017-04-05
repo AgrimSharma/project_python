@@ -6,10 +6,11 @@
 
 {% block body %}
     <div class="row" style="padding-top: 100px">
-        <div class="col-xs-4"></div>
-        <div class="col-xs-4 panel panel-default">
-          <div class="panel-body">
+        <div class="col-sm-4 hiddne-xs"></div>
+        <div class="col-xs-12 col-sm-4 panel panel-default">
+          <div class="panel-body text-center">
             You've been logged out.
+            <a class="" href="{% url "acct_login"  %}">Please log in again.</a>
           </div>
         </div>
     </div>

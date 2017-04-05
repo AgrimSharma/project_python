@@ -1,11 +1,34 @@
 from .common import *
 from django.db.models import Count
-from apps.projects.models import Project, ReleaseStat, Story, ProgramIncrement
+from apps.projects.models import Project, ReleaseStat, Story, ProgramIncrement, Iteration
 from apps.kanban.models import BoardCell
-from .story import StoryHandler
+from .story import StoryHandler, MiniStoryHandler
 
 class ReleaseHandler(BaseHandler):
     allowed_methods = ('GET', 'PUT', 'POST', "DELETE")
+
+class ProjectReleaseHandler(MiniStoryHandler):
+    """
+    This is used to get Release Stories having children for Project
+    project_slug: Project Slug
+    return: MiniStories 
+    """
+    allowed_methods = ('GET',)
+
+    @throttle(READ_THROTTLE_REQUESTS, THROTTLE_TIME, 'user_reads')
+    def read(self, request, organization_slug, project_slug):
+        org, project = checkOrgProject(request, organization_slug, project_slug)
+        
+        include_archived = request.GET.get("archived", "false") == "true"
+
+        iteration_types = [Iteration.ITERATION_BACKLOG, Iteration.ITERATION_WORK]
+        if include_archived:
+            iteration_types.append(Iteration.ITERATION_ARCHIVE)
+        
+        return project.stories.filter(iteration__iteration_type__in = iteration_types,
+                                story__isnull=False, 
+                                story__iteration__iteration_type=Iteration.ITERATION_BACKLOG,
+                                iteration__hidden=False).distinct()
 
 
 class ReleaseStatHandler(BaseHandler):

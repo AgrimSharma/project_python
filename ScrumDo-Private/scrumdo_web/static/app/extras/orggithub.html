@@ -150,39 +150,41 @@
 </h4>
 
 <div class="row" ng-if="ctrl.orgExtra.github_repos">
-    <form name="importForm">
-        <div class="col-xs-5">
-            <div class="scrumdo-select primary">
-                <select ng-model="ctrl.githubImport.name"
-                        name="import_repo"
-                        ng-options="repo.full_name as repo.full_name for repo in ctrl.orgExtra.github_repos|orderBy:'full_name'"></select>
+    <div class="col-sm-12">
+        <form name="importForm">
+            <div class="col-xs-5">
+                <div class="scrumdo-select primary">
+                    <select ng-model="ctrl.githubImport.name"
+                            name="import_repo"
+                            ng-options="repo.full_name as repo.full_name for repo in ctrl.orgExtra.github_repos|orderBy:'full_name'"></select>
+                </div>
             </div>
-        </div>
-        <div class="checkbox col-xs-12">
-            <label>
-                <input name="upload_issues" ng-model="ctrl.githubImport.upload_issues" type="checkbox"> Upload ScrumDo stories as GitHub issues.
-            </label>
-        </div>
-        <div class="checkbox col-xs-12">
-            <label>
-                <input name="download_issues" ng-model="ctrl.githubImport.download_issues" type="checkbox"> Download GitHub issues into the ScrumDo story queue.
-            </label>
-        </div>
-        <div class="checkbox col-xs-12">
-            <label>
-                <input name="close_on_delete" ng-model="ctrl.githubImport.close_on_delete" type="checkbox"> Synchronize issue status with board cell.
-            </label>
-        </div>
-        <div class="checkbox col-xs-12">
-            <label>
-                <input checked name="commit_messages" ng-model="ctrl.githubImport.commit_messages" type="checkbox"> Link commits and pull requests to ScrumDo cards.
-            </label>
-        </div>
+            <div class="checkbox col-xs-12">
+                <label>
+                    <input name="upload_issues" ng-model="ctrl.githubImport.upload_issues" type="checkbox"> Upload ScrumDo stories as GitHub issues.
+                </label>
+            </div>
+            <div class="checkbox col-xs-12">
+                <label>
+                    <input name="download_issues" ng-model="ctrl.githubImport.download_issues" type="checkbox"> Download GitHub issues into the ScrumDo story queue.
+                </label>
+            </div>
+            <div class="checkbox col-xs-12">
+                <label>
+                    <input name="close_on_delete" ng-model="ctrl.githubImport.close_on_delete" type="checkbox"> Synchronize issue status with board cell.
+                </label>
+            </div>
+            <div class="checkbox col-xs-12">
+                <label>
+                    <input checked name="commit_messages" ng-model="ctrl.githubImport.commit_messages" type="checkbox"> Link commits and pull requests to ScrumDo cards.
+                </label>
+            </div>
 
-        <div class="col-xs-5">
-            <button ng-class="{'disabled':!ctrl.githubImport.name}"
-                    ng-click="ctrl.importGithubProject(ctrl.githubImport)"
-                    class="scrumdo-btn primary">Import As New Workspace</button>
-        </div>
-    </form>
+            <div class="col-xs-5">
+                <button ng-class="{'disabled':!ctrl.githubImport.name}"
+                        ng-click="ctrl.importGithubProject(ctrl.githubImport)"
+                        class="scrumdo-btn primary">Import As New Workspace</button>
+            </div>
+        </form>
+    </div>
 </div>

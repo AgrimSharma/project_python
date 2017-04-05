@@ -49,6 +49,10 @@ module scrumdo {
                 this.tasktags = [];
             }
 
+            this.scope.$on("tagsUpdated", () => {
+                this.scope.taskForm.$setDirty();
+            });
+
             this.tags = (function() {
                 var i, len, ref, results;
                 ref = this.scope.project.tags;

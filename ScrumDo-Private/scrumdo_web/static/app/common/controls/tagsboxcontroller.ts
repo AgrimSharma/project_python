@@ -52,6 +52,7 @@ module scrumdo {
                 this.listValues.splice(i, 1);
             }
             this.setCurrentValue();
+            this.scope.$emit('tagsUpdated', 'removed');
         }
 
         addTag() {

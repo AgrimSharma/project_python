@@ -29,6 +29,8 @@ module scrumdo {
         private templateName: string;
         private canWrite: boolean;
         private loading: boolean;
+        private mobileView: boolean = false;
+        private mobileLeftPanel: boolean = false;
 
         constructor(
             public scope,
@@ -44,7 +46,8 @@ module scrumdo {
             private projectData: ProjectDatastore,
             public routeParams: ng.ui.IStateParamsService,
             private urlRewriter: URLRewriter) {
-
+            
+            this.mobileView = isMobileDevice();
             this.iteration = this.projectData.currentIteration;
             this.project = this.projectData.currentProject;
             this.canWrite = this.userService.canWrite(this.project.slug);
@@ -116,6 +119,10 @@ module scrumdo {
         isOwner(){
             if(this.currentNote == null) return false;
             return this.currentNote.creator.username == this.userService.me.username;
+        }
+
+        showMobileNotes(){
+            this.mobileLeftPanel = ! this.mobileLeftPanel;
         }
     }
 }

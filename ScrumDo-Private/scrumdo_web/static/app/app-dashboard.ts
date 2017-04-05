@@ -64,18 +64,13 @@ module scrumdo {
         app.config(['$stateProvider', '$urlRouterProvider', 'urlRewriter', scrumdo.dashboardRoutes]);
 
         app.config(['$uibTooltipProvider', ($tooltipProvider) => {
-            $tooltipProvider.options({ appendToBody: true });
-        }
-        ]);
+            var options = tooltipProviderDefaults();
+            $tooltipProvider.options(options);
+        }]);
         
         app.config(['$compileProvider', ($compileProvider) => {
             $compileProvider.debugInfoEnabled(false);
         }]);
-
-        app.config(['$uibTooltipProvider', ($tooltipProvider) => {
-            $tooltipProvider.options({ appendToBody: true });
-            }
-        ]);
 
         app.run((userService, $rootScope, editableOptions) => {
             trace("Loading user service");

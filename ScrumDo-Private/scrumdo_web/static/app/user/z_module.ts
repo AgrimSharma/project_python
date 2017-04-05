@@ -10,6 +10,7 @@ mod.service("userService", scrumdo.UserService);
 mod.controller("SDPeopleController", scrumdo.SDPeopleController);
 mod.controller("SDAssigneeController", scrumdo.SDAssigneeController);
 mod.controller("UserPortraitController", scrumdo.UserPortraitController);
+mod.controller("userMobileViewInfoConroller", scrumdo.UserMobileViewInfoConroller);
 
 mod.directive("sdPeople", function() {
     return {
@@ -71,5 +72,17 @@ mod.directive("avatarTooltip", function() {
     return {
         restrict: 'A',
         link: scrumdo.avatarTooltip
+    };
+});
+
+mod.directive("userMobileViewInfo", function() {
+    return {
+        scope: {
+        },
+        replace: true,
+        controller: "userMobileViewInfoConroller",
+        controllerAs: "ctrl",
+        restrict: 'E',
+        templateUrl: STATIC_URL + "app/user/mobileviewinfo.html"
     };
 });

@@ -10,13 +10,13 @@
 
     <div class="scrumdo-backlog-container">
 
-        <div class="backlog-container-header" ng-if="!ctrl.isTrash()">
+        <div class="backlog-container-header hidden-xs" ng-if="!ctrl.isTrash()">
             <div class="row">
                 <div class="col-md-2">
                     
                 </div>
                 <div class="col-md-8 text-center">
-                    <div class="limit-container hidden-sm hidden-xs">
+                    <div class="limit-container">
                         <sd-limit-bar 
                             set-limit="ctrl.setLimit()" 
                             stats="ctrl.getStats()" 
@@ -44,7 +44,7 @@
                 <div class="col-lg-10 col-lg-offset-1 col-md-12">
                     <div class="backlog-container-tools">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-8 col-md-8">
+                            <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs">
                                 <div class="btn-group" ng-if="canWrite && selectedCount>0">
                                     <button ng-click="ctrl.bulkDelete()" type="button" class="scrumdo-btn primary"><span class="scrumdo-icons bin"></span></button>
                                     <button ng-click="ctrl.bulkTag()" type="button" class="scrumdo-btn primary"><span class="glyphicon glyphicon-th"></span></button>

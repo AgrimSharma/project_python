@@ -20,6 +20,14 @@
             </div>
 
             <div class="limit-container hidden-sm hidden-xs">
+                <label class="action-3 scrumdo-checkbox default no-epic-control">
+                    <label for="noEpicCards">
+                        Show {{::ctrl.childWorkItemName|pluralize}} without {{::ctrl.workItemName}}:</label>
+                    <input type="checkbox" id="noEpicCards" 
+                        ng-change="ctrl.setupRowsColumns()"
+                        ng-model="ctrl.noFeatureCards">
+                </label>
+
                 <sd-limit-bar 
                     set-limit="ctrl.setLimit()" 
                     stats="ctrl.getStats()" 
@@ -46,7 +54,7 @@
                     board-project="ctrl.backlogBoardProject()"
                     global-backlog="true" 
                     can-drag="ctrl.projectData.currentTeam.canWrite"></sd-backlog>
-
+        
         <sd-card-grid card-provider="ctrl.gridCardProvider"
                       rows="ctrl.rows"
                       sort-order="rank"

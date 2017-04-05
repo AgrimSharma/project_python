@@ -61,6 +61,11 @@ module scrumdo {
             $compileProvider.debugInfoEnabled(false);
         }]);
 
+        app.config(['$uibTooltipProvider', ($tooltipProvider) => {
+            var options = tooltipProviderDefaults();
+            $tooltipProvider.options(options);
+        }]);
+        
         app.run((userService, $rootScope, editableOptions) => {
             trace("Loading user service");
             $rootScope.STATIC_URL = STATIC_URL;

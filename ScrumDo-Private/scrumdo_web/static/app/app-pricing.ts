@@ -25,6 +25,11 @@ module scrumdo {
             $sceDelegateProvider.resourceUrlWhitelist(['self', STATIC_URL + "**"]);
         });
 
+        app.config(['$uibTooltipProvider', ($tooltipProvider) => {
+            var options = tooltipProviderDefaults();
+            $tooltipProvider.options(options);
+        }]);
+
         app.constant("organizationSlug", '');
         app.constant("projectSlug", '');
         app.constant("sidebarMultiselect", false);

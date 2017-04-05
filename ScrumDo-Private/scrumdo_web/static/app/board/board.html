@@ -12,11 +12,11 @@
          sd-autoscroll-horizontal
          sd-autoscroll-vertical
          draggable="true"
-         class="scrumdo-boards-wrapper">
+         class="scrumdo-boards-wrapper freeze-scroll">
 
-        <table ng-if="boardProject.project.render_mode==0" class="kanbantable" border="1" sd-board-table>
+        <table mobile-pinch-handler ng-if="boardProject.project.render_mode==0 && !ctrl.mobileRenderMode" class="kanbantable" border="1" sd-board-table>
         </table>
-        <div class='kanbantable fixed-board' ng-if="boardProject.project.render_mode==1" sd-board-fixed></div>
+        <div mobile-pinch-handler class='kanbantable fixed-board' ng-if="boardProject.project.render_mode==1 || ctrl.mobileRenderMode" sd-board-fixed></div>
     </div>
 
     <div id="multiDragPlaceholder">

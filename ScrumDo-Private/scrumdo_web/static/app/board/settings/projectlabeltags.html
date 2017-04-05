@@ -9,20 +9,20 @@
                 </p>
             </div>
         </div>
-        <div class="scrumdo-account-details-content">
+        <div class="scrumdo-account-details-content project-labels">
             <div class="row">
                 <div class="col-md-10">
 
                     <div class="form-group" ng-repeat="label in ctrl.project.labels">
 
-                            <div class="row">
+                            <div class="row project-label">
                                 <div class="col-md-4">
                                     <span ng-if="!label.editMode"
                                           ng-style="{'background-color': (label.color|decimalToHexColor) }"
                                           class="labels bigger extended">{{label.name}}</span>
                                     <input sd-enter="ctrl.saveLabel(label)" ng-if="label.editMode" ng-model="label.name" type="text" class="scrumdo-form primary">
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 label-actions">
                                     <button ng-if="!label.editMode" ng-click="ctrl.editLabel(label)" class="scrumdo-btn primary">
                                         <i class="glyphicon glyphicon-pencil"></i>
                                     </button>
@@ -43,7 +43,7 @@
                                     </spectrum-colorpicker>
                                 </div>
 
-                                <div class="col-md-4" ng-if="label.editMode">
+                                <div class="col-md-4 label-actions" ng-if="label.editMode">
                                     <button ng-class="{disabled:(label.name.length==0)}" ng-click="ctrl.saveLabel(label)" class="scrumdo-btn primary">
                                         Save
                                     </button>
@@ -74,18 +74,18 @@
             </div>
         </div>
         
-        <div class="scrumdo-account-details-content">
+        <div class="scrumdo-account-details-content project-tags">
             <div class="row">
                 <div class="col-md-10">
 
                     <div class="form-group" ng-repeat="tag in ctrl.project.alltags|orderBy:-id">
-                            <div class="row">
-                                <div class="col-md-4">
+                            <div class="row project-tag">
+                                <div class="col-md-4 tag-name">
                                     <span ng-if="!tag.editMode"
                                           class="labels bigger extended tag">{{::tag.name}}</span>
                                     <input sd-enter="ctrl.saveTag(tag)" ng-if="tag.editMode" ng-model="tag.name" type="text" class="scrumdo-form primary">
                                 </div>
-                                <div class="col-md-4" ng-if="!tag.editMode">
+                                <div class="col-md-4 tag-actions" ng-if="!tag.editMode">
                                     <button ng-click="ctrl.editTag(tag)" class="scrumdo-btn primary">
                                         <i class="glyphicon glyphicon-pencil"></i>
                                     </button>
@@ -97,7 +97,7 @@
                                     </button>
                                 </div>
 
-                                <div class="col-md-3" ng-if="tag.editMode">
+                                <div class="col-md-3 tag-actions" ng-if="tag.editMode">
                                     <button ng-class="{disabled:(tag.name.length==0)}" ng-click="ctrl.saveTag(tag)" class="scrumdo-btn primary">
                                         Save
                                     </button>

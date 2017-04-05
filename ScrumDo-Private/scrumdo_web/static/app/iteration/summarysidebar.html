@@ -85,14 +85,16 @@
         </div>
 
         <div class="section iteration-sentiments-wrapper sidebar-sentiments">
-            <h4 class="section-title"><a ui-sref="app.iteration.sentiments">Sentiments</a></h4>
-            <div class="team-sentiment-wrapper">
-                <team-sentiments
-                    iteration=iteration
-                    members=project.members
-                    team=ctrl.sentimentTeam
-                    parent=project
-                ></team-sentiments>
+            <div class="sentiments-section">
+                <h4 class="section-title"><a ui-sref="app.iteration.sentiments">Sentiments</a></h4>
+                <div class="team-sentiment-wrapper">
+                    <team-sentiments
+                        iteration=iteration
+                        members=project.members
+                        team=ctrl.sentimentTeam
+                        parent=project
+                    ></team-sentiments>
+                </div>
             </div>
         </div>
 

@@ -1,0 +1,15 @@
+<div class="user-info row">
+    <div class="user-avatar-name col-xs-12">
+        <div class="avatar">
+            <img height='72' width='72' ng-src='/avatar/avatar/72/{{ ctrl.me().username}}' />
+        </div>
+        <div class="username">{{::ctrl.me() | shortuser}}</div>
+    </div>
+    <div class="user-email col-xs-12">{{:: ctrl.me().email }}</div>
+    <div class="user-org col-xs-12">{{:: ctrl.me().organization.name }}</div>
+    <div class="logout col-xs-12">
+        <a class="scrumdo-btn primary highlight" ng-href="/account/logout/">
+            <i class="fa fa-sign-out" aria-hidden="true"></i> Log Out
+        </a>
+    </div>
+</div>

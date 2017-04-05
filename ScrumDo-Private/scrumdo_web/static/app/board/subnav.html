@@ -12,7 +12,7 @@
 
     <div class="full-actions" ng-if="state.current.name.indexOf('board') != -1 || state.current.name.indexOf('viewStory') != -1">
 
-        <div class="action-5 hidden-xs">
+        <div class="action-5" ng-class="{'hidden-xs' : selectedCount <= 0}">
             <div class="btn-group" ng-if="canWrite && selectedCount > 0">
                 <button tooltip-append-to-body='true'
                         uib-tooltip="Delete selected cards"
@@ -21,6 +21,8 @@
 
                 <button tooltip-append-to-body='true' uib-tooltip="Assign selected cards" ng-click="$root.$broadcast('bulkAssign')" type="button" class="scrumdo-btn primary"><span class="scrumdo-icons users"></span></button>
                 <button tooltip-append-to-body='true' uib-tooltip="Move selected cards to another workspace or iteration" ng-click="$root.$broadcast('bulkMove')" type="button" class="scrumdo-btn primary"><span class="scrumdo-icons jump-right"></span></button>
+                <button tooltip-append-to-body='true' uib-tooltip="Duplicate selected cards" ng-click="$root.$broadcast('bulkDuplicate')" type="button" class="scrumdo-btn primary"><span class="scrumdo-icons duplicate"></span></button>
+                <button tooltip-append-to-body='true' uib-tooltip="Deselect cards" ng-click="$root.$broadcast('bulkDeselect')" type="button" class="scrumdo-btn primary hidden"><span class="fa fa-times"></span></button>
             </div>
 
 
@@ -28,10 +30,10 @@
                     uib-tooltip="Toggle Priority/WSJF Card View"
                     ng-change="$root.$broadcast('priorityMode', priorityMode)"
                     uib-btn-checkbox
-                    ng-model="priorityMode" type="button" class="scrumdo-btn primary"><i class="fa fa-unsorted"></i></button>
+                    ng-model="priorityMode" type="button" class="scrumdo-btn primary hidden-xs"><i class="fa fa-unsorted"></i></button>
 
 
-            <span class="dropdown" uib-dropdown>
+            <span class="dropdown hidden-xs" uib-dropdown>
                 <button tooltip-append-to-body='true'
                         uib-dropdown-toggle
                         uib-tooltip="Sort Cards" ng-class="{highlight:highlightbtn}"
@@ -58,14 +60,15 @@
             <sd-report-dropdown iterations="boardProject.iterations"
                                 ng-if="selectedCount==0"
                                 selected-iteration="boardProject.iteration"
+                                class="hidden-xs"
                                 project="boardProject.project"></sd-report-dropdown>
         </div>
 
 
-        <div class="action-2">
+        <div class="action-2" ng-class="{'hidden-xs': selectedCount > 0}">
             <sd-filter name="boardFilter" cells="boardProject.boardCells" project="boardProject.project"></sd-filter>
         </div>
-        <div class="action-4">
+        <div class="action-4 hidden-xs">
             <div class="wip-limit-holder"
                 uib-tooltip-html="boardProject.getItrWipTooltip('points')"
                 tooltip-placement="bottom"

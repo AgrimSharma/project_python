@@ -12,7 +12,7 @@ from django.conf import settings
 from cors_resource import CORSResource
 
 import views
-
+from apps.eventCalendar.views import events_calendar
 auth = ScrumDoAuthentication(realm="ScrumDo API V3")
 cached_resource = cache_control(public=False, maxage=0, s_maxage=0, no_cache=True, must_revalidate=True)
 
@@ -100,6 +100,7 @@ workflow_handler = create_resource(WorkflowHandler)
 workflow_steps_handler = create_resource(WorkflowStepHandler)
 boardcell_handler = create_resource(BoardCellHandler)
 iteration_cell_counts_handler = create_resource(IterationCellCounts)
+calendar_view_handler = create_resource(EventCalenderView)
 
 kanbanstats_handler = create_resource(KanbanStatHandler)
 policy_handler = create_resource(PolicyHandler)
@@ -110,6 +111,7 @@ release_handler = create_resource(ReleaseHandler)
 release_stories_handler = create_resource(ReleaseStoriesHandler)
 release_stories_stats_handler = create_resource(ReleaseStoriesStatsHandler)
 release_teams_stats_handler = create_resource(ReleaseTeamsStatsHandler)
+project_release_handler = create_resource(ProjectReleaseHandler)
 move_story_handler = create_resource(MoveStoryHandler)
 board_image_handler = create_resource(BoardImageHandler)
 kanban_board_handler = create_resource(KanbanBoardHandler)
@@ -177,6 +179,8 @@ shared_story_handler = cached_resource(Resource(SharedStoryHandler, authenticati
 
 
 # All project_urlpatterns get both an organization_slug and a project_slug passed in the url
+# calendar_urlpatterns = [
+# ]
 project_urlpatterns = [
     url(r'^inbox/?$', inbox_handler),
     url(r'^inbox/(?P<groupId>[0-9]+)$', inbox_handler),
@@ -207,7 +211,6 @@ project_urlpatterns = [
     # TODO - what is this next line for? Would match:
     # /api/vN/organizations/SLUG/projects/SLUG/projects
     url(r'^projects/?$', project_handler),
-
 
     url(r'^storyqueue/?$', story_queue_handler),
     url(r'^access/?$', project_access_handler),
@@ -370,6 +373,7 @@ organization_urlpatterns = [
     url(r'^extras/github/?$', github_handler),
     url(r'^releases/(?P<release_id>[0-9]+)/ministories/(?P<portfolio_root_slug>[-\w]+)/?$', mini_story_handler),
     url(r'^releases/(?P<release_id>[0-9]+)/stories/(?P<project_slug>[-\w]+)/?$', release_stories_handler),
+    url(r'^releases/(?P<project_slug>[-\w]+)/?$', project_release_handler),
     url(r'^releases/(?P<release_id>[-]?[0-9]+)/stories/(?P<project_slug>[-\w]+)/stats/(?P<load_child>[0,1])/?$',
         release_stories_stats_handler),
 
@@ -406,6 +410,7 @@ organization_urlpatterns = [
 urlpatterns = (
     url(r'^query/?$', query_handler),
     url(r'^query/(?P<query_id>[0-9]+)/?$', query_handler),
+    url(r'^calendar$', calendar_view_handler),
 
     url(r'^job/(?P<job_id>[0-9]+)$', job_handler),
     url(r'^offlinejob/(?P<job_id>[0-9]+)$', offline_job_handler),

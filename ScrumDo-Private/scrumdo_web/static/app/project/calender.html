@@ -1,0 +1,16 @@
+<div class="scrumdo-project-summary newsfeed">
+    <div class="scrumdo-wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-12 scrumdo-overview-timeline-header text-center scrumdo-text primary">
+                        {{::ctrl.projectData.currentProject.name}}<span 
+                        ng-if="ctrl.projectData.currentIteration.id">/{{::ctrl.projectData.currentIteration.name}}</span>
+                        Activity
+                    </div>
+                </div>
+                <sd-dashboard-news />
+            </div>
+        </div>
+    </div>
+</div>

@@ -138,19 +138,7 @@ module scrumdo {
         duplicateCards(e, scope) {
             this.confirmService.confirm(`Duplicate ${this.workItemNameP}?`, `Create duplicates of all selected ${this.workItemNameP}?`, "No", "Yes").then(() => {
                 var stories = this.getSelectedStories(scope);
-                this.doDuplicate(stories[0], stories);
-            });
-        }
-
-        doDuplicate(story, stories) {
-            var p = this.storyManager.duplicate(story);
-            p.then((newStory) => {
-                if (typeof stories !== "undefined" && stories !== null) {
-                    stories.splice(0, 1);
-                    if (stories.length > 0) {
-                        this.doDuplicate(stories[0], stories);
-                    }
-                }
+                this.storyBulkOperations.doDuplicate(stories[0], stories);
             });
         }
 

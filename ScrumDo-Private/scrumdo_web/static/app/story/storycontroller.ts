@@ -276,7 +276,7 @@ module scrumdo {
 
         onMouseDown = (event: MouseEvent) => {
             trace("Story mouse down");
-            if (!(event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)) {
+            if (!(event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || isMobileDevice())) {
                 if (!this.story().selected) {
                     this.scope.$emit("singleStoryClicked");
                     // If we have several stories selected, then we start to drag an unrelated one,
@@ -301,10 +301,15 @@ module scrumdo {
                 this.story().selected = !this.story().selected;
                 this.scope.$emit("selectionChanged");
             } else {
-                if (!this.story().selected) {
-                    this.toggleDetail();
+                if(isMobileDevice()){
+                    this.story().selected = !this.story().selected;
+                    this.scope.$emit("selectionChanged");
+                }else{
+                    if (!this.story().selected) {
+                        this.toggleDetail();
+                    }
+                    this.scope.$emit("singleStoryClicked");
                 }
-                this.scope.$emit("singleStoryClicked");
             }
         }
 

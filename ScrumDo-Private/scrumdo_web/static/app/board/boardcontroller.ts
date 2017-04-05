@@ -39,6 +39,7 @@ module scrumdo {
         public element: any;
         private workItemName: string;
         private globalBacklogStories;
+        private mobileRenderMode: boolean = false;
 
         constructor(
             public boardProject: BoardProject,
@@ -62,6 +63,9 @@ module scrumdo {
             public keyboardShortcutService: KeyboardShortcutService) {
 
             trace("BoardController");
+            if(isMobileDevice()){
+                this.mobileRenderMode = true;
+            }
             this.element = angular.element(".kanbanboard-wrapper");
             this.setupSortable = _.debounce(this._setupSortable, 100);
             this.resize = _.debounce(this._resize, 25);
@@ -91,6 +95,8 @@ module scrumdo {
             scope.$on('bulkMoveCell', this.onBulkMoveCell);
             scope.$on('bulkAssign', this.onBulkAssign);
             scope.$on('bulkMove', this.onBulkMove);
+            scope.$on('bulkDuplicate', this.onBulkDuplicate);
+            scope.$on('bulkDeselect', this.onBulkDeselect);
             scope.$on('$stateChangeStart', this.onStateChange);
 
             scope.$on('sortOrderChanged', this.onSortChange);
@@ -197,6 +203,14 @@ module scrumdo {
 
         onBulkMove = (event) => {
             return this.storyBulkOperations.moveToProject(this.getSelectedStories(), this.boardProject.project);
+        }
+
+        onBulkDuplicate = (event) => {
+            return this.storyBulkOperations.duplicateCards(this.getSelectedStories());
+        }
+
+        onBulkDeselect = (event) => {
+            this.deselectAll();
         }
 
         onStateChange = (event, toState, toParams, fromState, fromParams) => {

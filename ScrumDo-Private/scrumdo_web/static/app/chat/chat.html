@@ -6,7 +6,7 @@
                     <span ng-if="ctrl.chat.canWrite()">Type a message below to chat.</span></h2>
             </div>
             <div class="scrumdo-chat-content">
-                <div class="scrumdo-chat-messages-wrapper col-xs-10">
+                <div class="scrumdo-chat-messages-wrapper col-sm-10">
                     <div class="scrumdo-chat-messages" scroll-glue nv-file-over nv-file-drop uploader="ctrl.chat.uploader">
                         <div class="col-sx-12 text-center">
                             <button ng-if="ctrl.chat.hasMore"
@@ -19,7 +19,7 @@
 
                             <div class="scrumdo-chat-msg-container" ng-repeat="message in day.lines track by $index">
                                 <div class="row">
-                                    <div class="col-md-1 text-center">
+                                    <div class="col-md-1 text-center hidden-xs">
                                         <img ng-src="/avatar/avatar/40/{{message.from.username}}" class="scrumdo-chat-msg-user" alt="#"/>
                                     </div>
                                     <div class="col-md-11">
@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="scrumdo-chat-users col-xs-2">
+                <div class="scrumdo-chat-users col-sm-2 hidden-xs">
                     <h3 class="scrumdo-chat-user-h3">User List</h3>
                     <ul class="scrumdo-chat-users-list">
                         <li ng-repeat="user in ctrl.teamMembers">

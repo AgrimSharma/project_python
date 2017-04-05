@@ -15,6 +15,7 @@ module scrumdo {
         ];
 
         public loaded: boolean;
+        private mobileView: boolean = false;
 
         constructor(private scope,
             private urlRewriter: URLRewriter,
@@ -26,7 +27,9 @@ module scrumdo {
             public project: Project,
             public note: ScrumdoNote) {
 
+            this.mobileView = isMobileDevice();
             this.scope.story = this.story;
+            this.scope.mobileView = this.mobileView;
             if(this.scope.project == null){
                 this.scope.project = this.project;
             }

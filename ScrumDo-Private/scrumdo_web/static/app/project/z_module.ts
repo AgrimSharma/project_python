@@ -13,6 +13,7 @@ projmodule.controller("ProjectSelectController", scrumdo.ProjectSelectController
 projmodule.controller("WorkspaceSummaryController", scrumdo.WorkspaceSummaryController);
 projmodule.controller("ProjectActivityControllerr", scrumdo.ProjectActivityController);
 projmodule.controller("SummarySidebarController", scrumdo.SummarySidebarController);
+projmodule.controller("calenderController", scrumdo.CalendarController);
 
 projmodule.directive("safeProjectDropdown", () => {
     return {

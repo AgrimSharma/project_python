@@ -139,7 +139,9 @@ module.exports = (grunt) ->
             "bower_components/angular-hotkeys/build/hotkeys.css",
             "bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css", # updated version
             "bower_components/ng-table/dist/ng-table.min.css",
-            "bower_components/angular-xeditable/dist/css/xeditable.min.css"
+            "bower_components/angular-xeditable/dist/css/xeditable.min.css",
+#            "bower_components/fullcalendar/dist/fullcalendar.css",
+#            "bower_components/fullcalendar/dist/fullcalendar.print.css",
         ]
         dest: "generated_css/bower.css"
       bower_js:
@@ -177,7 +179,9 @@ module.exports = (grunt) ->
                 "bower_components/angular-scroll-glue/src/scrollglue.js",
                 "bower_components/json3/lib/json3.js",
                 "bower_components/ng-sortable/dist/ng-sortable.js",
-
+                "bower_components/fullcalendar/dist/fullcalendar.js",
+                "bower_components/fullcalendar/dist/gcal.js",
+                "bower_components/angular-ui-calendar/src/calendar.js",
                 "bower_components/bowser/bowser.js",  # Browser sniffer script
                 "bower_components/ment.io/dist/mentio-modified.js",  # Mention script // modified version
 

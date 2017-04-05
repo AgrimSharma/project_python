@@ -40,7 +40,7 @@ module scrumdo {
         private projectSlug: string;
         private storage: any;
         private childTimePeriodName: string;
-        private noFeatureCards: boolean = true;
+        private noFeatureCards: boolean;
 
         private globalBacklogProject: Project;
         private globalBacklogIterationId: number;
@@ -101,6 +101,7 @@ module scrumdo {
             this.workItemName = this.$scope.$root['safeTerms'].current.work_item_name;
             var ref = this.$scope.$root['safeTerms'].children.work_item_name;
             this.childWorkItemName = ref != null ? ref: 'Card';
+            this.noFeatureCards = false;
             this.setLimitBarStats();
 
             // wait for assignments to load
@@ -392,17 +393,17 @@ module scrumdo {
         }
 
         onRemoveRow = (event, row) => {
-            let i = this.projectData.currentTeam.assignments.indexOf(row.feature.id)
-
-            if(i==-1) return;
-
-            this.projectData.currentTeam.assignments.splice(i, 1);
-
-
-            this.storyAssignmentManager.removeAssignment(this.projectData.currentIncrement.id,
-                                                         this.teamProjectSlug(),
-                                                         row.feature.id)
-
+            if(row.id == -1){
+                // got request for row without EPIC
+                this.noFeatureCards = false;
+            }else{
+                let i = this.projectData.currentTeam.assignments.indexOf(row.feature.id)
+                if(i==-1) return;
+                this.projectData.currentTeam.assignments.splice(i, 1);
+                this.storyAssignmentManager.removeAssignment(this.projectData.currentIncrement.id,
+                                                            this.teamProjectSlug(),
+                                                            row.feature.id)
+            }
             this.setupRowsColumns();
             this.calculateFeatureStats();
             

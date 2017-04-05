@@ -24,11 +24,32 @@
                             "name": "project_slug", 
                             "paramType": "path", 
                             "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "Start Date ('YYYY-MM-DD')", 
+                            "name": "start", 
+                            "paramType": "path", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "String", 
+                            "description": "End Date ('YYYY-MM-DD')", 
+                            "name": "end", 
+                            "paramType": "path", 
+                            "required": true
                         }
                     ], 
                     "responseClass": "Task", 
                     "summary": "Get time entries by project"
-                },
+                }
+            ], 
+            "path": "/organizations/{organization_slug}/projects/{project_slug}/time_entries?start={start}&end={end}"
+        }, 
+        {
+            "operations":[
                 {
                     "errorResponses": [], 
                     "httpMethod": "POST", 
@@ -63,10 +84,9 @@
                     "responseClass": "Task", 
                     "summary": "Create a time entry for the currently logged in user"
                 }
-               
-            ], 
+            ],
             "path": "/organizations/{organization_slug}/projects/{project_slug}/time_entries"
-        }, 
+        },
         {
             "operations": [
                 {

@@ -25,6 +25,7 @@ interface StoryResource extends ng.resource.IResourceClass<any> {
     byReleaseId:any,
     miniStoriesByReleaseId:any,
     releaseStats:any,
+    releases: any;
     byIterationsForCardPicker: any
 
 }
@@ -188,6 +189,11 @@ module scrumdo {
                         method: 'GET',
                         isArray: true,
                         url: API_PREFIX + "organizations/:organizationSlug/releases/:releaseID/ministories/:projectSlug"
+                    },
+                    releases: {
+                        method: 'GET',
+                        isArray: true,
+                        url: API_PREFIX + "organizations/:organizationSlug/releases/:projectSlug"
                     },
                     releaseStats: {
                         method: 'GET',
@@ -1162,6 +1168,12 @@ module scrumdo {
 
         loadStoriesForAssignment(projectSlug: string, iterationId: number, assignmentId:number) {
             return this.loadIterations(projectSlug, [iterationId], "", true, assignmentId);
+        }
+
+        loadProjectReleases(projectSlug: string, archived: boolean = false){
+            var p = this.Story.releases({ organizationSlug: this.organizationSlug, projectSlug: projectSlug, archived: archived}).$promise;
+            p.then(this.trackStories);
+            return p;
         }
 
         storiesForIteration(iterationId: number) {

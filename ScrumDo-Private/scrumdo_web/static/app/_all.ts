@@ -15,6 +15,7 @@
 /// <reference path='user/sdassigneecontroller.ts' />
 /// <reference path='user/sdpeoplecontroller.ts' />
 /// <reference path='user/userportraitcontroller.ts' />
+/// <reference path='user/mobileviewinfo.ts' />
 
 /// <reference path="common/controls/datepickercontroller.ts"/>
 /// <reference path="common/controls/businessvaluecontroller.ts"/>
@@ -337,3 +338,7 @@
 /// <reference path="bigpicture/levelstatscontroller.ts" />
 /// <reference path="bigpicture/summarycontroller.ts" />
 /// <reference path="bigpicture/bigpicturemanager.ts" />
+
+
+/// <reference path="calendar/calendarController.ts" />
+/// <reference path="calendar/z_module.ts" />

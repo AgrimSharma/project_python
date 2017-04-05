@@ -2,7 +2,7 @@
     <div class="workspace-summary-sidebar-reset">
         <div class="section" ng-if="ctrl.portfolio.id">
             <h4 class="section-title">Portfolio 
-                <a href="" ng-if="ctrl.canStaff" class="icon" ng-click="ctrl.showPortfolioWindow()">
+                <a href="" ng-if="ctrl.canStaff" class="icon hidden-xs" ng-click="ctrl.showPortfolioWindow()">
                     <i class="fa fa-pencil icon" aria-hidden="true"></i></a>
             </h4>
             <div class="project-dpenedencies">
@@ -151,7 +151,7 @@
                     <div class="alert alert-info"><i class="fa fa-spinner fa-spin"></i> Loading...</div>
                 </div>
                 <uib-tabset active="5">
-                    <uib-tab index="0" select="ctrl.loadReportsData('sentiment')">
+                    <uib-tab index="0" select="ctrl.loadReportsData('sentiment')" class="hidden-xs">
                         <uib-tab-heading>Sentiment</uib-tab-heading>
                         <div class="report-graph">
                             <div sd-report-sentiment

@@ -49,7 +49,8 @@ from projectshare import ProjectShareHandler
 from classic import ClassicProjectHandler
 from sharedproject import SharedProjectHandler, SharedStoryHandler
 from organization import OrganizationHandler
-from release import ReleaseStatHandler, ReleaseStoriesHandler, ReleaseStoriesStatsHandler, ReleasesChildStatsHandler,ReleaseTeamsStatsHandler
+from release import ReleaseStatHandler, ReleaseStoriesHandler, ReleaseStoriesStatsHandler, ReleasesChildStatsHandler,\
+                    ReleaseTeamsStatsHandler, ProjectReleaseHandler
 from milestoneassignment import MilestoneAssignmentHandler, AssigmentOptionsHandler
 from pullrequest import PullRequestHandler
 from inbox import InboxGroupHandler
@@ -61,3 +62,4 @@ from programincrement import ProgramIncrementHandler, ProgramIncrementScheduleHa
 from note import NoteHandler
 from wiplimits import WIPLimitHandler
 from risk import RiskHandler, RiskTargetSearch, SystemRiskHandler
+from eventcalendar import EventCalenderView

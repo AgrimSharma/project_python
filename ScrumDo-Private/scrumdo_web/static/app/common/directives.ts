@@ -232,7 +232,6 @@ mod.directive('backImg', () => {
     };
 });
 
-
 mod.directive('nickeledGuideLink', () => {
     return (scope, element, attrs) => {
         var guideUrl = attrs.url;
@@ -250,3 +249,119 @@ mod.directive('nickeledGuideLink', () => {
         })
     };
 });
+
+
+//********************* Mobile View  ***************************/
+
+mod.directive('mobileDeviceCheck', () => {
+    return {
+        scope: false,
+        restrict: 'A',
+        link: (scope: any, element, attrs) => {
+            scope.isMobileDevice = isMobileDevice();
+        }
+    }
+});
+
+mod.directive('mobileMenuHandler', () => {
+    return (scope, element, attrs) => {
+        if(!isMobileDevice()) return false;
+        toggleHamburger(true);
+        $('#mobile-hamburger').on('click', function(){
+            toggleMobileMenu();
+        });
+
+        scope.$root.$on('$stateChangeSuccess', () => {
+             setTimeout(() => {
+                toggleMobileMenu(true);
+            }, 300);
+        });
+
+        scope.$on("$destroy", () => {
+            toggleHamburger(false);
+        });
+    }
+});
+
+mod.directive('mobileSecondaryMenuHandler', () => {
+    return (scope, element, attrs) => {
+        if(!isMobileDevice()) return false;
+        registerMobileMenuEvent(scope);
+        let body = $('body');
+
+        scope.$root.$on('$stateChangeSuccess', () => {
+            setTimeout(() => {
+                toggleMobileSecondaryMenu(true, scope);
+                scope['secondaryMenuOpen'] = false;
+            }, 300);
+        });
+
+        scope.$root.$on('hideMobileSecondaryMenu', () => {
+            toggleMobileSecondaryMenu(true, scope);
+            scope['secondaryMenuOpen'] = false;
+        });
+
+        scope.$on("$destroy", () => {
+            toggleMobileSecondaryMenu(false, scope);
+            deRegisterMobileMenuEvent(scope);
+        });
+    }
+});
+
+
+mod.directive('mobilePinchHandler', () => {
+    return {
+        scope: false,
+        restrict: 'A',
+        link : (scope, element, attrs) => {
+            if(!isMobileDevice()) return false;
+            var scaling = false;
+            var startDist = 0;
+            let pinchElem = element[0];
+
+            pinchElem.addEventListener('touchstart', (e) => {
+                if(e.touches.length == 2) {
+                    scaling = true;
+                    startDist = getTouchesDistance(e.touches);
+                }
+            }, false);
+
+            pinchElem.addEventListener('touchmove', (e:any) => {
+                if(scaling){
+                    var dist = getTouchesDistance(e.touches);
+                    if(dist < startDist-10){
+                        elementZoomInOut(pinchElem, 'out');
+                        startDist = dist;
+                    }
+                    if(dist > startDist+10){
+                        elementZoomInOut(pinchElem, 'in');
+                        startDist = dist;
+                    }
+                }
+            }, false);
+
+            pinchElem.addEventListener('touchend', (event) => {
+                if(scaling){
+                    scaling = false;
+                    startDist = 0;
+                }
+            }, false)
+        }
+    }
+});
+
+mod.directive('disableIosScale', () => {
+    return {
+        scope: false,
+        restrict: 'E',
+        link: (scope, element, attrs) => {
+            if(isMobileDevice() || is_touch_device()){
+                document.addEventListener('gesturestart', (e) => {
+                    e.preventDefault();
+                });
+            }
+        }
+    }
+});
+
+//********************* Mobile View  ***************************/

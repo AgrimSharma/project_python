@@ -27,6 +27,7 @@
         {% canupload organization %}
         <form action="" method="POST">
         {% csrf_token %}
+            <div class="projects-list">
             {% for project in projects %}
                 {% if project.active %}
                     {% canread project %}
@@ -36,7 +37,8 @@
                     <input class="project-checkbox" type="checkbox" name="proj_{{project.id}}" id="{{project.id}}" checked> <label for="{{project.id}}">{{project.name}}</label><br/>
                     {% endcanread %}
                 {% endif %}
-            {% endfor %}<br/>
+            {% endfor %}
+            </div>
 
             <br/><br/>
 

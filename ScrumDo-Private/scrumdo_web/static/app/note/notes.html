@@ -1,7 +1,13 @@
 <main sd-access class="scrumdo-notes">
     <div class="scrumdo-notes-wrapper pull-left">
         <div class="scrumdo-notes-content">
-            <div class="scrumdo-notes-left col-xs-3">
+            <div class="notes-list-handler" ng-if="ctrl.mobileView">
+                <button ng-click="ctrl.showMobileNotes()"
+                    class="scrumdo-btn primary" type="button">
+                    <span class="scrumdo-navigation-menu-icon notes"></span>Notes
+                </button>
+            </div>
+            <div class="scrumdo-notes-left transitions col-sm-3" ng-class="{'visible': ctrl.mobileLeftPanel}">
                 <div class="notes-list">
                     <ul class="scrumdo-account-menu">
                         <li ng-repeat="note in ctrl.notes | orderBy:'-id' | filter:ctrl.filterNotes"
@@ -20,10 +26,13 @@
                 </div>
                 <div ng-if="ctrl.canWrite" class="new-note text-center">
                     <a class="scrumdo-btn primary" href="" ng-click="ctrl.createNote(-1)">+ New Note</a>
+                    <a class="scrumdo-btn primary hide-notes"
+                        ng-if="ctrl.mobileView" 
+                        href="" ng-click="ctrl.showMobileNotes()"><i class="fa fa-times" aria-hidden="true"></i></a>
                 </div>
             </div>
 
-            <div class="scrumdo-notes-right col-xs-9">
+            <div class="scrumdo-notes-right col-sm-9">
                 <div ng-if="ctrl.currentNote.id">
                     <div ng-include="ctrl.templateName"></div>
                 </div>
@@ -33,7 +42,10 @@
                         style="margin-top:100px;">
                         <div class="scrumdo-box-modal-header text-center">
                             <h2 class="scrumdo-signup-title">Pick a Note</h2>
-                            <p class="scrumdo-signup-description">Choose a note on the left to view/edit the note or create a new note.</p>
+                            <p class="scrumdo-signup-description" ng-if="!ctrl.mobileView" >
+                                Choose a note on the left to view/edit the note or create a new note.</p>
+                            <p class="scrumdo-signup-description" ng-if="ctrl.mobileView" >
+                                Click on the 'Notes' button below to view/edit the note or create a new note.</p>
                         </div>
                     </div>
                     <div style="margin-top:100px;"

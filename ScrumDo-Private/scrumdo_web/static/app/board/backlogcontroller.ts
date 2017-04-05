@@ -64,6 +64,8 @@ module scrumdo {
             this.scope.$on('sortOrderChanged', this.onSortChange);
             this.scope.$on('backlogStoriesChanged', this.loadStats);
             this.scope.$on('filterValueChanged', this.onFilterValueChanged);
+            // handle event to show Backlog on Mobile Devices
+            this.scope.$on('toggleMobileBacklog', this.onToggleMobileBacklog);
             var loadStats = _.debounce(this.loadStats, 100);
             this.scope.$on("storyModified", loadStats);
             this.storage = this.localStorage.$default({});
@@ -153,8 +155,10 @@ module scrumdo {
         }
 
         toggleBacklogSidebar($event: MouseEvent, mode: string = 'tab'){
-            $event.preventDefault();
-            $event.stopPropagation();
+            if($event != null){
+                $event.preventDefault();
+                $event.stopPropagation();
+            }
             let uiState = this.boardProject.uiState;
             if(uiState.loadBacklog){
                 // in open state
@@ -230,6 +234,13 @@ module scrumdo {
             let key: string = this.quickSearch.toLowerCase();
             let value: string = `${story.prefix}-${story.number} ${story.number} ${summary}`;
             return value.toLowerCase().indexOf(key) !== -1;
+        }
+
+        onToggleMobileBacklog = (event, data) => {
+            if(this.scope.project != null){
+                this.scope.$root.$broadcast('hideMobileSecondaryMenu');
+                this.toggleBacklogSidebar(null);
+            }
         }
     }
 }

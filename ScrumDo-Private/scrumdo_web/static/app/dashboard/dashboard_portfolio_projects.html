@@ -5,13 +5,13 @@
         title="Take a tour of how to manage multiple teams"></nickeled-guide-link>
     <div class="scrumdo-wrapper-navigation">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 new-project-actions">
                 <a sd-staff-only href="/projects/project/{{organizationSlug}}/create" class="scrumdo-btn secondary text-left">
                     <span class="glyphicon glyphicon-plus"></span>
                     New Workspace
                 </a>
 
-                <a sd-staff-only ng-click="ctrl.createPortfolio()" class="scrumdo-btn secondary text-left beta">
+                <a sd-staff-only ng-click="ctrl.createPortfolio()" class="scrumdo-btn secondary text-left beta hidden-xs">
                     <span class="glyphicon glyphicon-plus"></span>
                     <span class="beta-ver">BETA</span>
                     New Portfolio
@@ -91,7 +91,7 @@
                     ng-controller="DashboardPortfolioProjectController as dpctrl"
                     ng-click="dpctrl.onClick($event)">
                     <span ng-click="pctrl.toggle()"
-                          class="expando">
+                          class="expando hidden-xs">
                         <i class="fa" ng-class="{'fa-chevron-down':pctrl.expanded, 'fa-chevron-right':!pctrl.expanded}"></i>
                     </span>
                     <span class="project-icon" style="color: {{project.color|decimalToHexColor}}"><i class="fa" ng-class="project.icon"></i></span>
@@ -119,7 +119,7 @@
 
 
 
-    <div ng-if="ctrl.classicProjects" sd-staff-only>
+    <div ng-if="ctrl.classicProjects.length" sd-staff-only>
         <h4>Classic Workspaces</h4>
         <div class="scrumdo-alerts notify">
             Classic workspaces must be upgraded to the new ScrumDo before you can use them.

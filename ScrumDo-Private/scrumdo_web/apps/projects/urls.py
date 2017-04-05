@@ -22,9 +22,10 @@ import search_views
 import iteration_views
 import story_views
 import time_views
-
+# from apps.eventCalendar.views import events_calendar
 urlpatterns = (
     url(r'^', include('apps.kanban.urls')),
+    # url(r'^calendar/', events_calendar),
     url(r'^user/(?P<username>[-\w]+)$', views.user_details_staff, name="user_details"),
     url(r'^user_by_email/(?P<email>.+)$', views.user_details_by_email, name="user_details_by_email"),
     url(r'^(?P<project_slug>[-\w]+)/milestones', views.milestones, name="milestones"),

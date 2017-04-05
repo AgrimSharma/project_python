@@ -1,13 +1,13 @@
-<div class="scrumdo-wrapper">
+<div class="scrumdo-wrapper orgnization-teams">
     <div class="scrumdo-wrapper-navigation" style="margin: 0">
         <div class="row">
-            <div class="col-sm-2">
-                <button sd-staff-only ui-sref="newteam" class="scrumdo-btn secondary extended text-left">
+            <div class="col-sm-2 action">
+                <button sd-staff-only ui-sref="newteam" class="scrumdo-btn secondary text-left">
                     <span class="glyphicon glyphicon-plus"></span>
                     Add New Team List
                 </button>
             </div>
-            <div class="col-sm-2 col-sm-offset-8 text-right">
+            <div class="col-sm-2 col-sm-offset-7 col-md-offset-8 action text-right">
                 <button sd-staff-only ui-sref="allmembers" type="button" class="scrumdo-btn primary">
                     All Team Members
                     <span class="glyphicon glyphicon-arrow-right"></span>
@@ -47,8 +47,13 @@
         <div class="row" ng-if="(teams | filter: teamsCtrl.filterTeams).length == 0">
             <div class="col-md-6 col-md-offset-3 text-center">
                 <div class="alert alert-info">
-                    <i class="fa fa-exclamation" aria-hidden="true"></i> Nothing to show<span 
-                        ng-if="teamsCtrl.accessTypeSearch != '' || teamsCtrl.quickSearch !=''">, change filters from above.</span></div>
+                    <span ng-if="teamsCtrl.accessTypeSearch == '' && teamsCtrl.quickSearch ==''">
+                        No Teams to show here, add a new Team from above.
+                    </span>
+                    <span ng-if="teamsCtrl.accessTypeSearch != '' || teamsCtrl.quickSearch !=''">
+                        Not seeing the team you’re looking for?, Select a different filter above.
+                    </span>
+                </div>
             </div>
         </div>
     </div>

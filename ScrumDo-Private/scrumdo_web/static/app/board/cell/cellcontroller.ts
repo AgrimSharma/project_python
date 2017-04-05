@@ -23,6 +23,9 @@ module scrumdo {
             if (this.cell.layout === 9) {
                 this.scope.storyLayout = "team";
             }
+            if(isMobileDevice()){
+                this.scope.storyLayout = "list";
+            }
             this.light = isLightColor(this.cell.headerColor);
 
             this.scope.labelColor = getLabelColor(this.cell.headerColor);

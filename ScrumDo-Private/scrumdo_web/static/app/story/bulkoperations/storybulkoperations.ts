@@ -63,6 +63,26 @@ module scrumdo {
             this.storyManager.saveStory(story).then(this.archiveNextInQueue);
         }
 
+        // ---------- Duplicate all Stories -------------
+
+        duplicateCards(stories) {
+            this.confirmService.confirm(`Duplicate cards?`, `Create duplicates of all selected cards?`, "No", "Yes").then(() => {
+                this.doDuplicate(stories[0], stories);
+            });
+        }
+
+        doDuplicate(story, stories) {
+            var p = this.storyManager.duplicate(story);
+            p.then((newStory) => {
+                if (typeof stories !== "undefined" && stories !== null) {
+                    stories.splice(0, 1);
+                    if (stories.length > 0) {
+                        this.doDuplicate(stories[0], stories);
+                    }
+                }
+            });
+        }
+
         // ---------- Moving to a cell on a kanban board ----------------
         moveToCell(stories, cells, headers) {
             this.saveQueue = stories;

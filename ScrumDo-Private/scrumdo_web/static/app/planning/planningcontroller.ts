@@ -468,7 +468,9 @@ module scrumdo {
 
             if (toContainerType === 'iteration-story-list') {
                 this.storyManager.bulkSave(stories, stories[0].iteration_id);
-            } else {
+            } else if(toContainerType === 'epic-story-list' && iterationId > 0){
+                this.storyManager.bulkSave(stories, iterationId);
+            }else{
                 this.storyManager.bulkSave(stories);
             }
             placeholder.remove();
@@ -622,6 +624,9 @@ module scrumdo {
                     var epicId = parseInt(parent.attr("data-epic-id"));
                     epicId = epicId === -1 ? null : epicId;
                     this.storyManager.moveToEpic(story, epicId);
+                    if(iterationId > 0){
+                        this.storyManager.moveToIteration(story, iterationId);
+                    }
                 }
             }
 

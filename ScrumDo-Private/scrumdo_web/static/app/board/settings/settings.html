@@ -8,13 +8,14 @@
         </p>
     </div>
 
-    <div class="scrumdo-settings-container" ng-if="::canAdmin">
-        <div class="col-md-2">
+    <div class="scrumdo-settings-container" ng-if="::canAdmin" mobile-device-check>
+        <div class="col-md-2 mobile-secondary-menu transitions">
+            <user-mobile-view-info ng-if="isMobileDevice"></user-mobile-view-info>
             <ul class="scrumdo-account-menu">
                 <li ng-class="{active:settingsCtrl.state=='app.settings.project'}">
                     <a ui-sref="app.settings.project">Workspace Settings</a>
                 </li>
-                <li ng-class="{active:settingsCtrl.state=='app.settings.iterations'}">
+                <li class="hidden-xs" ng-class="{active:settingsCtrl.state=='app.settings.iterations'}">
                     <a ui-sref="app.settings.iterations">Workspace Flow</a>
                 </li>
                 <li ng-class="{active:settingsCtrl.state=='app.settings.teams'}">
@@ -28,10 +29,10 @@
                     <a ui-sref="app.settings.card">Card Settings</a>
                 </li>
 
-                <li ng-class="{active:settingsCtrl.state=='app.settings.board'}">
+                <li class="hidden-xs" ng-class="{active:settingsCtrl.state=='app.settings.board'}">
                     <a ui-sref="app.settings.board">Board Editor</a>
                 </li>
-                <li ng-class="{active:settingsCtrl.state=='app.settings.reports'}">
+                <li class="hidden-xs" ng-class="{active:settingsCtrl.state=='app.settings.reports'}">
                     <a ui-sref="app.settings.reports">Report Profiles</a>
                 </li>
                 <li ng-if="canAdmin" ng-class="{active:settingsCtrl.state=='app.settings.admin'}">

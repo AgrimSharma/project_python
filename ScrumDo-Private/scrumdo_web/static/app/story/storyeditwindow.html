@@ -6,7 +6,7 @@
             <button type="button"
                     ng-click="ctrl.minimize()"
                     uib-tooltip="Minimize Window"
-                    class="scrumdo-btn primary"
+                    class="scrumdo-btn primary hidden-xs"
                     ng-class="{'minimized-left': !ctrl.edited, 'minimize-top': newStory }">
                 <span aria-hidden="true">&ndash;</span>
                 <span class="sr-only">Minimize</span>
@@ -34,7 +34,7 @@
         <h4 ng-if="newStory && !ctrl.releaseMode">New {{::ctrl.workItemName}}</h4>
         <h4 ng-if="ctrl.releaseMode">Release/Milestone</h4>
 
-        <span ng-if="!newStory">
+        <span ng-if="!newStory" class="story-actions">
             <div class="btn-group">
                 <button uib-tooltip="Track Time" 
                     ng-click="ctrl.trackTime()" type="button"
@@ -54,7 +54,7 @@
                 <button uib-tooltip="Convert to Collection" 
                     ng-click="ctrl.convertEpic()" 
                     ng-if="project.project_type!=3" type="button" 
-                    class="scrumdo-btn primary">
+                    class="scrumdo-btn primary hidden-xs">
                     <span class="scrumdo-icons epics"></span></button>
                 <button uib-tooltip="Add Blocker" 
                     ng-click="ctrl.promptBlocker()" type="button" 
@@ -69,7 +69,7 @@
 
         <div ng-show="newStory" class="clear-both"></div>
     </div>
-    <div ng-if="!taskMode" ng-show="minimised">
+    <div ng-if="!taskMode" ng-show="minimised" class="minimized-pannel">
         <div class="col-sm-1">
             <span ng-show="!newStory" class="scrumdo-modal-card-nr">#{{story.number}}</span>
         </div>
@@ -117,13 +117,13 @@
     </div>
 </div>
 
-<div class="modal-body card-modal card-tabs-view" ng-show="!minimised">
+<div class="modal-body card-modal card-tabs-view active-tab-{{ctrl.activeTab}}" ng-show="!minimised">
     <div class="row" ng-if="taskMode">
         <sd-task-grid user="user" project="project" story="story"></sd-task-grid>
     </div>
     <div class="row" ng-if="!taskMode">
         <div class="col-sm-9 scrumdo-modal-card-content" ng-class="{'col-sm-12':ctrl.showFields}">
-            <uib-tabset>
+            <uib-tabset active="ctrl.activeTab">
                 <!-- Card Details Tab -->
                 <uib-tab index="0" heading="Details">
                     <div class="scrumdo-modal-card-content-description" ng-if="story.number != -1">

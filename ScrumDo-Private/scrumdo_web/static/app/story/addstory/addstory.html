@@ -19,7 +19,7 @@
         <div class="col-sm-2 editor-margin">
             <div class="form-group">
                 <button ng-click="ctrl.addCard()"
-                        ng-class="{disabled:ctrl.working}"
+                        ng-class="{disabled:ctrl.working || !ctrl.story.summary.length}"
                         class="scrumdo-btn primary"><span class="glyphicon glyphicon-plus-sign"></span> Add {{::ctrl.workItemName}}</button>
             </div>
         </div>

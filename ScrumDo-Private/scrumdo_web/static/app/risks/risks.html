@@ -23,7 +23,7 @@
                 <input type="text" ng-model="ctrl.userFilter" placeholder="Quick Filter" class="form-control"/>
             </div>
 
-            <table class="table risks-table">
+            <table class="table risks-table" ng-if="!ctrl.isMobileView()">
                 <tr>
                     <th>Risk</th>
                     <th colspan="{{ctrl.portfolio().risk_types.length}}">Severity</th>
@@ -66,11 +66,40 @@
                     <td>N/A</td>
                 </tr>
             </table>
+
+            <ul class="mobile-risks-container risks-table" ng-if="ctrl.isMobileView()">
+                <li>
+                    <div class="risk-labels">Risks</div>
+                </li>
+                <li ng-repeat="risk in ctrl.risks() | filter:ctrl.filterRisk | orderBy:ctrl.score"
+                    ng-click="ctrl.editRisk(risk)">
+                    <div class="risk-name-column">
+                        <span class="risk-color-blob" ng-style="{'background-color': ctrl.riskColor(risk)}"></span>
+                        <b>{{risk.description}}</b>
+                    </div>
+                    <div class="probability-column">
+                        <uib-progressbar value="risk.probability" max="100"></uib-progressbar>
+                        {{risk.probability}}%
+                    </div>
+                </li>
+                <li ng-if="ctrl.getsystemrisks().length > 0">
+                    <div class="risk-labels">System Risks</div>
+                </li>
+
+                <li ng-repeat="risk in ctrl.getsystemrisks() | filter:ctrl.filterRisk"
+                    class="system-risk">
+                    <div class=" risk-name-column">
+                        <b ng-bind-html="risk.description"></b>
+                    </div>
+                </li>
+
+            </ul>
+
             <a ng-if="ctrl.topFive"
                class="pull-right"
                ui-sref="app.iteration.risks({iterationId:ctrl.projectData.currentIteration.id})">See all risks</a>
         </div>
-        <div class="col-sm-4 chart-area" ng-if="ctrl.loaded">
+        <div class="col-sm-4 chart-area hidden-xs" ng-if="ctrl.loaded && !ctrl.isMobileView()">
             <sd-spider-chart highlight="ctrl.hoverRisk" portfolio="ctrl.portfolio()" risks="ctrl.userRisks"></sd-spider-chart>
         </div>
     </div>

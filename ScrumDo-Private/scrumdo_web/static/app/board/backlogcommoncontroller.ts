@@ -147,16 +147,11 @@ module scrumdo{
             }
 
             this.parentWorkItemName = parentBacklogProject.work_item_name;
-
-            this.iterationManager.loadIterations(this.organizationSlug, parentBacklogProject.slug).then((iterations) => {
-                let backlogIteration = _.find(iterations, (itr: Iteration) => itr.iteration_type == 0);
-
-                this.storyManager.loadIteration(parentBacklogProject.slug, backlogIteration.id)
-                                    .then((stories) => {
-                                        this.parentStories = stories;
-                                        this.loadGlobalBacklogStories();
-                                    });
-            });
+            this.storyManager.loadProjectReleases(parentBacklogProject.slug)
+                                .then((stories) => {
+                                    this.parentStories = stories;
+                                    this.loadGlobalBacklogStories();
+                                });
         }
 
         onSortChange = (event, sort) => {

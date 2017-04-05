@@ -66,6 +66,9 @@ module scrumdo {
             public releaseStatManager: ReleaseStatManager) {
 
             this.cardLayout = 'iteration_list';
+            if(isMobileDevice()){
+                this.cardLayout = 'list';
+            }
             this.name = 'IterationListController';
             this.scope.ctrl = this;
             this.sortables = [];

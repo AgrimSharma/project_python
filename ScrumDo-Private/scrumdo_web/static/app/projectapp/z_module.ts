@@ -2,6 +2,7 @@
 
 var projectAppModule: ng.IModule = angular.module("scrumdoProjectApp", [
                                                                     "ui.router",
+                                                                    "ui.calendar",
                                                                     "scrumdo-mixpanel",
                                                                     "scrumdoTimeline",
                                                                     "scrumdoChat",
@@ -15,6 +16,7 @@ var projectAppModule: ng.IModule = angular.module("scrumdoProjectApp", [
                                                                     "scrumdoDashboard",
                                                                     "scrumdoBigPicture",
                                                                     "scrumdoStoryQueue",
+                                                                    "scrumdoCalendar",
                                                                     "scrumdoNotes"]);
 
 

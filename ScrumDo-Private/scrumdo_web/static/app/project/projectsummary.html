@@ -4,13 +4,13 @@
             <p class="title pull-left">
                 {{ctrl.projectData.currentProject.name}}
             </p>
-            <div class="menus pull-right">
+            <div class="menus pull-right hidden-xs">
                 <a uib-tooltip="Search entire workspace" href="" ng-click="ctrl.openProjectSearch()">
                     <span class="fa fa-search"></span></a>
                 <a ng-if="ctrl.projectData.canAdmin()" uib-tooltip="Workspace Settings" 
                     ui-sref="app.settings.project"><span class="fa fa-cog"></span></a>
             </div>
-            <div class="stats pull-right">
+            <div class="stats pull-right hidden-xs">
                 <div class="stat" ng-repeat="stat in ctrl.stats">
                     {{::stat.value}}
                     <small class="scrumdo-project-boxes-minitext" ng-bind-html="stat.label"></small>
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="scrumdo-backlog-sidebar left-view"
+    <div class="scrumdo-backlog-sidebar left-view hidden-xs"
         ng-class="{'closed-backlog':!ctrl.sidebar, 'opened-backlog':ctrl.sidebar}">
         <div class="content">
             <workspace-summary-sidebar
@@ -39,7 +39,7 @@
     <div class="right-view scrumdo-boards-wrapper"
         ng-class="{'backlog-open':ctrl.sidebar}">
         <div class="options row">
-            <div class="iteration-time pull-right tabs">
+            <div class="iteration-time pull-right tabs hidden-xs">
                 <a href="" ng-class="{'active': ctrl.iterationTime==4}" ng-click="ctrl.setIterationTime(4)">All Iterations</a>
                 <a href="" ng-class="{'active': ctrl.iterationTime==0}" ng-click="ctrl.setIterationTime(0)">Recent</a>
                 <a href="" ng-class="{'active': ctrl.iterationTime==1}" ng-click="ctrl.setIterationTime(1)">Last 2 months</a>
@@ -101,17 +101,17 @@
                 iteration="iteration"></sd-iteration-overview>
         </div>
 
-        <div class="trash-bin backlog">
+        <div class="trash-bin backlog hidden-xs">
             <a uib-tooltip="Backlog" ui-sref="app.iteration.cards({iterationId:ctrl.backlog.id})">
                 <span class="fa fa-refresh"></span><small>{{::ctrl.backlog.story_count}}</small></a>
         </div>
 
-        <div class="trash-bin archive">
+        <div class="trash-bin archive hidden-xs">
             <a uib-tooltip="Archive" ui-sref="app.iteration.cards({iterationId:ctrl.archive.id})">
                 <span class="glyphicon glyphicon-compressed"></span><small>{{::ctrl.archive.story_count}}</small></a>
         </div>
 
-        <div class="trash-bin" ng-if="ctrl.trashBin">
+        <div class="trash-bin hidden-xs" ng-if="ctrl.trashBin">
             <a uib-tooltip="Trash Bin" ui-sref="app.iteration.cards({iterationId:ctrl.trashBin.id})">
                 <span class="fa fa-trash"></span><small>{{::ctrl.trashBin.story_count}}</small></a>
         </div>

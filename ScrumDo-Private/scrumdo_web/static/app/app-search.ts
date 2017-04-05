@@ -43,9 +43,9 @@ module scrumdo {
         app.service("realtimeService", scrumdo.NullRealtimeService); 3
 
         app.config(['$uibTooltipProvider', ($tooltipProvider) => {
-            $tooltipProvider.options({ appendToBody: true });
-        }
-        ]);
+            var options = tooltipProviderDefaults();
+            $tooltipProvider.options(options);
+        }]);
         
         app.config(['$compileProvider', ($compileProvider) => {
             $compileProvider.debugInfoEnabled(false);

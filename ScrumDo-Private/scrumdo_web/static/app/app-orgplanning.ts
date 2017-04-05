@@ -44,13 +44,10 @@ module scrumdo {
 
         sdCommonDirectives(app, STATIC_URL);
 
-        app.config([
-            '$uibTooltipProvider', ($tooltipProvider) => {
-                $tooltipProvider.options({
-                    appendToBody: true
-                });
-            }
-        ]);
+        app.config(['$uibTooltipProvider', ($tooltipProvider) => {
+            var options = tooltipProviderDefaults();
+            $tooltipProvider.options(options);
+        }]);
         
         app.config(['$compileProvider', ($compileProvider) => {
             $compileProvider.debugInfoEnabled(false);

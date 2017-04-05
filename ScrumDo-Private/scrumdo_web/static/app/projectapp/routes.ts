@@ -384,6 +384,17 @@ module scrumdo {
 
         });
 
+        $stateProvider.state('app.calendar', {
+            url: "/calendar",
+            views: {
+                appContent: {
+                    templateUrl: urlRewriter.rewriteAppUrl('calendar/calendar.html'),
+                    controller: 'calenderController',
+                    controllerAs: 'ctrl'
+                }
+            }
+        });
+
         $stateProvider.state('app.activity', {
             url: "/activity",
             views: {
@@ -647,7 +658,7 @@ module scrumdo {
                 appContent: {
                     controller: (projectData: ProjectDatastore, $state) => {
                         let iteration = _.find( projectData.iterations, (iter: Iteration) => {
-                            return iter.iteration_type == 1;
+                            return iter.iteration_type == 1 && !iter.hidden;
                         });
 
                         if(projectData.currentProject.continuous_flow){

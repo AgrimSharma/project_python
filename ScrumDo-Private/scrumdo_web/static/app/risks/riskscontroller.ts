@@ -19,6 +19,7 @@ module scrumdo {
         public userRisks: Array<any>;
         private topFiveRisksCache;
         private loaded: boolean;
+        private mobileView: boolean = false;
 
         public riskNames = [
             '', 'Low', 'Medium', 'High', '', 'Urgent'
@@ -35,6 +36,7 @@ module scrumdo {
                     private routeParams: ng.ui.IStateParamsService) {
             this.loaded = false;
             this.loadRisks();
+            this.mobileView = isMobileDevice();
         }
 
         public score = (risk) => -1 * riskScore(risk)
@@ -204,6 +206,10 @@ module scrumdo {
             }else{
                 return this.systemRisks;
             }
+        }
+
+        public isMobileView(){
+            return this.mobileView;
         }
     }
 }

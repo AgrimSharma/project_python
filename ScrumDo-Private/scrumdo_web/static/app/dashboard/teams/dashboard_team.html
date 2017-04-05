@@ -1,4 +1,4 @@
-<div class="scrumdo-wrapper" ng-if="ctrl.canAdminTeam()">
+<div class="scrumdo-wrapper orgnization-team" ng-if="ctrl.canAdminTeam()">
     <div class="scrumdo-wrapper-navigation no-border">
         <div class="row">
             <div class="col-sm-2">
@@ -35,7 +35,7 @@
                     <div class="col-sm-12">
                         <div class="form-group" ng-repeat="invitee in invitees">
                             <div class="row">
-                                <div class="col-sm-1">
+                                <div class="col-sm-1 hidden-xs">
                                     <img ng-src="{{STATIC_URL}}img/dummy-profile-pic.png" alt="" class="img-responsive center-block"/>
                                 </div>
                                 <div class="col-sm-11 form-group" ng-class="{'has-error':invitee.result}">

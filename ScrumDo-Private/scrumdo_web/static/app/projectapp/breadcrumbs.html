@@ -1,4 +1,4 @@
-<div class="app-breadcrumbs">
+<div class="app-breadcrumbs mobile-menu-items transitions">
     <ul class="project-breadcrumbs">
         <li class="project-breadcrumb dashboard">
             <a ng-href="/organization/{{projectData.organizationSlug}}/dashboard">
@@ -33,7 +33,7 @@
             </safe-project-dropdown>
         </li>
 
-        <li class="project-breadcrumb" 
+        <li class="project-breadcrumb seperator" 
             ng-if="ctrl.projectData.currentProject 
                                             && ctrl.projectData.portfolio.root
                 && ctrl.projectData.currentProject.slug != ctrl.projectData.portfolio.root.slug">
@@ -59,7 +59,7 @@
             </safe-project-dropdown>
         </li>
 
-        <li class="project-breadcrumb" ng-if="ctrl.projectData.currentIteration">
+        <li class="project-breadcrumb seperator" ng-if="ctrl.projectData.currentIteration">
             <img ng-src="{{STATIC_URL}}images/breadcrumb-divider.png" />
         </li>
 

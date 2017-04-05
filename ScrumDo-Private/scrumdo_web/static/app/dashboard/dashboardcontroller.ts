@@ -67,6 +67,8 @@ module scrumdo {
         protected filterdCatProjectsHalper:any = {};
         private myCardsSortOrder: string;
         private loadingMyStories: boolean;
+        private myCardsPanel: boolean;
+        private myProjectPanel: boolean;
 
         constructor(public scope:DashboardScope,
                     public element,
@@ -102,6 +104,8 @@ module scrumdo {
             this.reloadProjects();
             this.teamManager.loadTeams(this.organizationSlug).then(this.onTeamsLoaded);
 
+            this.myCardsPanel = isMobileDevice() != true;
+            this.myProjectPanel = true;
             this.lastDayLoaded = -1;
             this.isLoading = false;
             this.loadMore(2);

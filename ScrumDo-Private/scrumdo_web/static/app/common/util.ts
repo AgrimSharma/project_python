@@ -456,6 +456,21 @@ function isMobileDevice() :boolean{
     return false;
 }
 
+function is_touch_device() {
+    return 'ontouchstart' in window        // works on most browsers 
+        || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+};
+
+function tooltipProviderDefaults(){
+    var options;
+    if(isMobileDevice() || is_touch_device()){
+        options = { trigger: 'dontTrigger' };
+    }else{
+        options = { appendToBody: true };
+    }
+    return options;
+}
+
 var sort_by;
 (function() {
     // utility functions
@@ -628,3 +643,144 @@ function portfolioLevelIdToNumber(levels: Array<scrumdo.PortfolioLevel>, levelid
         return null;
     }
 }
+
+//********************* Mobile View  ***************************/
+
+function toggleHamburger(show = true){
+    if(show){
+        $('#mobile-hamburger').css('visibility', 'visible');
+    }else{
+        $('#mobile-hamburger').css('visibility', 'hidden');
+    }
+}
+
+function toggleMobileMenu(forceHide = false){
+    if(!forceHide){
+        $('#mobile-hamburger').toggleClass('open');
+        $('body').toggleClass('mobile-menu');
+    }else{
+        $('#mobile-hamburger').removeClass('open');
+        $('body').removeClass('mobile-menu');
+    }
+}
+
+function toggleMobileSecondaryMenu(hide = false, scope){
+    let leftPostition = parseInt($('.mobile-secondary-menu').css('left'));
+    var newLeft;
+    if(hide){
+        newLeft = -250;
+        $('body').removeClass('secondary-menu');
+        $('#mobile-hamburger-sec').removeClass('open');
+        scope['secondaryMenuOpen'] = false;
+    }else{
+        if(leftPostition < 0){
+            newLeft = 0;
+            scope['secondaryMenuOpen'] = true;
+            toggleMobileMenu(true);
+        }else{
+            newLeft = -250;
+            scope['secondaryMenuOpen'] = false;
+        }
+        $('#mobile-hamburger-sec').toggleClass('open');
+        $('body').toggleClass('secondary-menu');
+    }
+    $('.mobile-secondary-menu').css({'left': `${newLeft}px`});
+}
+
+function mobileSecondaryMenuHandler(scope){
+    let boardHeader = $('#boardHeader');
+    var handler = $('<div/>')
+                    .addClass('mobile-hamburger secondary')
+                    .attr("id", 'mobile-hamburger-sec')
+        handler.append("<span/>");
+        handler.append("<span/>");
+        handler.append("<span/>");
+    handler.bind('click', () => toggleMobileSecondaryMenu(false, scope));
+    boardHeader.addClass('mobile-sec-menu');
+    $('.scrumdo-navbar .container-fluid', boardHeader).append(handler);
+}
+
+function removeMobileSecondaryMenuHandler(){
+    let boardHeader = $('#boardHeader');
+    boardHeader.remove('#mobile-hamburger-sec')
+                .removeClass('mobile-sec-menu');
+}
+
+function registerMobileMenuEvent(scope){
+    let body = $('body');
+    var dragging = false;
+    var lastMove = null;
+    var tolerance = 100;
+    var startPosX = 0;
+    var endPosX = 0;
+    var dragTime: number;
+    mobileSecondaryMenuHandler(scope);
+    scope['secondaryMenuOpen'] = false;
+
+    body.bind('touchstart.secondaryMenu', (event:any) => {
+        startPosX = event.originalEvent.touches[0].pageX;
+    });
+
+    body.bind('touchend.secondaryMenu', (event:any) => {
+        if(lastMove == null) return;
+        endPosX = lastMove.originalEvent.touches[0].pageX;
+        dragging = false;
+        let totalDrag = endPosX-startPosX;
+        
+        if(totalDrag < -100 && scope['secondaryMenuOpen']){
+            trace("Mobile Secondary Menu Close")
+            scope['secondaryMenuOpen'] = false;
+            toggleMobileSecondaryMenu(true, scope);
+        }
+        lastMove = null;
+    });
+
+    body.bind('touchmove.secondaryMenu', (event:any) => {
+        dragging = true;
+        lastMove = event;
+    });
+}
+
+function deRegisterMobileMenuEvent(scope){
+    delete scope['secondaryMenuOpen'];
+    removeMobileSecondaryMenuHandler();
+    $('body').unbind('touchstart.secondaryMenu');
+    $('body').unbind('touchmove.secondaryMenu');
+    $('body').unbind('touchend.secondaryMenu');
+}
+
+function getTouchesDistance(touches: TouchList){
+    if(touches.length !== 2) return 0;
+    var dist = Math.sqrt(
+                    (touches[0].clientX-touches[1].clientX) * (touches[0].clientX-touches[1].clientX) +
+                    (touches[0].clientY-touches[1].clientY) * (touches[0].clientY-touches[1].clientY));
+    return dist;
+}
+
+
+function elementZoomInOut(element, type: string){
+    let zX_min = 0.2;
+    let zY_min = 0.2;
+    let zX_max = 1;
+    let zY_max = 1;
+    let zoom_acc = 0.03;
+
+    let metrix = $(element).css('transform').replace("matrix(", "").slice(0, -1);
+    let currentMatrix = _.map(metrix.split(','), (val) => parseFloat(val));
+    var zX = currentMatrix[0];
+    var zY = currentMatrix[3];
+
+    if(type == 'out' && zX > zX_min){
+        zX -= zoom_acc;
+        zY -= zoom_acc;
+    }
+    if(type == 'in' && zX < zX_max){
+        zX += zoom_acc;
+        zY += zoom_acc;
+    }
+    var newMatrix = [zX, 0, 0, zY, 0, 0];
+    $(element).css({transform: `matrix(${zX}, 0, 0, ${zY}, 0, 0)`});
+
+}
+
+//********************* Mobile View  ***************************/

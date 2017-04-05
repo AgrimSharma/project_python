@@ -1,8 +1,8 @@
-<ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav navbar-right poker-notifier">
     <li class="scrumdo-nav-notifications notification dropdown"
         is-open="ctrl.pokerOpened"
         uib-dropdown>
-        <a class="dropdown-toggle active"
+        <a class="dropdown-toggle active poker-toggle"
            ng-show="ctrl.pokerService.pokerRequest!=null"
            data-toggle="dropdown"
            uib-dropdown-toggle>
@@ -27,7 +27,7 @@
     <li class="scrumdo-nav-notifications notification dropdown"
         is-open="ctrl.chatOpened"
         uib-dropdown>
-        <a class="dropdown-toggle"
+        <a class="dropdown-toggle chat-toggle"
            ng-class="{active:ctrl.newChat}"
            ng-show="ctrl.chatMessage != null"
            data-toggle="dropdown"

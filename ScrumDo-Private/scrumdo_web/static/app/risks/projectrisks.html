@@ -4,7 +4,7 @@
             <th>Risk</th>
             <th ng-if="!ctrl.topFive" colspan="{{ctrl.portfolio().risk_types.length}}">Severity</th>
             <th>Probability</th>
-            <th>Artifacts</th>
+            <th class="hidden-xs">Artifacts</th>
         </tr>
         <tr ng-repeat="risk in ctrl.risks() | orderBy:ctrl.score"
             ng-if="ctrl.loaded"
@@ -22,7 +22,7 @@
                 <uib-progressbar value="risk.probability" max="100"></uib-progressbar>
                 {{risk.probability}}%
             </td>
-            <td>
+            <td class="hidden-xs">
                 <sd-risk-artifacts-label artifacts="ctrl.riskArtifacts(risk)"></sd-risk-artifacts-label>
             </td>
         </tr>

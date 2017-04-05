@@ -42,6 +42,11 @@ module scrumdo {
 
         app.service("realtimeService", scrumdo.NullRealtimeService);
 
+        app.config(['$uibTooltipProvider', ($tooltipProvider) => {
+            var options = tooltipProviderDefaults();
+            $tooltipProvider.options(options);
+        }]);
+
         sdCommonDirectives(app, staticUrl);
 
 

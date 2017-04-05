@@ -28,7 +28,7 @@
                                 <td>
                                     {{organization.activeProjects.count}} Workspace{{organization.activeProjects.count|pluralize}}
                                 </td>
-                                <td>
+                                <td class="hidden-xs">
                                     {{organization.teams.count}} Team{{organization.teams.count|pluralize}}
                                 </td>
 {#                                <a href="{{organization.get_absolute_url}}" class="bgg"><i class="icon-signin"></i></a>#}
@@ -37,7 +37,8 @@
                             {% endfor %}
                             <tr>
                                 <td colspan="3">
-                                    <a class="pull-right" href="/subscription/register"><span class="sec-bg"></span>Create New Organization</a>
+                                    <a class="pull-right scrumdo-btn primary new-org" 
+                                        href="/subscription/register"><span class="sec-bg"></span>Create New Organization</a>
                                 </td>
                             </tr>
                         </table>

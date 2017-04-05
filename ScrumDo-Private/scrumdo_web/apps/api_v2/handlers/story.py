@@ -410,13 +410,13 @@ class StoryHandler(BaseHandler):
     def pull_requests(story):
         if not story.has_commits:
             return []
-        return story.pull_requests.all()
+        return story.pull_requests.all().order_by('-created')
 
     @staticmethod
     def commits(story):
         if not story.has_commits:
             return []
-        return story.commits.all()
+        return story.commits.all().order_by('-created')
 
     @staticmethod
     def assignee(story):
