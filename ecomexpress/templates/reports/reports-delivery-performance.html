@@ -1,0 +1,55 @@
+<div class="cust-content"  >
+
+            <table class="table" >
+
+              <thead>
+
+                <tr>
+		{%ifequal b 1%}
+		  <th>Service Center</th>
+		{%else%}
+                  <th>Employee Name / Code</th>
+		{%endifequal%}
+
+                  <th>No of Shipments</th>
+
+                  <th>Delivered</th>
+
+                  <th>Undelivered</th>
+
+                  <th>% of Delivered</th>
+
+                  
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+              {%for shipment in shipments %}
+{%ifnotequal shipment.1 0%}
+                <tr>
+
+                <td>{{shipment.0}}</td>
+
+                <td>{{shipment.1}}</td>
+
+                <td>{{shipment.2}}</td>
+
+                <td>{{shipment.3}}</td>
+
+                <td>{{shipment.4|floatformat:2}}%</td>
+
+                
+
+                </tr>
+{%endifnotequal%}
+                {%endfor%}
+
+              </tbody>
+
+            </div>
+
+  
+

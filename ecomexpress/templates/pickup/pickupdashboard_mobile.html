@@ -1,0 +1,107 @@
+{% extends "base_mobile.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+<style>
+.rev_pickup td{background: #FFCCCC}
+</style>
+{% endblock %}
+
+
+          		{% block content %}
+<div id="backgroundPopup"></div>  
+
+<div id="wrap" style="width:300px;margin-top:-30px" >
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="pagination pull-left">
+        <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+        </ul>
+        </div>
+
+    </div>
+</div></br>
+    <div class="row-fluid" style="width:390px;margin-top: -30px;">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title" >
+         <i class="icon-exclamation-sign" style="font-size: 25px ; margin-right: 7px;margin-top: 2px;"></i>{%block title%}  <span>Pickup Dashboard</span>{%endblock%}
+          </div>
+          <div class="cust-content">
+{%block table%}
+            <table class="table">
+              <thead>
+                   {% for pickup in pickup %}
+                     <tr>
+<!--                            <td style="text-align:center">Pickup Id</td>   -->
+ <td id="{{pickup.id}}pincode">{{pickup.id}}</td>
+<!-- <td style="text-align:center">Number of Shipments</td>   -->
+<td><a style="font-size:30px"  href="/service-centre/field_pickup_operation/{{pickup.id}}/mobile/">{{pickup.pieces}}</a></td>
+ </tr><!-- <tr><td style="text-align:center">Customer Code</td>  -->
+ <td id="{{pickup.id}}pincode">{{pickup.customer_code}}   || {{pickup.subcustomer_code}}</td>
+
+<!-- <td style="text-align:center">Time Slot</td>  -->
+ <td>{{pickup.pickup_date}} | {{pickup.pickup_time}}</td>
+</tr><tr>
+<!-- <td style="text-align:center">SubCustomer Address</td>    -->
+<td>{{pickup.address_line1}},{{pickup.address_line2}}, {{pickup.address_line3}}</td>
+
+<!-- <td style="text-align:center">Status</td>   -->
+<td> {% if pickup.reverse_pickup %}
+                  <span class="label label-important">Complete in 72 hours</span>
+                  {% else %}
+                    {% ifequal pickup.status 1 %}
+                    <span class="label label-sucess">Completed</span>
+                    {% else %}
+                    <span class="label label-important">Pending</span>
+                    {% endifequal %}
+                  {% endif %}
+</td>
+</tr></tr>
+<tr><td><hr></td></tr>
+                   {% endfor %}
+
+               
+              </tbody>
+            </table>
+{%endblock%}
+            </div>
+            
+          </div><!-- /cust-content -->
+       {%comment%}   <div class="pull-right" style="display:inline-block"><a href="#"> Print Pickup Sheet</a></div>{%endcomment%}
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3Address</h3>
+    </div>
+    <div class="modal-body">
+      
+    </div>
+  </div><!--modal end-->
+
+
+   <div id="popupContact">  
+   
+        <a id="popupContactClose">x</a>  
+
+  </div>  
+<script type="text/javascript">
+$(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+</script>
+{% endblock %}
+          	

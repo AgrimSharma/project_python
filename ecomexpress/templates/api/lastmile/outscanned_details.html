@@ -1,0 +1,46 @@
+{% load tags %}{%load billtags%}<?xml version="1.0" encoding="utf-8"?>
+<root>
+{%for a in shipments%}
+<Docket>
+
+<DOCKNO>{{a.airwaybill_number}}</DOCKNO>
+<PIECES>{{a.pieces}}</PIECES>
+<DRS>{{a.service_centre.center_shortcode}}/{{a.service_centre.city.city_shortcode}}/{{a|get_outscan_number}}</DRS>
+<CSGENM>{{a.consignee}}</CSGENM>
+<CSGEADDR>{{a.consignee_address1|get_address}}, {{a.consignee_address2|get_address}},{{a.consignee_address3|get_address}},{{a.consignee_address4|get_address}}, </CSGEADDR>
+<CSGETeleNo>{{a.mobile}}</CSGETeleNo>
+<ALTERNATE_NUMBER>{{a.telephone}}</ALTERNATE_NUMBER>
+<ctr_no>{{a.order_number}}</ctr_no>
+<CSGECity>{{a.destination_city}}</CSGECity>
+<REASSIGN_DESTCD>{{a.destination_city}}</REASSIGN_DESTCD>
+<CSGEPinCode>{{a.pincode}}</CSGEPinCode>
+<PKGSNO>{{a.pieces}}</PKGSNO>
+<COD_DOD>{%ifequal a.product_type "cod"%}Y{%endifequal%}</COD_DOD>
+<codamt>{{a.collectable_value}}</codamt>
+<Delivered>N</Delivered>
+<DRSUpdated>N</DRSUpdated>
+<Logistic_DT>{% now "Y-m-d" %}</Logistic_DT>
+<Logistic_Time>{% now "H:i:s" %}</Logistic_Time>
+<Start_KM>0</Start_KM>
+<Driver_Id>{{a|get_employee_code}}</Driver_Id>
+<ACTUWT>{{a.actual_weight}}</ACTUWT>
+<Total_Dockets_In_DRS>1</Total_Dockets_In_DRS>
+<DKT_COUNT_NOT_UPDATED>1</DKT_COUNT_NOT_UPDATED>
+<UserID>{{a|get_employee_code}}</UserID>
+<DriverName>{{a|get_employee_name}}</DriverName>
+<ITEMS>
+<ITEM>
+<PRODCD>{{a.order_number}}</PRODCD>
+<CODEDESC>BACKPACKS</CODEDESC>
+<AMOUNT_TO_CUSTOMER>{{a.collectable_value}}</AMOUNT_TO_CUSTOMER>
+</ITEM>
+</ITEMS>
+<CLIENT_CODE>{{a.shipper.code}}</CLIENT_CODE>
+<CLIENT_NAME>{{a.shipper.name}}</CLIENT_NAME>
+
+<SEQUENCE>
+{{a|get_sequence_number}}
+</SEQUENCE>
+</Docket>
+{% endfor %}
+</root>

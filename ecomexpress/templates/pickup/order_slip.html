@@ -1,0 +1,16 @@
+
+Origin:{{rv.pickup.service_centre}} 		Destination:{{dest}}	
+
+Type of shipment : Reverse Pickup
+
+AWB Number :{{rv.airwaybill_number}} 
+
+Order Number :{{rv.order_number|cut:".0"}}
+
+Customer Name :{{rv.vendor}}
+
+Delivery Address :{{rv.vendor.address.address1}} 
+                  {{rv.vendor.address.address2}}
+                  {{rv.vendor.address.address3}} 
+                  {{rv.vendor.address.pincode}}
+

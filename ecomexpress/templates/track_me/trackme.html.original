@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block header %}
+<link rel="stylesheet" href="{{ STATIC_URL }}assets/css/pkg_tracker.css" />
+{% endblock%}
+{% block content %}
+<style>
+.cs_instruction td{background: #FFCCCC}
+</style>
+
+<div id="wrap">
+
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="add-details pull-right">
+            {% include "track_me/header.html" %}
+        </div>
+    </div>
+  </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+	<form name="track" id="trackmeForm" action="." method="GET">
+	<div>
+		<b>Waybill No</b><input class="awb" name="awb" type="text" value="{{shipment.airwaybill_number}}" />
+		<b>Order No.</b><input class="order" name="order" type="text" value="{{shipment.order_number}}" />
+                <input class="clear btn btn-primary" name="clear" type="button" value="clear">
+                <br/>
+                <input type="checkbox" name="reverse_shipment" value="reverse_shipment"> Reverse Shipment<br/>
+		    {%if complaint_status%}
+                {%ifequal complaint_status.status 0%}
+<i class="icon-warning-sign" style="color:red; font-size:30px;"> </i>
+                {%endifequal%}
+                {%endif%}
+	</div>
+        </form>
+        {% include "track_me/trackme_shipment_details.html" %}
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Status Scan</span>
+           <!-- <div class="pull-right"><form><input type="text" placeholder="Airway Bill No."/></form></div>-->
+          </div>
+          <div class="cust-content"><div class="summary-content">
+           {{pkgstatus}}       
+           {% if pkgstatus %}
+               <ol class="progtrckr">
+                   <li class="progtrckr-done {% if pkgstatus < 4 %}silver_br_li{%else%}green_br_li {%endif%} black_font tenwidth">
+			<div class="pos_text wordwrap">Dispatching soon</div>
+                   </li>
+                   <li class="{% if pkgstatus > 3 %}progtrckr-done black_font{% else %}progtrckr-todo silver_font {% endif %} {% if pkgstatus > 4 %}green_br_li{% else %}silver_br_li{% endif %} tenwidth">
+                        <div class="pos_text wordwrap">Dispatched</div>
+                   </li>
+                   <li class="{% if pkgstatus > 4%}progtrckr-trans-done black_font{%else%}progtrckr-trans-todo silver_font {%endif%} {% if pkgstatus > 5 %}green_br_li{%else%}silver_br_li{%endif%} tenwidth">
+                       <div class="trans_text wordwrap">In Transit</div>
+                   </li>
+                   <li class="{% if pkgstatus > 5%}progtrckr-trans-done black_font{%else%}progtrckr-trans-todo silver_font {%endif%} {% if pkgstatus > 6 %}green_br_li{%else%}silver_br_li{%endif%} tenwidth">
+                       <div class="pos_text wordwrap"></div>
+                   </li>
+                   <li class="{% if pkgstatus > 6%}progtrckr-done black_font{%else%}progtrckr-todo silver_font {%endif%} {%if pkgstatus == 8%}orange_br_li{%elif pkgstatus > 7 %}green_br_li{%else%}silver_br_li{%endif%} tenwidth">
+                      <div class="pos_text wordwrap">Out for delivery</div>
+                   </li>
+                   {%if pkgstatus == 8 %}<li class="progtrckr-stop red_font silver_br_li tenwidth"><div class="pos_text">UnDelivered</div></li>{% endif %}
+                  {%if pkgrcode == 777 and pkgstatus > 8%}
+                  <li class="progtrckr-redirect red_font tenwidth"><div class="pos_text">Delivery redirected</div></li>
+                  {% else %}
+                   <li class="{% if pkgstatus > 8%}progtrckr-final-done black_font{%else%}progtrckr-final-todo silver_font {%endif%} tenwidth"><div class="pos_text">Delivered</div></li>  
+                  {%endif%}
+              </ol>
+           {%endif%}
+                <p>&nbsp;</p>
+                <div>
+                   <div id='track_detail_show'>Show</div>
+                   <div id='track_detail' style="display:none">
+                   <table>
+                   {% for a in history %}
+                       <tr>
+                       <td>{{a.updated_on|date:"d M, Y, H:i"}} hrs,{{a.current_sc.center_shortcode}}</td>
+                       <td>Status</td>
+                       </tr>
+                     
+                   {% endfor%}
+                   </table>
+                   </div>
+                   <div id='track_detail_hide' style="display:none">Hide</div>
+               </div>
+          	<table border="1" bordercolor="#99B" class="table">
+              <thead style="background-color: #3731B0; color: white; font-size: 14px;">
+                <tr>
+                  <th width="150">Date/Time</th>
+                  <th>Status</th>
+                  <th width="50">Reason Code</th>
+                  <th width="100">Service Centre</th>
+                  <th width="150">Employee</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for a in history %}
+{%if request.user.employeemaster.user_type == "Customer"%}
+{%if a.status == 0 or a.status == 31 or a.status == 33 or a.status == 32 or a.status == 1 or a.status == 2 or a.status == 3  or a.status == 4 or a.status == 5 or a.status == 6 or a.status == 7 or a.status == 8 or a.status == 9 or a.status == 13 or a.status == 14 or a.status == 15 or a.status == 17%}
+
+           <tr>
+
+                  <td>{{a.updated_on|date:"d M, Y, H:i"}} hrs</td>
+                  <td>
+                       {%ifequal a.status 33%}Reverse pickup not complete{%endifequal%}
+                      {%ifequal a.status 0%}{%if a.remarks%}{{a.remarks}}{%else%}Soft data up loaded{%endif%}{%endifequal%}
+                      {%ifequal a.status 1%}{%ifequal a.reason_code.code 777%}Shipment redirected: Parent Airwaybill {{a.ref_airwaybill_number}}{%else%}Shipment Picked Up{%endifequal%}{%endifequal%}
+                      {%ifequal a.status 2%}{%if a.remarks%}{{a.remarks}}{%else%}Shipment in-scan{%endif%}{%endifequal%}
+                      {%ifequal a.status 3%}{{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 4%}Shipment in-scan at HUB{%endifequal%}
+                      {%ifequal a.status 5%}{{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 6%}{%ifequal a.remarks "Delinked from Outscan"%}{{a.remarks}}{%else%}Shipment in-scan at DC{%endifequal%}{%endifequal%}
+                      {%ifequal a.status 7%}Shipment out for delivery, assigned to Employee {{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 8%}{%ifequal a.reason_code.code 333%}Shipment Lost{%else%}Shipment un-delivered{%endifequal%}{%endifequal%}
+                      {%ifequal a.status 9%}Shipment delivered{%endifequal%}
+                      {%ifequal a.status 13%}{{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 14%}Shipment out-scan to network from PPC{%endifequal%}
+    {%ifequal a.status 15%}Shipment out-scan to network from HUB{%endifequal%}
+{%ifequal a.status 17%}{{a.remarks}}{%endifequal%}
+{%ifequal a.status 32%}Ready for reverse pickup, assigned to Employee {{a.remarks}}{%endifequal%}
+{%ifequal a.status 31%}Reverse pickup registered{%endifequal%}
+                  </td>
+
+                  <td>{%if a.reason_code %}{{a.reason_code}}{%endif%}</td>
+                  <td>{{a.current_sc.center_shortcode}}</td>
+                  <td>{{a.employee_code}}</td>
+
+                </tr>
+{%endif%}
+{%else%}
+<tr {%ifequal a.status 11%}class="cs_instruction"{%endifequal%} {%ifequal a.status 16%}class="cs_instruction"{%endifequal%} {%ifequal a.status 20%}class="cs_instruction"{%endifequal%} >
+
+                  <td>{{a.updated_on|date:"d M, Y, H:i"}} hrs</td>
+                  <td>
+                      {%ifequal a.status 0%}{%if a.remarks%}{{a.remarks}}{%else%}Soft data up loaded{%endif%}{%endifequal%}
+{%ifequal a.status 1%}{%ifequal a.reason_code.code 777%}Shipment redirected: Parent Airwaybill {{a.shipment.ref_airwaybill_number}}{%else%}Shipment Picked Up{%endifequal%}{%endifequal%}
+  {%ifequal a.status 2%}{%if a.remarks%}{{a.remarks}}{%else%}Shipment in-scan{%endif%}{%endifequal%}
+                      {%ifequal a.status 3%}{{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 4%}Shipment in-scan at HUB{%endifequal%}
+                      {%ifequal a.status 5%}{{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 6%}{%ifequal a.remarks "Delinked from Outscan" %}{{a.remarks}}{%else%}Shipment in-scan at DC{%endifequal%}{%endifequal%}
+                      {%ifequal a.status 7%}Shipment out for delivery, assigned to Employee {{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 8%}{%ifequal a.reason_code.code 333%}Shipment Lost{%else%}Shipment un-delivered{%endifequal%}{%endifequal%}
+                      {%ifequal a.status 9%}Shipment delivered{%endifequal%}
+                      {%ifequal a.status 11%}Customer Instruction: {{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 16%}Comments: {{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 12%}Complaint{%endifequal%}
+                      {%ifequal a.status 13%}{{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 20%}Tele Comments:{{a.remarks}} {%endifequal%}
+                      {%ifequal a.status 14%}Shipment out-scan to network from PPC{%endifequal%}
+    {%ifequal a.status 15%}Shipment out-scan to network from HUB{%endifequal%}
+{%ifequal a.status 17%}{{a.remarks}}{%endifequal%}
+{%ifequal a.status 33%}Reverse pickup not complete{%endifequal%}
+{%ifequal a.status 31%}Reverse pickup registered{%endifequal%}
+ {%ifequal a.status 32%}Ready for reverse pickup, assigned to Employee {{a.remarks}}{%endifequal%}
+                  </td>
+
+                  <td>{%if a.status == 11 or a.status == 16%}{%else%}{%if a.reason_code %}{{a.reason_code}}{%endif%}{%endif%}</td>
+                  <td>{{a.current_sc.center_shortcode}}</td>
+                  <td>{{a.employee_code}}</td>
+
+                </tr>
+{%endif%}
+                {% endfor %}
+              </tbody>
+            </table>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+<script>
+$(document).ready(function(e){
+    $(".awb").focus();
+    $(".order").change(function(e){
+        $("#trackmeForm").submit();
+    });
+    $(".awb").change(function(e){
+        $("#trackmeForm").submit();
+    });
+    $(".clear").click(function(e){
+        $(".awb").val('');
+        $(".order").val('');
+    });
+});
+$("#track_detail_show").click(function(){
+$('#track_detail').slideDown( "slow" );
+})
+</script>
+{% endblock %}
+

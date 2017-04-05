@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+          		{% block content %}
+
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="add-details pull-right">
+                {% include 'track_me/header.html' %}
+        </div>
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+{%comment%}
+      	<div style="width:300px; display:inline-block">
+        <table>
+        	<tr>
+        	<td><b>Waybill No.</b> </td><td><input type="text"/></td>
+          <td><b>Ref No.</b></td><td><input type="text"/>
+            </td></tr>
+         </table>   
+        </div>
+        {%endcomment%}
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Generic Query</span>
+           <!-- <div class="pull-right"><form><input type="text" placeholder="Airway Bill No."/></form></div>-->
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+          <form method="post" action="." onsubmit="return CheckLength();">
+          {%csrf_token%}
+          	<table>
+            	<tr>
+                	<td>Origin</td>
+                    <td><select name="origin" class="dest">
+                  <option value="">Select Origin</option>
+{% for a in service_centre %}
+                <option value="{{a.id}}">{{a.center_shortcode}}-{{a}}</option>
+{% endfor %}
+                </select>
+
+
+                    </td>
+                </tr>
+                <tr>
+                	<td>Shipper</td>
+                    <td> 
+<select name="client_code" class="dest">
+                  <option value="">Select Customer</option>
+{% for a in client %}
+                <option value="{{a.id}}">{{a}}</option>
+{% endfor %}
+                </select>
+
+
+                    </td>
+                </tr>
+                <tr>
+                	<td>Consignee</td>
+                    <td> <input name="consignee" type="text"/></td>
+                </tr>
+
+<tr>
+                        <td>Zone</td>
+                    <td><select name="zone" class="dest">
+                  <option value="">Select Zone</option>
+{% for a in zone %}
+                <option value="{{a.id}}">{{a}}</option>
+{% endfor %}
+                </select>
+
+</td>
+                </tr>
+<tr>
+                        <td>City</td>
+                    <td><select name="city" class="dest">
+                  <option value="">Select City</option>
+{% for a in city %}
+                <option value="{{a.id}}">{{a}}</option>
+{% endfor %}
+                </select>
+
+</td>
+                </tr>
+
+                <tr>
+                	<td>Service Centre</td>
+                    <td><select name="destination" class="dest">
+                  <option value="">Select Service Centre</option>
+{% for a in service_centre %}
+                <option value="{{a.id}}">{{a.center_shortcode}}-{{a}}</option>
+{% endfor %}
+                </select>
+
+</td>
+                </tr>
+{%ifequal request.user.employeemaster.department_id 3 %}
+<div class="pull-right"><a href={{file_path}}>{{file_path}}</a></div>
+{%endifequal%}
+                <tr>
+                	<td>Pickup date From</td>
+                    <td> <input name="pickup_from" id="pickup_from" class="pickup_date" type="text"/></td>
+                </tr>
+                <tr>
+                	<td>Pickup date To</td>
+                    <td> <input name="pickup_to" class="pickup_date" id="pickup_to"  type="text"/></td>
+                </tr>
+                <tr>
+                	<td>Product Code</td>
+                    <td> <select name="product">
+                    	<option value="">All</option>
+                        <option value = "cod">COD</option>
+                        <option value="ppd">Prepaid</option>
+            <option value="rts">RTS</option>
+<option value="sdl">SDL</option>
+<option value="rto">RTO</option>
+                    	</select>
+                    </td>
+                </tr>
+             <tr>
+                         <td>Status</td>
+                      <td>  <select name="delivered_status">
+                         <option value="">All</option>
+                         <option value="9">Delivered</option>
+                         <option value="8">Undelivered</option>
+                      </td>
+                 </tr>    
+{%comment%}
+                <tr>
+                	<td>Product Code</td>
+                    <td> <select>
+                    	<option>P/up date + AWB NO.</option>
+                        <option>Origin</option>
+                        <option>P/up date + AWB NO.</option>
+                    	</select>
+                    </td>
+                </tr>
+{%endcomment%}
+                <tr>
+        {%comment%}        	<td>Reverse Pickup</td>
+                    <td> <select name="reverse_pickup">
+                    	<option value="">All</option>
+                        <option value="1">Reverse Pickup</option>
+                    	</select>
+                    </td>{%endcomment%}
+                </tr>
+
+                <tr>
+                	<td> </td>
+<td><input type="submit" name='submit' class="btn btn-primary" value='view'>
+<input type="Submit" name='submit' value="Download" class=" btn btn-primary"></td>
+                </tr>
+            </table>
+            </form>
+            </div>
+            </div>
+            
+          </div>
+        </div>
+     </div>
+         <div class="row-fluid" style="margin-top:40px;">
+      <div class="span12">
+        
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Shipment Details </span>
+           <!-- <div class="pull-right"><form><input type="text" placeholder="Airway Bill No."/></form></div>-->
+          </div>
+          
+          <div class="cust-content">
+          <div class="summary-content">
+          	<table class="table">
+            	<thead>
+                <tr>
+                  <th>Air Waybill No.</th>
+                  <th>Order No.</th>
+                  <th>Weight</th>
+                  <th>Origin</th>
+                  <th>Destination</th>
+                  <th>Shipper</th>
+                  <th>Consignee</th>
+                  <th>P/U Date</th>
+                  <th>Status</th>
+<th>Reason Code</th>
+                  <th>Expected Date</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {%for a, history in shipment_info.items%}
+              <tr>
+                <td>
+                <a href="javascript: window.open ('/track_me/?awb={{a.airwaybill_number}}&order=','mywindow');" target="self">{{a.airwaybill_number}}</a>
+{%if a.ref_airwaybill_number %}
+
+New AWB: <a href="javascript: window.open ('/track_me/?awb={{a.ref_airwaybill_number}}&order=','mywindow');" target="self">{{a.ref_airwaybill_number}}</a>
+{%endif%}
+</td>
+                <td>{{a.order_number}}</td>
+                <td>{{a.actual_weight}}</td>
+                <td>{{a.pickup.service_centre}}</td>
+                <td>
+{%ifequal a.return_shipment 0%}
+{{a.service_centre}}
+{%else%}
+{{a.original_dest}}
+{%endifequal%}
+</td>
+                <td>{{a.shipper}}</td>
+                <td>{{a.consignee}}</td>
+                <td>{{a.added_on|date:"d-m-Y | H:i"}} hrs</td>
+                <td>
+                {%ifequal a.status 0%}Shipment Uploaded{%endifequal%}
+                      {%ifequal a.status 1%}Pickup Complete / Inscan{%endifequal%}
+                      {%ifequal a.status 2%}Inscan completion / Ready bor Bagging{%endifequal%}
+                      {%ifequal a.status 3%}Bagging completed{%endifequal%}
+                      {%ifequal a.status 4%}Shipment at HUB{%endifequal%}
+                      {%ifequal a.status 5%}Bagging Completed at HUB{%endifequal%}
+                      {%ifequal a.status 6%}Shipmentat Delivery Centre{%endifequal%}
+                      {%ifequal a.status 7%}Outscan{%endifequal%}
+                      {%ifequal a.status 8%}Undelivered{%endifequal%}
+                      {%ifequal a.status 9%}Delivered / Closed{%endifequal%}
+
+{%ifequal a.status 11%}Alternate Instruction: {{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 16%}Comments: {{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 12%}Complaint{%endifequal%}
+                      {%ifequal a.status 13%}{{a.remarks}}{%endifequal%}
+                      {%ifequal a.status 14%}Airport Confirmation Sucessfull, connected to destination via Service Centre{%endifequal%}
+    {%ifequal a.status 15%}Airport Confirmation Sucessfull, connected to destination via Hub{%endifequal%}
+{%ifequal a.status 17%}{{a.remarks}}{%endifequal%}
+
+                </td>
+<td>{%if history.reason_code %}{{history.reason_code}}{%endif%} </td>
+                {%if a.expected_dod%}
+                <td>{{a.expected_dod|date:"d-m-Y | H:i"}} hrs</td>
+                {%endif %}
+                                              
+            </tr>
+              {%endfor%}
+              </tbody>
+            </table>
+            </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+
+</div><!-- /container-fluid -->
+             
+</div>
+
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" ata-dismiss="modal">×</a>
+      <h3>Airway Bill Number</h3>
+    </div>
+    <div class="modal-body">
+    			    <form class="form-horizontal">
+    <div class="control-group">
+    <label class="control-label" for="inputEmail">Customer</label>
+    <div class="controls">
+    <select>
+        <option>Flip Kart</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+	</select>
+    </div>
+    </div>
+    <div class="control-group">
+    <label class="control-label">Type</label>
+    <div class="controls">
+    <select>
+        <option>Type1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+	</select>
+    </div>
+    </div>
+    <div class="control-group">
+    <label class="control-label" >Quantity</label>
+    <div class="controls">
+   	<input type="text" placeholder="Quantity">
+    </div>
+    </div>
+    <div class="control-group">
+    <div class="controls">
+    <button type="submit" class="btn btn-success">Export</button>
+    </div>
+    </div>
+    </form>
+      
+    </div>
+  </div><!--modal end-->
+
+<script>
+$(".pickup_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+$('#pickup_time').timepicker();
+
+</script>
+
+<script type="text/javascript">
+
+function CheckLength() 
+{ 
+
+    function dstrToUTC(ds) {
+       var dsarr = ds.split("-");
+       var mm = parseInt(dsarr[1],10);
+       var dd = parseInt(dsarr[2],10);
+       var yy = parseInt(dsarr[0],10);
+       return Date.UTC(yy,mm-1,dd,0,0,0);
+}
+
+function datediff(ds1,ds2) {
+ var d1 = dstrToUTC(ds1);
+ var d2 = dstrToUTC(ds2);
+ var oneday = 86400000;
+ return (d2-d1) / oneday;
+}
+var ds1 = $('#pickup_from').val();
+  var ds2 = $('#pickup_to').val();
+  var day = datediff(ds1,ds2);
+  alert(day);
+return false;
+</script>
+
+{% endblock %}
+          	

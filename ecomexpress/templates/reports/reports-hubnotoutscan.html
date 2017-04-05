@@ -1,0 +1,38 @@
+	<div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Origin</th>
+                  <th>Pickup date</th>
+				  
+				  <th>Destination</th>
+                  <th>AirwayBill Number</th>
+                  <th>Shipper</th>
+                  <th>Consignee</th>
+                  <th>Status Update Date</th>
+                </tr>
+              </thead>
+               <tbody>
+               
+              {%for shipment in shipments%}
+             
+                <tr>
+                <td>{{shipment.0}}</td>
+                  
+                  <td>{{shipment.1|date:"d-m-Y"}}</td>
+                  
+                 <td>{{shipment.2}}</td>
+                 <td>{{shipment.3}}</td>
+                 <td>{{shipment.4}}</td>
+                 <td>{{shipment.5}}</td>
+                 <td>{{shipment.6|date:"d-m-Y"}}</td>
+				
+				
+                </tr>
+             
+                {%endfor%}
+              </tbody>
+            </table>
+            
+          </div><!-- /cust-content -->
+    

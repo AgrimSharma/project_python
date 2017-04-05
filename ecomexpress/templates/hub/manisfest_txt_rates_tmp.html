@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+{% endblock %}
+
+{%block content%}
+<style>
+.jq_amount_collected {display: inline-block; border: 1px solid #ccc; width: 60px; border-radius: 5px; text-align: right; padding: 2px; box-shadow: 5px 5px 2px #888888;}
+</style>
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+
+<div class="ship-content">
+{% load tags %}
+
+Rate :
+<select id="rate" >
+ <option  >Select Flat Rate</option> 
+ <option value="3.5" >3.5 </option>  
+ <option value="5.5">5.5 </option> 
+</select> 
+Octroi id :<input id="oct_id" value=" {{oct_id}}" readonly>
+<form>
+   <table class="table">
+     <thead>
+        <tr>
+<th>Sr. No</th>
+           <th>AWB No</th>
+           <th>Declared Value</th>
+<th>Applicable octroi %ge</th>
+<!--  <th>Ecomm Oct %ge</th> -->
+	   <th>Applicable Octroi</th>
+	<th>Ecomm Octroi Charge</th> 
+	<th>Status</th>
+	<th>Skip</th>
+        </tr>
+     </thead>
+     <tbody>
+
+     {%for ship in shipments%}
+        <tr><td>
+{{ forloop.counter }}  </td>
+<td>{{ship.0.shipment.airwaybill_number}} </td>
+	   <td>{{ship.0.shipment.declared_value}}</td>
+ <td>{{ship.1}} </td>
+       <!--    <td>{{ship.2}}</td>  -->
+	   <td>  {%if ship.3 == -1%}Please update Octroi rates !!!{%else%}<input type="text" id="oct_rate" name="oct_rate-{{ship.0.id}}"  value="{{ship.3 }}" style="width:100px"/>{%endif%}</td>
+	<td> {% if ship.4 == -1%}Please update Octroi charges !!!{%else%} <input type="text" id="oct_charge" name="oct_charge-{{ship.0.id}}" value="{{ship.4 }}" style="width:100px"/>{%endif%}</td>   
+       <td>{% if ship.5 ==  0 %}Pending{% else %} Updated {% endif %} </td> 
+<td><label><input type="checkbox" name="oct_update" {% if ship.5 == 1 %} checked="checked" {% elif ship.4 == -1 %} checked ="checked" {% endif %}  value="{{ship.0.id}}"> </label></td>
+       </tr>
+     {% endfor%}
+     </tbody>
+   </table>
+</form>
+</div><!-- ship-content -->
+<!--<button type="button" class="btn btn-primary submit" data-rshipid="{{ rshipment.id}}">Save </button>-->
+<button id = "savedata">Save</button>
+<script>
+$("#rate").change(function(){
+var e = document.getElementById("rate");
+var strUser = e.options[e.selectedIndex].text;
+console.log(strUser)
+var oct = document.getElementById('oct_id').value;
+console.log(oct)
+var datastring = "flat_rate="+strUser+"&oct_id="+oct;
+$.ajax({
+                        url: "/hub/flat_update_octroi/",
+                        type: "POST",
+                        data: datastring,
+                         success: function(response) {    }, 
+                    }); 
+  return false;
+
+});
+$("#savedata").click(function(e){
+
+var str = $( "form" ).serialize();
+    $( "#results" ).text( str );
+//console.log( str); 
+ $.ajax({
+                        url: "/hub/update_octroi/",
+                        type: "POST",
+                        data: str,
+                        success: function(response) {
+                            alert(response);
+                          },
+                    }); 
+  return false;
+});
+</script>
+
+{% endblock %}
+
+<div id="popupContact">
+
+        <a id="popupContactClose">x</a>
+
+  </div>
+</div>
+<script src="/static/assets/js/jquery.jeditable.mini.js"></script>
+<script type="text/javascript">
+
+$(".submit").click(function(e){
+        //e.preventDefault();
+var rshipid=$(this).attr('data-rshipid');
+var remark=$("#reverseRemark-"+rshipid).val();
+console.log('id..',rshipid);
+console.log('remark..',remark);
+var datastring = "remark="+remark+"&id="+rshipid;
+$.ajax({
+                                type:"POST",
+                                url: "/pickup/update_reverse_shipment/",
+                                data: datastring,
+                                success: function(resp){
+console.log(resp);
+$("input#awb_rd").val("");
+$("input#awb_rd").focus();
+$("#reverseRemarkCancel-"+rshipid).click();
+ //alert(resp);
+ 
+ }
+});
+

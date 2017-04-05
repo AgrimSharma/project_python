@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+{% endblock %}
+
+          		{% block content %}
+<div id="backgroundPopup"></div>  
+    <script type="text/javascript">
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+    </script>
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid" style="min-height: 50px;">
+    <div class="span12">
+        <div class="pagination pull-left">
+        <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+        </ul>
+        </div>
+       
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Customer:{{customer.name}}</span>
+          </div>
+          <div class="cust-content">
+            <ul class="nav nav-tabs" id="myTab">
+              <li class="active"><a data-toggle="tab" href="#productview" >Customer</a></li>
+              <li><a data-toggle="tab" href="#domestic">Sub Customer</a></li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div id="productview" class="tab-pane fade active in">
+              	
+                <table class="table">
+                	<thead>
+                    <tr>
+                    <th>Bill date</th>
+                    <th>Date from</th>
+                    <th>Billing</th>
+                    <th>Payment</th>
+                    </tr>
+                     </thead>
+                     <tbody>
+{%for a in billing%}
+                            	<tr>
+                            <td>{{a.billing_date|date:"SHORT_DATE_FORMAT"}}</td>
+                            <td>{{a.billing_date_from|date:"SHORT_DATE_FORMAT"}}</td>
+{%ifequal a.generation_status 0%}
+                            <td><span class="label label-important">Pending</span></td>
+{% else %}
+                            <td><span class="label label-success">Billed</span></td>
+{%endifequal%}
+{%ifequal a.payment_status 0%}
+                            <td><span class="label label-important">Pending</span></td>
+{% else %}
+                            <td><span class="label label-success">Paid</span></td>
+{%endifequal%}
+                            <td><a href="#" title="View bill Details" class="btn2 btn-info" rel="tooltip" onClick="MM_openBrWindow('/billing/manifest/{{customer.id}}/{{a.id}}/1/','Billing','scrollbars=yes,width=1024,height=800')">View Summary</a></td>
+			    <td><a href="#" title="View bill Details" class="btn2 btn-info" rel="tooltip" onClick="MM_openBrWindow('/billing/manifest/{{customer.id}}/{{a.id}}/2/','Billing','scrollbars=yes,width=1024,height=800')">Airwaybill Details</a></td>
+                       {%ifequal a.generation_status 0%}
+                            <td><a id="generate_bill" href="#" title="Generate bill Details" class="btn2 btn-info" rel="tooltip" >Generate</a></td>
+                       {%endifequal%}
+                            
+                           
+                        </tr>
+{%endfor%}
+
+                     </tbody>
+                </table>
+                
+              </div>
+              <div id="domestic" class="tab-pane fade">
+              	
+                <table class="table">
+                	<thead>
+                    <tr>
+                    <th>Customer Name </th>
+                    <th>Bill date </th>
+                    <th>Date From</th>
+                    <th>Current</th>
+                    <th>Previous</th>
+                    </tr>
+                     </thead>
+                     <tbody>
+{% for shipper, billing in shipper_billing.items%}
+                     	<tr>
+                        	<td>{{shipper.name}}</td>
+                        	<td>{{billing.billing_date|date:"SHORT_DATE_FORMAT"}}</td>
+                            <td>{{billing.billing_date_from|date:"SHORT_DATE_FORMAT"}}</td>
+                            <td><a href="#" title="View bill Details" class="btn2 btn-info" rel="tooltip" onClick="MM_openBrWindow('/billing/airwaybill/{{billing.id}}/','Billing','scrollbars=yes,width=1024,height=800')">View</a></td>
+                            <td><a href="#" title="View bill Details" shipper_id="{{shipper.id}}" class="btn2 btn-info subcust_billing" rel="tooltip">View</a></td>
+                        </tr>
+{%endfor%}
+         
+                     </tbody>
+                </table>
+              
+              </div>
+              
+                
+            </div>
+            
+          </div><!-- /cust-content -->
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+ 
+<div id="popupContact">  
+        <a id="popupContactClose">x</a>  
+  </div>  
+
+<div id="popupform" style="display: none">  
+    <form method="post"action="/billing/generate_bill/{{customer.id}}/">
+{% csrf_token %}
+    Balance: <input name="balance"> <br>
+    Received: <input name="payment"> <br>
+    Adjustments DR: <input name="adjustments"> <br>
+    Adjustments CR: <input name="adjustment_cr"> <br>
+    Date: <input name="date" id="popdate">
+    <input name="submit" type="submit" value="Generate Bill">
+
+    </form>
+  </div>  
+
+
+{% endblock%}
+          	

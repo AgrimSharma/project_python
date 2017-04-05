@@ -1,0 +1,52 @@
+{% extends "dashboard_base.html" %}
+
+{% load endless %}
+{% block dash-title %}Pickup Dashbaord{% endblock %}
+
+{% block dash-content %}
+<div class="row">
+
+  <div class="col-md-4 right-margin">
+    <div class="pull-left w70"><h4> Pickup Registration</h4></div>
+    <div class="pull-left w30"><input type="button" id="id_pickup_enroll_upload" class="btn btn-primary" value="Multiple Reg." data-target="#ship1"data-rev-action="modal"></div>
+    <hr/>
+    <form class="form-horizontal" method='POST' action="/services/pickup_dashboard/">
+      {% csrf_token %}
+      {% for field in enrol_form %}
+      <div class="form-group">
+        <label for="" class="col-sm-3 control-label">{{ field.label }}</label>
+        <div class="col-sm-9">
+          <!-- <input type="email" class="form-control" id="inputEmail3" placeholder="Email"> -->
+          {{ field }}
+        </div>
+      </div>
+      {% endfor %}
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+      </div>
+</form>
+  </div> <!-- cod-md-4 pickup registation form main div-->
+
+  <div class="col-md-8">
+    <h4> Pickup List </h4>
+    <hr/>
+    {% paginate pickup_list %}
+    {% include "integration_services/pickup_list.html" %}
+    {% show_pages %}
+    </div> <!-- col-md-8 pickup list main div-->
+
+</div> <!-- end of row -->
+
+{% include "modal_base.html" with modal_id="id_pickup_enroll" modal_header="Multiple Pickup Registration" submit_id="id_pickup_enroll_submit" %}
+
+{% endblock %}
+
+{% block extra-js %}
+<script type="text/javascript">
+  ECOMM.pickup_dashboard.init();
+  ECOMM.pickup_dashboard.status_update();
+</script>
+
+{% endblock %}

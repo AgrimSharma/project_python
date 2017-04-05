@@ -1,0 +1,212 @@
+          		{% extends "base.html" %}
+          		{% block content %}
+           		{% load sorting_tags %}
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12">
+  {% include "customer/nav.html" %} 
+  </div>
+  </div>
+{%if save_form%}
+<h2>Details Updated Successfully!</h1>
+{%endif%}
+   <form method="post"> 
+{% csrf_token %}
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+                          {% include "customer/sub_nav.html" %} 
+                      <div class="tab-content" id="myTabContent">
+              <div id="productview" class="tab-pane fade active in">
+              {{form.name}}
+<table   class="table">
+                <tr>
+                <td>Customer Name </td><td><span class="reg-error">{{customer_form.name}}<p class="formerror">{% if customer_form.errors.name %} {{customer_form.errors.name}}{%endif%}</p></span></td>
+                </tr>
+
+<tr><td>Contract Period</td><td>
+<table class="sub_table">
+			<tr>
+			<td>From</td>
+			<td><span class="reg-error">{{customer_form.contract_from}}<p class="formerror">{% if customer_form.errors.contract_from %} {{customer_form.errors.contract_from}}{%endif%}</p></span></td>
+			<td>To</td>
+			<td><span class="reg-error">{{customer_form.contract_to}}<p class="formerror">{% if customer_form.errors.contract_to %} {{customer_form.errors.contract_to}}{%endif%}</p></span></td>
+			</tr>
+</table>
+</td>
+</tr>
+<tr><td>Contact Details</td><td>
+<table class="sub_table">
+
+                <tr>
+                <td>Address 1 </td><td><span class="reg-error">{{address_form.address1}}<p class="formerror">{% if address_form.errors.address1 %} {{address_form.errors.address1}}{%endif%}</p></span></td>
+                <td>Address 2 </td><td><span class="reg-error">{{address_form.address2}}<p class="formerror">{% if address_form.errors.address2 %} {{address_form.errors.address2}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Address 3 </td><td><span class="reg-error">{{address_form.address3}}<p class="formerror">{% if address_form.errors.address3 %} {{address_form.errors.address3}}{%endif%}</p></span></td>
+                <td>Address 4 </td><td><span class="reg-error">{{address_form.address4}}<p class="formerror">{% if address_form.errors.address4 %} {{address_form.errors.address4}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Pincode</td><td><span class="reg-error">{{address_form.pincode}}<p class="formerror">{% if address_form.errors.pincode %} {{address_form.errors.pincode}}{%endif%}</p></span></td>
+                <td>City</td><td><span class="reg-error">{{address_form.city}}<p class="formerror">{% if address_form.errors.city %} {{address_form.errors.city}}{%endif%}</p></span></td>
+                </tr>
+
+
+                <tr>
+                <td>State</td><td><span class="reg-error">{{address_form.state}}<p class="formerror">{% if address_form.errors.state %} {{address_form.errors.state}}{%endif%}</p></span></td>
+                <td>Phone</td><td><span class="reg-error">{{address_form.phone}}<p class="formerror">{% if address_form.errors.phone %} {{address_form.errors.phone}}{%endif%}</p></span></td>
+                </tr>
+</table>
+</td></tr>
+
+                <tr>
+                <td>Contact Person </td><td>
+                    <table class="sub_table">
+                        <tr>
+                        <td>Name:</td>
+			<td>
+			   <span class="reg-error">{{contact_form.name}}
+		           <p class="formerror">{% if contact_form.errors.name %} {{contact_form.errors.name}}{%endif%}</p></span>
+			</td>
+                        <td>Designation:</td>
+			<td><span class="reg-error">{{contact_form.designation}}<p class="formerror">{% if contact_form.errors.designation %} {{contact_form.errors.designation}}{%endif%}</p></span>
+			</td>
+                        </tr>
+
+                        <tr>
+                        <td>Email:</td><td><span class="reg-error">{{contact_form.email}}<p class="formerror">{% if contact_form.errors.email %} {{contact_form.errors.email}}{%endif%}</p></span></td>
+                        <td>Phone:</td><td><span class="reg-error">{{contact_form.phone}}<p class="formerror">{% if contact_form.errors.phone %} {{contact_form.errors.phone}}{%endif%}</p></span></td>
+                        </tr>
+                        <tr>
+                     {%comment%}   <td>Date of Birth:</td><td><span class="reg-error">{{contact_form.date_of_birth}}<p class="formerror">{% if contact_form.errors.date_of_birth %} {{contact_form.errors.date_of_birth}}{%endif%}</p></span></td>
+                  {%endcomment%}      </tr>
+                    </table>
+                </td></tr>
+
+
+                <tr>
+                <td>Decision Maker</td><td>
+                    <table class="sub_table">
+                        <tr>
+                        <td>Name:</td><td><span class="reg-error">{{decision_form.name}}<p class="formerror">{% if decision_form.errors.name %} {{decision_form.errors.name}}{%endif%}</p></span></td>
+                        <td>Designation:</td><td><span class="reg-error">{{decision_form.designation}}<p class="formerror">{% if decision_form.errors.designation %} {{decision_form.errors.designation}}{%endif%}</p></span></td>
+                        </tr>
+
+                        <tr>
+                        <td>Email:</td><td><span class="reg-error">{{decision_form.email}}<p class="formerror">{% if decision_form.errors.email %} {{decision_form.errors.email}}{%endif%}</p></span></td>
+                        <td>Phone:</td><td><span class="reg-error">{{decision_form.phone}}<p class="formerror">{% if decision_form.errors.phone %} {{decision_form.errors.phone}}{%endif%}</p></span></td>
+                        </tr>
+                        <tr>
+                     {%comment%}   <td>Date of Birth:</td><td><span class="reg-error">{{decision_form.date_of_birth}}<p class="formerror">{% if decision_form.errors.date_of_birth %} {{decision_form.errors.date_of_birth}}{%endif%}</p></span></td>
+                     {%endcomment%}   </tr>
+                    </table>
+                </td></tr>
+
+                <tr>
+                <td>Official Email</td><td><span class="reg-error">{{customer_form.email}}<p class="formerror">{% if customer_form.errors.email %} {{customer_form.errors.email}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Website</td><td><span class="reg-error">{{customer_form.website}}<p class="formerror">{% if customer_form.errors.website %} {{customer_form.errors.website}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Legal Entity</td><td><span class="reg-error">{{customer_form.legality}}<p class="formerror">{% if customer_form.errors.legality %} {{customer_form.errors.legality}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>PAN No.</td><td><span class="reg-error">{{customer_form.pan_number}}<p class="formerror">{% if customer_form.errors.pan_number %} {{customer_form.errors.pan_number}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>TAN No.</td><td><span class="reg-error">{{customer_form.tan_number}}<p class="formerror">{% if customer_form.errors.tan_number %} {{customer_form.errors.tan_number}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Credit Limit</td><td><span class="reg-error">{{customer_form.credit_limit}}<p class="formerror">{% if customer_form.errors.credit_limit %} {{customer_form.errors.credit_limit}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Credit Period</td><td><span class="reg-error">{{customer_form.credit_period}}<p class="formerror">{% if customer_form.errors.credit_period %} {{customer_form.errors.credit_period}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Bill Delivery</td><td>
+                    <table class="sub_table">
+                        <tr>
+                        <td>By Hand:</td>
+                        <td><span class="reg-error">{{customer_form.bill_delivery_hand}}<p class="formerror">{% if customer_form.errors.bill_delivery_hand %} {{customer_form.errors.bill_delivery_hand}}{%endif%}</p></span></td>
+                        <td>By Email:</td>
+                        <td><span class="reg-error">{{customer_form.bill_delivery_email}}<p class="formerror">{% if customer_form.errors.bill_delivery_email %} {{customer_form.errors.bill_delivery_email}}{%endif%}</p></span></td>
+                       </tr>
+                        <tr>
+                        <td>Billing Schedule:</td>
+                        <td><span class="reg-error">{{customer_form.billing_schedule}}<p class="formerror">{% if customer_form.errors.billing_schedule %} {{customer_form.errors.billing_schedule}}{%endif%} days</p></span></td>
+                        <td>Billing Day:</td>
+                        <td><span class="reg-error">{{customer_form.day_of_billing}}<p class="formerror">{% if customer_form.errors.day_of_billing %} {{customer_form.errors.day_of_billing}}{%endif%}</p></span></td>
+                        <td>Remittance Cycle:</td>
+                        <td><span class="reg-error">{{customer_form.remittance_cycle}}<p class="formerror">{% if customer_form.errors.remittance_cycle %} {{customer_form.errors.remittance_cycle}}{%endif%}</p></span></td>
+                       </tr>
+                    </table>
+                </td>
+                </tr>
+
+                <tr>
+                <td>Sales Lead</td><td><span class="reg-error">{{customer_form.saleslead}}<p class="formerror">{% if customer_form.errors.saleslead %} {{customer_form.errors.saleslead}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Signed By</td><td><span class="reg-error">{{customer_form.signed}}<p class="formerror">{% if customer_form.errors.signed %} {{customer_form.errors.signed}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Approved by</td><td><span class="reg-error">{{customer_form.approved}}<p class="formerror">{% if customer_form.errors.approved %} {{customer_form.errors.approved}}{%endif%}</p></span></td>
+                </tr>
+
+                <tr>
+                <td>Authorized by</td><td><span class="reg-error">{{customer_form.authorized}}<p class="formerror">{% if customer_form.errors.authorized %} {{customer_form.errors.authorized}}{%endif%}</p></span></td>
+                </tr>
+                <tr>
+                <td>Referred by</td><td><span class="reg-error">{{customer_form.referred_by}}<p class="formerror">{% if customer_form.errors.referred_by %} {{customer_form.errors.referred_by}}{%endif%}</p></span></td>
+                </tr>
+                <tr>
+                <td>Zone label</td><td><span class="reg-error">{{customer_form.zone_label}}<p class="formerror">{% if customer_form.errors.zone_label %} {{customer_form.errors.zone_label}}{%endif%}</p></span></td>
+                </tr>
+                <tr>
+                <td style="border:0px;">
+                  <a id="add_btn" href="#" class="btn btn-redbutton">{%if edit_form%}SAVE{%else%}ADD{%endif%}</a>
+                    <a href="/customer/" class="btn btn-redbutton">CANCEL</a>
+                </td>
+                </tr>
+
+
+</table>
+
+</div></div>
+	        			<!--  {{form}} -->
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->    
+   </form> 
+  </div><!-- /container-fluid -->
+             
+</div>
+<script>
+$("#id_contract_from").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+$("#id_contract_to").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+$("#id_contact-date_of_birth").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+$("#id_decision-date_of_birth").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+$("#add_btn").click(function(){ 
+    $("form").submit();
+    return false;
+});
+
+</script> 
+		          		{% endblock %}

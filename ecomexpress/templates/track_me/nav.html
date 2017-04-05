@@ -1,0 +1,15 @@
+<div class="add-details pull-right">
+ <a href="/track_me/?awb={{request.GET.awb}}&order=" title="Generate New Airway Bill"><i class="icon-signin"> </i>Status &amp; Scan </a> &nbsp; &nbsp;
+         <a href="/track_me/shipper_consignee/?awb={{request.GET.awb}}&order=" title="Generate New Airway Bill"><i class="icon-briefcase"> </i>Shipper-Consignee </a> &nbsp; &nbsp;
+         <a href="/track_me/pickup_package/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Pickup Package </a> &nbsp; &nbsp;
+         <a href="/track_me/comments/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Comments </a> &nbsp; &nbsp;
+         <a href="/track_me/multiple_airwaybill/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Multiple Air waybill </a> &nbsp; &nbsp;
+         <a href="/track_me/generic_query/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Multiple Bags </a>
+
+
+          <a href="/track_me/complaints/?awb={{request.GET.awb}}&order=" title="Generate New Airway Bill"><i class="icon-truck"> </i>Complaints</a>  &nbsp; &nbsp;
+{% if request.user.employeemaster.department_id == 3%}
+<a href="/delivery/monitoring_dashboard/" title="Dashboard"><i class="icon-plane"> </i>Monitoring Dashboard</a> &nbsp; &nbsp;
+{% endif %}
+
+</div>

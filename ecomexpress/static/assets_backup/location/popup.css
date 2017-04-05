@@ -1,0 +1,198 @@
+.controls2 select { width: 160px; }
+
+br.both{
+    clear:both;
+}
+#backgroundPopup{
+    display:none;
+    position:fixed;
+    _position:absolute; /* hack for internet explorer 6*/
+    height:100%;
+    width:100%;
+    top:0;
+    left:0;
+    background:#000000;
+    border:1px solid #cecece;
+    z-index:1000;
+}
+#AddAuthor{
+    display:none;
+    position:fixed;
+    _position:fixed; /* hack for internet explorer 6*/
+    height:200px;
+    width:100%;
+    z-index:1002;
+    padding:12px;
+    font-size:13px;
+    top:200px;
+    margin: auto;
+    text-align: center;
+}
+
+#AddTopic{
+    display:none;
+    position:fixed;
+    _position:fixed; /* hack for internet explorer 6*/
+    height:200px;
+    width:100%;
+    z-index:1002;
+    padding:12px;
+    font-size:13px;
+    top:200px;
+    margin: auto;
+    text-align: center;
+}
+
+
+#AddBook{
+    display:none;
+    position:fixed;
+    _position:fixed; /* hack for internet explorer 6*/
+    height:200px;
+    width:100%;
+    z-index:1002;
+    padding:12px;
+    font-size:13px;
+    top:200px;
+    margin: auto;
+    text-align: center;
+}
+
+
+
+
+#popupContact{
+  	display: none;
+	position: fixed;
+	_position: fixed;
+	height: auto;
+	width: 590px;
+	background: white;
+	border: 0px solid #CECECE;
+	z-index: 1002;
+	padding-top: 21px;
+	font-size: 13px;
+	top: 45px;
+	left: 100px;
+	border-radius: 5px;
+}
+
+#popupContact h1{
+    text-align:left;
+    color:#6FA5FD;
+    font-size:22px;
+    font-weight:700;
+    border-bottom:1px dotted #D3D3D3;
+    padding-bottom:2px;
+    margin-bottom:20px;
+}
+#popupContactClose{
+    font-size:14px;
+    line-height:14px;
+    right:581px;
+    top:15px;
+  /*  position:absolute; */
+    color:#6fa5fd;
+    font-weight:700;
+    display:block;
+}
+
+
+.popupClose{
+    font-size:14px;
+    line-height:14px;
+    top:15px;
+  /*  position:absolute; */
+    color:#6fa5fd;
+    font-weight:700;
+    display:block;
+}
+
+.popupHead {
+	padding: 0px 25px;
+	border-bottom: 1px solid #ccc;
+}
+
+.popupHead a { 
+		float: right;
+		margin-top: -30px;
+}
+
+.popupBody { 
+		overflow-y:auto;
+		height:200px;
+		padding:20px;
+}
+
+.popupBody .cust-group {
+    display: inline-block;
+    width: 128px;
+}
+
+.popupBody #prependedInput { width:61px;}
+
+.popupBody .remove-group {
+    width: auto;
+}
+
+.popupBody hr { margin: 2px 0 10px;}
+
+.popupFooter { 
+	background-color: #F5F5F5;
+    border-radius: 0 0 6px 6px;
+    border-top: 1px solid #DDDDDD;
+    box-shadow: 0 1px 0 #FFFFFF inset;
+    margin-bottom: 0;
+    padding: 14px 15px 15px;
+    height:27px;
+}
+form {
+	margin:0px!important;
+}
+
+.closePopup {
+	
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 18px;
+	color: black;
+	text-shadow: 0 1px 0 white;
+	opacity: 0.2;
+	filter: alpha(opacity=20);
+}
+
+
+.cust-content {
+max-height: 215px;
+overflow-y: auto; }
+
+
+input::-webkit-input-placeholder {
+    color:    #999;
+}
+input:-moz-placeholder {
+    color:    #999;
+}
+input:-ms-input-placeholder {
+    color:    #999;
+}
+
+.left-field { float:left;}
+.right-field{float:right;}
+
+.left-field select { width:160px;}
+.right-field select { width:160px;}
+
+.popupformclass {
+	
+padding:15px;	
+}
+
+
+.errorfield{
+	font-size:10px;
+	color:red;
+	
+	
+}

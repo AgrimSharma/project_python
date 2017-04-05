@@ -1,0 +1,423 @@
+<!doctype html>
+  <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+  <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+        <head>
+                        <title>Customer</title>
+                        
+                    <meta charset="utf-8">
+                    <title>Ecom Express</title>    
+                        
+                    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">        
+                    <meta name="description" content="">
+                    <meta name="author" content="">
+                    
+                    <meta name="apple-mobile-web-app-capable" content="yes" />    
+                    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />    
+                
+                    
+                    <meta property="og:image" content="http://www.domain.com/images/logo.png"/>
+                    <meta property="og:title" content="-- description here --"/>
+                    <meta property="og:url" content="http://www.domain.com"/>
+                        
+                    <link rel="shortcut icon" href="{{ STATIC_URL }}assets/img/favicon.ico" />
+                    <link rel="apple-touch-icon" href="{{ STATIC_URL }}assets/img/apple-touch-icon.png">
+                    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}assets/img/apple-touch-icon-72x72.png">
+                    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}assets/img/apple-touch-icon-114x114.png">
+                         
+                    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" /> 
+                    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/font-awesome.css">           
+                    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/tracker_status.css">
+                 
+                    <script src="{{ STATIC_URL }}assets/js/libs/modernizr.custom.60077.js"></script>  
+                    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/popup.css" /> 
+                        <script src="{{ STATIC_URL }}assets/js/jquery-1.7.2.min.js"></script>
+                     
+        <link rel="stylesheet" href="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css">
+                <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+                <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.core.js"></script>
+            <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.widget.js"></script>
+                <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.datepicker.js"></script>
+                    <script src="{{ STATIC_URL }}assets/js/jquery-ui-timepicker-addon.js"></script>
+                <script src="{{ STATIC_URL }}assets/js/chart.js"></script>
+                    
+<style>
+body{background-image: -ms-linear-gradient(bottom, #FFFFFF 0%, #F6F6F6 100%);
+
+
+
+        /* Mozilla Firefox */
+ background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #F6F6F6 100%);
+
+
+
+        /* Opera */
+
+        background-image: -o-linear-gradient(bottom, #FFFFFF 0%, #F6F6F6 100%);
+
+
+
+        /* Webkit (Safari/Chrome 10) */
+
+        background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #FFFFFF), color-stop(1, #F6F6F6));
+
+
+
+        /* Webkit (Chrome 11+) */
+
+        background-image: -webkit-linear-gradient(bottom, #FFFFFF 0%, #F6F6F6 100%);
+
+
+
+        /* W3C Markup, IE10 Release Preview */
+
+        background-image: linear-gradient(to top, #FFFFFF 0%, #F6F6F6 100%);
+ }
+</style>
+        </head>
+
+                <body>
+
+
+
+                               {% load humanize %}
+                        {% block content %}
+
+<div id="wrap">
+  
+  <div class="container-fluid main" style="padding-top:10px; padding-bottom:10px" role="main" id="main">
+    <div class="row-fluid">
+      <div class="span12">
+      	<div>
+{%comment%}
+      	<form method="post" action=".">  
+      	{%csrf_token%}
+        <table>
+            <tr>
+            	<td><b>Multiple Air waybill</b></td><td> <textarea name="multipleawb" rows="5" cols="10"/>{{request.POST.multipleawb}}</textarea> </td>
+            	<td><b>Multiple Ref No.</b></td><td> <textarea name="multipleord" rows="5" cols="10"/>{{request.POST.multipleord}}</textarea></td>
+                <td><input type="hidden" name="download" value="0" id="hidden_dn_field">
+                <td><input type="submit" class="btn btn-primary"  id="submit_btn" >
+                <input type="submit" id="download_btn" class="btn btn-primary" value="Download"></td>
+            </tr>
+            
+         </table>   
+         </form>
+{%endcomment%}
+        </div>
+        
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Shipment Details </span>
+           <!-- <div class="pull-right"><form><input type="text" placeholder="Airway Bill No."/></form></div>-->
+          </div>
+  <div class="items cust-content">
+{% for ship in shipment%}
+{%with forloop.counter0 as outer_count%}
+  {% for a in ship %}
+   {% if forloop.first %}
+     {% for s in shipobj_list%}
+      {% if forloop.counter0 == outer_count %}
+<table>
+<tr>
+ <td width="900">
+  <ul style="height:60px">
+  <li>
+
+  <div class="outerContainer">
+    <div class="innerContainer done_step">
+        <div class="element step_icon"><img src='{{ STATIC_URL }}assets/img/dispatching.png' /></div>
+        <div class="element step">Ready for Connection</div>
+    </div>
+  </div>
+  <div class="arrow-right arrow-right-done"></div>
+  </li>
+  
+  <li>
+      <div class="arrow-in {%if s.0 > 2 %}done_step{%endif%}"></div>
+  <div class="outerContainer">
+  <div class="innerContainer {%if s.0 > 2 %}done_step{%endif%}">
+       <div class="element step_icon"><img src='{{ STATIC_URL }}assets/img/dispatched.png' /></div>
+       <div class="element step tmargin10">Connected</div>
+  </div>
+  </div>
+  <div class="arrow-right {%if s.0 > 2 %}arrow-right-done{%else%}arrow-right-todo{%endif%}"></div>
+  </li>
+  
+  <li>
+      <div class="arrow-in {%if s.0 > 4 %}done_step{%endif%}"></div>
+  <div class="outerContainer">
+  <div class="innerContainer {%if s.0 > 4 %}done_step{%endif%}">
+  	<div class="element step_icon"><img src='{{ STATIC_URL }}assets/img/intransit.png' /></div>
+        <div class="element step tmargin10">In Transit</div>
+  </div>
+  </div>
+  <div class="arrow-right {%if s.0 > 4 %}arrow-right-done{%else%}arrow-right-todo{%endif%}"></div>
+  </li>
+  
+  <li>
+      <div class="arrow-in {%if s.0 > 6 %}done_step{%endif%}"></div>
+  <div class="outerContainer">
+  <div class="innerContainer {%if s.0 > 6 %}done_step{%endif%}">
+  	<div class="element step_icon"><img src='{{ STATIC_URL }}assets/img/outfordev.png' /></div>
+        <div class="element step">Out for Delivery</div>
+  </div>
+  </div>
+  <div class="arrow-right {%if s.0 > 6 %}arrow-right-done{%else%}arrow-right-todo{%endif%}"></div>
+  </li>
+  <li>
+       <div class="arrow-in {%if s.0 == 8%}stop_step{%elif s.0 == 9%}done_step{%else%}{%endif%}"></div>
+   <div class="outerContainer">
+   <div class="innerContainer {%if  s.0 == 8%}stop_step{%elif s.0 == 9%}done_step{%else%}{%endif%}">
+         <div class="element step_icon"><img src='{{ STATIC_URL }}assets/img/dev.png' /></div>
+         <div class="element step tmargin10">{%if s.1 == 2 and s.0 == 8%}Shipment Redirected{%elif s.2 == 1 and s.0 == 8%}Undelivered{%else%}Delivered{%endif%}</div>
+   </div>
+   </div>
+   <div class="arrow-right {%if s.0 == 8 %}arrow-right-stop{%elif s.0 == 9%}arrow-right-done{%else%}arrow-right-todo{%endif%}"></div>
+   </li>
+
+  
+  </ul>
+  </td>
+  <td>
+  <canvas id="trackchart{{outer_count}}" width="250" height="100"></canvas>
+  </td>
+ </tr>
+</table>
+         <div style="display: none;" id="dropdownwrap{{outer_count}}" class="dropdownwrap">      
+
+          <div class="summary-content" style="margin-left:25px; margin-right:0px;margin-top:30px">
+          	<table class="table" style="font-size:15px">
+            	<thead>
+		{%if a.7 %}
+		<tr>
+			<td colspan="2">Consignee: {{a.7}}&nbsp;&nbsp;&nbsp;Address: {{a.8}} | {{a.9}}: Rs.{{a.10}}</td>
+		</tr>
+		{%endif%}
+                <tr>
+                  <th>Date,City</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              </tbody>
+      {%endif%}
+      {%endfor%}
+       {%endif%}   
+              <tr>
+                <td>{{a.4}} ,  {%if a.3 != 3 and a.3 != 8 %}{{a.2}}{%else%}{{a.2.0}}{%endif%}</td>
+                <td>
+                  {%if a.5 == 2 and forloop.last %}Shipment Redireceted
+                  {%elif  a.3 == 8%}Undelivered&nbsp;{{a.2.1}}
+                  {%elif a.3 == 0 or a.3 == 1%}Shipments details uploaded 
+                  {%elif a.3 == 2%}Shipments arrives at Pickup center {{a.2}}
+                  {%elif a.3 == 3%}Shipments connected from {{a.2.0}} Pickup Center to {{a.2.1}} HUB
+                  {%elif a.3 == 4%}Shipment at processing center {{a.2}}
+                  {%elif a.3 == 5%}Shipment at {{a.2}} HUB
+                  {%elif a.3 == 6%}Shipment at Delivery location {{a.2}}
+                  {%elif a.3 == 7%}Shipment sent for Delivery
+                  {%elif a.3 == 9%} Delivered
+                  {%endif%}
+                </td>
+             </tr>
+
+        {%if forloop.last %}
+              </tbody>
+            </table>
+            </div>
+            </div>
+           <table class="show_tracker">
+	      <td><a id="dropdown{{outer_count}}" class="trackdropdown down-arrow" href="javascript:void(0)" onclick="showdetail({{outer_count}});"></a></td>
+	      <td>Air Waybill No :{{a.0}} &nbsp;&nbsp; Order No :{{a.1}}</td>   
+           </table>
+        {%endif%}
+   {%endfor%}
+   {%endwith%}
+{%endfor%}
+</div>
+
+</div>
+</div>
+</div><!-- /row-fluid -->
+<input type='hidden' value='{{shipobj}}' id='shipobj' />
+</div><!-- /container-fluid -->
+</div>
+
+</div>
+
+
+
+
+<!-- modal -->
+<div class="modal hide modal-add-revlet" id="add-revlet">
+<div class="modal-header">
+<a class="close" data-dismiss="modal">×</a>
+<h3>Airway Bill Number</h3>
+</div>
+<div class="modal-body">
+<form class="form-horizontal">
+<div class="control-group">
+<label class="control-label" for="inputEmail">Customer</label>
+<div class="controls">
+<select>
+<option>Flip Kart</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+</select>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">Type</label>
+<div class="controls">
+<select>
+<option>Type1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+</select>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label" >Quantity</label>
+<div class="controls">
+<input type="text" placeholder="Quantity">
+</div>
+</div>
+<div class="control-group">
+<div class="controls">
+<button type="submit" class="btn btn-success">Export</button>
+</div>
+</div>
+</form>
+
+</div>
+</div><!--modal end-->
+
+<script>
+$("#download_btn").click(function(){
+		$("#hidden_dn_field").val(1);
+		});
+
+$("#submit_btn").click(function(){
+		$("#hidden_dn_field").val("");
+		});
+function showdetail(ele_id){
+
+	$('#dropdownwrap'+ele_id).slideToggle();
+	$("#dropdown"+ele_id).toggleClass("up-arrow down-arrow");
+}    
+tvalue = [5,5,10,20,20,20,20]
+tcolor = ['#ccffcc','#99ff99','#4cff4c','#00ff00','#00cc00','#006600','#001900']
+dcolor = '#ebebeb'
+tlabel = ['Shipment Assigned:5%','Shipment Picked Up:10%','Dispatched:20%','Shipment in-transit:40%','Shipment in-transit:60%','Shipment out for delivery:80%','Delivered:100%']
+
+var data = [
+{
+value: tvalue[0],
+       color:tcolor[0],
+       highlight:tcolor[0],
+       label: tlabel[0]
+},
+{
+value: tvalue[1],
+       color: dcolor,
+       highlight:dcolor,
+       label: tlabel[1]
+},
+{
+value: tvalue[2],
+       color: dcolor,
+       highlight:dcolor,
+       label: tlabel[2]
+},
+{
+value:tvalue[3],
+       color: dcolor,
+       highlight:dcolor,
+       label: tlabel[3]
+},
+{
+value: tvalue[4],
+       color: dcolor,
+       highlight:dcolor,
+       label: tlabel[4]
+},
+{
+value: tvalue[5],
+       color: dcolor,
+       highlight:dcolor,
+       label: tlabel[5]
+},
+{
+value: tvalue[6],
+       color: dcolor,
+       highlight:dcolor,
+       label: tlabel[6]
+}
+]
+var scolor = '#ff0000';
+var shipobj = $('#shipobj').val();
+var tobj = shipobj.split('#');
+
+for (var i = 0; i < tobj.length; i++){
+   window["ctx"+i] = document.getElementById("trackchart"+i).getContext("2d");
+   window["tdata"+i] = jQuery.extend(true, {},data);
+   sdata = tobj[i].split('@');
+   tstatus = parseInt(sdata[0]);
+   tfail = parseInt(sdata[2]);
+   treturn = parseInt(sdata[1]);
+   if((treturn == 2 || tfail == 1) && tstatus == 8){
+      
+      for (var j = 0;j < data.length;j++){
+          window["tdata"+i][j].color = tcolor[j];
+          window["tdata"+i][j].highlight = tcolor[j];
+      }
+      window["tdata"+i][6].color = scolor;
+      window["tdata"+i][6].highlight = scolor;
+      if (treturn == 2){
+         window["tdata"+i][6].label = 'Delivery Returned';
+      }else{
+         window["tdata"+i][6].label = 'Undelivered';
+      }
+   }
+   else{
+     if(tstatus > 0){
+         window["tdata"+i][1].color = tcolor[1];
+         window["tdata"+i][1].highlight = tcolor[1];
+     }
+     if(tstatus > 2){
+        window["tdata"+i][2].color = tcolor[2];
+        window["tdata"+i][2].highlight = tcolor[2];
+    }
+     if(tstatus > 4){
+        window["tdata"+i][3].color = tcolor[3];
+        window["tdata"+i][3].highlight = tcolor[3];
+     }
+     if(tstatus > 5){
+         window["tdata"+i][4].color = tcolor[4];
+         window["tdata"+i][4].highlight = tcolor[4];
+      }
+     if(tstatus > 6){
+         window["tdata"+i][5].color = tcolor[5];
+         window["tdata"+i][5].highlight = tcolor[5];
+      }
+     if(tstatus > 8){
+         window["tdata"+i][6].color = tcolor[6];
+         window["tdata"+i][6].highlight = tcolor[6]
+      }
+     if(tstatus == 8){
+         window["tdata"+i][6].color = scolor;
+         window["tdata"+i][6].highlight = scolor;
+         window["tdata"+i][6].label = 'Undelivered';
+     }
+   }
+console.log(window['tdata'+i])
+window["myDoughnutChart"+i] = new Chart(window["ctx"+i]).Doughnut(window["tdata"+i],{animateScale: true, tooltipFontSize: 12,tooltipTemplate:'<%=label%>'});
+}
+</script>
+{%endblock%}
+</body>
+</html>	

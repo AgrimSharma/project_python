@@ -1,0 +1,35 @@
+<select class="report-list">
+<option value="/billing/report/dsr/{{nowdsr}}/" title="Daily Sales Report">DSR</option>
+<option value="/billing/report/msr/20130301/" title="Dailty Sales Report"> MSR</option>
+<option value="/billing/report/previous_day_sales_report/{{yesdsr}}/"title="Daily Sales Report">Previous Day Sales Report</option>
+<option value="/billing/report/mcsr/{{nowdsr}}/"title="Daily Sales Report">CSR</option>
+<option value="/billing/report/mcsr/{{monthmcsr}}/"title="Daily Sales Report">Monthly CSR</option>
+<option value="/billing/report/daily_collection/{{prevmonthmcsr}}/"title="Daily Sales Report">Prev Month Collection</option>
+<option value="/billing/report/daily_collection/{{nowdsr}}/"title="Daily Sales Report">Collection Today</option>
+<option value="/billing/report/sales_projection/{{nowdsr}}/"title="Daily Sales Report"> Month Sales Projection</option>
+<!--<option value="/billing/report/month_date_sales_report/{{nowdsr}}/"title="Daily Sales Report"> Month to Date Sales Report</option>-->
+<option value="{% url billing-reconciliation-report-home %}" title="Reconciliation Report">Reconciliation Statement</option>
+<option value="/billing/report/daily_sales_report_zone_wise/{{nowdsr}}/"title="Daily Sales Report">Daily Sales Report(Zone Wise)</option>
+</select>
+Date:<input type="text" name="date_to" class="reports_date date_to" style="width: 88px;"/>
+<input type="button" value="Download" class=" btn btn-primary view_report">
+<!-- <form method="POST" enctype="multipart/form-data" action="{% url generate-pdf %}">
+    {% csrf_token %}
+    <div style="display:block;">
+    {{ upload_form.as_table }}
+    </div>
+    <input type="submit" id="report-submit" class="btn btn-primary" value="Upload">
+</form>
+<a class="btn btn-primary get_bill_pdf" href="/billing/get_billing_reports/">Generate Pdf</a> -->
+<script type="text/javascript">
+    $(document).ready(function (){
+        $(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: 'yy-mm-dd' });
+        $("#report-submit").click(function (e){
+            var file = $("#id_file").val();
+            if (file == ""){
+                alert("file field cant be empty");
+                return false;
+            }
+        });
+    });
+</script>

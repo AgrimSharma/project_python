@@ -1,0 +1,26 @@
+ <form name="codd"> Origin Service Centre: {{request.user.employeemaster.service_centre}} &nbsp;
+   <input type="text" class="cash_tally_date date" placeholder="Date" name="date" style="width:70px; height:30px" value="{% now 'Y-m-d' %}"/>
+   <input type="button" name="submit" class="btn btn-primary add-coddbatch" value="Add" />
+ </form>
+ <table class="table" id="codtable">
+   <thead>
+       <tr><th>CODD ID</th> <th>Date</th><th>Service Centre</th><th>Actions</th></tr>
+   </thead>
+   <tbody>
+   {% for a in codd %}
+   <tr>
+       <td>{{a.id}}</td> <td>{{a.date}}</td> <td>{{a.origin}}</td>
+       <td>
+           <input type="button" href="#" class="btn btn-primary include_shipment_codd" codd_id="{{a.id}}" value="List Shipment" id="include_shipment{{a.id}}" > &nbsp;
+           <a href="#" codd_id="{{a.id}}" codd_amount="{{a.total_amount}}" class="btn btn-primary cash_deposits" {% ifequal a.status 1%} disabled="disabled" {%endifequal%} >Cash Deposits </a>&nbsp;
+           <a href="#" class="btn btn-primary gen_deposit" codd_id="{{a.id}}"> Generate Deposit Sheet</a>&nbsp;
+           <a href="#" class="btn btn-primary" {% if a.status %} disabled="disabled" {% endif %} id="codd_close-{{a.id}}" codd_id="{{a.id}}" > Close Deposits</a>
+     </td>
+     <td id="success{{a.id}}">
+         <div class="img_loader_codd" id="img_loader_codd-{{ a.id }}"> <img src="/static/assets/img/ajax-loader.gif"></div>
+       {% ifequal a.status 1%} <span class="label label-success">Closed</span>{%endifequal%}
+     </td>
+   </tr>
+   {%endfor%}
+   </tbody>
+</table>

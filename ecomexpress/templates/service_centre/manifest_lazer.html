@@ -1,0 +1,91 @@
+
+<html>
+<head>
+<style>
+    body {
+        width: 21cm;
+        min-height: 29.7cm;
+        padding: 2cm;
+        background: white;
+        font-size:8px;
+    }
+@page {
+        size: A4;
+        margin: 0;
+    }
+
+td
+{
+border-bottom:1px dotted black;
+}
+</style>
+
+{% load humanize %}
+</head>
+
+<body onload="window.print()">
+
+
+<table width="833" height="160" border="0" cellpadding="2" font-family="sans-serif" style="font-size:8px">
+  <tr style ="font-size:8px">
+    <td height="19" colspan="3" valign="top"><p>Emp Code/ Name:{{user}}</p></td>
+    <td colspan="3" rowspan="2" align="center" valign="middle"><p style="font-size:8px">ECOM Express Pvt Ltd<br>Shipping Manifest </p></td>
+    <td colspan="3" rowspan="2" valign="top">Date/Time:{% now "SHORT_DATETIME_FORMAT" %}
+     <br>Origin Service Centre: {{request.user.employeemaster.service_centre}}   
+    </td>
+  </tr>
+  <tr>
+    <td height="20" colspan="3" valign="top">Bag No:{{bags.bag_number}}</td>
+  </tr>
+  <tr style ="font-size:8px">
+    <td width="25" height="40" align="center" valign="middle">Sr</td>
+    <td width="94" align="center" valign="middle">AWB</td>
+    <td width="90" align="center" valign="middle">Shipper Name</td>
+    <td width="103" align="center" valign="middle">Consignee Name</td>
+   <td width="124" align="center" valign="middle">Origin</td>
+    <td width="124" align="center" valign="middle">DST</td>
+<td width="124" align="center" valign="middle">Item Description</td>
+    
+    <td width="72" align="center" valign="middle">Pieces</td>
+    <td width="72" align="center" valign="middle">Weight</td>
+    <td width="73" align="center" valign="middle">Value</td>
+  </tr>
+
+  {% for a in shipment%}
+  <tr style ="font-size:8px">
+    <td valign="top">&nbsp;{{forloop.counter}}</td>
+    <td valign="top">{{a.airwaybill_number}}</td>
+    <td width="90" valign="top">&nbsp;{{a.shipper|truncatechars:20}}</td>
+    <td width="103" valign="top">&nbsp;{{a.consignee}}</td>
+    <td width="124" valign="top">&nbsp;{{a.pickup.service_centre}}</td>
+    <td width="124" valign="top">&nbsp;{{a.destination_city}}</td>
+    <td width="124" valign="top">&nbsp;{{a.item_description}}</td>
+
+    <td width="72" valign="top">&nbsp;{{a.pieces}}
+{%comment%}
+{% for order in a.orders.all%}
+{{order}}
+{%endfor%}
+{%endcomment%}
+
+    </td>
+    <td width="72" valign="top">&nbsp;{{a.actual_weight}}Kg.</td>
+    <td width="73" valign="top">&nbsp;Rs.{{a.declared_value|intcomma}}</td>
+  </tr>
+  
+{%endfor%}
+<tr style ="font-size:8px">
+  <td>Total Shipment:</td><td>{{bags.shipments.count}}</td>
+  <td>Total Pieces:</td><td>{{bags.shipments.count}}</td>
+  <td>Total Weight:</td><td>{{total_weight}} Kgs</td>
+  </tr>
+</table>
+
+{%comment%}
+<a href="javascript: w=window.open('/service-centre/generate_manifest/{{bags.id}}/'); w.print(); w.close(); " target="_blank">​​​​​​​​​​​​​​​​​print</a>
+
+<a href="javascript:window.print()" target="_blank">Print</a>
+{%endcomment%}
+
+</body>
+</html>

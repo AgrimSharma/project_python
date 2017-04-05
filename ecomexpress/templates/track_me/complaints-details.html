@@ -1,0 +1,167 @@
+<style>
+	body{background:#EFEFEF;font-family:'Arial'}
+	.title{ color:#fff; padding:10px;font-family:'Arial';margin:0pxckground: #3731b0!important;
+background: -moz-linear-gradient(top, #3731b0 0%, #d60322 100%)!important;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3731b0), color-stop(100%,#d60322))!important;
+background: -webkit-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: -o-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: -ms-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: linear-gradient(to bottom, #3731b0 0%,#d60322 100%)!important;
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3731b0', endColorstr='#d60322',GradientType=0 )!important;
+margin:0px;
+
+}
+
+
+
+
+	.table{ margin-bottom: 18px;width: 100%;background:#F7F7F7;}
+	table { border-collapse: collapse; border-spacing: 0;}
+	.table th, .table td { border-top: 1px solid #DDDDDD; line-height: 18px; padding: 8px; text-align: left; vertical-align: top;}
+	.label { background-color: #999999; border-radius: 3px 3px 3px 3px; color: #FFFFFF; font-size: 11.05px; font-weight: bold; padding: 2px 4px 3px; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);}	
+	.label-success { background-color: #468847;}
+	.label-red {
+    background-color: #FF0000 !important;
+}
+
+.time-name{
+color:#fff;
+
+background: #3731b0 ; /* Old browsers */
+
+
+		}
+.remarks{
+		background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 50%, #ffffff 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f3f3f3), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #ffffff 0%,#f3f3f3 50%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #ffffff 0%,#f3f3f3 50%,#ffffff 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #ffffff 0%,#f3f3f3 50%,#ffffff 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #ffffff 0%,#f3f3f3 50%,#ffffff 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+
+}
+.btn {
+
+padding: 4px 10px 4px;
+margin-bottom: 0;
+font-size: 13px;
+line-height: 18px;
+color: #333333;
+text-align: center;
+text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+vertical-align: middle;
+background-color: #f5f5f5;
+background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+background-image: linear-gradient(top, #ffffff, #e6e6e6);
+background-repeat: repeat-x;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+border: 1px solid #ccc;
+border-bottom-color: #bbb;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+cursor: pointer;
+filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+
+
+
+
+}
+.btn-redbutton {
+	background: #3731b0!important;
+background: -moz-linear-gradient(top, #3731b0 0%, #d60322 100%)!important;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3731b0), color-stop(100%,#d60322))!important;
+background: -webkit-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: -o-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: -ms-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: linear-gradient(to bottom, #3731b0 0%,#d60322 100%)!important;
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3731b0', endColorstr='#d60322',GradientType=0 )!important;
+color: #FFF!important;
+-moz-box-shadow: 10px 10px 5px #888;
+-webkit-box-shadow: 10px 10px 5px #888;
+box-shadow: 0px 0px 2px #888887 !important;
+font-weight: 600 !important;
+}
+
+</style>
+
+
+<script type="text/javascript">
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+ 
+}
+</script>
+<h2 class="title">Ref:{{complaint.ref_id}}</h2>
+<table width="933" height="381"class="table" border="1"bordercolor="#CCCCCC" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="146" height="23" valign="top"><strong>Airway Bill: </strong></td>
+    <td width="781">&nbsp;{{complaint.awb_number}}</td>
+  </tr>
+  <tr>
+    <td height="26" valign="top"><strong>Consignee:</strong></td>
+    <td>&nbsp; {{complaint.consignee_name}}</td>
+  </tr>
+  <tr>
+    <td height="23" valign="top"><strong>Added On:</strong></td>
+    <td>&nbsp;{{complaint.added_on}}</td>
+  </tr>
+  <tr>
+    <td height="30" valign="top"><strong>Email ID:</strong></td>
+    <td>&nbsp;{{complaint.contact_email}}</td>
+  </tr>
+  <tr>
+    <td height="233" valign="top"><strong>Complaint:</strong></td>
+    <td valign="top">&nbsp;{{complaint.complaint}}</td>
+  </tr>
+</table>
+<br />
+    <h2 class="title " style="width:300px; float:left;">Ref Id:{{complaint.ref_id}}</h2>
+    <h2 class="title" style="width:300px; float:right;">Status:{%ifequal complaint.status 0%}<span class="label label-red" style="font-size:16px; margin-left:10px">Open</span>{%else%}<span class="label label-success" style="font-size:16px; margin-left:10px">Closed</span>{%endifequal%}</h2>
+
+<table width="938" height="290" border="1" bordercolor="#CCCCCC"class="table" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="239" colspan="3" valign="top">
+      <table cellspacing="0" cellpadding="0">
+      {%for a in complaint_hist%}
+        <tr class="time-name">
+          <td width="357">Time:{{a.updated_on}}</td>
+          <td width="570">Name:{%ifequal a.status 0%} {{complaint.consignee_name}}{%else%}{{a.addressed_by.firstname}}{%endifequal%}</td>
+        </tr>
+        <tr class="remarks" >
+        <td height="75" colspan="2">&nbsp;{{a.remarks}}</td>
+        </tr>
+	  {%endfor%}
+        <tr>
+          <td height="111" colspan="2" valign="top"><label></label>
+            <label>
+            <form method="post" action="/track_me/complaint_updates/">
+            {%csrf_token%}
+            <input type="hidden" value="{{complaint.id}}" name="complaint_id">
+            <textarea name="remarks" placeholder="Enter Remarks" id="comp" cols="45" rows="5" class="complaint"></textarea>
+            <br/><br/>
+	    <input type="submit" class="btn btn-redbutton">
+	    <a href="/track_me/complaint_resolved/{{complaint.id}}/" class="btn btn-redbutton">Complaint Resolved</a>
+            </form>
+            </label></td>
+          </tr>
+        
+      </table>
+        
+    </td>
+  </tr>
+</table>
+

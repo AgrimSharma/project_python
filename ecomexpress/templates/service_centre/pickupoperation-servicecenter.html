@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+{% load humanize %}
+{% endblock %}
+
+
+	{% block content %}
+
+<div id="backgroundPopup"></div>
+
+<div id="wrap">
+
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid"> <div class="span12"> {% include "service_centre/nav.html" %} </div> </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Field Pickup Operations</span>
+            <div style="display:inline-block"><form id="shipment_count" name="shipment_pricing" method="POST">{% csrf_token %}<input name="awb" id="awb_scan" class="awb awb-barcode-scanner" style=" width:100px" type="text" size="9" placeholder="Air Waybill No."/></form></div>
+            <div style="display:inline-block; margin-left:10px;">Records In File:<input id="total_count" style=" width:23px" type="text" size="9" value="{{total}}"/></div>
+            <div style="display:inline-block"> &nbsp;&nbsp;Count:<input id="verified_count" style=" width:23px" type="text" size="9" value="{{success}}"/></div>
+            <div style="display:inline-block"> &nbsp;&nbsp;Mismatch:<input  id="mismatch_count" style=" width:23px" type="text" size="9" value="{{mismatch}}"/></div>
+{% ifequal pid 0%}
+<select name="pickup_select" class="pickup_select" style="width:135px;">
+<option value="">--Select Pickup--</option>
+{% for a in pickups%}
+
+<option value="{{a.id}}">{{a.customer_name}}-{{a.added_on|date:"SHORT_DATE_FORMAT"}}-ID:{{a.id}}</option>
+
+{%endfor %}
+</select>
+
+{%endifequal%}
+
+            <div class="pull-right"><a style="color:#FFF; text-decoration:underline" pickup_id="{{pid}}" href="#" class="upload_file"><img src="{{ STATIC_URL }}assets/img/plus.png"/> Upload </a></div>
+          </div>
+          {%ifnotequal pid 0%}
+          <br>
+            {{pikup.customer_name}}-{{pikup.added_on|date:"SHORT_DATE_FORMAT"}}-ID:{{pikup.id}}
+            <br>
+          {%endifnotequal%}
+          <div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+
+                  <th style="text-align:center">AWB No.</th>
+                  <th style="text-align:center">Pcs</th>
+                  <th style="text-align:center">Weight</th>
+                  <th style="text-align:center">Value</th>
+                  <th style="text-align:center">Pincode</th>
+                  <th style="text-align:center">Order No.</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for a in  shipment%}
+                <tr id="{{a.airwaybill_number}}" counter="{{forloop.counter}}">
+		  <td style="disply:none" id="{{a.airwaybill_number}}" class="tmp_airwaybill"> </td>
+                  <td width="176px" id="{{a.airwaybill_number}}awb">{{a.airwaybill_number}}</td>
+                  <td width="176px" id="{{a.airwaybill_number}}pieces">{{a.pieces}}</td>
+                  <td id="{{a.airwaybill_number}}actual_weight">{{a.actual_weight}} gms.</td>
+                  <td id="{{a.airwaybill_number}}collectable_value"> Rs. {{a.collectable_value|intcomma}}</td>
+                  <td id="{{a.airwaybill_number}}pincode">{{a.pincode}}</td>
+                  <td id="{{a.airwaybill_number}}order_number">{{a.order_number}}</td>
+                  <td id="{{a.airwaybill_number}}status_type">
+                  {% ifequal a.status_type 0%}
+                  <span class="label label-red">Unverified</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 1%}
+                  <span class="label label-success">Verified</span>
+                  {%endifequal%}
+
+                  {% ifequal a.status_type 2%}
+                  <span class="label label-blue">Mismatch</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 3%}
+                  <span class="label label-black">Mismatch</span>
+                  {%endifequal%}
+
+                  {% ifequal a.status_type 4%}
+                  <span class="label label-red">Mismatch</span>
+                  {%endifequal%}
+		 
+                  </td>
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+
+          </div>
+          <div style="margin-top:10px">
+
+            <a href="#" class="btn btn-redbutton" >Reconcile Pickup</a> &nbsp;
+            <a href="/service-centre/generate_exception/{{pid}}/" class="btn btn-redbutton exceptio" >Generate Exception</a>&nbsp;
+            <a href="#" class="btn btn-redbutton" >Update Exception Code</a> &nbsp;
+            <a href="#" class="btn btn-redbutton complete-pickup" pid="{{pid}}">Complete Pickup</a> &nbsp;
+            <a href="#" class="btn btn-redbutton btn-gen-rep" id="{{tmp_airwaybill}}" >Generate Report</a> &nbsp;
+          </div>
+          <div style="margin-top:10px">
+          <div style="display:inline-block; width:10px; height:10px; background:#060"></div><div style="display:inline-block"> &nbsp; Verified</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#00C"></div><div style="display:inline-block">&nbsp; Pincode</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#F00"></div><div style="display:inline-block">&nbsp; Data</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#000"></div><div style="display:inline-block"> &nbsp; Value</div>
+          <div class="pull-right" style="display:inline-block"><a href="#"> Notify</a></div>
+          </div>
+          <!-- /cust-content --
+        </div>
+      </div>
+      <div class="span4">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Outscan</span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+          	<h1>Summary Report</h1>
+            <table class="table" style="margin-top:20px"width="523" height="289" border="0" cellpadding="0">
+              <tr>
+                <td width="205" valign="top"><h4>Airway Bill No.</h4></td>
+                <td width="205" valign="top">KA123456789</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Customer</h4></td>
+                <td width="205" valign="top">Flipkart</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Date</h4></td>
+                <td width="205" valign="top">5/10/2012</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Type</h4></td>
+                <td width="205" valign="top">Lorem Ipsum </td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Status</h4></td>
+                <td width="205" valign="top"><span class="label label-success">Used</span></td>
+              </tr>
+			</table>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- span6 -->
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+
+
+   <div id="popupContact">
+
+        <a id="popupContactClose">x</a>
+
+  </div>
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Download file from Shipper portal</h3>
+    </div>
+    <div style="height:300px;" class="modal-body">
+   		<form>
+          <table>
+          	<tr><td>Emp Code:</td><td><input style=" width:40px" type="text"/></td></tr>
+        	<tr><td>Customer Code:</td><td><input style=" width:40px" type="text"/></td></tr>
+        	<tr><td>Vendor Code:</td><td><input style=" width:40px" type="text"/></td></tr>
+            <tr><td>Date</td><td><input style=" width:70px" type="text"/></td></tr>
+            <tr><td>Time</td><td><input style=" width:38px" type="text"/></td></tr>
+
+        	<tr>
+            <td><input type="button" class="btn btn-redbutton" value="Download" /></td></tr>
+            </table>
+        </form>
+    </div>
+  </div><!--modal end-->
+
+<script>
+$(function(){
+$("#awb_scan").focus();
+
+$("#shipment_count").submit(function(){
+     //alert("test");
+     return false;
+});
+$(".awb").change(function(){
+
+var awb=$("#awb_scan").val();
+var table_data = $(".table > tbody").html();
+var counter = $('.table > tbody').children('tr:last').attr('counter');
+if (!counter) {
+counter=0;
+}
+counter=parseInt(counter)+1;
+var datastring = "awb="+awb+"&comp="+0+"&counter="+counter;
+$.ajax({
+type:"POST",
+url: "/service-centre/field_pickup_operation/{{pid}}/",
+data: datastring,
+success: function(resp){
+if (resp==1) {
+alert("Already exists");
+}
+else if (resp==2) {
+alert("Incorrect Airwaybill Number");
+}
+
+else{
+$(".table > tbody").html("")
+$(".table > tbody").append(resp);
+$(".table > tbody").append(table_data);
+
+
+var d = $("#tot_count").html();
+var e = $("#suc_count").html();
+var f = $("#mis_count").html();
+$("#total_count").val("");
+$("#verified_count").val("");
+$("#mismatch_count").val("");
+
+$("#total_count").val(d);
+$("#verified_count").val(e);
+$("#mismatch_count").val(f);
+}
+}
+});
+     $("#awb_scan").val("");
+     $("#awb_scan").focus();
+     return false;
+
+});
+
+$(".exception").click(function(){
+
+$.ajax({
+type:"POST",
+url: "/service-centre/generate_exception/{{pid}}/",
+success: function(resp){
+alert(resp);
+}
+});
+
+     return false;
+});
+
+
+
+
+$(".pickup_select").change(function(){
+var pikup = $("select.pickup_select").val();
+window.location.replace("/service-centre/field_pickup_operation/"+pikup+"/");
+return false;
+
+});
+
+
+
+$(".complete-pickup").click(function(){
+var comp=1;
+var datastring = "comp="+comp;
+$.ajax({
+type:"POST",
+url: "/service-centre/field_pickup_operation/{{pid}}/",
+data: datastring,
+success: function(resp){
+location.reload()
+}
+});
+     return false;
+});
+
+});
+
+$(".btn-gen-rep").click(function(){//do something fired 5 times
+	var tmp_airwaybill =  $(".table tbody tr:first").attr("id")
+        $.ajax({
+             type:"POST",
+             url:"/service_centre/pickup_report/",
+             data: "awb="+tmp_airwaybill_number,
+             success : function(resp){
+}
+})
+});
+</script>
+{% endblock %}
+

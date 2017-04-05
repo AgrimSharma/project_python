@@ -1,0 +1,116 @@
+	        			<div class="popupHead">
+	        			<h3>Add Customer</h3>
+        					<a href="#" id="popupContactClose">x</a>  
+	        			</div>
+	        			
+	        			
+	
+	<form  action="/customer/otherdetailsrate/{{ customer_id }}/edit/" id="addcust" method="POST">
+			<div class="popupBody">
+				{% csrf_token %}
+				
+			<div class="title-1"><h6> Number of branded staff:</h6></div>
+   				          <hr>
+			
+				{% for field in numberof_branded_staff_form %}
+        		<div class="{% cycle 'left-field' 'right-field' %}">
+               			<div> {{ field.label }}:</div>
+               			{{ field }}	           			
+               			<li style="width:220px;min-height:18px;color:red; list-style:none;" > 
+               			{{ field.errors|striptags }}
+               			</li>
+               			               			</div>
+   				 {% endfor %}
+					<div class="title-1"><h6> Number of branded vehicles:</h6></div>
+   				          <hr>
+				
+				{% for field in numberof_vehicle_form %}
+        		<div class="{% cycle 'left-field' 'right-field' %}">
+               			<div> {{ field.label }}:</div>
+               			{{ field }}	           			
+               			<li style="width:220px;min-height:18px;color:red; list-style:none;" > 
+               			{{ field.errors|striptags }}
+               			</li>
+               			               			</div>
+   				 {% endfor %}
+   				          <div class="title-1"><h6> Remmitance cyle for COD:</h6></div>
+   				          <hr>
+   				 
+   				 {% for field in remmitance_cycle_COD_Form %}
+        		<div class="{% cycle 'left-field' 'right-field' %}">
+               			<div> {{ field.label }}:</div>
+               			{{ field }}	           			
+               			<li style="width:220px;min-height:18px;color:red; list-style:none;" > 
+               			{{ field.errors|striptags }}
+               			</li>
+               			               			</div>
+   				 {% endfor %}
+   				 
+   				 
+   				  
+   				         	
+		</div>
+<div class="popupFooter">
+			<div class="inactive" ></div>
+			<div class="inactive"></div>
+			<div class="inactive"></div>
+			<div class="current"></div>
+			<div class="pull-right" style="height: 30px; vertical-align: top;"> 
+			 <input class="btn" type="button" id="resetbutton" value="Reset">
+              <input class="btn btn-primary" type="button" id="submitbutton" value="Save">
+            </div>
+
+	</form>
+</div>
+
+
+ <script type="text/javascript">	
+ 
+	$('#submitbutton').click(function(){
+	
+		data = $("#addcust").serializeArray();
+		
+		$.ajax({
+			  type:"POST",
+			  url: "/customer/otherdetailsrate/{{ customer_id }}/edit/",
+			  data: data,//{email: $('#id_email').val()},
+			  success: function(data){
+				  //alert(data);
+			    	//$('#popupContact').empty();
+			    	 if(data=='1')
+			    	 { 		disablePopup();
+			    		location.reload();	
+			  	}
+			    	 else
+			        	$('#popupContact').html(data);
+			         }
+			});
+		
+		$.ajaxSetup({ 
+		     beforeSend: function(xhr, settings) {
+		         function getCookie(name) {
+		             var cookieValue = null;
+		             if (document.cookie && document.cookie != '') {
+		                 var cookies = document.cookie.split(';');
+		                 for (var i = 0; i < cookies.length; i++) {
+		                     var cookie = jQuery.trim(cookies[i]);
+		                     // Does this cookie string begin with the name we want?
+		                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+		                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                     break;
+		                 }
+		             }
+		         }
+		         return cookieValue;
+		         }
+		         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+		             // Only send the token to relative URLs i.e. locally.
+		             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+		         }
+		     } 
+		});
+		
+		
+
+	});
+ </script>

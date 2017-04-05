@@ -1,0 +1,304 @@
+      			<div class="popupHead">
+	        			<h3>Add Customer</h3>
+        					<a href="#" id="popupContactClose">x</a>  
+	        			</div>
+	        			
+
+	<form action="/customer/weightrate/{{ customer_id }}/add/" id="addcustweight" method="post">
+						<div class="popupBody">
+			
+				{% csrf_token %}		
+		<div class="cust-weight-rate">
+         <div class="title-1"><h6> Customer weight rate:</h6></div>
+         <div class="cust-add">
+          <a href="#" rel="tooltip" data-original-title="Add New Customer Details" class="addNewForm-2"><i class="icon-plus-sign" style="font-size:18px; color:#06F"></i></a>
+         </div>
+          <hr>
+                 {{ formset.management_form }}
+          {% for form in formset %}
+          
+             <div class="form-inline-{{ forloop.counter }}">
+             		{{ form.customer }}           	
+             			<div class="cust-group">
+             	         <label class="control-label2">Weight Rate</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{form.weight_rate }}
+                                </div>
+{% if form.weight_rate.errors %}<font style="color:#F00">{{ form.weight_rate.errors }}</font>{% endif %}
+                                
+        					</div>
+                         </div>
+                         <div class="cust-group">
+             	         <label class="control-label2">Increase (%)</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{form.increase }}
+                                </div>
+{% if form.increase.errors %}<font style="color:#F00">{{ form.increase.errors }}</font>{% endif %}
+                                
+        					</div>
+                         </div>
+                         <div class="cust-group">
+             	         <label class="control-label2">Minimum Weight</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">GMS</span>{{ form.weight_min }}
+                                </div>
+{% if form.weight_min.errors %}<font style="color:#F00">{{ form.weight_min.errors }}</font>{% endif %}                                
+        					</div>
+                           </div>
+                           <div class="cust-group">
+             	         <label class="control-label2">Maximum Weight</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">GMS</span>{{ form.weight_max }}
+                                </div>
+{% if form.weight_max.errors %}<font style="color:#F00">{{ form.weight_max.errors }}</font>{% endif %}                                
+                                
+        					</div>
+                           </div>
+                         <div class="remove-group">  
+                         	<a href="#" class="remove-{{ forloop.counter }}" rel="tooltip" data-original-title="Add New Customer Details"><i class="icon-remove-sign" style="font-size:18px; color:#F00"></i></a>
+                         </div>
+                         
+                </div>
+                        {% endfor %}
+                
+        </div>
+        <div class="cust-weight-rate">
+         <div class="title-1"><h6> Customer Brentrate:</h6></div>
+          <hr>
+             <div class="form-inline">
+             			<div class="cust-group">
+             	         <label class="control-label2">Min Brentrate</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{ brentrate_form.min_brent_rate }}
+                                </div>
+        					</div>
+                         </div>
+                         <div class="cust-group">
+             	         <label class="control-label2">Min Fuel Surcharge</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{ brentrate_form.min_fuel_surcharge }}
+                                </div>
+        					</div>
+                         </div>
+                         
+                         <div class="cust-group">
+             	         <label class="control-label2">Max Fuel surcharge</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{ brentrate_form.max_fuel_surcharge }}
+                                </div>
+        					</div>
+                           </div>
+
+                         <div class="cust-group">
+                           <label class="control-label2">Flat Fuel Surcharge</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{ brentrate_form.flat_fuel_surcharge }}
+                                </div>
+        					</div>
+        					</div>
+                           </div>
+                           </div>
+                           
+                           <div class="cust-weight-rate">
+                           
+         <div class="title-1"><h6> Customer Fuel Surcharge:</h6></div>
+          <hr>
+          
+             <div class="form-inline">
+             			<div class="cust-group">
+             	         <label class="control-label2">Min Ratio</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{ value_added_surcharge.min_ratio }}
+                                </div>
+        					</div>
+                         </div>
+                         <div class="cust-group">
+             	         <label class="control-label2">Min Charge</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{ value_added_surcharge.min_charge }}
+                                </div>
+        					</div>
+                         </div>
+                         
+                         <div class="cust-group">
+             	         <label class="control-label2">Max Charge</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{ value_added_surcharge.max_charge }}
+                                </div>
+        					</div>
+                           </div>
+
+                         <div class="cust-group">
+                           <label class="control-label2">Flat Fuel Surcharge</label>
+        					<div class="controls2">
+                                <div class="input-prepend">
+                                    <span class="add-on">INR</span>{{ value_added_surcharge.flat_charge }}
+                                </div>
+        					</div>
+        					</div>
+                           </div>
+                           </div>
+                	</form>
+        </div>
+    </div>
+    <div class="modal-footer">
+      		<div class="inactive" ></div>
+			<div class="current"></div>
+			<div class="inactive"></div>
+			<div class="inactive"></div>
+			<div class="pull-right" style="height: 30px; vertical-align: top;"> 
+			 <input class="btn" type="button" id="resetbutton" value="Reset">
+              <input class="btn btn-primary" type="button" id="submitbutton" value="Save">
+        </div>  
+    </div>
+   		
+   		
+ <script type="text/javascript">	
+ 
+ $(".remove-1").click(function(){
+	 if($(".form-inline-1").css("display") == "block"){
+		 $(".form-inline-1").hide(0); 
+		 }else if($(".form-inline-2").css("display") == "block"){
+			 $(".form-inline-2").hide(0);
+		 }else if($(".form-inline-3").css("display") == "block"){
+			 $(".form-inline-3").hide(0);
+		 }else if($(".form-inline-4").css("display") == "block"){
+			 $(".form-inline-4").hide(0);
+		 }else if($(".form-inline-5").css("display") == "block"){
+			 $(".form-inline-5").hide(0);
+		 }
+	 });
+
+ 
+ $(".remove-2").click(function(){
+	 if($(".form-inline-2").css("display") == "block"){
+		 $(".form-inline-3").hide(0); 
+		 $('input[name=form-2-customer]').attr('value','');
+		 
+	 } 
+	 });
+ $(".remove-3").click(function(){
+	 if($(".form-inline-3").css("display") == "block"){
+		 $(".form-inline-3").hide(0); 
+		 $('input[name=form-3-customer]').attr('value','');
+		 
+	 } 
+	 });
+ $(".remove-4").click(function(){
+	 if($(".form-inline-4").css("display") == "block"){
+		 $(".form-inline-4").hide(0); 
+		 $('input[name=form-4-customer]').attr('value','');
+	 
+	 } 
+	 });
+ $(".remove-5").click(function(){
+	 if($(".form-inline-5").css("display") == "block"){
+		 $(".form-inline-5").hide(0); 
+		 $('input[name=form-5-customer]').attr('value','');
+	 
+	 } 
+	 });
+ 
+ 
+ $(".addNewForm-2").click(function(){
+	 
+	 var num = $('#id_form-TOTAL_FORMS').val();
+	 
+	 // $(this).val(($(this).val()=="" ? "0" : $(this).val()));
+	
+	 if($(".form-inline-2").css("display") != "block"){
+		 $(".form-inline-2").show(0);
+		 
+		 $('input[name=form-1-customer]').val($('#id_form-0-customer').val());
+	 }else if($(".form-inline-3").css("display") != "block"){
+		 $(".form-inline-3").show(0);
+		 $('input[name=form-2-customer]').val($('#id_form-0-customer').val());
+
+	 }else if($(".form-inline-4").css("display") != "block"){
+		 $(".form-inline-4").show(0);
+		 $('input[name=form-3-customer]').val($('#id_form-0-customer').val());
+
+	 }else if($(".form-inline-5").css("display") != "block"){
+		 $(".form-inline-5").show(0);
+		 $('input[name=form-4-customer]').val($('#id_form-0-customer').val());
+	 }
+ 
+	
+	});
+ 
+ 
+ 
+ $(".addNewForm-3").click(function(){
+	 if($(".form-inline-2").css("display") != "block"){
+		 $(".form-inline-2").show(0);
+	 }else if($(".form-inline-3").css("display") != "block"){
+		 $(".form-inline-3").show(0);
+	 }else if($(".form-inline-4").css("display") != "block"){
+		 $(".form-inline-4").show(0);
+	 }
+	});
+	
+ 
+ $(document).ready(function() {
+
+	 var num = $('#id_form-TOTAL_FORMS').val();
+	 for(i=2;i<=num;i++){
+		 $(".form-inline-"+i).hide(0);
+	 }
+ 
+ });
+ 
+ 
+	$('#submitbutton').click(function(){
+		data = $("#addcustweight").serializeArray();
+		$.ajax({
+			  type:"POST",
+			  url: "/customer/weightrate/{{ customer_id }}/add/",
+			  data: data,//{email: $('#id_email').val()},
+			  success: function(data){
+				  //alert(data);
+			    	//$('#popupContact').empty();
+			        if(data=='1')
+			    		disablePopup();
+			    	$('#popupContact').html(data);
+			        
+			         }
+			});
+	
+		
+		$.ajaxSetup({ 
+		     beforeSend: function(xhr, settings) {
+		         function getCookie(name) {
+		             var cookieValue = null;
+		             if (document.cookie && document.cookie != '') {
+		                 var cookies = document.cookie.split(';');
+		                 for (var i = 0; i < cookies.length; i++) {
+		                     var cookie = jQuery.trim(cookies[i]);
+		                     // Does this cookie string begin with the name we want?
+		                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+		                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                     break;
+		                 }
+		             }
+		         }
+		         return cookieValue;
+		         }
+		         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+		             // Only send the token to relative URLs i.e. locally.
+		             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+		         }
+		     } 
+		});
+		
+		});

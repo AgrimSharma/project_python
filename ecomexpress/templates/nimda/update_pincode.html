@@ -1,0 +1,184 @@
+<html>
+<body>
+	<h3 style="text-align: center">Update pincode</h3>
+	<div id="error-div" ></div>
+{%ifequal pid 0%}
+<form id = "form_update_pincode" method="POST" action="/nimda/update_pincode/" enctype="multipart/form-data">
+
+{%else%}
+<form id = "form_update_pincode" method="POST" action="/nimda/update_pincode/" enctype="multipart/form-data">
+{%endifequal%}
+
+{% csrf_token %}
+<br>
+<p style="text-align: center">
+	If you would like to update individual pincodes, enter values below and click submit.
+	<table>
+		<tr><th><label for="Pincode">Pincode:</label></th><td><input class="fdat" id="id_Pincode" type="text" name="id_Pincode" maxlength="200" pattern="[0-9]{6}" style="" /></td></tr>
+		<tr><th><label for="Area">Area:</label></th><td><input class="fdat" type="text" name="Area" id="id_Area" /></td></tr>
+		<tr><th><label for="City">City:</label></th><td>
+		<select class="fdat" name='cities' id='id_cities'>
+			<option value="" selected="none">---------</option>
+			{% for city in cities %}
+				<option value={{forloop.counter}}>{{city}}</option>
+			{% endfor %}
+		</select></td>
+		</tr>
+		<tr><th><label for="DC Code">DC Code:</label></th><td>
+		<select class="fdat" name='DC Code' id='id_DC_Code'>
+			<option value="" selected="none">---------</option>
+			{% for code in codes %}
+				<option class="dc_{{code.city.id}} dc" value="{{code.id}}">{{code}}</option>
+			{% endfor %}
+		</select></td>
+		</tr>
+		<!--map to city above<tr><th><label for="DC code">DC code:</label></th><td><input id="id_squ_id" type="text" name="squ_id" maxlength="100" /></td></tr>-->
+		<!--service_centre__transitmastergroup<tr><th><label for="Service">Service:</label></th><td><input id="id_squ_id" type="text" name="squ_id" maxlength="100" /></td></tr>
+		<tr><th><label for="TAT">TAT:</label></th><td><input id="id_TAT" type="text" name="TAT" maxlength="100" pattern="[0-9]{1}" value="4"/></td></tr>
+		<tr><th><label for="TAT-Duration">Duration (days):</label></th><td><input id="id_TAT-Duration" type="text" name="TAT-Duration" maxlength="100" pattern="[0-9]{1}" value="1"/></td></tr>
+		<tr><th><label for="TAT-Time">Time:</label></th><td><input id="id_TAT-Time" type="text" name="TAT-Time" maxlength="100" pattern="date" value="date"/></td></tr>-->
+	</table>
+</p>	
+	<hr>
+	<p style="text-align: center">
+	If you have a file with multiple values, please upload below and click submit.
+	</p>
+		<div style="width: auto; height: 25px">
+			<span style="vertical-align: bottom; float: left" id="left">UPLOAD: </span><span style="vertical-align: middle; float: left" id="right"><input type="file" class="fdat" name="update_pincode" id="id_update_pincode"></span><br>
+		</div>
+  <button class="submit"  id="id_pincode_submit" name="submit" style="float: left" type="submit">Submit</button>
+
+</form>
+
+<div id="backgroundPopup"></div>
+<input type='hidden' value="{{ codes }}" id='id_cities_list'>
+<script type="text/javascript">
+$("#popupContactClose").click(function(){
+		disablePopup();
+	});
+$("#popupContactCl").click(function(){
+		disablePopup();
+	});
+
+	//Click out event!
+	$("#backgroundPopup").click(function(){
+		disablePopup();
+	});
+	//Press Escape event!
+	$(document).keydown(function(e){
+		if(e.keyCode==27 && popupStatus==1){
+			disablePopup();
+		}
+		
+	});
+
+</script>
+<!--<script type="text/javascript">
+	//document.codes = "{{ codes }}";
+	function nextPopup(codes)    {
+		console.log('fun called');
+		var optionsAsString=""
+		var city = $('#id_cities option:selected').val()
+		var citycode = codes[city]
+		for (i==0; i<citycode.length(); i++) {
+		    optionsAsString += "<option value=''>'"+citycode(i)+"'>"+citycode(i)+"'<option>";
+    	    $( 'select[id="id_DC_Code"]' ).append( optionsAsString );
+		}
+    };
+	$("#id_cities").on('change', function(){
+		console.log('city changed');
+		nextPopup();
+	});
+</script>-->
+
+<script type="text/javascript">
+	$(".dc").hide();
+	$("#id_cities").on('change', function(){
+	    $(".dc").hide();
+	    var city_id = $(this).val();
+	    $(".dc_"+city_id).show();
+	});
+</script>
+
+<script type="text/javascript">
+$('#form_update_pincode').on('', function()	{
+	$('#error-div').hide();
+	});
+</script>
+
+<script type="text/javascript">
+var frm = $('form_update_pincode')
+fdata = new FormData(frm.get(0))
+//for (i=0; i<frm.elements.length; i++) {
+//	$(fdata).append($(frm).elements[i])
+//}
+$('#form_update_pincode').on('submit', function(e)  {
+	console.log('>>>')
+	console.log(frm)
+	e.preventDefault()
+  $.ajax({
+    type : $(frm).attr('method'),
+    url : $(frm).attr('action'),
+	//contentType : false,
+	//contentType : 'mime/multi-part',
+	contentType : $(frm).attr('enctype'),
+    data : fdata,
+	processData : false,
+    success : function(resp)  {
+      //$('#form_update_pincode').html(data);
+	  console.log(":::" + resp);
+	  console.log(">>>" + resp.response, typeof(resp.success));
+	  if (resp.response != "Pincode matching query does not exist.") { //pincode's been found. Show detals on a green background.
+		$('#error-div').css("background-color", "rgb(182,237,197)");
+		$('#error-div').html(resp.response);
+	  }	else	{	//pincode not found, show error on a red background.
+		$('#error-div').css("background-color", "rgb(211, 117, 121)");
+		$('#error-div').html(resp.response);
+	  }
+	  //console.log('done');
+    },
+    error : function(resp)  {
+	  $('#error-div').css("background-color", "rgb(247, 98, 98)");
+      $('#error-div').html("error: incorrect format");
+    },
+	complete : function(data)	{
+	  //$('#error-div').hide()
+	},
+  });
+  return false;
+});
+
+// Submit post on submit
+//$('.form_update_pincode').on('submit', function(event){
+//    event.preventDefault();
+//    console.log("form submitted!")  // sanity check
+//    create_post();
+//});
+//
+//// AJAX for posting
+//function create_post() {
+//    console.log("create post is working!") // sanity check
+//    $.ajax({
+//        url : "/nimda/update_pincode/", // the endpoint
+//        type : "POST", // http method
+//        data : { the_post : $('#post-text').val() }, // data sent with the post request
+//
+//        // handle a successful response
+//        success : function(json) {
+//            $('#post-text').val(''); // remove the value from the input
+//            console.log(json); // log the returned json to the console
+//            console.log("success"); // another sanity check
+//        },
+//
+//        // handle a non-successful response
+//        error : function(xhr,errmsg,err) {
+//            $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+//                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+//            console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+//        }
+//    });
+//};
+</script>
+
+</body>
+</html>

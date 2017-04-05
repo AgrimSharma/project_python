@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid main" role="main" id="main">
+  {% block nav-bar %}
+  <div class="row-fluid"> <div class="span12"> {% include 'service_centre/nav.html' %} </div> </div>
+  {% endblock %}
+
+  <div class="cust-title">
+  <i class="icon-briefcase" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> 
+    {% block page-header %}{% endblock %}
+  </div>
+  <div class="cust-content">
+    {% block page-body %}{% endblock %}
+  </div>
+</div><!-- /container-fluid -->
+
+<!-- Modal (include bag) -->
+<div id="include_cbag_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header cust-title">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <span>Include Bag</span>
+    <input type="text" placeholder="Bag Number" class="cbag_bag_number">
+    <input type="hidden" value="" id="hidden_cbag_number">
+  </div>
+  <div class="modal-body include_cbag_modal_body">
+   <p class="alert alert-error hide include_cbag_message"></p>
+    <table class="table table-striped">
+      <thead> <tr class="info"> <th>Bag No</th> <th>Actual Weight</th> <th>Hub</th> <th>Destination</th></tr> </tr> </thead>
+      <tbody id="cbag_include_table_body"></tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+<!-- Modal -->
+
+{% endblock %}
+
+{% block extrajs %}
+    <script type="text/javascript" src="/static/assets/js/django_ajax.js"></script>
+    <script type="text/javascript" src="/static/assets/js/operations.js"></script>
+{% endblock %}

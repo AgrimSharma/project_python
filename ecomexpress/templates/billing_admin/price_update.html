@@ -1,0 +1,11 @@
+{% load crispy_forms_tags %}
+<h4 class="page-header">Billing Updations</h4>
+{% crispy form %}
+<hr/>
+
+<table class="table table-condensed table-striped table-bordered">
+  <tr class="danger"> <th>Awb</th> <th>Customer Name</th> <th>RTS Status</th><th>Freight</th><th>FSc</th><th>Vchc</th><th>RTO Charge</th><th>SDL</th><th>COD</th></tr>
+  {% for row in data %}
+  <tr>{% for item in row %}<td>{{ item }}</td>{% endfor %}</tr>
+  {% endfor %}
+</table>

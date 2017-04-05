@@ -1,0 +1,28 @@
+
+<div class="cust-content">
+{% load tags %} 
+   <table class="table">
+     <thead>
+        <tr>
+           <th>SubCustomer Code</th>
+           <th>SubCustomer Name</th>
+           <th>Address</th>
+        </tr>
+     </thead>
+     <tbobdy>
+     {% for sub_cust in sub_customers %}
+        <tr>
+           <td>{{ sub_cust.id }}</td>
+           <td>{{ sub_cust.name }} </td>
+           {% if sub_cust.address %}
+           <td>{{ sub_cust.address.city }} - {{ sub_cust.address.pincode }} </td>
+           {% else %}
+           <td> - </td>
+           {% endif %}
+       </tr>
+     {% endfor%}
+     </tbody>
+   </table>
+</div><!-- /cust-content -->
+        
+ 

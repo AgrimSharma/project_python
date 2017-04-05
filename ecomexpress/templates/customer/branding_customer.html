@@ -1,0 +1,89 @@
+          		{% extends "base.html" %}
+          		{% block content %}
+           		  	{% load sorting_tags %}
+<link rel="stylesheet" href="{{ STATIC_URL }}assets/customer/css/styles.css" />
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12">
+       {% include "customer/nav.html" %} 
+    </div>
+  </div>
+{%if save_form%}
+<h2>Details Updated Successfully!</h1>
+{%endif%}
+   <form method="post"> 
+{% csrf_token %}
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+                          {% include "customer/sub_nav.html" %} 
+                      <div class="tab-content" id="myTabContent">
+              <div id="productview" class="tab-pane fade active in">
+<table   class="table">
+                <tr>
+                <td>Branded Fleet</td><td>{%if fsf.id.value%}<input type="hidden" name="fsf-id" value="fsf.id.value">{%endif%}<input type="hidden" name="customer" value="{{c.id}}">
+        <table class="sub_table_zones">
+			<tr>
+			<th>#</th>
+			<th>Fleet Type</th>
+			<th>Rate</th>
+			<th>Number</th>
+			</tr>
+		{%for fleet in branded_fleet %}	
+			<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{fleet.branded_fleet.type}}</td>
+			<td>{{fleet.branded_fleet.rate}}</td>
+			<td>{{fleet.number_of_fleet}}</td>
+			</tr>
+		{%endfor%}
+        </table>        
+                </td>
+                </tr>
+
+                <tr>
+                <td>Branded Employee</td><td>{%if fsf.id.value%}<input type="hidden" name="fsf-id" value="fsf.id.value">{%endif%}<input type="hidden" name="customer" value="{{c.id}}">
+        <table class="sub_table_zones">
+			<tr>
+			<th>#</th>
+			<th>Employee Type</th>
+			<th>Rate</th>
+			<th>Number</th>
+			</tr>
+		{%for employee in branded_employees %}	
+			<tr>
+			<td>{{forloop.counter}}</td>
+			<td>{{employee.branded_full_time_employee.type}}</td>
+			<td>{{employee.branded_full_time_employee.rate}}</td>
+			<td>{{employee.number_of_employee}}</td>
+			</tr>
+		{%endfor%}
+        </table>        
+                </td>
+                </tr>
+
+
+</table>
+
+</div></div>
+	        			<!--  {{form}} -->
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->    
+   </form> 
+  </div><!-- /container-fluid -->
+             
+</div>
+<script>
+$("#add_btn").click(function(){ 
+    $("form").submit();
+    return false;
+});
+
+</script> 
+		          		{% endblock %}

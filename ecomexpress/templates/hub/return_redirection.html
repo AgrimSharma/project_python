@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="wrap">
+
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid"> <div class="span12"> {% include "hub/nav.html" %}</div> </div>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Return</span>
+          </div>
+          <div class="cust-content">
+           <ul class="nav nav-tabs" id="myTab">
+              {% comment %}<li class="active"><a data-toggle="tab" href="#RTO">RTO</a></li>{% endcomment %}
+              <li><a data-toggle="tab" href="#RTS">RTS</a></li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div id="RTO" class="tab-pane ">
+              	<div style=" margin-left:10px;">
+              	<input placeholder="074" disabled style="width:23px; display:inline-block"/> <h4 style=" display:inline-block">Return To Origin</h4>
+              	<form action="/delivery/return_redirection/2/" method="post" id='rtoform'>
+                   {% csrf_token %}
+                   <input type="hidden" name="redir_code" value="74">
+              	<table>
+                   <tr> <td>Emp Code*</td><td><input type="text" name="emp_code" style="width:40px;" value="{{request.user.employeemaster.employee_code}}"/></td> </tr>
+                   <tr> <td>AWB*</td><td><input type="text" name="awb" style="width:70px;"/></td> </tr>
+                   <tr> <td>Reason Code:*</td><td>   <select name="reason_code" class="reason_code" type="rto"> <option>Select Reason Code</option> {% for a in reason_code %} <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option> {% endfor %} </select></td></tr>
+                </table>
+                <table>
+                  <tr> <td><input type="submit" class="btn btn-redbutton" id="rtosubmitForm" value="Submit"/> </td> </tr>
+                </table>
+                </form>
+                </div>
+              </div>
+              <div id="RTS" class="tab-pane active">
+              	<div style=" margin-left:10px;">
+              	<input placeholder="075" disabled style="width:23px; display:inline-block"/> <h4 style=" display:inline-block">Return To Shipper</h4>
+                <form action="/delivery/return_redirection/2/" method="post" id='rtsform'>
+                   {% csrf_token %}
+                   <input type="hidden" name="redir_code" value="75">
+              	   <table>
+                     <tr> <td>Emp Code*</td><td><input type="text" name="emp_code" style="width:40px;" value="{{request.user.employeemaster.employee_code}}"/></td> </tr>
+                     <tr> <td>AWB*</td><td><input type="text" name="awb" style="width:70px;"/></td> </tr>
+                     <tr> <td>Reason Code:*</td><td> <select name="reason_code" class="reason_code" class="reason_code" type="rts"> <option>Select Reason Code</option> {% for a in reason_code %} <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option> {% endfor %} </select> </td></tr>
+                     <tr> <td>New Air waybill</td><td><input name="new_awb" type="text" style="width:73px;"/> </tr>
+                     <tr><td>Service Centre</td><td>      <select name="service_centre" id="dest"> <option value="">Select Service Centre</option> {% for a in service_centre %} <option value="{{a.id}}">{{a.center_shortcode}}</option> {% endfor %} </select> </td><!-- must Show default Value--> </tr>
+                   </table>
+                   <table>
+                    	<tr> <td><input type="submit" class="btn btn-redbutton" id="rtssubmitForm" value="Submit"/> <a href="/service-centre/rts_report/" class="btn btn-redbutton">Download Excel Report</a> </td> </tr>
+                    </table>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <!-- /cust-content -->
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+{% endblock %}
+

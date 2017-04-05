@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+{% endblock %}
+
+	{% block content %}
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="add-details pull-right">
+<a href="/service-centre/field_pickup_operation/"title="Generate New Airway Bill"><i class="icon-plane"> </i>Field Pickup Operations</a> &nbsp; &nbsp;
+        <a href="/service-centre/" title="Generate New Airway Bill"><i class="icon-signin"> </i>Inscan </a> &nbsp; &nbsp;
+        <a href="/service-centre/awb_add/" title="Generate New Airway Bill"><i class="icon-signin"> </i>AWB Data Entry </a> &nbsp; &nbsp;
+        <a href="/service-centre/bagging/" title="Generate New Airway Bill"><i class="icon-briefcase"> </i>Bagging </a> &nbsp; &nbsp;
+         <a href="/service-centre/connection/" title="Generate New Airway Bill"><i class="icon-truck"> </i>Connection </a> &nbsp; &nbsp;
+         <a href="/service-centre/run_code/" title="Generate New Airway Bill"><i class="icon-plane"> </i>Run Code </a> &nbsp; &nbsp;
+         <a href="/service-centre/airport_confirmation/" title="Generate New Airway Bill"><i class="icon-plane"> </i>Airport Confirmation </a> &nbsp; &nbsp;
+            
+<a href="/delivery/return_redirection/1/" title="Return"><i class="icon-plane"> </i>Return</a> &nbsp; &nbsp;
+<a href="/service-centre/redirection/" title="Redirection"><i class="icon-plane"> </i>Redirection</a> &nbsp; &nbsp;
+
+        </div>
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-truck" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Run Code</span>
+            </div>
+          <div class="cust-content">
+          	<div class="content-login">
+            <h3>Welcome {{request.user.employeemaster.firstname}}</h3><br/>
+            	
+                
+<form action="#">
+
+Origin Service Centre:
+{{request.user.employeemaster.service_centre}}
+<br>
+
+                <select name="coloader" class="coloader">                  
+                   <option>Select Coloader</option>
+{% for a in coloader %}
+                <option value="{{a.id}}">{{a.name}}</option>
+{% endfor %}
+                </select>
+
+<select id="dest" name="dest[]" class="dest" multiple="multiple"  title="Click to Select Destination">
+{% for a in service_centre %}
+                <option value="{{a.id}}">{{a.center_shortcode}}-{{a}}</option>
+{% endfor %}
+                </select>
+                <input type="text" name="vehicle" placeholder="Vehicle Number" class="vehicle_num" style="width:108px; height:30px"/>
+                <input type="submit" name="submit" class="btn btn-primary add-runcode" value="Create" />   
+                
+            
+            </form>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr><th>Run Code ID</th> <th>Coloader Name</th><th>DEST</th><th>Vehicle Number</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+{% for a in run_code %}
+                <tr><td>{{a.id}}</td><td>{{a.coloader}}</td>
+                <td>{%for b in a.destination.all%}
+                {{b}},{%endfor%}
+                </td>
+
+                <td>{{a.vehicle_number}}</td><td><button class="btn btn-primary include_connection" runcode_id="{{a.id}}" id="include_bags{{a.id}}" {% ifequal request.user.employeemaster.user_type 'Staff'%}{% ifequal a.connection_status 1%} disabled="disabled" {%endifequal%}{%endifequal%}> Include Connection</button> &nbsp;<button class="btn btn-primary delink_connection" runcode_id="{{a.id}}" id="delink_bags{{a.id}}" {% ifequal request.user.employeemaster.user_type 'Staff'%}{% ifequal a.connection_status 1%} disabled="disabled" {%endifequal%}{%endifequal%}>Delink Connection</button>&nbsp;<a href="#" class="btn btn-primary runcode_close" runcode_id="{{a.id}}"> Close</a></td>
+<td id="success{{a.id}}">
+{% ifequal a.runcode_status 1%}
+<span class="label label-success">Closed</span>
+</td>
+                  {%endifequal%}
+
+
+                </tr>
+{%endfor%}
+                </tbody>
+            </table>
+          </div>
+    </div><!-- /row-fluid -->
+    
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+
+
+<div id="popupContact">  
+   
+        <a id="popupContactClose">x</a>  
+
+  </div>  
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3> Air Waybill </h3>
+    </div>
+    <div style="height:68px;" class="modal-body">
+   		
+    </div>
+  </div><!--modal end-->
+
+
+
+   <script src="{{ STATIC_URL }}assets/js/jquery.asmselect.js"></script>   
+   <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/jquery.asmselect.css" /> 
+<script>
+$(function(){
+var fewSeconds = 3;
+$("select[multiple]").asmSelect({
+        animate: true,
+        addItemTarget: 'top'
+    });
+
+$(".add-runcode").click(function(){
+var btn = $(this);
+btn.prop('disabled', true);
+
+var coloader=$("select.coloader").val();
+var dest=$("select.dest").val();
+var vehicle_num=$("input.vehicle_num").val();
+var table_data = $(".table > tbody").html();
+var datastring = "dest="+dest+"&vehicle="+vehicle_num+"&coloader="+coloader;
+$.ajax({
+type:"POST",
+url: "/service-centre/run_code/",
+data: datastring,
+success: function(resp){
+$(".table > tbody").html("")
+$(".table > tbody").append(resp);
+$(".table > tbody").append(table_data);
+setTimeout(function(){
+        btn.prop('disabled', false);
+    }, fewSeconds*1000);
+
+}
+});
+return false;
+});
+
+
+
+
+
+
+$(".runcode_close").live("click",function(){
+
+var connection_id=$(this).attr("runcode_id");
+var datastring = "runcode_id="+connection_id;
+$.ajax({
+type:"POST",
+url: "/service-centre/close_runcode/",
+data: datastring,
+success: function(resp){
+$("#success"+connection_id+"").html("<span class='label label-success'>Closed</span>");
+{% ifequal request.user.employeemaster.user_type 'Staff'%}
+$("#include_bags"+connection_id+"").attr("disabled", "disabled");
+$("#delink_bags"+connection_id+"").attr("disabled", "disabled");
+{%endifequal%}
+//alert("Connection Closed");
+//location.reload() 
+}
+});
+
+     return false;
+});
+
+
+
+
+});
+
+</script>
+
+
+
+
+{% endblock %}
+
+
+
+          	

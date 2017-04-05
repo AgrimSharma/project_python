@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Please select .csv file to upload</title>
+  </head>
+  <body>
+    <div class="modal" id="csv-upload">
+      <form method="post" action="/service-centre/get_csv/" enctype="multipart/form-data">
+          {%csrf_token%}
+          <input  type="file" class="btn" value="browse" name="upload_file"/>
+          <br/>
+          <br/>
+          <input type="submit" class="btn btn-primary" value="Upload" />
+      </form>
+    </div>
+  </body>

@@ -1,0 +1,11 @@
+{% load crispy_forms_tags %}
+<h4 class="page-header">Ledger Name Update</h4>
+{% crispy form %}
+<hr/>
+
+<table class="table table-condensed table-striped table-bordered">
+  <tr class="danger"><th>Customer Code</th><th>Ledger Name</th></tr>
+  {% for row in names %}
+  <tr>{% for item in row %}<td>{{ item }}</td>{% endfor %}</tr>
+  {% endfor %}
+</table>

@@ -1,0 +1,37 @@
+<html>
+<body>
+<form method="post" action="/service-centre/auto_upload_file/" enctype="multipart/form-data">
+{% csrf_token %}
+UPLOADS: <input type="file" name="upload_file" id="id_batch_pdf"><br>
+<button name="sub" type="submit">Submit</button>
+</form>
+
+<div id="backgroundPopup"></div>
+
+<script type="text/javascript">
+$("#popupContactClose").click(function(){
+		disablePopup();
+	});
+$("#popupContactCl").click(function(){
+		disablePopup();
+	});
+
+	//Click out event!
+	$("#backgroundPopup").click(function(){
+		disablePopup();
+	});
+	//Press Escape event!
+	$(document).keydown(function(e){
+		if(e.keyCode==27 && popupStatus==1){
+			disablePopup();
+		}
+		
+	});
+
+</script>
+
+
+
+</body>
+</html>
+

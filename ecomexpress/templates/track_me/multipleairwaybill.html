@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.td_nowrap {white-space: nowrap}
+</style>
+
+<div id="wrap">
+  {% load pickup_tags %}
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="add-details pull-right">
+           {% include 'track_me/header.html' %}
+        </div>
+    </div>
+
+  </div>
+    <div class="row-fluid">
+      <div class="span12">
+      	<div>
+      	<form method="post" action="." onsubmit="return CheckLength();">  
+      	{%csrf_token%}
+        <table>
+            <tr>
+            	<td><b>Multiple Air waybill</b></td><td> <textarea name="multipleawb" id="multipleawb" rows="5" cols="10"/>{{request.POST.multipleawb}}</textarea> </td>
+            	<td><b>Multiple Ref No.</b></td><td> <textarea name="multipleord" rows="5" cols="10"/>{{request.POST.multipleord}}</textarea></td>
+                <td><input type="hidden" name="download" value="0" id="hidden_dn_field">
+                <td><input type="submit" class="btn btn-primary"  id="submit_btn" >
+                <input type="submit" id="download_btn" class="btn btn-primary" value="Download"></td>
+            </tr>
+         </table>   
+         </form>
+        </div>
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Shipment Details </span>
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+          	<table class="table">
+            	<thead>
+                <tr>
+                  <th>Air Waybill No.</th>
+                  <th>Order No.</th>
+                  <th>Weight</th>
+                  <th>Origin</th>
+                  <th>Destination</th>
+                  <th>Shipper</th>
+                  <th>Consignee</th>
+                  <th>P/U Date</th>
+                  <th>Status</th>
+                  <th>Code</th>
+                  <th>Status Detail</th>
+                  <th>Remarks</th>
+                  <th>Expected Date</th>
+                  <th>Updated  Date</th>
+		 <th>Ref Air Waybill No.</th>
+		<th>Ref Status:</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {%for a in shipments%}
+              <tr>
+                <td>
+                <a href="/track_me/?awb={{a.0}}&order=">{{a.0}}</a></td>
+                <td>{{a.1}}</td>
+                <td>{{a.2}}</td>
+                <td>{{a.6}}</td>
+                <td>{{a.7}}</td>
+                <td>{{a.8}}</td>
+                <td>{{a.9}}</td>
+                <td class="td_nowrap">{{a.10}}</td>
+                <td>{{a.11}}
+                </td>
+                <td>{{a.15}}</td>
+                <td>{{a.16}}</td>
+                <td>{%if a.14 %}{{a.14}}{%endif%} {{a.17}}</td>
+                <td class="td_nowrap">{{a.12}}</td>
+                <td class="td_nowrap">{{a.13}}</td>
+		
+		{% ifequal a.0|show_ref_rts_status 2%}
+		<td><a href="/track_me/?awb={{a.0|show_ref_awb}}&order=">{{a.0|show_ref_awb}}</a></td>
+		<td>{{a.0|show_ref_awb|show_ref_awb_status}}</td>
+		{% endifequal %}
+            </tr>
+              {%endfor%}
+              </tbody>
+            </table>
+            </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+
+<script>
+$("#download_btn").click(function(){
+    $("#hidden_dn_field").val(1);
+});
+
+$("#submit_btn").click(function(){
+    $("#hidden_dn_field").val("");
+});
+</script>
+<script type="text/javascript">
+function CheckLength() 
+{ 
+    var text = $("#multipleawb").val();   
+    var lines = text.split(/\r|\r\n|\n/);
+    var count = lines.length;
+    if (count>{{request.user.employeemaster.query_limit}})
+    {
+      alert('Too Many Airwaybill numbers! You are allowed to enter a maximum of {{request.user.employeemaster.query_limit}} airwaybill numbers.')
+      return false;
+    }
+    return true;
+} 
+</script>
+{% endblock %}

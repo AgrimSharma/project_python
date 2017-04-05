@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+   {% load humanize %}
+<style>
+#screen {position: absolute; top: 0px; left: 0px; background-color:black; display:none;  opacity: 0.4}
+#finalist-pop-up {position: absolute; display:none;background: white;  top:-155px}
+#awb-details{height: 200px;background: white;position: absolute;width: 800px;padding:10px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="backgroundPopup"></div>
+
+<div id="screen"></div>
+<div id="finalist-pop-up"></div>
+
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="add-details pull-right">
+        <a href="/service-centre/field_pickup_operation/"title="Generate New Airway Bill"><i class="icon-plane"> </i>Field Pickup Operations</a> &nbsp; &nbsp;
+        <a href="/service-centre/monitoring_dasboard/"title="Generate New Airway Bill"><i class="icon-plane"> </i>Monitoring Dashboard</a> &nbsp; &nbsp;
+        <a href="/service-centre/" title="Generate New Airway Bill"><i class="icon-signin"> </i>Inscan </a> &nbsp; &nbsp;
+        <a href="/service-centre/awb_add/" title="Generate New Airway Bill"><i class="icon-signin"> </i>AWB Data Entry </a> &nbsp; &nbsp;
+        <a href="/service-centre/bagging/" title="Generate New Airway Bill"><i class="icon-briefcase"> </i>Bagging </a> &nbsp; &nbsp;
+<<<<<<< .mine
+        <a href="/service-centre/connection/" title="Generate New Airway Bill"><i class="icon-truck"> </i>Connection </a> &nbsp; &nbsp;
+        <a href="/service-centre/run_code/" title="Generate New Airway Bill"><i class="icon-plane"> </i>Run Code </a> &nbsp; &nbsp;
+        <a href="/service-centre/airport_confirmation/" title="Generate New Airway Bill"><i class="icon-plane"> </i>Airport Confirmation </a> &nbsp; &nbsp;
+        <a href="/delivery/return_redirection/1/" title="Return"><i class="icon-plane"> </i>Return</a> &nbsp; &nbsp;
+        <a href="/service-centre/redirection/" title="Redirection"><i class="icon-plane"> </i>Redirection</a> &nbsp; &nbsp;
+=======
+         <a href="/service-centre/connection/" title="Generate New Airway Bill"><i class="icon-truck"> </i>Connection </a> &nbsp; &nbsp;
+           <a href="/service-centre/run_code/" title="Generate New Airway Bill"><i class="icon-plane"> </i>Run Code </a> &nbsp; &nbsp;
+         <a href="/service-centre/airport_confirmation/" title="Generate New Airway Bill"><i class="icon-plane"> </i>Airport Confirmation </a> &nbsp; &nbsp;
+<a href="/delivery/return_redirection/1/" title="Return"><i class="icon-plane"> </i>Return</a> &nbsp; &nbsp;
+<a href="/service-centre/redirection/" title="Redirection"><i class="icon-plane"> </i>Redirection</a> &nbsp; &nbsp;
+
+
+>>>>>>> .r1052
+        </div>
+    </div>
+  </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+            <div class="cust-title">
+
+            <i class="icon-signin" style="font-size:28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Inscan Shipment</span>
+            <div style="display:inline-block"><form id="shipment_count" name="shipment_pricing" method="POST">{% csrf_token %}<input name="awb" id="awb_scan" class="awb awb-barcode-scanner" style=" width:100px" type="text" size="9" placeholder="Air Waybill No."/></form></div>
+             <div style="display:inline-block; margin-left:10px;"><form>Records In File:<input id="total_count" style=" width:23px" type="text" size="9" value="{{total}}"/></form></div>
+            <div style="display:inline-block"> &nbsp;&nbsp;Count:<input id="verified_count" style=" width:23px" type="text" size="9" value="{{success}}"/></div>
+            <div style="display:inline-block"> &nbsp;&nbsp;Mismatch:<input id="mismatch_count" style=" width:23px" type="text" size="9" value="{{mismatch}}"/></div>
+             <div style="display:inline-block"> <input name="submit" class="btn btn-primary" style=" width:91px" onClick="window.location.reload()" value="Refresh Count" /></div>
+            <div class="pull-right">
+            <a style="color:#FFF; text-decoration:underline" href="/service-centre/download_xcl/1/" > Download Excel </a>&nbsp;
+            <a style="color:#FFF; text-decoration:underline" href="/service-centre/download_prn/" > Download PRN </a>&nbsp;
+            <a style="color:#FFF; text-decoration:underline" href="#" data-rev-action="modal" data-target="#add-revlet"><img src="{{ STATIC_URL }}assets/img/plus.png"/> Upload </a></div>
+          </div>
+          <div class="cust-content">
+            <table class="table table1">
+              <thead>
+                <tr>
+                  <th width="88px" style="text-align:center">Client Code</th>
+                  <th style="text-align:center">Shipper</th>
+                  <th>Consignee</th>
+
+                  <th style="text-align:center">Dest</th>
+                  <th width="60px" style="text-align:center">Pincode</th>
+                  <th style="text-align:center">Pieces</th>
+                  <th style="text-align:center">Value</th>
+                  <th style="text-align:center">Actual Weight</th>
+                  <th width="100px" style="text-align:center">Air Waybill No.</th>
+                  <th style="text-align:center">Order No.</th>
+                  <th style="text-align:center">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+               {% for a in shipment%}
+                <tr>
+                  <td>{{a.status_type}}<td>
+                  <td width="176px">{{a.shipper}}</td>
+                  <td width="176px">{{a.consignee}}</td>
+                  <td>{{a.destination_city}} </td>
+                  <td>{{a.pincode}} </td>
+                  <td>{{a.pieces}}</td>
+                  <td>Rs. {{a.collectable_value|intcomma}}</td>
+                  <td>{{a.actual_weight}} Kgs.</td>
+                  <td>{{a.airwaybill_number}}</td>
+                  <td>{{a.order_number}}</td>
+                  <td>
+                  {% ifequal a.status_type 0%}
+                  <span class="label label-red">Unverified</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 1%}
+                  <span class="label label-success">Verified</span>
+                  {%endifequal%}
+
+                  {% ifequal a.status_type 2%}
+                  <span class="label label-blue">Mismatch</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 3%}
+                  <span class="label label-black">Mismatch</span>
+                  {%endifequal%}
+
+                  {% ifequal a.status_type 4%}
+                  <span class="label label-red">Mismatch</span>
+                  {%endifequal%}
+
+                  </td>
+                </tr>
+                {%endfor%}
+               </tbody>
+            </table>
+
+          </div>
+
+<br><br>
+
+          <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Shipment</span>
+
+
+          </div>
+          <div class="cust-content">
+            <table class="table table2">
+              <thead>
+                <tr>
+                  <th>Air Waybill No.</th>
+                  <th>Origin SC</th>
+                  <th>Dest SC</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="text-align:center; font-size:55px">
+                  <td id="awb_upd"> </td>
+                  <td id="o_sc_upd"> </td>
+                  <td id="desc_sc_upd"> </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+
+
+          <div style="margin-top:10px">
+          <div style="display:inline-block; width:10px; height:10px; background:#060"></div><div style="display:inline-block"> &nbsp; Verified</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#00C"></div><div style="display:inline-block">&nbsp; Pincode</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#F00"></div><div style="display:inline-block">&nbsp; Data</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#000"></div><div style="display:inline-block"> &nbsp; Value</div>
+        <div class="pull-right" style="display:inline-block"><a href="#"   data-rev-action="modal" data-target="#add-revlet"> <i style="font-size:20px; color:#F00; margin-right: 6px;"class="icon-envelope-alt"></i></a></div>
+          </div>
+          <!-- /cust-content -->
+        </div>
+      </div>
+      <div class="span4">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Outscan</span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+          	<h1>Summary Report</h1>
+            <table class="table" style="margin-top:20px"width="523" height="289" border="0" cellpadding="0">
+              <tr>
+                <td width="205" valign="top"><h4>Airway Bill No.</h4></td>
+                <td width="205" valign="top">KA123456789</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Customer</h4></td>
+                <td width="205" valign="top">Flipkart</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Date</h4></td>
+                <td width="205" valign="top">5/10/2012</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Type</h4></td>
+                <td width="205" valign="top">Lorem Ipsum </td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Status</h4></td>
+                <td width="205" valign="top"><span class="label label-success">Used</span></td>
+              </tr>
+			</table>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- span6 -->
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Upload file from Shipper portal</h3>
+    </div>
+    <div style="height:150px;" class="modal-body">
+   		<form>
+        	<input type="text" Placeholder=" File Name"/><br/>
+            <input  type="file" class="btn" value="browse" /><br/><br/>
+        	<input type="text" Placeholder=" Emp Code"/><br/>
+            <input type="button" class="btn btn-primary" value="Save" />
+        </form>
+    </div>
+  </div><!--modal end-->
+  <div id="popupContact">
+
+        <a id="popupContactClose">x</a>
+
+  </div>
+
+
+<script>
+     jQuery('.close, #screen').live("click",function() {
+     jQuery('#screen').hide().animate('1000');
+     jQuery('#finalist-pop-up').hide().animate('1000');
+     jQuery('#close').hide();
+     jQuery('#finalist-pop-up').html('');
+     jQuery('#awb_scan').val('');
+     jQuery('#awb_scan').focus();
+});
+</script>
+
+<script>
+$("#awb_scan").focus();
+
+$("#shipment_count").submit(function(){
+     //alert("test");
+     return false;
+});
+
+$(function(){
+//$("#awb_scan").keypress(function(){
+//return false;
+//});
+//$("#awb_sc").html().change(function(){
+//alert("hi");
+//});
+
+$(".awb").change(function(){
+//var table_data = $(".table1 > tbody").html();
+
+var awb=$("input.awb").val();
+var datastring = "awb="+awb;
+
+
+//jQuery('#screen').css('width', jQuery(document).width());
+  //   jQuery('#screen').css('height', jQuery(document).height());
+    // jQuery('#screen').show().animate('1000');
+  //   jQuery('#finalist-pop-up').css('width','850px');
+    // jQuery('#finalist-pop-up').css('height','250px');
+ //    jQuery('#finalist-pop-up').css('left',(jQuery(document).width() - 1000)/2);
+   //  jQuery('#finalist-pop-up').css('top','170px');
+    // jQuery('#finalist-pop-up a').focus()
+
+$.ajax({
+type:"POST",
+url: "/service-centre/order_pricing/",
+data: datastring,
+success: function(resp){
+
+
+if (resp == "Incorrect Airway Bill Number"){
+alert(resp);
+//$('#finalist-pop-up').html("<a class='close' >X</a><div style='text-align: center; margin-top: 100px;'>"+resp+"</div>");
+
+}else{
+$(".table1 > tbody").html(resp);
+//$(".table1 > tbody").html("")
+//$(".table1 > tbody").append(resp);
+//$(".table1 > tbody").append(table_data);
+
+  /*  if(resp.match(/Mismatch/g)){
+       mis_count = parseInt($("#mismatch_count").val()) + 1;
+       $("#mismatch_count").val(mis_count);
+    }
+    if(resp.match(/Verified/g)){
+       verified_count = parseInt($("#verified_count").val()) + 1;
+       $("#verified_count").val(verified_count);
+    }*/
+
+//$('#finalist-pop-up').html("<a class='close' >X</a>"+resp);
+
+//$('#finalist-pop-up').show()
+//alert(resp);
+
+var a = $("#awb_sc").html()
+var b = $("#sc_upd").html()
+var c = $("#o_upd").html()
+var d = $("#tot_count").html()
+var e = $("#suc_count").html()
+var f = $("#mis_count").html()
+//$("#total_count").val("");
+//$("#verified_count").val("");
+//$("#mismatch_count").val("");
+
+$("#awb_upd").html(a)
+
+$("#desc_sc_upd").html(b)
+$("#o_sc_upd").html(c)
+//$("#total_count").val(d)
+//$("#verified_count").val(e)
+//$("#mismatch_count").val(f)
+}}
+});
+//return false;
+     jQuery('#awb_scan').val('');
+     jQuery('#awb_scan').focus();
+
+     return false;
+
+});
+});
+</script>
+
+{% endblock %}
+

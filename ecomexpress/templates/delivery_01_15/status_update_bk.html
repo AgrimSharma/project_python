@@ -1,0 +1,713 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="wrap">
+    <div class="container-fluid main" role="main" id="main">
+        <div class="row-fluid">
+            <div class="span12">
+{% include "delivery/nav.html" %}
+</div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="survey-details">
+                    <div class="cust-title">
+                        <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>POD/Status Entry</span>
+                        <div style="display:inline-block; color:#FFF; font-size:14px"><form>POD Count: <input style=" width:30px; height:10px" type="text" size="9" placeholder="" id="delivered_count" value="{{delivered_count}}"/></form></div>
+                        <div style="display:inline-block; color:#FFF; font-size:14px"><form>Undelivered Shipment Count: <input style=" width:30px; height:10px" type="text" size="9" id="undelivered_count" value="{{undelivered_count}}"/></form></div>
+<div style="display:inline-block"> <input name="submit" class="btn btn-primary" style=" width:91px" onClick="window.location.reload()" value="Refresh Count" /></div>
+
+                 </div>
+                    <div class="cust-content">
+                        <div class="content-login">
+                            <div style="width:520px; display:inline-block; vertical-align:top; padding-right: 30px; border-right: 1px solid grey">
+                                <h3>Delivered Shipment</h3>
+                                <form>
+                                    <table>
+                                        <tr>
+                                            <td>Data Entry Emp Code</td><td><input type="text" id="data_entry_emp" name="data_entry_emp" style="width:40px; height:20px" value="{{request.user.employeemaster.employee_code}}"/></td>
+                                            <td>Delivery Emp Code</td><td><input type="text" id="delivery_emp" name="delivery_emp" style="width:40px; height:20px"/></td>
+</tr><tr>
+                                           <td>Outscan Number</td><td><input type="text" id="outscandel" name="delivery_emp" style="width:40px; height:20px"/></td>
+                                           <td>Serial Number</td><td><input type="text" id="serialdel" name="delivery_emp" style="width:40px; height:20px"/></td>
+                                           <td>Delivered Shipment <small>(AWB No.)</small></td><td><input type="text" id="awbd" name="awbd" style="width:90px; height:20px"/></td>
+                                        </tr>
+
+                                    </table>
+                                    <hr>
+                                    <table>
+                                        <tr>
+                                            <td>Status</td><td>
+                                                <select  name="reason_code" class="reason_code" id="rs_code">
+                                                    <option>---</option>
+                                                    {% for a in reason_code %}
+                                                    {%ifequal a.code 999%}
+                                                    <option value="{{a.id}}" selected>{{a.code}} - {{a.code_description}}</option>
+                                                    {%endifequal%}
+                                                    {% endfor %}
+                                                </select>
+                                                <td>Remarks: </td><td>  <input type="text" id="remarks" style="width:184px; height:20px" value="{% for a in reason_code %}{%ifequal a.code 999%}{{a.code_description}}{%endifequal%}{% endfor %}"/></td>
+
+
+                                            </tr>
+                                        </table>
+                                        <hr>
+                                        <table>
+                                            <tr>
+                                                <td>Time(HH:MM format)</td>
+						<td><input type="text" id="timedel" class="pickp_time" name="time" style="width:38px; height:20px"  /></td>
+                                                <td>Date</td><td><input type="text" id="pickp_date" name="date" style="width:70px; height:20px" value="{% now 'Y-m-d' %}" readonly="readonly"></td>
+
+                                                <td>Received By</td><td><input type="text" id="recieved_by" name="recieved_by"style="width:120px; height:20px"/></td><!-- if un delivered ask sorry card no.-->
+                                            </tr>
+                                        </table>
+
+                                        <table>
+                                            <tr>
+                                               <td> <input type="button" class="btn btn-redbutton submitdel" value="ADD" style="display: none;"/></td>
+                                 {%comment%}               <td> <a href="#" class="btn btn-redbutton">SAVE</a></td>
+                                                <td> <a href="#" class="btn btn-redbutton">EDIT</a></td>
+                                                <td> <a href="#" class="btn btn-redbutton">VIEW</a></td>
+                                                <td> <a href="#" class="btn btn-redbutton">CANCEL</a></td>
+                                                {%endcomment%}
+                                            </tr>
+                                        </table>
+
+                                    </form>
+                                    <div style="width:300px; display:inline-block; margin-right:30px">
+                                        <h4>Delivered Shipments</h4>
+                                        <table class="table tabledel">
+                                            <thead>
+                                                <tr>
+                                                    <th>Serial No.</th>
+                                                    <th>Air Waybill No.</th>
+                                                    <th>Status Code</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for a in delivered%}
+                                                {%ifequal a.status 2%}
+                                                <tr>
+                                                    <td>{{a.id}}</td>
+                                                    <td >{{a.shipment.airwaybill_number}}</td>
+                                                    <td>{{a.reason_code}}</td>
+                                                </tr>
+                                                {% endifequal %}
+                                                {%endfor%}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div><!-- end of left-->
+                                <div style="width:520px; display:inline-block; vertical-align:top; margin-left: 25px;">
+                                    <h3>Undelivered Shipment</h3>
+                                    <form>
+                                        <table>
+                                            <tr>
+                                                <td>Data Entry Emp Code</td><td><input type="text" id="data_entry_empund" name="data_entry_emp" style="width:40px; height:20px" value="{{request.user.employeemaster.employee_code}}"/></td>
+                                                <td>Delivery Emp Code</td><td><input type="text" id="delivery_empund" name="delivery_emp" style="width:40px; height:20px"/></td>
+                                                </tr><tr>
+                                           <td>Outscan Number</td><td><input type="text" id="outscanundel" name="outscanundel" style="width:40px; height:20px"/></td>
+                                           <td>Serial Number</td><td><input type="text" id="serialundel" name="del" style="width:40px; height:20px"/></td>                                                             <td>Inscan Undelivered Shipment <small>(AWB No.)</small></td><td><input type="text" id="awbu" name="awbu" style="width:90px; height:20px"/></td>
+
+                                            </tr>
+
+                                        </table>
+                                        <hr>
+        <table>
+            <tr>
+                <td>Status:
+                    <select  name="reason_code" class="reason_codeund" id="reason_codeund">
+                        <option>---</option>
+                        {% for a in reason_code %}
+                        {%if a.code == 333 or a.code == 888 or a.code == 111 %}
+                        {%if request.user.employeemaster.email == "jaideeps@ecomexpress.in" or request.user.employeemaster.email == "sravank@ecomexpress.in" %}
+                        <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option>
+                        {%endif%}
+                        {%endif%}
+
+                        {%if a.code != 211 and a.code != 999 and a.code != 333 and a.code != 888 and a.code != 111 and a.code != 400  %}
+                        <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option>
+                        {%endif%}
+                        {% endfor %}
+                    </select>
+                    <td>Remarks: <input type="text" name="remarksundel" id="remarksundel" style="width:184px; height:20px"/></td>
+                </tr>
+                <tr>
+                    <td>
+                    <select name="refused-to-access-dropdown" class="refused_to_access_dropdown hidden">
+                        <option value="" selected>------</option>
+                        <option value="Order already cancelled">Order already cancelled</option>
+                        <option value="Double order">Double order</option>
+                        <option value="Wants Open delivery">Wants Open delivery</option>
+                        <option value="COD Amount Mismatch">COD Amount Mismatch</option>
+                        <option value="Didn’t place any order">Didn’t place any order</option>
+                        <option value="Not Interested">Not Interested</option>
+                        <option value="Wrong product">Wrong product</option>
+                        <option value="Already bought from Market">Already bought from Market</option>
+                        <option value="Forcibly Shipment opened and refused">Forcibly Shipment opened and refused</option>
+                        <option value="Consignee refused after Try">Consignee refused after Try</option>
+                    </select>
+                    <select name="address-issue-dropdown" class="address_issue_dropdown hidden">
+                        <option value="" selected>------</option>
+                        <option value="contact no incorrect">contact no incorrect</option>
+                        <option value="contact no switched off">contact no switched off</option>
+                        <option value="consignee not responding on contact no">consignee not responding on contact no</option>
+                    </select>
+                    </td>
+                    <td></td>
+                </tr>
+            </table>
+                                            <hr>
+                                            <table>
+                                                <tr>
+                                                    <td>Time</td><td><input type="text" class="pickp_timeund" name="time" style="width:38px; height:20px"  value="{% now 'H:i' %}"/></td>
+                                                    <td>Date</td><td><input type="text" id="pickp_dateund" name="date" style="width:70px; height:20px" value="{% now 'Y-m-d' %}" readonly="readonly"></td>
+
+                                                    <td>Sorry Card Number</td><td><input type="text" id="recieved_byund" name="recieved_by"style="width:120px; height:20px"/></td><!-- if un delivered ask sorry card no.-->
+                                                </tr>
+                                            </table>
+
+                                            <table>
+                                                <tr>
+                                                    <td> <input type="button" class="btn btn-redbutton submitundel" value="ADD" style="display: none;"/></td>
+                                                    {%comment%}
+                                                    <td> <a href="#" class="btn btn-redbutton">SAVE</a></td>
+                                                    <td> <a href="#" class="btn btn-redbutton">EDIT</a></td>
+                                                    <td> <a href="#" class="btn btn-redbutton">VIEW</a></td>
+                                                    <td> <a href="#" class="btn btn-redbutton">CANCEL</a></td>
+                                                    {%endcomment%}
+                                                </tr>
+                                            </table>
+
+                                        </form>
+                                        <div  style="width:300px; display:inline-block;">
+                                            <h4>Undelivered Shipments</h4>
+                                            <table class="table tableund">
+                                                <thead>
+
+                                                    <tr>
+                                                        <th>Serial No.</th>
+                                                        <th>Air Waybill No.</th>
+                                                        <th>Status Code</th>
+                                                        <th>Remarks</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for a in undelivered%}
+                                                    {%if a.status == 1 or a.status == 3 %}
+                                                    <tr id="{{a.shipment.airwaybill_number}}">
+                                                        <td>{{a.id}}</td>
+                                                        <td >{{a.shipment.airwaybill_number}}</td>
+                                                        <td>{{a.reason_code}}</td>
+                                                        <td>{{a.remarks}}</td>
+                                                    </tr>
+                                                    {% endif %}
+                                                    {%endfor%}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div><!-- end of right-->
+
+
+                                </div>
+
+                            </div>
+                        </div><!-- /row-fluid -->
+
+
+                    </div><!-- /container-fluid -->
+
+                </div>
+
+                <!-- modal -->
+                <div class="modal hide modal-add-revlet" id="add-revlet">
+                    <div class="modal-header">
+                        <a class="close" data-dismiss="modal">×</a>
+                        <h3>Notify - Exception report</h3>
+                    </div>
+                    <div style="height:68px;" class="modal-body">
+                        <form>
+                            <input type="text" Placeholder=" Email"/>
+                            <a href="#"><i class="icon-plus-sign"></i> </a><br>
+                            <input type="button" class="btn btn-success" value="Send" />
+                        </form>
+                    </div>
+                </div><!--modal end-->
+
+                <script>
+
+$('#awbu').change(function(){
+var awb = $('#awbu').val();
+$.ajax({
+ type:"POST",
+url:"/delivery/undel_awb_info/",
+data:"awb="+awb,
+success: function(resp){
+	if(resp['msg']=='success'){
+		var op_stmt = resp['op_stmt'].split('$')
+		$('#reason_codeund').find('option').remove();
+		options_stmt = ''
+		for(var i=0;i < op_stmt.length;i++){
+			var op_data = op_stmt[i].split('#')
+				options_stmt += '<option val="'+op_data[0]+'">'+op_data[1]+'</option>'
+			}
+		$('#reason_codeund').append(options_stmt);
+		 
+	}
+}
+})
+})
+
+                    $(document).ready(function(){
+
+$('#serialdel').change(function(){
+var sr = $('#serialdel').val();
+var os = $('#outscandel').val();
+$.ajax({
+type:"POST",
+url:"/delivery/awb_info/",
+data:"sr="+sr+"&os="+os,
+success: function(resp){
+if (resp == "Invalid"){
+$('#awb').val('');
+return false;
+}
+var rs_data = resp.split('$');
+var sval = '2'
+$('#awbd').val(parseInt(rs_data[0]));
+if (rs_data[2].trim() != ''){
+  $('#remarks').val(rs_data[2])
+  if (rs_data == 'Delivered'){
+     sval = '1'
+   }
+ }
+if (rs_data[1].trim() != ''){
+  $('#rs_code').find('option').remove().end().append(rs_data[1]).val(sval)
+}
+}
+});
+});
+$('#awbd').change(function(){
+ var awb = $('#awbd').val();
+ $.ajax({
+ type:"POST",
+ url:"/delivery/awb_info/",
+ data:"awb="+awb,
+ success: function(resp){
+ if (resp == "Invalid"){
+ $('#awb').val('');
+ return false;
+ }
+ var rs_data = resp.split('$');
+ var sval = '2'
+ $('#awbd').val(parseInt(rs_data[0]));
+ if (rs_data[2].trim() != ''){
+   $('#remarks').val(rs_data[2])
+   if (rs_data == 'Delivered'){
+      sval = '1'
+    }
+  }
+ if (rs_data[1].trim() != ''){
+   $('#rs_code').find('option').remove().end().append(rs_data[1]).val(sval)
+ }
+ }
+});
+});
+
+$('#serialundel').change(function(){
+var sr = $('#serialundel').val();
+var os = $('#outscanundel').val();
+$.ajax({
+type:"POST",
+url:"/delivery/awb_info/",
+data:"sr="+sr+"&os="+os,
+success: function(resp){
+if (resp == "Invalid"){
+alert(resp);
+return false;
+}
+var rs_data = resp.split('$');
+$('#awbu').val(parseInt(rs_data[0]));
+}
+});
+});
+
+                        var del_emp = $("input[id='delivery_emp']");
+			$(del_emp).focus();
+			del_emp[0].selectionStart = del_emp[0].selectionEnd = del_emp.val().length;
+
+                        // change cursor position of delivered section
+                        $("input[id='delivery_emp']").keyup(function (e){
+                              var text = $(this).val();
+                              if (text.length == 5){
+				$("input[id='outscandel']").focus();
+                              }
+                         });
+
+                        $("input[id='awbd']").keyup(function (e){
+                              var text = $(this).val();
+                              if (text.length == 9){
+				$("input[id='timedel']").focus();
+                              }
+                         });
+
+                        $("input[id='timedel']").live('keypress', function (e){
+		             var keyCode = e.keyCode || e.which;
+
+			     if (keyCode == 9) {
+			       e.preventDefault();
+                               $("#ui-datepicker-div").hide();
+		             //  $("input[id='pickup_date']").focus();
+                               $("input[id='recieved_by']").focus();
+			     }else{
+                               var text = $(this).val();
+                               if (text.length == 4){
+                                 $("#ui-datepicker-div").hide();
+		                // $("input[id='pickup_date']").focus();
+                               $("input[id='recieved_by']").focus();
+                               }
+                             }
+                        });
+
+                        $("input[id='timedel']").change(function (e){
+		            $("input[id='pickup_date']").focus();
+                        });
+
+                        $("input[id='pickup_date']").change(function (e){
+		            $("input[id='recieved_by']").focus();
+                        });
+
+                        $("input[id='recieved_by']").keypress(function (e){
+                             var keyCode = e.keyCode || e.which;
+                             if (keyCode == 9 || keyCode == 13){
+
+				$(".submitdel").click();
+                             }
+                        });
+
+                        // change cursor position of undelivered section
+
+                        $("input[id='delivery_empund']").keyup(function (e){
+                              var text = $(this).val();
+                              if (text.length == 5){
+				$("input[id='outscanundel']").focus();
+                              }
+                         });
+
+                        $("input[id='awbu']").keyup(function (e){
+                              var text = $(this).val();
+                              if (text.length == 9){
+				$("select.reason_codeund").focus();
+                              }
+                         });
+
+		         $("select.reason_codeund").change(function (e){
+		             $("input[id='remarksundel']").focus();
+			 });
+
+                        $("input[id='remarksundel']").keypress(function (e){
+                             if (e.which == 13){
+				$(".pickup_timeund").focus();
+                             }
+                        });
+
+		        $("input.pickp_timeund").live('keypress', function (e){
+		             var keyCode = e.keyCode || e.which;
+
+			     if (keyCode == 9) {
+			       e.preventDefault();
+                               $("#ui-datepicker-div").hide();
+			                  //  $("input[id='timeund']").focus();
+                               $("input[id='recieved_byund']").focus();
+			     }else{
+                               var text = $(this).val();
+                               if (text.length == 4){
+                                 $("#ui-datepicker-div").hide();
+                                 $("input[id='recieved_byund']").focus();
+			        // $("input[id='timeund']").focus();
+                               }
+                             }
+                        });
+
+                        $("input[id='timeund']").change(function (e){
+			   // $("input[id='pickup_dateund']").focus();
+                            $("input[id='recieved_byund']").focus();
+                        });
+
+                        $("input[id='pickup_dateund']").change(function (e){
+			    $("input[id='recieved_byund']").focus();
+                        });
+
+                        $("input[id='recieved_byund']").keypress(function (e){
+                            var keyCode = e.keyCode || e.which;
+                             if (keyCode == 9 || keyCode == 13){
+				                 $(".submitundel").click();
+                             }
+                        });
+
+
+                     });
+                    $("#pickup_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", maxDate: new Date, yearRange:'2012:2015' });
+                    $("#pickup_dateund").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", maxDate: new Date, yearRange:'2012:2015' });
+                    $('.pickup_time').timepicker();
+                    $('.pickup_timeund').timepicker();
+                    //var fewSeconds = 0;
+                    $(".submitdel").click(function(){
+                        num = new Date().getTime();
+                        ran = Math.floor((Math.random()*100)+1);
+                        ajax_num = ""+num+ran;
+                        var conf = confirm('Do you want to complete the transaction?');
+                        if (conf){
+                            // do javascript validation first
+
+			    // for reciever
+                            var s_rs_code = $("#rs_code").val()
+                            var recieved_by=$("input#recieved_by").val();
+                            
+                            if (!recieved_by && s_rs_code!= '2'){
+                                alert("Please update receiver's name!");
+                                return false;
+                            }
+                            
+                            var data_entry_emp=$("input#data_entry_emp").val();
+                            var delivery_emp=$("input#delivery_emp").val();
+                            if (!delivery_emp){
+                                alert("Please update Delivery Employee code!");
+                                return false;
+                            }
+                            var awbu="";
+                            var awbd=$("input#awbd").val();
+                            if (!awbd){
+                                alert("Please provide Airwaybill Number!");
+                                return false;
+                            }
+                            var reason_code=$("select.reason_code").val();
+
+                            var pickup_time=$("input.pickp_time").val();
+
+                            if(!pickup_time.match(/^([0|1|2|][0-9]):[0-5][0-9]$/) && s_rs_code != '2'){
+                                alert("Please Update time Properly! Format should be 23:00");
+                                return false;
+                            }
+
+                            var remarks_del = $("input#remarks").val();
+                            //if(!remarks_del){
+                            //    alert('Please fill remarks column');
+                            //    return false;
+                            // }
+                            var pickup_date=$("input#pickp_date").val();
+                            var table_data = $(".tabledel > tbody").html();
+                            var datastring = "data_entry_emp="+data_entry_emp+"&delivery_emp="+delivery_emp+"&awbu="+awbu+"&awbd="+awbd+"&reason_code="+reason_code+"&recieved_by="+recieved_by+"&time="+pickup_time+"&date="+pickup_date+"&ajax_num="+ajax_num;
+
+                            $.ajax({
+                                type:"POST",
+                                url: "/delivery/status_update/",
+                                data: datastring,
+                                async: false,
+                                success: function(resp){
+                                    if (resp == "Incorrect Employee Code"){
+                                    alert("Incorrect Employee Code");
+                                    return false;
+                                }
+                                    if (resp=="Please Outscan the shipment")
+                                    {
+                                        alert(resp);
+                                        return false;
+                                    }
+                                      if (resp=="Please Close Outscan First")
+                                    {
+                                        alert(resp);
+                                        return false;
+                                    }
+                                    data=eval('(' + resp + ')');
+                                    $.each(data, function(key, value) {
+                                        //$("#"+ key).val(value);
+                                        if (key == "delivered"){
+                                            $(".tabledel > tbody").html("")
+                                            $(".tabledel > tbody").append(value);
+                                            $(".tabledel > tbody").append(table_data);
+                                            $("#"+awbd+"").remove();
+
+                                           // if (value != " "){
+                                             //   delivered_count = parseInt($("#delivered_count").val())+parseInt(1);
+                                               // $("#delivered_count").val(delivered_count);
+                                           // }
+                                        }
+                                        if (key == "undelivered"){
+                                            $(".tableund > tbody").append(value);
+                                           // if (value != " "){
+                                             //   undelivered_count = parseInt($("#undelivered_count").val())+parseInt(1);
+
+                                               // $("#undelivered_count").val(undelivered_count);
+                                            //}
+                                        }
+                                    });
+
+				    // clear all fields
+			            $("input#serialdel").focus();
+    				    $("input#awbd").val("");
+				    $("input#recieved_by").val("");
+
+                                    //$(".table > tbody").append(resp);
+                                    //alert("Sucessfully Added");
+                                    //location.reload()
+                                }
+                            });
+                        }
+                        return false;
+                    });
+
+
+                    $(".submitundel").click(function(){
+                        num = new Date().getTime();
+                        ran = Math.floor((Math.random()*100)+1);
+                        ajax_num = ""+num+ran;
+
+                        var data_entry_emp=$("input#data_entry_empund").val();
+                        var delivery_emp=$("input#delivery_empund").val();
+                        var awbu=$("input#awbu").val();
+                        var reason_code=$("select.reason_codeund").val().trim();
+                        var recieved_by=$("input#recieved_byund").val();
+                        var pickup_time=$("input.pickp_timeund").val();
+                        var pickup_date=$("input#pickp_dateund").val();
+                        var remarks = $("input#remarksundel").val();
+                        var table_data = $(".tableund > tbody").html();
+
+                        if (reason_code == '24'){
+		                    var refused_to_access_remark = $('select.refused_to_access_dropdown').val()
+                            remarks = refused_to_access_remark + '/' + remarks;
+                        }
+                        else if (reason_code == '21' || reason_code == '22' || reason_code == '23'){
+		                    var address_remark = $('select.address_issue_dropdown').val()
+                            remarks = address_remark + '/' + remarks;
+                        }
+
+                        if (!awbu){
+                            alert("Please provide Airwaybill Number!");
+                            return false;
+                        }
+                        if(reason_code == '---'){
+                            alert("Please select a status");
+                            return false;
+                        }
+
+                        if(!remarks){
+                            alert('Please fill remarks column');
+                            return false;
+                        }
+                        if(!pickup_time.match(/^([0|1|2|][0-9]):[0-5][0-9]$/)){
+                            alert("Please Update time Properly! Format should be 23:00");
+                            return false;
+                        }
+
+                        $.ajax({
+                            type:"POST",
+                            url: "/delivery/status_update/",
+                            data: {'data_entry_emp':data_entry_emp,
+                                    'delivery_emp':delivery_emp,
+                                    'awbu':awbu,
+                                    'awbd':'',
+                                    'reason_code':reason_code,
+                                    'remarks':remarks,
+                                    'recieved_by':recieved_by,
+                                    'time':pickup_time,
+                                    'date':pickup_date,
+                                    'ajax_num':ajax_num},
+                              aysnc: false,
+                               success: function(resp){
+
+                                if (resp == "Incorrect Employee Code"){
+                                    alert("Incorrect Employee Code");
+                                    return false;
+                                }
+
+                                if (resp == "Incorrect Shipment Number"){
+                                    alert("Incorrect Shipment Number");
+                                    return false;
+                                }
+
+                                if (resp == "For updating this shipment enter the reason code as 202"){
+                                    alert("For updating this shipment enter the reason code as 202");
+                                    return false;
+                                }
+                                if (resp == "For updating this shipment enter the reason code as 311"){
+                                    alert("For updating this shipment enter the reason code as 311");
+                                    return false;
+                                }
+
+
+
+                                if (resp == "COD closed, Please contact Accounts"){
+                                    alert("COD closed, Please contact Accounts");
+                                    return false;
+                                }
+                                if (resp=="Please Close Outscan First")
+                                    {
+                                        alert(resp);
+                                        return false;
+                                    }
+                                data=eval('(' + resp + ')');
+                                $.each(data, function(key, value) {
+                                    if (key == "delivered"){
+                                        $(".tabledel > tbody").append(value);
+                                      //  if (value != " "){
+                                        //    var delivered_count = parseInt($("#delivered_count").val())+parseInt(1);
+                                          //  $("#delivered_count").val(delivered_count);
+                                      //  }
+                                    }
+                                    if (key == "undelivered"){
+                                        $(".tableund > tbody").html("")
+                                        $(".tableund > tbody").append(value);
+                                        $(".tableund > tbody").append(table_data);
+                                        //if (value != " "){
+                                          //  var undelivered_count = parseInt($("#undelivered_count").val())+parseInt(1);
+                                            //$("#undelivered_count").val(undelivered_count);
+                                        //}
+                                    }
+                                });
+				// clear all fields
+				$("input[id='serialundel']").focus();
+				$("input#awbu").val("");
+				$("input#recieved_byund").val("");
+				$("input#remarksundel").val("");
+                            }
+                        });
+                        return false;
+                    });
+
+                    // if reason code is 24, ie consignee refused to accept then add another
+                    // dropdown below the current dropdown
+                    $(".reason_codeund").change(function(){
+                        $(".refused_to_access_dropdown").addClass('hidden');
+                        $(".address_issue_dropdown").addClass('hidden');
+                        var reason_code = $("select.reason_codeund").val().trim();
+                        if (reason_code == '24'){
+                            $(".refused_to_access_dropdown").removeClass('hidden');
+                            $(".refused_to_access_dropdown").show();
+                        }
+                        else if(reason_code == '21' || reason_code == '22' || reason_code == '23'){
+                            $(".address_issue_dropdown").removeClass('hidden');
+                            $(".address_issue_dropdown").show();
+                        }
+                        return false;
+
+                    });
+
+                    $(".reason_code").change(function(){
+                        var reason_code = $("select.reason_code").val();
+                        var datastring = "reason_code="+reason_code;
+                        $.ajax({
+                            type:"POST",
+                            url: "/service-centre/reason_code/",
+                            data: datastring,
+                            success: function(resp){
+                                $("#remarks").val(resp);
+                            }
+                        });
+                        return false;
+                    });
+                </script>
+                {% endblock %}
+

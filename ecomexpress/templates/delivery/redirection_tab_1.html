@@ -1,0 +1,16 @@
+<div class="span6">
+ <input placeholder="076" disabled style="width:23px; display:inline-block"/> 
+ <h4 style=" display:inline-block">Redirection Under Same Air waybill</h4>
+ <form>
+ {% csrf_token %}
+   <table>
+     <tr> <td>Emp Code*</td><td><input id="emp_code_rd" type="text" style="width:40px;"/></td> </tr>
+     <tr><td>AWB*</td><td><input type="button" id="awb_rdw" href="#" data-rev-action="modal" data-target="#add-revlet" class="awb-barcode-scanner btn btn-primary" value="Include Shipments"></td>
+     </tr>
+     <tr> <td>Reason Code:*</td><td> <select id="reason_code_rd" class="reason_code" type="ro"> <option>Select Reason Code</option> {% for a in reason_code %} {%if a.code == 207 or a.code == 230%} <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option> {%endif%} {% endfor %} </select> </td> </tr>
+     <tr> <td>Service Centre:</td><td> <select id="service_centre_rd" id="dest"> <option>Select Service Centre</option> {% for a in service_centre %} <option value="{{a.id}}">{{a.center_shortcode}}</option> {% endfor %} </select> </td> </tr>
+     <tr> <td> <input type="hidden" id="rdsubmitFormAwbList" value=""> </td> </tr>
+     <tr> <td><input type="button" class="btn btn-redbutton" id="rdsubmitForm" value="Submit"/> </td> <td></td></tr>
+   </table>
+ </form>
+</div><!-- class="span6" -->

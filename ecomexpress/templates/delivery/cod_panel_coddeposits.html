@@ -1,0 +1,18 @@
+{% load crispy_forms_tags %}
+
+<h4 class="page-header">COD Deposits</h4>
+{% crispy form %}
+
+ <table class="table table-condensed table-striped table-bordered tm20">
+   <thead> <tr><th>CODD ID</th> <th>Date</th><th>Service Centre</th><th>Actions</th><th></th></tr></thead>
+   <tbody>
+   {% for codd in cod_deposits %}
+   <tr data-coddid="{{ codd.id }}">
+       <td>{{codd.id}}</td> <td>{{codd.date}}</td> <td>{{codd.origin}}</td>
+       <td> <a href="#" class="btn btn-primary btn-xs codpael-codd-view">View</a>
+            <a href="#" class="btn btn-primary btn-xs codpael-codd-remove">Remove</a></td>
+       <td> {% ifequal codd.status 1%} <span class="label label-success">Closed</span>{%endifequal%} </td>
+   </tr>
+   {%endfor%}
+   </tbody>
+</table>

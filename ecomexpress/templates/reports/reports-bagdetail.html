@@ -1,0 +1,48 @@
+<div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date of Pickup</th>
+                  <th>Date of Connection</th>
+				  <th>AWBNO</th>
+			<th>Stage</th>
+                  
+                </tr>
+              </thead>
+               <tbody>
+              
+              {%for shipment, history in shipments.items%}
+             
+                <tr>
+                <td>{{shipment.added_on|date:"d-m-Y H:m"}}</td>
+                  
+                  <td>{{shipment.updated_on|date:"d-m-Y H:m"}}</td>
+                  
+                 <td> {{shipment.airwaybill_number}}</td>
+		<td>{%ifequal history.status 0%}Soft data up loaded{%endifequal%}
+                      {%ifequal history.status 1%}Shipment Picked Up{%endifequal%}
+                      {%ifequal history.status 2%}Shipment in-scan{%endifequal%}
+                      {%ifequal history.status 3%}{{history.remarks}}{%endifequal%}
+                      {%ifequal history.status 4%}Shipment in-scan at HUB{%endifequal%}
+                      {%ifequal history.status 5%}{{history.remarks}}{%endifequal%}
+                      {%ifequal history.status 6%}Shipment in-scan at DC{%endifequal%}
+                      {%ifequal history.status 7%}Shipment out for delivery, assigned to Employee {{history.employee_code.firstname}} {{history.employee_code.lastname}}{%endifequal%}
+                      {%ifequal history.status 8%}Shipment un-delivered{%endifequal%}
+                      {%ifequal history.status 9%}Shipment delivered{%endifequal%}
+                      {%ifequal history.status 11%}Customer Instruction: {{history.remarks}}{%endifequal%}
+                      {%ifequal history.status 16%}Comments: {{history.remarks}}{%endifequal%}
+                      {%ifequal history.status 12%}Complaint{%endifequal%}
+                      {%ifequal history.status 13%}{{history.remarks}}{%endifequal%}
+                      {%ifequal history.status 14%}Shipment out-scan to network from PPC{%endifequal%}
+    {%ifequal history.status 15%}Shipment out-scan to network from HUB{%endifequal%}
+{%ifequal history.status 17%}{{history.remarks}}{%endifequal%}
+</td>
+                
+                </tr>
+             
+                {%endfor%}
+              </tbody>
+            </table>
+            
+          </div><!-- /cust-content -->
+    

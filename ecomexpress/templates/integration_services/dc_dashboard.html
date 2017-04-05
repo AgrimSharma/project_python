@@ -1,0 +1,22 @@
+{% extends "dashboard_base.html" %}
+
+{% block dash-title %}Delivery Centre Dashboard - {{delivery_dc}}{% endblock %}
+
+{% block dash-content %}
+<div class="row">
+
+  <div class="col-md-12">
+    <h4>Pickup List</h4>
+    <hr/>
+    {% include "integration_services/pickup_list.html" %}
+  </div> <!-- col-md-8 pickup list main div-->
+
+</div> <!-- end of row -->
+
+{% endblock %}
+
+{% block extra-js %}
+<script type="text/javascript">
+  ECOMM.pickup_dashboard.status_update();
+</script>
+{% endblock %}

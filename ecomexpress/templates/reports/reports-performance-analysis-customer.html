@@ -1,0 +1,61 @@
+<div class="cust-content"  >
+
+            <table class="table" >
+
+              <thead>
+
+                <tr>
+		
+		  <th>Customer Name</th>
+	
+
+                  <th>No of Shipments</th>
+
+                  <th>Delivered</th>
+
+                 
+
+                  <th>%  Delivered</th>
+                 
+                  <th>Returned</th>
+                  <th>Returned % </th>
+                  <th>Outscan</th>
+                   <th>Undelivered</th>
+                 <th>% Undelivered</th>
+                 <th>Intransit</th>
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+              {%for shipment in shipments %}
+{%ifnotequal shipment.1 0%}
+                <tr>
+
+                <td>{{shipment.0}}</td>
+                                <td>{{shipment.1}}</td>
+<td>{{shipment.2}}</td>
+<td>{{shipment.3|floatformat:2}}</td>
+<td>{{shipment.4}}</td>
+<td>{{shipment.5|floatformat:2}}</td>
+<td>{{shipment.6}}</td>
+<td>{{shipment.7}}</td>
+<td>{{shipment.8|floatformat:2}}</td>
+<td>{{shipment.9}}</td>
+ 
+
+                
+
+                </tr>
+{%endifnotequal%}
+                {%endfor%}
+
+              </tbody>
+
+            </div>
+
+  
+
+

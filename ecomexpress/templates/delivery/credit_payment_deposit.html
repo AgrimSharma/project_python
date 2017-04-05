@@ -1,0 +1,18 @@
+<div class="cust-content">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a data-toggle="tab" href="#update_card_payment" >Update Card Payment</a></li>
+        <li><a data-toggle="tab" href="#view_edit">View/Edit</a></li>
+        <li><a data-toggle="tab" href="#credit_payment_report">Card Payment Report</a></li>
+    </ul>
+    <div class="tab-content" id="myTabContentCard">
+        <div id="update_card_payment" class="tab-pane fade active in"> 
+            {% include "delivery/update_card_payment.html" %}
+        </div>
+        <div id="view_edit" class="tab-pane fade"> 
+            {% include "delivery/creditcard_view_edit.html" %}
+        </div>
+        <div id="credit_payment_report" class="tab-pane fade">
+            {% include "delivery/card_payment_report.html" %}
+        </div>
+    </div> <!-- myTabContentCard -->
+</div> <!-- cust-content -->

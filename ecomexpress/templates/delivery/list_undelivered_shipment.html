@@ -1,0 +1,25 @@
+{% load pickup_tags %}
+<html>
+<body>
+<link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" />
+<div style="display:inline-block; width:300px; vertical-align:top; margin-top:22px; margin-left:30px">
+<h3>Delivered COD Shipments </h3>
+    <table class="table" border=1, cellspacing=1>
+       <thead>
+         <tr> <th>Serial Number</th> <th>Air waybill Number</th> <th>Collected Amt</th> <th>Pending Amt</th> </tr>
+       </thead>
+       <tbody>
+         {% for ship in shipments %}
+         <tr>
+         <td>{{forloop.counter}}</td>
+         <td>{{ ship.airwaybill_number }}</td>
+         <td>Rs. {{ ship.id|get_collected_amount }}</td>
+         <td>Rs. {{ ship.collectable_value|subtract:ship.shipext__collected_amount|floatformat:"2" }}</td>
+         </tr>
+         {% endfor %}
+         <tr><td colspan=4>Total: {{ total_amount }}</td>
+       </tbody>
+     </table>
+</div>
+</html>
+</body>

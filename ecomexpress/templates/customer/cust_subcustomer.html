@@ -1,0 +1,8 @@
+([
+{% for val in subcust %}
+{% if not forloop.first %},{% endif %}
+{"subcust":"{{val.name}}", "subcust_id":"{{val.id}}"}
+
+{% endfor %}
+])
+

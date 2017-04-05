@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+	{% block content %}
+
+{% include "reports/report_header.html" %}
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="pagination pull-left">
+        <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+        </ul>
+        </div>
+         
+    </div>
+    <div><form method="POST" action="/reports/not_outscan/" >
+            	Report Type {% include "reports/reports-list.html" %}
+		
+                Date-From: <input type="text" class="date_from date" name='date_from' style="width: 88px;"/>
+		Time-From: <input type="text" class="time_from time" name='time_from' style="width: 88px;"/>
+                Date-To: <input type="text" class="date_to date" name="date_to" style="width: 88px;"/>
+		Time-to: <input type="text" class="time_to time" name='time_to' style="width: 88px;"/>
+		Destination <select class='sc' name='sc' multiple='multiple'  style="width: 130px;"/>
+                					<option value="0" selected='selected'>All</option>
+								{%for a in sc%}
+                					<option value="{{a.id}}">{{a}}</option>
+                				{%endfor%}
+               				</select>
+               <a id='view_report' class=" btn btn-primary">View</a> <input type="Submit" name='dl_report' value="Download" class=" btn btn-primary">
+            </form>
+         </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Not Outscan Report</span>
+          </div>
+		<div id='loadingdiv' style='display:none;position:absolute; left:50%; top:40%;'>
+					<img style='margin-top:100px' src='/static/assets/img/ajax-loader.gif'>
+		</div>          
+        <div id="report-content">
+          </div><!-- /report-content -->
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Notify</h3>
+    </div>
+    <div class="modal-body">
+      
+    </div>
+  </div><!--modal end-->
+
+
+
+   <!-- uncomment pre-deloy -->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+  <script>window.jQuery || document.write('<script src="assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+  <!-- bootstrap -->
+  <script src="assets/js/bootstrap-transition.js"></script>
+  <script src="assets/js/bootstrap-alert.js"></script>
+  <script src="assets/js/bootstrap-modal.js"></script>
+  <script src="assets/js/bootstrap-dropdown.js"></script>
+  <script src="assets/js/bootstrap-scrollspy.js"></script>
+  <script src="assets/js/bootstrap-tab.js"></script>
+  <script src="assets/js/bootstrap-tooltip.js"></script>
+  <script src="assets/js/bootstrap-popover.js"></script>
+  <script src="assets/js/bootstrap-button.js"></script>
+  <script src="assets/js/bootstrap-collapse.js"></script>
+  <script src="assets/js/bootstrap-carousel.js"></script>
+  <script src="assets/js/bootstrap-typeahead.js"></script>
+  
+  <script src="assets/js/application.js"></script>
+  <script>$(rev.init);</script> 
+   <script type="text/javascript">
+    $("[rel=tooltip]").tooltip();
+</script> 
+   
+<script type="text/javascript">
+//$(".date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+function showDays() {
+    var start = $('.date_from').datepicker('getDate');
+    var end = $('.date_to').datepicker('getDate');
+    if (!start || !end) return;
+    var days = (end - start) / 1000 / 60 / 60 / 24;
+    if(days >31){
+    alert("Report cannot be generated for dates exceeding 31 days.");
+    $(".date_from").val('');
+    $(".date_to").val('');}
+}
+$(".date_to").datepicker({dateFormat: 'yy-mm-dd',onSelect: showDays,});
+$(".date_from").datepicker({dateFormat: 'yy-mm-dd',onSelect: showDays,});
+$('.time').timepicker({
+	
+	showSecond: true,
+	timeFormat: 'HH:mm:ss',
+	stepHour: 1,
+	stepMinute: 1,
+	stepSecond: 1
+	
+});
+           </script>
+
+  
+  <script>
+	$('#myTab a').click(function (e) {
+    e.preventDefault();
+is).tab('show');
+    })
+
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var $loader = $('#loadingdiv');
+ 
+	function showLoader() {
+	  $loader.fadeIn();
+	}
+
+  $('#view_report').click(function(event) {
+  	$('#report-content').empty();
+	showLoader();
+
+   //$('#report-content').html('<center><img style="margin-top:100px" src="/static/admin_tools/images/ajax-loader.gif"></center>');
+   var report_type = $(".report_type").val();
+    var date_from = $(".date_from").val();
+    var date_to = $(".date_to").val();
+	var time_from = $(".time_from").val();
+    var time_to = $(".time_to").val();
+    var sc = $(".sc").val();
+   // var type = $(this).attr('type')
+    var dl_report = 'View'
+   datastring= "report_type="+report_type+"&date_from="+date_from+"&date_to="+date_to+"&sc="+sc+"&dl_report="+dl_report+"&time_from="+ time_from+"&time_to="+ time_to; 
+  $.ajax({
+          url: '/reports/not_outscan/',
+          type: "POST",    
+	  data: datastring,
+          // data: { report_type:report_type, date_from:date_from, date_to: date_to, sc:sc, dl_report:dl_report, time_from: time_from, time_to: time_to},
+           success: function(data) {
+		 $loader.fadeOut('fast');
+           $('#report-content').html(data);
+         }     //  }
+        });
+  });
+   });
+
+</script>
+
+ 
+{% endblock %}
+          	

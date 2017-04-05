@@ -1,0 +1,111 @@
+{%load tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<link rel="stylesheet" href="/static/assets/css/styles.css" />
+<link rel="stylesheet" href="/static/assets/css/font-awesome.css">
+</head>
+<style type="text/css">
+table{
+font-family:courier new;
+letter-spacing: 1px;
+font-size:14px;
+}
+table p{
+font-family:courier new;
+letter-spacing: 1px;
+}
+</style>
+
+<body>
+{%if not request.GET.print %}
+<A HREF="javascript:void(0)"
+onclick="window.open('/delivery/deposit_sheet/{{cid}}/?print=1','welcome');"><i class="icon-print" style="font-size:18px;"></i>
+Print</A>
+{%endif%}
+<table  width="500" border="1" cellpadding="2" style="margin:auto">
+  <tr>
+    <td colspan="2" valign="middle">
+      <p style="font-size:20px">DEPOSIT SLIP</p>
+    </td>
+    <td>
+      <p style="align:right">Slip No:{{ codd_id.slip_number }}</p>
+      <p style="align:right">CODD ID:{{ codd_id.codd_code }}</p>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="2" valign="middle" align="center"><p style="font-size:20px">HDFC BANK</p></td>
+    <td valign="middle">Date/Time:</td>
+    <td valign="middle">{% now "SHORT_DATETIME_FORMAT" %}</td>
+  </tr>
+  <tr>
+    <td valign="middle">Location</td>
+    <td valign="middle">{{request.user.employeemaster.service_centre}}</td>
+  </tr>
+  <tr>
+    <td valign="middle">Account Number</td>
+    <td colspan="2" align="center">16708640000066</td>
+  </tr>
+  <tr>
+    <td valign="middle">Name</td>
+    <td colspan="2" align="center">ECOM EXPRESS PRIVATE LIMITED</td>
+  </tr>
+  <tr>
+  </tr>
+  <tr>
+    <th >DENOMINATIONS</th>
+    <th >NOS</th>
+    <th >AMOUNT</th>
+  </tr>
+    {% for key, val in denominations.items %}
+  <tr>
+    <td align="right" >{{ key }}</td>
+    <td align="right">{{ val.1 }}</td>
+    <td align="right">{{ val.2 }}</td>
+  </tr>
+ {%endfor%}
+  <tr>
+    <td valign="top">TOTAL</td>
+    <td valign="top"></td>
+    <td valign="top" align="right">{{codd_id.collected_amount}}</td>
+  </tr>
+  <tr>
+    <td valign="top">RUPEES (IN WORDS)</td>
+    <td colspan="2" valign="top"></td>
+  </tr>
+  <tr>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td valign="top">DEPOSITED BY</td>
+    <td valign="top"></td>
+    <td valign="top" rowspan="2"></td>
+  </tr>
+  <tr>
+    <td valign="top">ID</td>
+    <td valign="top">{{ emp_code }}</td>
+  </tr>
+  <tr>
+    <td valign="top">NAME</td>
+    <td valign="top">{{ deposited_by }}</td>
+    <td valign="top" align="center">TELLER'S SIGNATURE</td>
+  </tr>
+</table>
+<script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+<script>
+    $(function(){
+        {%if request.GET.print %}
+        var print = {{request.GET.print}}
+        {%else %}
+        var print = 0
+        {%endif %}
+        if (print == 1){
+        window.print();
+        window.close();
+        }
+    });
+</script>
+</body>
+</html>

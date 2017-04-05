@@ -1,0 +1,24 @@
+
+<div class="cust-content">
+{% load tags %} 
+   <table class="table">
+     <thead>
+        <tr>
+           {% for heading in load_report_fields %}
+           <th>{{ heading }}</th>
+           {% endfor %}
+        </tr>
+     </thead>
+     <tbobdy>
+        {% for row_vals in display_list %}
+        <tr>
+           {% for val in row_vals %}
+           <td>{{ val }}</td>
+           {% endfor %}
+       </tr>
+       {% endfor%}
+     </tbody>
+   </table>
+</div><!-- /cust-content -->
+        
+ 

@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+{% load pickup_tags %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+<style>
+.rev_pickup td{background: #FFCCCC}
+.editable_text_box{
+    display: inline-block;
+    border: 1px solid #ccc;
+    width: 67px;
+    border-radius: 5px;
+    text-align: right;
+    padding: 2px; box-shadow: 5px 5px 2px #888888;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="backgroundPopup"></div>
+
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="add-details pull-right">
+        {% if request.user.employeemaster.user_type == "Staff" or request.user.employeemaster.user_type == "Supervisor" or request.user.employeemaster.user_type == "Sr Supervisor" or a == 1%}
+          {% ifequal request.user.employeemaster.employee_code "14571" %}
+            <a class= " upload_auto_pickup_file" href="#" rel="tooltip" pickup_id="{{pickup.id}}" title="Upload File">
+                <i class="icon-upload-alt"></i>Multiple Pickup Upload</a> &nbsp; &nbsp;
+            <a href="/pickup/registration/"><i class="icon-truck"> </i>Pickup Registration </a> &nbsp; &nbsp;
+            <a href="/pickup/finders/" rel="tooltip" title="Find Pickup"><i class="icon-exclamation-sign"> </i>Finders </a>&nbsp; &nbsp;
+            <a href="/pickup/" rel="tooltip" title="Pickup Dashboard"><i class="icon-thumbs-up"> </i>Dashboard </a>
+            <a href="/pickup/reverse_shipment/" rel="tooltip" title="Reverse Shipment Dashboard">
+                <i class="icon-upload-alt"> </i>Reverse Shipment Dashboard </a>
+            <a href="/pickup/reverse/" rel="tooltip" title="Reverse Pickup Dashboard"><i class="icon-thumbs-up"> </i>Reverse Pickup Dashboard </a>
+            <a href="/pickup/reverse_outscan/" rel="tooltip" title="Reverse Shipment OS"><i class="icon-thumbs-up"> </i>Reverse Outscan </a>
+          {%endifequal%}
+        {%else%}
+            <a class= " upload_auto_pickup_file" href="#" rel="tooltip" pickup_id="{{pickup.id}}" title="Upload File"><i class="icon-upload-alt"></i>Multiple Pickup Upload</a> &nbsp; &nbsp;
+            <a href="/pickup/registration/"><i class="icon-truck"> </i>Pickup Registration </a> &nbsp; &nbsp;
+            <a href="/pickup/finders/" rel="tooltip" title="Find Pickup"><i class="icon-exclamation-sign"> </i>Finders </a>&nbsp; &nbsp;
+            <a href="/pickup/" rel="tooltip" title="Pickup Dashboard"><i class="icon-thumbs-up"> </i>Dashboard </a>
+             <a href="/pickup/reverse/" rel="tooltip" title="Reverse Pickup Dashboard"><i class="icon-thumbs-up"> </i>Reverse Pickup Dashboard </a>
+ <a href="/pickup/reverse_outscan/" rel="tooltip" title="Rev OS Dashboard">
+               <i class="icon-thumbs-up"> </i>Reverse Shipment Outscan </a>
+
+        {%endif%}
+
+        {%ifequal a 1%}
+        <a class= " upload_auto_pickup_file" href="#" rel="tooltip" pickup_id="{{pickup.id}}" title="Upload File">
+            <i class="icon-upload-alt"></i>Multiple Pickup Upload</a> &nbsp; &nbsp;
+        <a href="/pickup/registration/"><i class="icon-truck"> </i>Pickup Registration </a> &nbsp; &nbsp;
+        <a href="/pickup/finders/" rel="tooltip" title="Find Pickup"><i class="icon-exclamation-sign"> </i>Finders </a>&nbsp; &nbsp;
+        <a href="/pickup/" rel="tooltip" title="Pickup Dashboard"><i class="icon-thumbs-up"> </i>Dashboard </a>
+        {%endifequal%}
+
+        {% if request.user.employeemaster.user_type == "Supervisor" or request.user.employeemaster.user_type == "Sr Supervisor"%}
+        <a class= " upload_auto_pickup_file" href="#" rel="tooltip" pickup_id="{{pickup.id}}" title="Upload File">
+            <i class="icon-upload-alt"></i>Multiple Pickup Upload</a> &nbsp; &nbsp;
+        {%endif%}
+</div>
+</div>
+</div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+              <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i>
+              <span>Reverse Shipment Dashboard</span>
+          </div>
+      
+<div class="cust-content">
+
+
+            <a href="/pickup/reverse_ship/revert/" class="btn btn-inverse">Close</a>
+            <div>
+              <form method="POST" action="/pickup/reverse_shipment_report/">
+              {% csrf_token %}
+                Customer Name: <select name="cust_id" style="width: 158px;" class="cust_name">
+                  <option value="0">All</option>
+                  {%for a in customer%}
+                  <option value="{{a.id}}">{{a}}</option>
+                  {%endfor%}
+                </select>
+                Date-From: <input type="text" name="date_from" class="reports_date date_from" style="width: 88px;"/>
+                Date-To: <input type="text" name="date_to" class="reports_date date_to" style="width: 88px;"/>
+                Origin <select name="sc" style="width: 90px;" class="sc" >
+                  <option value="0">All</option>
+                  {%for a in sc%}
+                  <option value="{{a.id}}">{{a}}</option>
+                  {%endfor%}
+                </select>
+                <!-- <input type="hidden" name="report_type" value="dl"> -->
+                <input type="Submit" value="Download" class=" btn btn-primary">
+              </form>
+            </div>
+<br>
+{%if st%}
+<div>
+<form method="GET" action="/pickup/reverse_shipment/">
+Service Centre <select name="sc" style="width: 90px;" class="sc" >
+                  <option value="0">All</option>
+                  {%for a in sc%}
+                  <option value="{{a.id}}">{{a}}</option>
+                  {%endfor%}
+                </select>
+                <!-- <input type="hidden" name="report_type" value="dl"> -->
+                <input type="Submit" value="View" class=" btn btn-primary" style="width:100px"/>
+</form>
+<a href="/reverse_shipment/print/" class="btn btn-primary">Print Barcode</a>
+</div>
+{%endif%}
+
+{%comment%}
+<div class="paginatio pull-left">
+    <span class="step-links">
+        {% if reverse_shipments.has_previous %}
+            <a href="?page={{ reverse_shipments.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ reverse_shipments.number }} of {{ reverse_shipments.paginator.num_pages }}.
+        </span>
+
+        {% if reverse_shipments.has_next %}
+            <a href="?page={{ reverse_shipments.next_page_number }}">Next</a>
+        {% endif %}
+    </span>
+</div>
+{%endcomment%}
+<br><br><br>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Airwaybill No.</th>
+                 <th>Order No.</th>
+                  <th>Origin</th>
+                  <th>Pickup ID</th>
+                  <th>Remark</th>
+                 <th>Registered On</th>
+                  <th>Shipper Name</th>
+                  <th>Shipper Address</th>
+                  <th>Customer Name</th>
+                  <th>Height</th>
+                  <th>Breadth</th>
+                  <th>Length</th>
+                  <th>Actual Wt.</th>
+        {%comment%}          <th>Vol Wt.</th>{%endcomment%}
+                  <th>Status</th>
+                  <th>Employee Code</th>
+                  <th>Reason Code</th>
+              </thead>
+              <tbody>
+              {% for rshipment in reverse_shipments %}
+                <tr>
+                  <td>
+                      <span id="{{rshipment.id}}">{{rshipment.airwaybill_number|default_if_none:""}}</span>
+                 {%comment%}     <span id="{{rshipment.id}}" class="rship_awb editable_text_box">{{rshipment.airwaybill_number|default_if_none:""}}</span>
+{%endcomment%}       
+           </td>
+                  <td>{{ rshipment.order_number|cut:".0" }}</td>
+                  <td>{{ rshipment.pickup_service_centre.center_shortcode }}</td>
+                  <td>{{ rshipment.id }}</td>
+ 		  <td>{{ rshipment.remark }}</td>
+                  <td>{{rshipment.added_on}}</td>
+                  <td>{{ rshipment.pickup_consignee }}</td>
+                  <td>{{ rshipment.pickup_consignee_address1 }}{{ rshipment.pickup_consignee_address2 }}
+                      {{ rshipment.pickup_consignee_address3 }}{{ rshipment.pickup_consignee_address4|default_if_none:"" }}
+                      {{ rshipment.mobile }}</td>
+                  <td>{{ rshipment.shipper.name }}</td>
+                  <td>
+                    <span id="{{rshipment.id}}" class="rship_height editable_text_box">{{rshipment.height}}</span>
+                  </td>
+                  <td>
+                    <span id="{{rshipment.id}}" class="rship_breadth editable_text_box">{{rshipment.breadth}}</span>
+                  </td>
+                  <td>
+                    <span id="{{rshipment.id}}" class="rship_length editable_text_box">{{rshipment.length}}</span>
+                  </td>
+                  <td>
+                    <span id="{{rshipment.id}}" class="editable_text_box rship_aw">{{rshipment.actual_weight}}</span>
+                  </td>
+               {%comment%}   <td>
+                   <span id="{{ rshipment.id }}" class="rship_vw editable_text_box">
+                          {% if rshipment.volumetric_weight == None %}
+                              Click to Edit
+                          {% else %}
+                              {{ rshipment.volumetric_weight }}
+                          {% endif %}
+                    </span>
+                  </td>{%endcomment%}
+                  <td>{% if rshipment.status ==  2 %}Completed{% else %} Pending {% endif %}
+	<button class="btn btn-primary btn-lg" data-toggle="modal" data-rshipment_id="{{rshipment.id}}" data-target="#myModal-{{rshipment.id}}">
+  Remark
+</button></td>                
+  <td>
+                      <span id="{{rshipment.id}}" class="rship_emp_code editable_text_box">{{rshipment.employee_code.employee_code}}</span>
+                  </td>
+                  <td>
+                      <span id="{{rshipment.id}}" class="rship_reason_code editable_text_box">{{rshipment.reason_code.code}}</span>
+                  </td>
+<td>
+<div class="modal fade" id="myModal-{{rshipment.id}}" tabindex="-1" role="dialog" aria-labelledby="reverseRemark" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Remark</h4>
+      </div>
+     <div class="form-control">
+       <input type="text" id="reverseRemark-{{rshipment.id}}" content-width="device-width" class="form-control" placeholder="{{rshipment_id}}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="reverseRemarkCancel-{{rshipment.id}}"data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary saveReverseComment" data-rshipid="{{ rshipment.id}}">Save </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->      
+                </tr>
+                {%if rshipment.airwaybill_number%}
+<tr><td><a href="rev_order_slip/{{rshipment.id}}/">Print</a></td></tr>
+                 {%endif%}
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          </div><!-- /cust-content -->
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+  </div><!-- /container-fluid -->
+
+</div>
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Address</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+  </div><!--modal end-->
+   <div id="popupContact">
+        <a id="popupContactClose">x</a>
+  </div>
+
+<script src="/static/assets/js/jquery.jeditable.mini.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+     $(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+
+     $(".editable_text_box").click(function(e){
+         $(this).text();
+         $(this).attr('display', 'block');
+         $(this).attr('height', 50);
+     });
+
+     $('.rship_reason_code').editable('/pickup/reverse_ship/update_reason_code/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+             $("#"+value+"").remove();
+         }
+         }).click(function (evt){
+             var that = this;
+             $(this).find('input').keydown(function(event){
+                 if(event.which == 9){
+                     $(this).closest('form').submit();
+                     $(that).parents('tr').next('tr').find('.rship_reason_code').click();
+                     return false;
+                 }
+             });
+         });
+
+     $('.rship_emp_code').editable('/pickup/reverse_ship/update_employee_code/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+              $("#"+value+"").remove();
+       //      var selectedId = $(this).attr("id");
+       //      var data = eval('(' + value + ')');
+        //     $("#"+selectedId).html(data.awb);
+         //    $(this).closest('td').html(data.emp);
+          //   $("#"+data.emp+"").remove();
+         }
+      }).click(function (evt){
+             var that = this;
+             $(this).find('input').keydown(function(event){
+                 if(event.which == 9){
+                     $(this).closest('form').submit();
+                     $(that).parents('tr').find('.rship_reason_code').click();
+                     return false;
+                 }
+             });
+         });
+
+     $('.rship_awb').editable('/pickup/reverse_ship/update_awb_number/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+             $("#"+value+"").remove();
+         }
+      }).click(function (evt){
+             var that = this;
+             $(this).find('input').keydown(function(event){
+                 if(event.which == 9){
+                     $(this).closest('form').submit();
+                     $(that).parents('tr').find('.rship_height').click();
+                     return false;
+                 }
+             });
+         });
+
+     $('.rship_length').editable('/pickup/reverse_ship/update_length/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+             $("#"+value+"").remove();
+         }
+     }).click(function (evt){
+             var that = this;
+             $(this).find('input').keydown(function(event){
+                 if(event.which == 9){
+                     console.log('tab pressed length...', $(that));
+                     $(this).closest('form').submit();
+                     $(that).parents('tr').find('.rship_aw').click();
+                     return false;
+                 }
+             });
+         });
+
+     $('.rship_breadth').editable('/pickup/reverse_ship/update_breadth/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+             $("#"+value+"").remove();
+         }
+      }).click(function (evt){
+             var that = this;
+             $(this).find('input').keydown(function(event){
+                 if(event.which == 9){
+                     $(this).closest('form').submit();
+                     $(that).parents('tr').find('.rship_length').click();
+                     return false;
+                 }
+             });
+         });
+
+     $('.rship_height').editable('/pickup/reverse_ship/update_height/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+             $("#"+value+"").remove();
+         }
+      }).click(function (evt){
+             var that = this;
+             $(this).find('input').keydown(function(event){
+                 if(event.which == 9){
+                     $(this).closest('form').submit();
+                     $(that).parents('tr').find('.rship_breadth').click();
+                     return false;
+                     return false;
+                 }
+             });
+         });
+
+     $('.rship_aw').editable('/pickup/reverse_ship/update_aw/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+             $("#"+value+"").remove();
+         }
+      }).click(function (evt){
+             var that = this;
+             $(this).find('input').keydown(function(event){
+                 if(event.which == 9){
+                     $(this).closest('form').submit();
+                     //$(that).parents('tr').find('.rship_emp_code').click();
+                     return false;
+                 }
+             });
+         });
+
+     $('.rship_vw').editable('/pickup/reverse_ship/update_vw/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+             $("#"+value+"").remove();
+         }
+      }).click(function (evt){
+             var that = this;
+             $(this).find('input').keydown(function(event){
+                 if(event.which == 9){
+                     $(this).closest('form').submit();
+                     return false;
+                 }
+             });
+         });
+
+});
+
+$(".saveReverseComment").click(function(e){
+	//e.preventDefault();
+var rshipid=$(this).attr('data-rshipid');
+var remark=$("#reverseRemark-"+rshipid).val();
+console.log('id..',rshipid);
+console.log('remark..',remark);
+var datastring = "remark="+remark+"&id="+rshipid;
+$.ajax({
+                                type:"POST",
+                                url: "/pickup/update_reverse_shipment/",
+                                data: datastring,
+                                success: function(resp){
+console.log(resp);
+$("input#awb_rd").val("");
+$("input#awb_rd").focus();
+$("#reverseRemarkCancel-"+rshipid).click();
+ //alert(resp);
+ 
+ }
+});
+});
+
+  $(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+
+</script>
+
+{% endblock %}

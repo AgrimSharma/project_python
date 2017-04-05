@@ -1,0 +1,181 @@
+<!doctype html>
+  <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+  <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title>ECOM</title>    
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">        
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />    
+
+    
+    <meta property="og:image" content="http://www.domain.com/images/logo.png"/>
+    <meta property="og:title" content="-- description here --"/>
+    <meta property="og:url" content="http://www.domain.com"/>
+        
+    <link rel="shortcut icon" href="{{ STATIC_URL }}assets/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="{{ STATIC_URL }}assets/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}assets/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}assets/img/apple-touch-icon-114x114.png">
+         
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" /> 
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/font-awesome.css">           
+    
+    <script src="{{ STATIC_URL }}assets/js/libs/modernizr.custom.60077.js"></script>
+			{% block extraheader %}
+			
+			{% endblock %}
+
+</head>
+  <body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid nav-fluid">
+        <a class="brand" href="#">ECOM</a>
+        
+        <!-- actions -->
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".main-toolbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+
+        <div class="btn-toolbar nav-collapse pull-right main-toolbar" id="main-toolbar">
+          <div class="btn-group myaccount">
+            <a href="/pickup/" ><i class="icon-plus-sign"></i><span>Pickup</span></a>
+            <a><i class="icon-plane"></i><span>Airway Bill</span></a>
+            <a><i class="icon-truck"></i><span>Shipment</span></a>
+            <a><i class="icon-briefcase"></i><span>Bagging</span></a>
+            <a><i class="icon-money"></i><span>Billing</span></a>
+            <a href="/customer/"><i class="icon-user"></i><span>Customer</span></a>
+            <a><i class="icon-share-alt"></i><span>Delivery</span></a>
+            <a href="employee.html" class="active"><i class="icon-group"></i><span>Employee</span></a>
+            <a href="#"><i class="icon-signout"></i><span>Logout</span></a>
+          </div>                              
+        </div>        
+        
+      </div><!-- /container-fluid -->
+    </div><!-- /navbar-inner -->
+  </div><!-- /navbar -->
+  
+    
+			  <div id="wrap"> 
+			  <div class="container-fluid" role="main" id="main">
+				   {% block content %}
+					
+					
+								   
+				   {% endblock %}	
+				   </div> <!--  container-fluid -->			   
+			  </div> <!--wrap -->
+  
+  
+
+  <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Add Customer</h3>
+    </div>
+    <div class="modal-body">
+      
+    </div>
+  </div><!--modal end-->
+
+
+
+   <!-- uncomment pre-deloy -->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+  <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+  <!-- bootstrap -->
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-transition.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-alert.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-modal.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-dropdown.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-scrollspy.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-tab.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-tooltip.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-popover.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-button.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-collapse.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-carousel.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-typeahead.js"></script>
+  
+  <script src="{{ STATIC_URL }}assets/js/application.js"></script>
+  <script>$(rev.init);</script> 
+  <script language='javascript'>
+		function changeContent(tablecell)
+		{
+			//alert(tablecell.firstChild.nodeValue);
+            var row_id =  $(tablecell).attr("row_id");
+            var model_name =  $(tablecell).attr("model_name");
+            var field_name =  $(tablecell).attr("field_name");
+
+        	//alert(row_id);
+        	//alert(model_name);
+        	//alert(field_name);
+
+            
+            tablecell.innerHTML = "<input class=\"input-mini\" type=text  row_id=\""+row_id+"\" model_name=\""+model_name+"\"  field_name=\""+field_name+"\"   onBlur=\"javascript:submitNewName(this);\" value=\""+tablecell.innerHTML+"\">";
+			tablecell.firstChild.focus();
+
+
+		}
+		function submitNewName(textfield)
+		{
+			textfield.parentNode.innerHTML= textfield.value;
+			var row_id =  $(textfield).attr("row_id");
+            var model_name =  $(textfield).attr("model_name");
+            var field_name =  $(textfield).attr("field_name");
+
+        	//alert(row_id);
+        	//alert(model_name);
+        	//alert(field_name);
+        		
+        		data = {'row_id':row_id,'model_name':model_name,'field_name':field_name,'value':textfield.value};
+        		//alert(data);
+        	 	$.ajax({
+        			  type:"POST",
+        			  url: "/location/update/",
+        			  data: data,//{email: $('#id_email').val()},
+        			  success: function(data){
+        				  //alert(data);
+        			    	//$('#popupContact').empty();
+        			        //$('#popupContact').html(data);
+  			    		location.reload();	
+    
+        			  }
+        			}); 
+        	
+			//alert(textfield.value);  after submitting value
+			//alert(userId);
+			//alert(tablecell.firstChild.nodeValue);
+			
+		}
+		
+// To add new records in this module
+
+
+	
+		
+</script> 
+
+  
+
+
+ 
+
+  </body>
+</html>
+  
+  
+  
+  
+  

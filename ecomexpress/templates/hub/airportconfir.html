@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+          		{% block content %}
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+  {% include "hub/nav.html" %}     </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-plane" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Upliftment / Misconnection Details</span>
+            </div>
+          <div class="cust-content">
+          	<div class="content-login">
+            <h3>Welcome {{request.user.employeemaster.firstname}}</h3><br/>
+            
+            <form >
+           		<table>
+                <tr>
+               		<td>Date</td> <td> <input type="text" id="pickup_date" name="date" style="width:70px; height:30px" value="{% now 'Y-m-d' %}"/></td>
+                	<td>Run Code</td><td><input type="text" class="run_code" name="run_code" style="width:18px; height:30px"/></td>
+               		<td>Flight No. </td><td><input type="text" id="flight_num" name="flight_num" style="width:70px; height:30px"/></td>
+                	<td>STD</td><td><input type="text" id="std" class="pickup_time" name="std" style="width:32px; height:30px" value="{% now 'H:i' %}"/></td>
+                    <td>ATD</td><td><input type="text" id="atd" class="pickup_time" name="atd" style="width:32px; height:30px" value="{% now 'H:i' %}"/></td>
+                	<td>No. of Bags</td><td><input type="text" id="num_bags" name="num_bags" style="width:23px; height:30px"/></td>
+{%comment%}
+                	<td>CoLoader Name:</td>
+                	<td>
+                	<select name="coloader" class="coloader">                  
+                   <option>Select Coloader</option>
+{% for a in coloader %}
+                <option value="{{a.id}}">{{a.name}}</option>
+{% endfor %}
+                </select>
+                	
+                	</td>
+                	{%endcomment%}
+                    <td>CoLoad/Cnote No:</td><td><input type="text" id="connection_num" name="connection" style="width:75px; height:30px"/></td>
+                	
+                </tr>
+                
+                
+                </table>
+                <hr>
+                <table>
+                	<tr>
+                	<td>Status Code:</td><td>
+                	<select name="status_code" class="reason_code">                  
+                   <option>Select Status Code</option>
+{% for a in reason_code %}
+           <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option>
+{% endfor %}
+                </select>
+                	
+            
+                    <td>Remarks</td><td><input id="remarks" type="text" style="width:717px; height:30px"/></td>
+                </tr>
+                </table>
+                
+                <table>
+                <tr>
+                    <td>
+                    <input type="button" class="btn btn-redbutton airport_confirmation" value="Save"/>
+{%comment%}
+                    <a href="#" class="btn btn-redbutton"> Delink Bag</a>
+{%endcomment%}
+                    </td>
+                </tr>
+                </table>
+            
+            </form>
+            </div>
+
+
+
+<table class="table">
+                <thead>
+                    <tr><th>Airport Confirmation ID</th> <th>Date</th><th>Run Code</th><th>Flight Number</th><th>Number of Bags</th>{%comment%}<th>Coloader</th><th>Connection ID</th>{%endcomment%}</tr>
+                </thead>
+                <tbody>
+{% for a in airport_confirm %}
+                <tr><td>{{a.id}}</td><td>{{a.date|date:"SHORT_DATE_FORMAT"}}</td><td>{{a.run_code.id}}</td><td>{{a.flight_num}}</td><td>{{a.num_of_bags}}</td>{%comment%}<td>{{a.coloader_name}}</td><td>{{a.connection.id}}</td>{%endcomment%}
+
+                </tr>
+{%endfor%}
+                </tbody>
+            </table>
+
+
+            
+          </div>
+    </div><!-- /row-fluid -->
+    
+    
+  </div><!-- /container-fluid -->
+   <div style="margin-top:10px">
+         
+          <div class="pull-right" style="display:inline-block"><a href="#"   data-rev-action="modal" data-target="#add-revlet"> <i style="font-size:20px; color:#F00; margin-right: 6px;"class="icon-envelope-alt"></i></a></div>
+          </div>
+             
+</div>
+
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet" style="width:300px">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Email -Manifest &amp; Transfer Challan</h3>
+    </div>
+    <div style="height:68px;" class="modal-body">
+   		<form>
+        	<input type="text" Placeholder=" Email"/>
+            <a href="#"><i class="icon-plus-sign"></i> </a><br>
+            <input type="button" class="btn btn-redbutton" value="Send" />
+        </form>
+    </div>
+  </div><!--modal end-->
+
+
+<script>
+$("#pickup_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+$('.pickup_time').timepicker();
+
+
+$(function(){
+var fewSeconds = 3;
+$(".airport_confirmation").click(function(){
+var btn = $(this);
+btn.prop('disabled', true);
+
+var date=$("input#pickup_date").val();
+var run_code=$("input.run_code").val();
+var flight_num=$("input#flight_num").val();
+var std=$("input#std").val();
+var atd=$("input#atd").val();
+var num_bags=$("input#num_bags").val();
+
+
+var connection_num=$("input#connection_num").val();
+var coloader=$("select.coloader").val();
+var status_code=$("select.reason_code").val();
+var table_data = $(".table > tbody").html();
+
+var datastring = "date="+date+"&run_code="+run_code+"&flight_num="+flight_num+"&std="+std+"&atd="+atd+"&num_bags="+num_bags+"&coloader="+coloader+"&connection="+connection_num+"&status_code="+status_code;
+$.ajax({
+type:"POST",
+url: "/hub/airport_confirmation/",
+data: datastring,
+success: function(resp){
+$(".table > tbody").html("")
+$(".table > tbody").append(resp);
+$(".table > tbody").append(table_data);
+setTimeout(function(){
+        btn.prop('disabled', false);
+    }, fewSeconds*1000);
+
+//alert(resp); 
+//location.reload()
+}
+});
+return false;
+});
+});
+
+$(".run_code").change(function(){
+
+var run_code = $(".run_code").val();
+var datastring = "run_code="+run_code;
+$.ajax({
+type:"POST",
+url: "/service-centre/run_code_bags/",
+data: datastring,
+success: function(resp){
+
+$("#num_bags").val(resp);
+//location.reload()
+}
+});
+
+return false;
+
+});
+
+
+
+$(".reason_code").change(function(){
+var reason_code = $("select.reason_code").val();
+var datastring = "reason_code="+reason_code;
+$.ajax({
+type:"POST",
+url: "/service-centre/reason_code/",
+data: datastring,
+success: function(resp){
+
+$("#remarks").val(resp);
+//location.reload()
+}
+});
+
+return false;
+
+});
+
+
+</script>
+
+{% endblock%}
+          	

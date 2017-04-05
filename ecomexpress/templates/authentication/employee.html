@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+{% endblock %}
+
+{% block content %}
+{% load sorting_tags %}
+{% autosort employees %}
+
+<div id="backgroundPopup"></div>
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+{% load pagination_tags %}
+{% paginate %}
+    <div class="span12">
+        <div class="pagination pull-left">
+        <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+        </ul>
+        </div>
+        <div class="add-details pull-right">
+        <a href="#" id="add_employee"  class=" btn btn-primary"> Add Employee </a>
+        <a href="#" data-rev-action="modal" data-target="#add-emp"  id="outscan_employee"  class=" btn btn-primary">Enroll Employee </a>
+        <input type="button" class="btn btn-primary" value="Mass Employee Creation" id="ship-upload1" data-rev-action="modal" data-target="#massEmp">
+        </div>
+    </div>
+  </div>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-group" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Employee Details</span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+          {% if error_list %}
+           {%for error in error_list %}
+           <p>{{error}}</p>
+           {% endfor %}
+          {% endif %}
+       	<div class="tabbable"> <!-- Only required for left/right tabs -->
+	<ul class="nav nav-tabs">
+	<li class="active"><a href="#tab1" data-toggle="tab">Active Employee</a></li>
+	<li><a href="#tab2" data-toggle="tab">Deactive Employee</a></li>
+	</ul>
+        {% if emperror %}
+          <p class="alert alert-error">{{emperror}}</p>
+        {% endif %}
+	<div class="tab-content">
+	<div class="tab-pane active" id="tab1">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>{% anchor firstname Name %}</th>
+              <th>{% anchor employee_code "Employee Code" %}</th>
+              <th>{% anchor email Email %}</th>
+              <th>Action</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+{% for a in employees %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{a.firstname}} {{a.lastname}}</td>
+            <td>{{a.employee_code}}</td>
+            <td>{{a.email}}</td>
+
+            <td><a href="#" class="btn2 btn-info edit_employee" rel="tooltip" employee_id="{{a.id}}" title="View Employee Details"><i class="icon-eye-open"></i> view</a> &nbsp; {%comment%}<a class="btn2 btn-danger" href="/authentication/delete_employee/{{a.id}}/" rel="tooltip" title="Delete Employee" onclick="{return confirm ('Are you sure?')}"><i class="icon-trash"></i> delete</a>{%endcomment%}</td>
+
+            <td>
+             {%ifequal a.staff_status 2 %}
+             <button class=" btn btn-primary" onclick="location.href='/authentication/active_employee/{{a.id}}/'">Activate</button>
+             {%endifequal%}
+             {%ifequal a.staff_status 0%}
+             <button  class=" btn btn-primary"  onclick="location.href='/authentication/deactive_employee/{{a.id}}/'">Deactivate</button>
+             {%endifequal%}
+             </td>
+                </tr>
+                {% endfor %}
+           </tbody>
+           </table>
+           </div> <!-- end tab1 -->
+           <div class="tab-pane" id="tab2">
+           <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{% anchor firstname Name %}</th>
+                  <th>{% anchor employee_code "Employee Code" %}</th>
+                  <th>{% anchor email Email %}</th>
+                  <th>Action</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+{% for a in employeesinactive %}
+                <tr>
+
+                  <td>{{forloop.counter}}</td>
+                  <td>{{a.firstname}} {{a.lastname}}</td>
+                  <td>{{a.employee_code}}</td>
+                  <td>{{a.email}}</td>
+                  <td><a href="#" class="btn2 btn-info edit_employee" rel="tooltip" employee_id="{{a.id}}" title="View Employee Details"><i class="icon-eye-open"></i> view</a> &nbsp; {%comment%}<a class="btn2 btn-danger" href="/authentication/delete_employee/{{a.id}}/" rel="tooltip" title="Delete Employee" onclick="{return confirm ('Are you sure?')}"><i class="icon-trash"></i> delete</a>{%endcomment%}</td>
+                 <td>
+                  {%ifequal a.staff_status 2 %}
+                  <button class=" btn btn-primary" onclick="location.href='/authentication/active_employee/{{a.id}}/'">Activate</button>
+                  {%endifequal%}
+                  {%ifequal a.staff_status 0%}
+                  <button  class=" btn btn-primary"  onclick="location.href='/authentication/deactive_employee/{{a.id}}/'">Deactivate</button>
+                  {%endifequal%}
+                  </td>
+                </tr>
+                {% endfor %}
+               </tbody>
+           </table>
+
+           </div>
+     </div> <!-- tab content -->
+    </div>   <!-- End tabbable -->
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+  </div><!-- /container-fluid -->
+</div>
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Add Customer</h3>
+    </div>
+    <div class="modal-body">
+    </div>
+  </div><!--modal end-->
+
+  <div id="popupContact"> <a id="popupContactClose">x</a> </div>
+
+  <div class="modal hide modal-add-revlet" id="add-emp" style="width: 260px; height: 500px;overflow:hidden;top:200px;margin:0 auto;margin-top:-75px;margin-left: -159px;">
+    <div class="modal-header"  style="background-color: red;">
+      <a class="close" data-dismiss="modal">×</a>
+      <h5 Style="color:white">Add Outsource Employee</h5>
+    </div>
+    <div class="modal-body">
+      <form method="post" enctype="multipart/form-data" action="/authentication/outemp/">{% csrf_token %}
+      {{outempform}}
+      <input class=" btn btn-primary" type="submit" value="Update">
+    </form>
+
+    </div>
+  </div><!--modal end-->
+
+<!-- employee via excel -->
+<div class="modal hide modal-mis-div" id="massEmp">
+    <div class="modal-header">
+      <h4>Mass Employee Creation  Excel File upload<a class="close" data-dismiss="modal">×</a></h4>
+    </div>
+    <div style="height:auto;" class="modal-body">
+     
+
+      <p>Please follow the below instructions when you upload your excel file containing the employee details.</p>
+        <ul>
+           <li>All your data should be filled in Sheet1.</li>
+           <li>The first row of your sheet will be column headers.</li>
+           <li>All your data should be filled from row1, col1. Means there should not be any blank rows or columns on the left side and top of your data</li>
+           <li>Columns should be in the following order:
+              <ul>
+                  <li>Employee_code (col 1)</li>
+                  <li>First Name (Col 2)</li>
+                  <li>Last Name (Col 3)</li>
+                  <li>User Type (col 4)</li>
+                  <li>Depatment Name(Col 5)</li>
+                  <li>Email (Col 6)</li>
+                  <li>Address1 (col 7)</li>
+                  <li>Address2 (col 8)</li>
+                  <li>Address3 (col 9)</li>
+                  <li>Service Center Short Code (Col 10)</li>
+                  <li>Mobile Number (Col 11)</li>
+              </ul>
+        </ul>
+
+                <form method="post" action="/authentication/mass_employee_creation/" enctype="multipart/form-data">
+                {%csrf_token%}
+                <input  type="file" class="btn" value="browse" name="emp_file"/>
+                <br/>
+                <br/>
+            <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
+    </div>
+ </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{%load tags%}                                   ECOM Express Private LTD 
+
+Manifest No: {{octroi.id}}                                          Octroi Slip No: 
+Manifest Date: {{octroi.date}}          Origin Hub: {{octroi.origin}}                       Octroi Amount: 
+
+
+Sr  AWB No.    Order No.     Consignee Name          Consignee Address    Shipper         Product Description       Value      DC
+
+----------------------------------------------------------------------------------------------------------------------
+
+{% for a in shipments%}{{forloop.counter}}  {{a.shipment.airwaybill_number}}   {{a.shipment.order_number}}     {{a.shipment.consignee}}               {{a.shipment.consignee_address1|truncatechars:20}}          {{a.shipment.shipper}}       {{a.shipment.item_description}}         {{a.shipment.collectable_value}}      {{a.shipment.service_centre}}
+{%endfor%}    
+----------------------------------------------------------------------------------------------------------------------

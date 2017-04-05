@@ -1,0 +1,40 @@
+{% extends "billing_admin/admin_base.html" %}
+{% load tags %}
+
+{% block sidebar %} {% include "billing_admin/_side_bar.html" %}{% endblock %}
+{% block content %}
+
+    <div class="row content-row" id="id_default_home">
+        <div class="col-lg-12">
+            <h1 class="page-header">Dashboard</h1>
+            <p> Welcome to the automated billing home.</p>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <div class="row hidden content-row" id="id_provisional_billing_div">
+        {% include "billing_admin/_billing_form.html" with page_header="Provisional Billing" button_display="Preview" button_id="id_provisional_preview_button" form_id="id_provisional_form"  form=provisional_form %}
+    </div>
+    <!-- /.row -->
+
+    <div class="row hidden content-row" id="id_provisional_reports_div"></div>
+    <!-- /.row -->
+
+    <div class="row hidden content-row" id="id_bill_generation_status_div"></div>
+    <!-- /.row -->
+
+    <div class="row hidden content-row" id="id_billing_reports_div"></div>
+    <!-- /.row -->
+
+    <div class="row hidden content-row" id="id_bill_generation_div">
+        {% include "billing_admin/_billing_form.html" with page_header="Billing Generation" button_display="Generate" button_id="id_bill_generation_button"  form_id="id_bill_generation_form" form=bill_generation_form %}
+    </div>
+
+    <div class="row hidden content-row" id="id_general_div"></div>
+    <!-- /.row -->
+{% endblock %}
+
+{% block extrajs %}
+<script src="/static/assets/js/billing.js" type="text/javascript"> </script>
+{% endblock %}

@@ -1,0 +1,67 @@
+	<div class="cust-content">
+            <table class="table">
+	    {%ifequal stat "7"%}
+              <thead>
+	              <tr>
+	              	  <th>Outscan Date</th>
+	                  <th>Outscan Number</th>
+					  
+					  <th>Employee ID</th>
+	                  <th>AirwayBill Number</th>
+	                  <th>Value</th>
+	               </tr>
+              </thead>
+              <tbody>
+               
+              {%for shipment in shipments%}
+             
+               <tr>
+                 <td>{{shipment.0|date:"d-m-Y"}}</td>
+                  
+                  <td>{{shipment.1}}</td>
+                 <td>{{shipment.2}}</td>
+                 <td>{{shipment.3}}</td>
+                 <td>{{shipment.4}}</td>
+               </tr>
+             
+                {%endfor%}
+              </tbody>
+                 
+           {%else%}
+              <thead>
+                <tr>
+                  <th>Origin</th>
+                  <th>Pickup date</th>
+				  
+				  <th>Destination</th>
+                  <th>AirwayBill Number</th>
+                  <th>Shipper</th>
+                  <th>Consignee</th>
+                  <th>Status Update Date</th>
+                </tr>
+              </thead>
+               <tbody>
+               
+              {%for shipment in shipments%}
+             
+                <tr>
+                <td>{{shipment.0}}</td>
+                  
+                  <td>{{shipment.1|date:"d-m-Y"}}</td>
+                  
+                 <td>{%ifnotequal shipment.2 None%}{{shipment.2}}{%endifnotequal%}</td>
+                 <td>{{shipment.3}}</td>
+                 <td>{{shipment.4}}</td>
+                 <td>{{shipment.5}}</td>
+                 <td>{{shipment.6|date:"d-m-Y"}}</td>
+				
+				
+                </tr>
+             
+                {%endfor%}
+              </tbody>
+	{%endifequal%}
+            </table>
+            
+          </div><!-- /cust-content -->
+    

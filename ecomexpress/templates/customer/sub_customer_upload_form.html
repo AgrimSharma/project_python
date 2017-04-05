@@ -1,0 +1,18 @@
+
+<form id="upload-subcustomers-form" class="well tm10" action={% url upload-subcustomers %} method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type='hidden' value="{{ c_id }}" name="customer-id" />
+    <br/>
+    <input type="submit" class="btn btn-primary" id="upload-subcustomers" value="Upload">
+    <input type="button" class="btn btn-primary" id="close-upload-subcustomers" value="Cancel">
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function (){
+	    $("#close-upload-subcustomers").live('click', function (){
+	    	$("#uplaod-subcustomers-form").hide();
+	    });
+    });
+</script>
+

@@ -1,0 +1,50 @@
+	<div class="cust-content">
+            <table class="table">
+              <thead>
+         
+             	 <tr>
+              <th>OutScan Number</th>
+                  <th>BackendAWB</th>
+				  
+				  <th>Backend Amount</th>
+            <th>Backend Sub-total</th>
+           <th>Cash Deposited</th>  
+           <th>Deposit Sheet</th>
+             </tr>
+            
+          
+   
+             
+
+			{%for tmp in cod_list%}
+			 {%for key,value in dict.items%}
+			{%if tmp == value.3%}
+             
+              <tr>
+              	<th>{{value.0}}</th>
+              	
+              	 <th>{% for a in value.2 %}
+              	 	<br>{{a.airwaybill_number}}</br>
+              	 	
+              	 	{%endfor%}
+              	 	</th>
+              <th>{% for a in value.2 %}
+              	 	<br>{{a.collectable_value}}</br>
+              	 	
+              	 	{%endfor%}              
+				  
+				  <th> {{value.1 }}</th>
+				  <th>{{tmp}}</th>
+				  <th>{{value.4}}</th>
+				  
+		    
+    {% endif %}
+           </tr>
+            {%endfor%}
+             {%endfor%}
+                
+                             </tbody>
+            </table>
+            
+          </div><!-- /cust-content -->
+    

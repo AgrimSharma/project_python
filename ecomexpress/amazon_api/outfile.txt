@@ -1,0 +1,43 @@
+<RoutingUpdate>
+	<CarrierName>XXXIN</CarrierName>
+	<UpdateParameters>
+		<Version>1.0</Version>
+		<CreationDate>2014-08-13T01:00:00Z</CreationDate>
+		<EffectiveDate>2014-08-13T00:00:00Z</EffectiveDate>
+		<ExpiryDate>2099-12-31T23:59:59Z</ExpiryDate>
+	</UpdateParameters>
+	<RoutingSpecification>
+		<ProductName>XXX_DEFAULT</ProductName>
+		<FormatDefinition delimiter="|">
+			<KeyDefinition delimiter=",">
+				<Component>
+					<Name>CountryCode</Name>
+					<Type>destCountryCode</Type>
+				</Component>
+				<Component>
+					<Name>PostalCode</Name>
+					<Type>destPostalCodePrefix</Type>
+				</Component>
+			</KeyDefinition>
+			<ValueDefinition delimiter=",">
+				<Component>
+					<Name>CITYCODE</Name>
+					<Type>FiveDigitAlphaNumeric</Type>
+				</Component>
+				<Component>
+					<Name>DELIVERYSTATIONCODE</Name>
+					<Type>NineDigitAlphaNumeric</Type>
+				</Component>
+				<Component>
+					<Name>SECTORCODE</Name>
+					<Type>TenDigitAlphaNumeric</Type>
+				</Component>
+			</ValueDefinition>
+		</FormatDefinition>
+		<RoutingData>
+			<Complete>
+				Entries HeRe
+			</Complete>
+		</RoutingData>
+	</RoutingSpecification>
+</RoutingUpdate>

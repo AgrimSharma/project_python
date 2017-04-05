@@ -1,0 +1,18 @@
+<form method="GET" id="billing-input-form" action="{{ url }}" class="pull-right">
+    Customer Name:
+    <select name="cust_id" style="width: 158px;" class="cust_name">
+       <option value="0">All</option>
+       {% for customer in customers %}
+       <option value="{{ customer.id }}">{{ customer }}</option>
+       {%endfor%}
+    </select>
+    From: <input type="text" class="input_date_from date" name='date_from' style="width: 88px;"/>
+    To: <input type="text" class="input_date_to date" name='date_to' style="width: 88px;"/>
+    <a id='input_view_report' class=" btn btn-primary">View</a>
+    <input type="Submit" name='dl_report' value="Download" class=" btn btn-primary">
+</form>
+
+<script type="text/javascript">
+       $(".date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+</script>
+

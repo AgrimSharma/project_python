@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<ShipmentInformation>
+<TransactionInformation>
+ <SenderIdentifier>SCAC</SenderIdentifier>
+ <RecipientIdentifier>AMAZON</RecipientIdentifier>
+ <DateOfPreparation/>
+ <TimeOfPreparation/>
+</TransactionInformation>
+<EdiDocumentInformation>
+<EdiDocumentStandard>X12</EdiDocumentStandard>
+<EdiDocumentName>XML</EdiDocumentName>
+<EdiDocumentVersion>1.1</EdiDocumentVersion>
+</EdiDocumentInformation>
+<ShipmentStatusSeq>
+<ShipmentStatus><ShipmentIdentification><MessageReferenceNum>DXj5pJnDR</MessageReferenceNum><CarrierTrackingNum>9102901000076005492218</CarrierTrackingNum></ShipmentIdentification><ShipToInformation><PartyName>Andrea Green Rush</PartyName><Address><Line1>2200 Adeline Street, Suite 350</Line1><Line2/><Line3/><City>Oakland</City><StateProvinceCode>California</StateProvinceCode><PostalCode>94607</PostalCode><CountryCode>IN</CountryCode></Address></ShipToInformation><LocationOfFreight><Address><City>OAKLAND,</City><StateProvinceCode>CA</StateProvinceCode><CountryCode>IN</CountryCode></Address></LocationOfFreight><ShipmentStatusInformation><Status>J1</Status><StatusReason>NS</StatusReason></ShipmentStatusInformation><TransportInformation><TransportMode>USPS_BP_DDU_BPM_SFO</TransportMode><CarrierSCAC>SCAC</CarrierSCAC></TransportInformation><DateTimePeriodInformation><DateTimePeriodCode>203</DateTimePeriodCode><DateTimePeriodFormat>YYYYMMDDHHMMSS</DateTimePeriodFormat><DateTimePeriodValue>200812042053</DateTimePeriodValue></DateTimePeriodInformation>
+<EstimatedDeliveryDateTime>
+<DateTimePeriodCode/>
+<EstimatedDeliveryDateTimeTz>203</EstimatedDeliveryDateTimeTz>
+<EstimatedDeliveryDateTimeFormat>IST</EstimatedDeliveryDateTimeFormat>
+<EstimatedDeliveryDateTimeValue>YYYYMMDDHHMMSS</EstimatedDeliveryDateTimeValue>
+</EstimatedDeliveryDateTime>
+<ShipmentReferenceSequence><ShipmentReference><ReferenceId>DXj5pJnDR</ReferenceId><ReferenceIdType/></ShipmentReference></ShipmentReferenceSequence></ShipmentStatus><ShipmentStatus><ShipmentIdentification><MessageReferenceNum>D63Xpvn8R</MessageReferenceNum><CarrierTrackingNum>9102901000076005491525</CarrierTrackingNum></ShipmentIdentification><ShipToInformation><PartyName>Richard J. Rihn</PartyName><Address><Line1>1101 Scots Ln</Line1><Line2/><Line3/><City>Walnut Creek</City><StateProvinceCode>CA</StateProvinceCode><PostalCode>94596</PostalCode><CountryCode>IN</CountryCode></Address></ShipToInformation><LocationOfFreight><Address><City>WALNUT CREEK,</City><StateProvinceCode>CA</StateProvinceCode><CountryCode>IN</CountryCode></Address></LocationOfFreight><ShipmentStatusInformation><Status>D1</Status><StatusReason>NS</StatusReason></ShipmentStatusInformation><TransportInformation><TransportMode>USPS_BP_DDU_BPM_SFO</TransportMode><CarrierSCAC>SCAC</CarrierSCAC></TransportInformation><DateTimePeriodInformation><DateTimePeriodCode>203</DateTimePeriodCode><DateTimePeriodFormat>YYYYMMDDHHMMSS</DateTimePeriodFormat><DateTimePeriodValue>20150506140919</DateTimePeriodValue></DateTimePeriodInformation>
+<EstimatedDeliveryDateTime>
+<DateTimePeriodCode/>
+<EstimatedDeliveryDateTimeTz>203</EstimatedDeliveryDateTimeTz>
+<EstimatedDeliveryDateTimeFormat>IST</EstimatedDeliveryDateTimeFormat>
+<EstimatedDeliveryDateTimeValue>YYYYMMDDHHMMSS</EstimatedDeliveryDateTimeValue>
+</EstimatedDeliveryDateTime>
+<ShipmentReferenceSequence>
+<ShipmentReference>
+<ReferenceId>D63Xpvn8R</ReferenceId>
+<ReferenceIdType/>
+</ShipmentReference></ShipmentReferenceSequence>
+</ShipmentStatus>
+<ShipmentStatus>
+<ShipmentIdentification><MessageReferenceNum>D345pjn7R</MessageReferenceNum><CarrierTrackingNum>9102901000076005503990</CarrierTrackingNum></ShipmentIdentification><ShipToInformation><PartyName>Klara Tavakoli</PartyName><Address><Line1>2001 THE EMBARCADERO</Line1><Line2/><Line3/><City>SAN FRANCISCO</City><StateProvinceCode>CA</StateProvinceCode><PostalCode>94133</PostalCode><CountryCode>IN</CountryCode></Address></ShipToInformation><LocationOfFreight><Address><City>SAN FRANCISCO,</City><StateProvinceCode>CA</StateProvinceCode><CountryCode>IN</CountryCode></Address></LocationOfFreight><ShipmentStatusInformation><Status>J1</Status><StatusReason>NS</StatusReason></ShipmentStatusInformation><TransportInformation><TransportMode>USPS_BP_DDU_STANDARD_MAIL_SFO</TransportMode><CarrierSCAC>SCAC</CarrierSCAC></TransportInformation><DateTimePeriodInformation><DateTimePeriodCode>203
+</DateTimePeriodCode><DateTimePeriodFormat>YYYYMMDDHHMMSS</DateTimePeriodFormat><DateTimePeriodValue>20150506232047</DateTimePeriodValue></DateTimePeriodInformation><EstimatedDeliveryDateTime>
+<DateTimePeriodCode/>
+<EstimatedDeliveryDateTimeTz>203</EstimatedDeliveryDateTimeTz>
+<EstimatedDeliveryDateTimeFormat>IST</EstimatedDeliveryDateTimeFormat>
+<EstimatedDeliveryDateTimeValue>YYYYMMDDHHMMSS</EstimatedDeliveryDateTimeValue>
+</EstimatedDeliveryDateTime>
+<ShipmentReferenceSequence>
+<ShipmentReference><ReferenceId>D345pjn7R</ReferenceId><ReferenceIdType/>
+</ShipmentReference>
+</ShipmentReferenceSequence>
+</ShipmentStatus>
+</ShipmentStatusSeq>
+</ShipmentInformation>

@@ -1,0 +1,290 @@
+{%load billtags%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Billing Details</title>
+<style type="text/css">
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+td {padding:2px 4px;}
+td.thickBorder{ border: solid #000 2px; text-align:right;}
+td.sideBorder{ border-collapse: collapse;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-left: 2px solid #000;}
+td.side2Border{ border-collapse: collapse;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-right: 2px solid #000;}
+td.side3Border{ border-collapse: collapse;
+    border-top: 0px solid #fff;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-left: 1px solid #000;}
+
+td.noborder{border:0px;}
+tr.noborder{border:0px;}
+td.grey{ color:#808080; text-align:center; font-size:20px;font-weight:bold;}
+  
+#airwaybill_detail { font-size: 9px;}
+.total_val { font-size: 10px; font-weight: bold;}
+
+#airwaybill_detail td:nth-child(n+7) { text-align: right}
+#airwaybill_detail tr:nth-last-child(n-6) { text-align: right}
+
+.logo {float: left; }
+.logo img {height: 57px; width: auto}
+.other_details {float: right; text-align: left; width: 300px; text-transform: capitalize; font-size: 12px;}
+#account_summary { margin: auto}
+#account_summary td{ text-align: left; border:1px solid;; font-size: 14px;}
+
+</style>
+</head>
+
+<body>
+<table width="834" height="741" border="0" cellpadding="0" cellspacing="0" style="margin:auto">
+  <tr>
+    <td height="100" colspan="4" align="center" valign="middle" bgcolor="" ><div class="header"><div class="logo" ><img src="{{ STATIC_URL }}assets/img/Ecomlogo.png" width="260" height="126" style="float:left;" /><br/><div style='float:left;text-align:left;text-transform: capitalize; font-size: 12px;'> PAN No : AADCE1344F <br>Service Tax Regn No. : AADCE1344FSD001<br> Category : Courier Sevices</div></div><div style="font-size: 14px;float:right; text-align:left;">Ecom Express Private Limited<br>No. 14/12/2, Samalka, <br>Old Delhi-Gurgaon Road, <br>New Delhi 110 037 (India)<br>Tel : 011-30212000<br/>www.ecomexpress.in</div></div></td>
+    
+  </tr>
+  
+ 
+  <tr><tr><td class='grey'>INVOICE</td></tr>
+    <td height="190" colspan="4" valign="top" ><table width="855" border="0" cellpadding="2">
+    
+      <tr>
+		      		
+         <div width="337"  valign="top"  style='float: left; width: 300px; height: 40px; margin: 0 0 15px 15px;'>
+         {{customer.code}}<br/>
+         {{customer.name}}<br/>
+          {% if customer.address.address1%}{{customer.address.address1}}<br/>{%endif%}
+          {%if customer.address.address2%}{{customer.address.address2}}<br />{%endif%}
+          {%if customer.address.address3 %} {{customer.address.address3}}<br />{%endif%}
+          {%if customer.address.address4 %} {{customer.address.address4}}<br />{%endif%}
+          {%if customer.address.city %} {{customer.address.city}},&nbsp{%endif%}
+          {%if customer.address.state %} {{customer.address.state}}<br />{%endif%}
+          {%if customer.address.pincode %} {{customer.address.pincode}}<br />{%endif%}
+          {%if customer.address.phone %}Phone No: {{customer.address.phone}}<br />{%endif%}
+ 		</div>
+		<div width="337"  valign="top"  style='float: right; width: 300px; height: 40px; margin: 0 0 15px 15px;'>
+          	<strong>Bill No.: </strong>{{billing.id}}<br/>
+          	<strong>Bill Period: </strong>{{billing.billing_date_from|date:"d/m/Y"}} to {{billing.billing_date|date:"d/m/Y"}}<br/>
+		  	<strong>Bill Date: </strong>{{billing.billing_date|date:"d/m/Y"}}<br/><br/>
+		  	<strong>Total amount Due: </strong>{{total_amount|floatformat:0|floatformat:2}}<br/>
+			<strong>Pay by: </strong>{{due_date|date:"d/m/Y"}}
+		 </div>
+		 </tr>
+	  
+	</table></td>
+	
+  </tr>
+  <tr>
+    <td height="137" colspan="4" valign="top" >
+          <table id="account_summary" border="0" cellpadding="2" border="1" cellspacing="0">
+          <tr><td colspan=6>Account Summary</td></tr>
+          <tr><td>Previous Balance</td><td>Payments Received</td><td>Adjustments (Dr)</td><td>Adjustments (Cr)</td><td>Current Billing</td><td>Total amount Due by Date</td>
+          <!--<td>Total amount Due after Date</td>-->
+          </tr>
+          <tr><td style='text-align:right'>{{billing.balance|floatformat:2}}</td><td style='text-align:right'>{{billing.received|floatformat:2}}</td><td style='text-align:right'>{{billing.adjustment|floatformat:2}}</td><td style='text-align:right'>{{billing.adjustment_cr|floatformat:2}}</td><td style='text-align:right'>{{billing.total_payable_charge|floatformat:2}}</td><td style='text-align:right'>{{total_amount|floatformat:0|floatformat:2}}</td><!--<td style='text-align:right'>{{total_post_duedate}}</td>--></tr>
+          </table>
+    <td>
+  </tr>
+  <tr>
+    <td height="24" colspan="4" valign="top"  >
+    <strong style='padding-left: 68px;'>Summary Of Charges</strong></td>
+  </tr>
+  <tr>
+    <td height="64" colspan="4" valign="top"  style='text-align:center;'>
+    <div style="display:inline-block;width:780px; margin:0 auto; ">
+    <div style="display:inline-block; vertical-align:top; margin:0 auto; float: left;">
+    <table width="350" height="126" border="1" cellpadding="2" cellspacing='0'>
+      <tr class='noborder'>
+        <td width="241" valign="top" style='text-align:left;'>
+        	<div style="display:inline-block;">Freight</div></td>
+        	<td width="112" valign="top" style='text-align:right'>{{billing.freight_charge|floatformat:2}}</td>
+        </tr>
+        
+      <tr>
+        <td valign="top" style='text-align:left;'>
+          Fuel Surcharge</td>
+        <td valign="top" style='text-align:right'>{{billing.fuel_surcharge|floatformat:2}}</td>
+        
+        </tr>
+        
+    	<tr>
+        <td valign="top" style='text-align:left;'>
+          Special Delivery Location</td>
+        <td valign="top" style='text-align:right'>{{billing.sdl_charge|floatformat:2}}</td>
+        </tr>
+      <tr>
+     <td valign="top" style='text-align:left;'>
+          Same Day Delivery</td>
+        <td valign="top" style='text-align:right'>{{billing.sdd_charge|floatformat:2}}</td>
+        
+        </tr>
+      <tr>
+        <td valign="top" style='text-align:left;'>
+          Reverse Pickup</td>
+        <td valign="top" style='text-align:right'>{{billing.reverse_charge|floatformat:2}}</td>
+        
+        </tr>
+      <tr>
+        <td valign="top" style='text-align:left;'>
+		COD applied</td>
+        <td valign="top" style='text-align:right'>{{billing.cod_applied_charge|floatformat:2}}</td>
+        
+      <tr>
+        <td valign="top" style='text-align:left;'>
+		COD reversed</td>
+        <td valign="top" style='text-align:right'>-{{billing.cod_subtract_charge|floatformat:2}}</td>
+        
+        </tr>
+        
+<!--
+      <tr>
+        <td valign="top" style='text-align:left;'>
+		Demurrage</td>
+        <td valign="top" style='text-align:right'>{{billing.demarrage_charge|floatformat:2}}</td>
+        
+        </tr>
+-->
+     <tr>
+        <td width='3000' valign="top" style='text-align:left;'>
+			Valuable Cargo Handling Charge</td>
+        <td valign="top" style='text-align:right'>{{billing.valuable_cargo_handling_charge|floatformat:2}}</td>
+        
+      </tr>
+    </table>
+    </div>
+    
+    <div style="display:inline-block; vertical-align:top; margin:0 auto; float: right;">
+<!--    <table width="350" height="20" border="1" cellpadding="2"  cellspacing='0'>
+    	<tr>
+        <td valign="top" style='text-align:left;'>
+          Special Delivery Location</td>
+        <td width="120" valign="top" style='text-align:right'>{{billing.sdl_charge|floatformat:2}}</td>
+        </tr>
+        </table>
+        <table width="350" height="44" border="0" cellpadding="2"  cellspacing='0'>
+        
+        <tr>
+        <td  valign="top" class='noborder'>&nbsp</td><td valign="top" class='noborder'>&nbsp</td>
+        </tr>
+        
+        </table>
+-->
+        <table width="350" height="56" border="1" cellpadding="2"  cellspacing='0'>
+        
+        <tr >
+        	<td class='sideBorder' valign="top" style='text-align:left;'>Amount Before Tax</td>
+        	<td width="120" class='side2Border' valign="top" style='text-align:right'>{{billing.total_charge_pretax|floatformat:2}}</td>
+      	</tr>
+        <tr>
+        <td valign="top" style='text-align:left;'>
+          Service Tax</td>
+        <td valign="top" style='text-align:right'>{{billing.service_tax|floatformat:2}}</td>
+      	</tr>
+        
+        <tr>
+        <td valign="top" style='text-align:left;'>
+          Education Cess</td>
+        <td valign="top" style='text-align:right'>{{billing.education_secondary_tax|floatformat:2}}</td>
+        </tr>
+        <tr>
+        <td valign="top" style='text-align:left;'>
+          HSE Cess</td>
+        <td valign="top" style='text-align:right'>{{billing.cess_higher_secondary_tax}}</td>
+        </tr>
+        <tr>
+        <td  class='sideBorder'  valign="top" style='text-align:left;'>
+          <strong>Total</strong></td>
+        <td  class='side2Border' valign="top" style='text-align:right'><strong>{{billing.total_payable_charge|floatformat:0|floatformat:2}}</strong></td>
+      </tr>
+    </table>
+    </div>
+    </div>
+    </td>
+  </tr>
+  <tr>
+  	<td height="15" colspan="4" valign="top" ></td>
+  </tr>
+  <tr>
+    <td  colspan="4" valign="top" >
+    	<div style='font-size: 12px;'>Important Information :<br/>
+    	1. This is a computerised generated Invoice and does not require any official signature.  Kindly notify us immediately in case of any discrepancy in the Invoice.<br/>
+    	2. Delay in payments shall attract Interest @ 2% per month.<br/>
+	3. The average Brent Crude Oil price per barrel in the previous month was ${{br_rate}}.<br/>
+    	</div>
+    </td>
+  </tr>
+  <tr>
+    <td height="29" colspan="4" valign="top" >&nbsp;</td>
+  </tr>
+<tr>
+
+<td id="airwaybill_detail" valign="top"  height="168" colspan="4">
+	<table width="916" border="1" cellpadding="0" cellspacing="0">
+		<tr>
+    		<td height="33" colspan="14" bgcolor="#666666" style="text-align: center; color: white; font-weight: bold;">Customer Code/Sub-Code wise Summary</td>
+		</tr>
+		<tr>
+			<td height="23"  style='text-align:center'>Sr</td>
+			<td height="23"  style='text-align:center'>Sub Customer Code</td>
+			<td height="23"  style='text-align:center'>Customer Name</td>
+			<td height="23"  style='text-align:center'>No of Shipts</td>
+			<td height="23"  style='text-align:center'>Freight</td>
+			<td height="23"  style='text-align:center'>FuelSC</td>
+			<td height="23"  style='text-align:center'>SDL</td>
+			<td height="23"  style='text-align:center'>SDD</td>
+			<td height="23"  style='text-align:center'>Reverse</td>
+			<td height="23"  style='text-align:center'>COD Applied</td>
+			<td height="23"  style='text-align:center'>COD Substract</td>
+			<!--<td height="23"  style='text-align:center'>ToPay</td>
+			<td height="23"  style='text-align:center'>Return To Origin</td>
+			<td height="23"  style='text-align:center'>Demurrage</td>-->
+			<td height="23"  style='text-align:center'>Total</td>
+		</tr>
+		 {%for a in billingsubcustomer%}
+		<tr>
+			<td height="11"  >{{forloop.counter}}</td>
+			<td height="11"   style="text-align:left;">{{a.subcustomer.customer.code}}{{a.subcustomer.id}}</td>
+			<td height="11"   style='text-align:left'>{{a.subcustomer.name}}</td>
+			<td height="11"  >{{a.shipment_count}}</td>
+			<td height="11"  >{{a.freight_charge|floatformat:2}}</td>
+			<td height="11"  >{{a.fuel_surcharge|floatformat:2}}</span></td>
+			<td height="11"  >{{a.sdl_charge|floatformat:2}}</td>
+			<td height="11"  >{{a.sdd_charge|floatformat:2}}</td>
+			<td height="11"  >{{a.reverse_charge|floatformat:2}}</td>
+			<td height="11"  >{{a.cod_applied_charge|floatformat:2}}</td>
+			<td height="11"  >-{{a.cod_subtract_charge|floatformat:2}}</td>
+			<td height="11" class="total_val" >{{a|subcustomer_total|floatformat:2}}</td>
+		</tr>
+		{%endfor%}
+		
+		<tr>
+			<td height="11" class="total_val"  colspan="3" align="right">Total</td>
+			<td height="11" class="total_val" >{{billing.shipment_count}}</td>
+			<td height="11" class="total_val" >{{billing.freight_charge|floatformat:2}}</td>
+			<td height="11" class="total_val" >{{billing.fuel_surcharge|floatformat:2}}</td>
+			<td height="11" class="total_val" >{{billing.sdl_charge|floatformat:2}}</td>
+			<td height="11" class="total_val" >{{billing.sdd_charge|floatformat:2}}</td>
+			<td height="11" class="total_val" >{{billing.reverse_charge|floatformat:2}}</td>
+			<td height="11" class="total_val" >{{billing.cod_applied_charge|floatformat:2}}</td>
+			<td height="11" class="total_val" >-{{billing.cod_subtract_charge|floatformat:2}}</td>
+			<td height="11" class="total_val" >{{billing.total_charge_pretax|floatformat:2}}</td>
+		</tr>
+	</table>	
+</td>
+</tr>
+<tr>
+    <td height="19" valign="top" >&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

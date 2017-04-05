@@ -1,0 +1,63 @@
+<div class="cust-content">
+<table class="table">
+    <tr>
+        <th>Particulars</th>
+        <th></th>
+        <th>PPD Shpmts</th>
+        <th>COD Shpmts</th>
+        <th>Collectable Value</th>
+    </tr>
+    <tr style="background-color:#ccc;">
+        <td colspan=2>Shipments Booked</td>
+        <td>{{ shipments_booked_dict.ppd_shipments }}</td>
+        <td>{{ shipments_booked_dict.cod_shipments }}</td>
+        <td>{{ shipments_booked_dict.collectable_value }}</td>
+    </tr>
+    <tr>
+        <td>Status Code</td>
+        <td>Code Description</td>
+        <td colspan=3></td>
+    </tr>
+
+    {% for data in status_code_data_list %}
+    <tr>
+        <td>{{ data.code }}</td>
+        <td>{{ data.desc }}</td>
+        <td>{{ data.ppd }}</td>
+        <td>{{ data.cod }}</td>
+        <td>{{ data.cv }}</td>
+    </tr>
+    {% endfor %}
+
+    <tr style="background-color:#ccc;">
+        <td colspan=2>Sub Total</td>
+        <td>{{ sub_total_dict.ppd }}</td>
+        <td>{{ sub_total_dict.cod }}</td>
+        <td>{{ sub_total_dict.cv }}</td>
+    </tr>
+
+    <tr>
+        <td>Net Payable</td>
+        <td colspan=4></td>
+    </tr>
+    {% for data in status_code_data_list %}
+    {% if data.code == 999 or data.code == 333 %}
+    <tr>
+        <td>{{ data.code }}</td>
+        <td>{{ data.desc }}</td>
+        <td>{{ data.ppd }}</td>
+        <td>{{ data.cod }}</td>
+        <td>{{ data.cv }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+
+    <tr style="background-color:#ccc;">
+        <td colspan=2>Total</td>
+        <td>{{ net_payable_dict.ppd }}</td>
+        <td>{{ net_payable_dict.cod }}</td>
+        <td>{{ net_payable_dict.cv }}</td>
+    </tr>
+
+</table>
+</div>

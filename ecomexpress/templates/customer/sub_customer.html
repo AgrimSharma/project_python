@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+{% load sorting_tags %}
+{% autosort sub_customers %}
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+
+<div class="container-fluid main" role="main" id="main">
+<div class="row-fluid">
+<div class="span12">
+
+{% load pagination_tags %}
+{% autopaginate sub_customers 2000 %}
+{% paginate %}
+{% include "customer/nav.html" %} 
+</div>
+</div>
+
+<div class="row-fluid">
+<div class="span12">
+<div class="cust-details">
+<div class="cust-title">
+{% include "customer/sub_nav.html" %} 
+<a href="/reports/sub_customer_report/{{c.id}}/" value="Download" class=" btn btn-primary">Download </a>
+<a href="#" value="Upload" class="btn btn-primary" id="upload-subcustomer-xls" rel-data="{{ c.id }}">Upload</a>
+<a id='AddSubCustomer'><img src="{{ STATIC_URL }}assets/img/plus.png"/> Add SubCustomer </a>
+
+<div id="subcustomer-upload-form" ></div>
+<div id="error-div">
+{% if errors %}
+{% if errors.file_error %}
+<p class="alert alert-error tm10">Some values in the following rows are invalid. Hence it is not updated.</p>
+<ul>
+{% for pin in errors.file_error %}
+<li> "{{ pin }}" </li>
+{% endfor %}
+</ul>
+
+{% else %}
+<p class="alert alert-error tm10">Following pincodes does not seems to exists in our list. Hence the
+following merchants are not added.</p>
+<h4>(Merchant Name - Pin)</h4>
+<ul>
+{% for pin in errors.pin_error %}
+<li> "{{ pin.0 }}"  - "{{ pin.3 }}" </li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% endif %}
+</div>
+
+<div id='shipper-form' style='display:None'>
+<form method="post" action="{% url sub_customer c.pk %}">
+{% csrf_token %}   
+<table class="sub_table">
+<tr>
+<td> Name </td><td>{{shipper_form.name}}</td>
+</tr>
+<tr>
+<td>Address 1 </td><td><span class="reg-error">{{address_form.address1}}<p class="formerror">{% if address_form.errors.address1 %} {{address_form.errors.address1}}{%endif%}</p></span></td>
+<td>Address 2 </td><td><span class="reg-error">{{address_form.address2}}<p class="formerror">{% if address_form.errors.address2 %} {{address_form.errors.address2}}{%endif%}</p></span></td>
+</tr>
+<tr>
+<td>Address 3 </td><td><span class="reg-error">{{address_form.address3}}<p class="formerror">{% if address_form.errors.address3 %} {{address_form.errors.address3}}{%endif%}</p></span></td>
+<td>Address 4 </td><td><span class="reg-error">{{address_form.address4}}<p class="formerror">{% if address_form.errors.address4 %} {{address_form.errors.address4}}{%endif%}</p></span></td>
+</tr>
+
+<tr>
+<td>Pincode</td><td><span class="reg-error">{{address_form.pincode}}<p class="formerror">{% if address_form.errors.pincode %} {{address_form.errors.pincode}}{%endif%}</p></span></td>
+<td>City</td>
+<td><select name="city" style="width: 90px;" class="sc" />
+
+{%for a in cities%}
+<option value="{{a.id}}">{{a}}</option>
+{%endfor%}
+</select></td>
+</tr>
+<tr>
+<td>State</td>
+<td><select name="state" style="width: 90px;" class="sc" />
+
+{%for a in cities%}
+<option value="{{a.state.id}}">{{a.state}}</option>
+{%endfor%}
+</select>
+</td>
+<td>Phone</td><td><span class="reg-error">{{address_form.phone}}<p class="formerror">{% if address_form.errors.phone %} {{address_form.errors.phone}}{%endif%}</p></span></td>
+</tr>
+<tr>
+<td> Type </td><td>{{shipper_form.type}}</td>
+
+<td> <input id="add_btn" type="submit" class="btn btn-redbutton" value={%if edit_form %}SAVE{%else%}ADD{%endif%} > </td>
+<td><a href="" class="btn btn-redbutton cancel">CANCEL</a></td>
+
+</tr>
+</table>
+
+</form>
+</div>
+<div id="sub-customers-list">
+{% include "customer/sub_customers_list.html" %}
+</div>            
+
+</div>
+</div>
+</div>
+</div><!-- /row-fluid -->    
+</div><!-- /container-fluid -->
+
+</div>
+
+<div id="popupContact" >  
+<a href="#" id="popupContactClose">x</a>  
+</div> 
+
+<script>
+
+$(document).ready(function() { 
+
+		$('.activate_customer').click(function(){
+			customer_id = $(this).attr("cust_id");
+			window.location = "/customer/"+customer_id+"/activate/";
+			});
+
+		$('.deactivate_customer').click(function(){
+			customer_id = $(this).attr("cust_id");
+			window.location = "/customer/"+customer_id+"/deactivate/";
+			});
+
+		$("#AddSubCustomer").click(function () {
+			$("div").first().show("fast", function showNext() {
+				$('#shipper-form').show("fast");
+				});
+			});
+		$(".cancel").click(function () {
+				$('#shipper-form').hide(1000);
+				});
+
+		$("#upload-subcustomer-xls").click(function (){
+				var c_id = $(this).attr('rel-data');
+				$.ajax({
+url: '/customer/shippers/sub_customers/get_form/',
+type: 'GET',
+data: {'c_id':c_id},
+success: function (resp){
+$("#subcustomer-upload-form").html(resp.html);
+}	
+});
+				});
+
+
+
+});
+</script>
+
+{% endblock %}
+
+

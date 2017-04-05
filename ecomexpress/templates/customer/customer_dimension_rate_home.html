@@ -1,0 +1,105 @@
+          		{% extends "customer/base.html" %}
+          		{% block content %}
+
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="pull-right">
+         <!-- data-rev-action="modal" data-target="#add-revlet" -->
+         <a href="add/" ><img src="{{ STATIC_URL }}assets/img/plus.png"/> Add Customer </a>
+        </div>
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-user" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Customer Details</span>
+          </div>
+          <div class="cust-content">
+          	{% load sorting_tags %}
+			{% autosort object_list %}
+            <table class="table">
+              <thead>
+                	<tr>
+			       		<th>{% anchor customer Customer %}</th>
+			       		<th>{% anchor rate Rate %}</th>
+			       		<th>{% anchor cube_inches Volume %}</th>			       		
+			       		<th>{% anchor min_rate Min_rate %}</th>
+			       		<th>{% anchor max_rate Max_rate %}</th>
+			       		<th><a href="">Action</a></th>
+			       		
+			    	</tr>
+              </thead>
+              <tbody>
+                    {% if object_list %}
+                	{% for customer in object_list %}
+			 		<tr>
+			        	<th>{{customer.customer}}</th>
+			        	<th>{{customer.rate}}</th>
+			        	<th>{{customer.cube_inches}}</th>
+			        	<th>{{customer.min_rate}}</th>
+			        	<th>{{customer.max_rate}}</th>
+			        	<td><a class="changelink" href="{{customer.weight_rate_id}}/"> edit</a>&nbsp;&nbsp;&nbsp;<a class="deletelink" href="{{customer.customer_id}}/del/" onclick="{return confirm ('Are you want to delete?')}" > delete</a>
+			        	
+			        	</td>
+			    	</tr>
+					{% endfor %}
+					{% endif %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+  
+
+   
+
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+
+
+
+
+  <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Add Customer</h3>
+    </div>
+    <div class="modal-body">
+      
+    </div>
+  </div><!--modal end-->
+
+
+
+   <!-- uncomment pre-deloy -->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+  <script>window.jQuery || document.write('<script src="{{ STATIC_URL }}assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+  <!-- bootstrap -->
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-transition.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-alert.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-modal.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-dropdown.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-scrollspy.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-tab.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-tooltip.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-popover.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-button.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-collapse.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-carousel.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-typeahead.js"></script>
+  
+  <script src="{{ STATIC_URL }}assets/js/application.js"></script>
+  <script>$(rev.init);</script>  
+
+ 
+          		{% endblock %}

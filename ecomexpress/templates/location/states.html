@@ -1,0 +1,30 @@
+ <div class="span4">
+          <div class="cust-details">
+             <div class="cust-title">
+                <i class="icon-globe" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span> State</span>
+                <input type="text" placeholder="Search" class="input-mini pull-right"/> 
+           	 </div>
+             <div class="cust-content">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Shortcode </th>
+                          <th><a href="#"  class="AddLocation2" location="/location/add/state/" ><img src="{{ STATIC_URL }}assets/img/plus.png"/></a>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       {% for state in states %}
+                        <tr>
+                          <td >{{ forloop.counter }}</td>
+                          <td row_id="{{ state.id }}" model_name="State"  field_name="state_name" onDblClick="javascript:changeContent(this);">{{ state.state_name }}</td>
+                          <td row_id="{{ state.id }}" model_name="State"  field_name="state_shortcode" onDblClick="javascript:changeContent(this);">{{ state.state_shortcode }}</td>
+                          <td></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+          		</div>
+         	</div>
+        </div><!--span6 -->

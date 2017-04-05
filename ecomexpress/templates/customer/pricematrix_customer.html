@@ -1,0 +1,107 @@
+          		{% extends "base.html" %}
+          		{% block content %}
+          		
+          		
+          		  	{% load sorting_tags %}
+			{% autosort freight_slabs %}
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12">
+    
+                    {% load pagination_tags %}
+	                {% autopaginate freight_slabs 20 %}
+  	              	{% paginate %}
+       {% include "customer/nav.html" %} 
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+       {% include "customer/sub_nav.html" %} 
+        
+            <table class="table">
+              <thead>
+                	<tr>
+                		<td>#</td>                	
+			       		<th>{% anchor customer Customer %}</th>
+			            <th>{% anchor mode "Mode" %}</th>
+			            <th>{% anchor slab "Slab" %} gms</th>
+			            <th>{% anchor weight_rate "Default Rate" %} INR</th>
+			            <th>{% anchor range_from "Start Wt" %} gms</th>
+			            <th>{% anchor range_to "End Wt" %} gms</th>
+			       		
+			    	</tr>
+              </thead>
+              <tbody>
+                	{% for fs in freight_slabs %}
+			 		<tr>
+			 		    <td>{{forloop.counter}}</td>
+			        	<td>{{fs.customer}}</td>			 		    
+			        	<td>{{fs.Mode}}</td>
+			        	<td>{{fs.slab}} gms</td>
+			        	<td>INR {{fs.weight_rate}}</td>
+			        	<td>{{fs.range_from}} gms</td>
+			        	<td>{{fs.range_to}} gms</td>
+			        	<td></td>
+			    	</tr>
+  		 		    <tr>
+			 		    <td></td>
+			 		    <td>Zone rates</td>
+			        	<td colspan="6">
+			        	    <table class="sub_table_zone">
+			        	    <tr>
+			        	        <th>Org Zone</th><th>Dest Zone</th><th>Rate per kg</th>
+			        	    <tr>
+			        	    {%for fsz in fs.freightslabzone_set.all%}
+			        	    <tr>
+			        	        <td>{{fsz.zone_org}}</td><td>{{fsz.zone_dest}}</td><td>{{fsz.rate_per_slab}}</td>
+			        	    <tr>
+			        	    {%endfor%}
+			        	    </table>
+                        </td>
+			    	</tr>
+					{% endfor %}
+              </tbody>
+            </table>
+            
+          
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->    
+  </div><!-- /container-fluid -->
+             
+</div>
+
+
+
+
+
+ <div id="popupContact" >  
+           
+        <a href="#" id="popupContactClose">x</a>  
+ </div> 
+
+      	
+<script>
+
+$('.activate_customer').click(function(){
+     customer_id = $(this).attr("cust_id");
+     window.location = "/customer/"+customer_id+"/activate/";
+});
+
+$('.deactivate_customer').click(function(){
+     customer_id = $(this).attr("cust_id");
+     window.location = "/customer/"+customer_id+"/deactivate/";
+});
+</script>
+						 
+          		{% endblock %}
+          		
+          		

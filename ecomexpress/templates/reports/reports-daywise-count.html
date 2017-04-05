@@ -1,0 +1,29 @@
+<div class="cust-content">
+            <table class="table">
+              <thead>
+              	<tr>
+              	  <th>Date</th>	
+                  <th>Shipment Inscanned </th>
+                  <th>RTO</th>
+                  <th> Delivered</th>
+                  <th>Undelivered</th>
+                 <!-- <th>In Transit</th>-->
+                 </tr>
+                </thead>
+                <tbody>
+                
+                {% for date in shipments %}
+                  {%for a in date%}
+                  {%ifequal forloop.counter 1%}
+                  <th>{{a}}</th>
+                  {%else%}
+                  <td>{{a}}</td>
+                  {%endifequal%}
+					
+				  {%endfor%}				
+				</tr>     
+				{%endfor%}            
+              </tbody>
+            </table>
+            </div>
+    

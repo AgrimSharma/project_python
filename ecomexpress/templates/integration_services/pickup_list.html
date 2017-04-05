@@ -1,0 +1,28 @@
+<table class="table table-striped table-condensed table-bordered">
+  <thead>
+    <tr class="grey">
+    <th>Id</th>
+    <th>Customer</th>
+    <th>Pickup Date</th>
+    <th>Status</th>
+    <th>Update</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for pickup in pickup_list %}
+  <tr data-val="{{ pickup.id }}">
+    <td>{{ pickup.id }}</td>
+    <td>{{ pickup.customer.name|truncatechars:35 }}</td>
+    <td>{{ pickup.pickup_date|date:"Y-m-d" }}</td>
+    <td id="pickup_status_{{ pickup.id }}">{{ pickup.get_status }}</td>
+    <td>
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-primary pickup-status" data-val="yes">Yes</button>
+        <button type="button" class="btn btn-primary pickup-status" data-val="retry">Re-try</button>
+        <button type="button" class="btn btn-primary pickup-status" data-val="cancel">Cancel</button>
+    </div>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,30 @@
+<div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Sub Customer name</h3>
+    </div>
+    <div class="modal-body">
+    
+    	<table class="table">
+                	<thead>
+                    <tr>
+                    <th>Bill date </th>
+                    <th>Date From</th>
+                    <th>Status </th>
+                    </tr>
+                     </thead>
+                     <tbody>
+{%for a in subbilling%}
+                     	<tr>
+                            <td>{{a.billing_date|date:"SHORT_DATE_FORMAT"}}</td>
+                            <td>{{a.billing_date_from|date:"SHORT_DATE_FORMAT"}}</td>
+                            <td>{{a.payment_status}}</td>
+                            <td><a onClick="MM_openBrWindow('/billing/airwaybill/{{a.id}}/','Billing','scrollbars=yes,width=1024,height=800')" href="#" title="View bill Details" class="btn2 btn-info" rel="tooltip">View</a></td>
+                            
+                           
+                        </tr>
+                        {%endfor%}
+         
+                     </tbody>
+                </table>
+      
+    </div>

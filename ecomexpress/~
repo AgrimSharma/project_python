@@ -1,0 +1,1447 @@
+# Create your views here.
+from django.shortcuts import render_to_response
+from django.http import HttpResponse, HttpResponseRedirect
+import sys, traceback
+from django.template import RequestContext
+from django.db.models import datetime, Sum
+from service_centre.models import *
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.db.models import get_model
+import service_centre
+from django.core.management import call_command
+import barcode
+from ecomexpress import settings
+import os
+from django.db.models import F
+import dateutil.parser
+import utils
+from django.db.models import *
+from track_me.models import *
+from utils import rts_pricing
+#from datetime import timedelta, datetime
+
+now = datetime.datetime.now()
+monthdir = now.strftime("%Y_%m")
+before = now - datetime.timedelta(days=7)
+
+book = xlwt.Workbook(encoding='utf8')
+default_style = xlwt.Style.default_style
+datetime_style = xlwt.easyxf(num_format_str='dd/mm/yyyy')
+date_style = xlwt.easyxf(num_format_str='dd/mm/yyyy')
+header_style = xlwt.XFStyle()
+status_style = xlwt.XFStyle()
+category_style = xlwt.XFStyle()
+font = xlwt.Font()
+font.bold = True
+
+@csrf_exempt
+def inscan_bag(request):
+    '''Inscan Bag operation'''
+    if request.POST:
+        bag_number = request.POST['bag_id']
+        bag = Bags.objects.get(bag_number = bag_number, destination=request.user.employeemaster.service_centre, bag_status__in=[2,3,7,8])
+        for ship in bag.shipments.all():
+             ship.status = 5
+             ship.save() 
+        if bag.destination <> request.user.employeemaster.service_centre:
+            bag.status_type = 3
+        else:
+            bag.status_type = 1
+        bag.save()
+        conn = bag.connection_set.all()
+        connection = Connection.objects.get(id=conn[0].id)
+        runcode = connection.runcode_set.all()
+        try:
+          airport_confirm = AirportConfirmation.objects.get(run_code_id=runcode[0].id)
+        except:
+          airport_confirm = ""
+        bag.bag_status=8
+        bag.save()
+
+        sucess_bags = Bags.objects.filter(bag_status=8, status_type=2, destination=request.user.employeemaster.service_centre).count()
+        mismatch_bags = Bags.objects.filter(bag_status=8, status_type=1, destination=request.user.employeemaster.service_centre).count()
+        return render_to_response("hub/inscan_bag_data.html",
+                                {"bag":bag,
+                                 "airport_confirm":airport_confirm,
+                                 "connection":conn[0],
+                                 'sucess_bags':sucess_bags,
+                                 'mismatch_bags':mismatch_bags
+                                },
+                                )
+
+        bag_info = {}
+        for k, v in bag.get_fields():
+            bag_info[k] = v
+
+        bags_json = json.dumps(bag_info)
+        return HttpResponse(bags_json)
+    else:
+        if request.user.employeemaster.user_type == "Staff" or "Supervisor" or "Sr Supervisor":
+            sucess_bags  =  Bags.objects.filter(bag_status = 7, status_type = 2, destination = request.user.employeemaster.service_centre)
+            mismatch_bags  =  Bags.objects.filter(bag_status = 7, status_type = 1, destination = request.user.employeemaster.service_centre)
+        else:
+            sucess_bags  =  Bags.objects.filter(bag_status = 7, status_type = 2)
+            mismatch_bags  =  Bags.objects.filter(bag_status = 7, status_type = 1)
+        bagsf = Bags.objects.annotate(num_authors=Count('shipments')).filter(destination=request.user.employeemaster.service_centre, added_on__range=(before,now), bag_status=8,num_authors__gt=0).order_by('-id')
+        conn = Connection.objects.annotate(num_authors=Count('bags')).filter(destination=request.user.employeemaster.service_centre, added_on__range=(before,now), connection_status__in=[2,5],num_authors__gt=0)
+#        bagsf = Bags.objects.annotate(bag_status=8, destination=request.user.employeemaster.service_centre, added_on__range=[before,now]).order_by('-id')   
+       # bagsf = Bags.objects.filter(bag_status=8, destination=request.user.employeemaster.service_centre, added_on__range=[before,now]).order_by('-id')
+        conn_bags = {}
+        if conn:
+          for a in conn:
+            c = Connection.objects.get(id=a.id)
+            counter = 0
+            for bags in c.bags.all():
+                bag = Bags.objects.get(id=bags.id)
+                for shipment in bag.shipments.all():
+                    counter+=1
+            if counter <> 0:
+               conn_bags[c]=counter
+
+        #return HttpResponse(conn_bags) 
+        return render_to_response("delivery/inscan_bag.html",
+                                {"bags":bagsf,
+                                 "connection":conn,
+                                 "conn_bags":conn_bags
+                                 },
+                               context_instance = RequestContext(request))
+
+
+
+
+def bag_tallied(request):
+    connection = Connection.objects.filter(destination=request.user.employeemaster.service_centre)
+    for a in connection:
+        conn = Connection.objects.get(id=int(a.id))
+        bags = conn.bags.filter().exclude(status_type=3)
+        for a in bags:
+            bag = Bags.objects.get(id=int(a.id))
+    #        return HttpResponse(bag)
+            if bag.status_type==1:
+               if bag.shipments.count():
+                   bag.bag_status=8
+                   bag.status_type=2
+               else:
+                   bag.bag_status=10
+            else:
+                   bag.bag_status=8
+                   bag.status_type=2 
+            bag.save()
+    return HttpResponseRedirect("/delivery/")
+    
+
+      
+@csrf_exempt 
+def inscan_shipment(request):
+    now_date= now.date()
+    next_date = now_date +datetime.timedelta(days=1)
+    next_date = next_date.strftime('%Y-%m-%d 07:00:00')
+    now_date = now_date.strftime('%Y-%m-%d 07:00:00')
+
+    '''DeBagging Shipments'''
+    if request.POST:
+  #      bag_num = request.POST['bag_num']
+        awb_num = request.POST['awb_num']
+   #     if bag_num:
+   #       bags = Bags.objects.get(bag_number = bag_num)
+   #       if bags.shipments.count() == 0:
+   #        bags.bag_status=10
+   #        bags.save()
+        shipment = Shipment.objects.get(airwaybill_number = int(awb_num))
+        if (shipment.status == 9 or shipment.status == 8):
+                return HttpResponse("Shipment at status update, cannot be inscanned!!")
+        shipment.updated_on = now
+        bags = shipment.bags_set.all()
+        bag_num = ""
+        if bags:
+           bags = bags[0]
+           bag_num = bags.bag_number
+        service_center=request.user.employeemaster.service_centre
+        shipment.current_sc = service_center
+       # shipment = bags.shipments.get(id=ship.id)
+        try:
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, status=6, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, remarks="Debag Shipment at Delivery Centre from Bag Number %s"%(bag_num))
+        except:
+                pass
+        #if shipment.status_type <> 5:
+        shipment.status_type=0
+        if shipment.airwaybill_number == "" or shipment.order_number == "" or shipment.shipper == "" or shipment.destination_city == "" or shipment.pincode == "" or shipment.collectable_value == "" or shipment.actual_weight == "":
+                shipment.status_type = 4
+        elif shipment.service_centre <> request.user.employeemaster.service_centre:
+                shipment.status_type = 5    
+        else:
+                shipment.status_type = 1
+        if not bags:
+            if shipment.status <> 6:
+                  shipment.status_type = 5
+        shipment.status = 6
+        service_center = request.user.employeemaster.service_centre
+        shipment.current_sc = service_center
+        shipment.save()  
+        if shipment.status_type <> 5:
+            bags.shipments.remove(shipment)
+            if bags.shipments.count() == 0:
+             bags.bag_status=10
+             bags.save()
+
+     #   total_records =    
+        total_records = Shipment.objects.filter(status__in=[5,6], current_sc=request.user.employeemaster.service_centre).count()
+        success_count = Shipment.objects.filter(status=6, current_sc=request.user.employeemaster.service_centre, status_type=1).count()
+       
+        mismatch_count = Shipment.objects.filter(status=6, current_sc=request.user.employeemaster.service_centre, status_type__in=[2,3,4,5]).count()
+          
+        return render_to_response("service_centre/shipment_data.html",
+                                  {'a':shipment,
+                                   'status':"2",
+                                   'total_records':total_records,
+                                   'sucess_count':success_count,
+                                   'mismatch_count':mismatch_count
+              })  
+    else:
+      #  if request.user.employeemaster.user_type == "Staff" or "Supervisor" or "Sr Supervisor":
+            shipment = Shipment.objects.filter(status = 6, current_sc = request.user.employeemaster.service_centre).exclude(status_type = 0)
+            total_records  =  Shipment.objects.filter(status__in = [5,6], current_sc = request.user.employeemaster.service_centre).count()
+            success_count  =  Shipment.objects.filter(status_type = 1, current_sc = request.user.employeemaster.service_centre, status = 6).count()
+            mismatch_count  =  Shipment.objects.filter(status = 6, current_sc = request.user.employeemaster.service_centre, status_type = 4).count() 
+    #    else:
+     #       shipment = Shipment.objects.filter(status = 6).exclude(status_type = 0)
+      #      total_records = Shipment.objects.filter(status__in = [5,6]).count()
+       #     success_count = Shipment.objects.filter(status_type = 1, status = 6).count()
+        #    mismatch_count = Shipment.objects.filter(status = 6, status_type = 4).count()
+             
+            return render_to_response("delivery/inscan_shipment.html",
+                                {'shipment':shipment,
+                                 'total_records':total_records,
+                                 'success_count':success_count,
+                                 'mismatch_count':mismatch_count},
+                               context_instance = RequestContext(request))
+
+def outscan(request):
+    before = now - datetime.timedelta(days=2)
+    '''Outscan Delivery'''
+    origin_sc = request.user.employeemaster.service_centre
+    if request.user.employeemaster.user_type == "Staff" or "Supervisor" or "Sr Supervisor":
+        outscan = DeliveryOutscan.objects.filter(origin = request.user.employeemaster.service_centre, added_on__range=(before, now)).order_by("-id")
+    else:
+        outscan = DeliveryOutscan.objects.filter(added_on__range=(before,now)).order_by("-id")
+    service_centre = ServiceCenter.objects.all()    
+    return render_to_response("delivery/outscan.html",
+                              {'outscan':outscan,
+                               'service_centre':service_centre,
+                               'origin_sc':origin_sc},
+                               context_instance = RequestContext(request))
+
+@csrf_exempt 
+def outscan_batch(request):
+    '''Creating Outscan Batch'''
+    employee_code = request.POST['emp_code']
+    employee_code = EmployeeMaster.objects.get(employee_code=int(employee_code))
+    route = request.POST['route']
+    origin_sc = request.POST['origin_sc']
+    origin = ServiceCenter.objects.get(id = int(origin_sc))
+    outscan = DeliveryOutscan(employee_code = employee_code, route = route, origin = origin)
+    outscan.save()
+    return render_to_response("service_centre/connection_data.html",
+                               {"a":outscan,
+                                'status':'2'},
+                               context_instance=RequestContext(request))
+ #   return HttpResponse("Sucess")
+
+
+@csrf_exempt 
+def include_shipment(request, oid):
+    '''Including Shipment in Outscan Batch'''
+    outscan  =  DeliveryOutscan.objects.get(id = oid)
+    if request.POST:
+        awb_number = request.POST['awb']
+        #shipment = Shipment.objects.get(airwaybill_number = awb_number)
+        #return HttpResponse("%s" % str(shipment.status))
+        try:
+            shipment = Shipment.objects.get(service_centre= request.user.employeemaster.service_centre, current_sc=request.user.employeemaster.service_centre, airwaybill_number = awb_number, status__in = [6,8])
+        except:
+            return HttpResponse("Incorrect Shipment Number")
+        shipment.status = 7
+        shipment.current_sc = request.user.employeemaster.service_centre
+        shipment.save()
+        try:    
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, status=7, remarks="Outscan Number:%s"%(outscan.id),employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod)
+        except:
+            pass    
+        outscan.shipments.add(shipment)
+        doshipment = DOShipment(shipment=shipment, deliveryoutscan=outscan) 
+        #return HttpResponse("%s" % outscan)
+        doshipment.save()
+#<<<<<<< .mine
+#        return render_to_response("service_centre/shipment_bagging_data.html",
+#                                  {'shipment':shipment,
+#                                   },
+#                                   context_instance=RequestContext(request))
+#=======
+        return render_to_response("service_centre/shipment_bagging_data.html",
+                                  {'shipment':shipment,
+                                   },
+                                   context_instance=RequestContext(request))
+        
+#>>>>>>> .r32
+        return HttpResponse("Shipment added Sucessfully")
+    else:
+        shipment = outscan.shipments.all()
+        shipment_count = shipment.count()
+        return render_to_response("delivery/include_shipment.html",
+                                  {'outscan':outscan,
+                                   'shipment':shipment,
+                                   'shipment_count':shipment_count,
+                                   'oid':oid,},
+                                   context_instance = RequestContext(request))
+        
+@csrf_exempt 
+def delink_shipment(request, oid):
+    '''Delinking Shipment in Outscan Batch'''
+    outscan  =  DeliveryOutscan.objects.get(id = oid)
+    if request.POST:
+        awb_number = request.POST['awb']
+        try:
+            shipment = Shipment.objects.get(airwaybill_number = awb_number , status = 7)
+        except:
+            traceback.print_exc()
+            return HttpResponse("Incorrect Shipment Number")
+        
+        shipment.status = 6
+        try:
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, status=6, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod)
+        except:
+            pass    
+        shipment.save()
+        outscan.shipments.remove(shipment)
+        dos =  shipment.doshipment_set.get(deliveryoutscan=outscan)
+        dos.delete()
+        return HttpResponse("Shipment removed Sucessfully")
+        
+           
+    else:
+        shipment = outscan.shipments.all()
+        shipment_count = shipment.count()
+        return render_to_response("delivery/delink_shipment.html",
+                                  {'outscan':outscan,
+                                   'shipment':shipment,
+                                   'shipment_count':shipment_count,
+                                   'oid':oid,},
+                                   context_instance = RequestContext(request))
+
+def delivery_sheet(request, oid):
+    '''Delivery Sheet for Outscan'''
+    outscan = DeliveryOutscan.objects.get(id = oid)
+    #shipment = outscan.shipments.filter()
+    drs_shipment = get_model('service_centre', 'DeliveryOutscan_shipments')
+    ship = drs_shipment.objects.filter(deliveryoutscan_id=oid).order_by('-id')  
+  #  for a in ship:
+   #    return HttpResponse(a.shipment) 
+    shipment = [a.shipment for a in ship]  
+#    return HttpResponse(shipment)
+    #for a in shipment:
+    #    ean = barcode.get_barcode('ean', str(a.airwaybill_number))
+    #    ean.get_fullcode()
+    #    ean = barcode.get_barcode('ean', str(a.airwaybill_number))
+    #    ean.save(os.path.join(settings.PROJECT_ROOT,'/home/web/ecomm.prtouch.com/ecomexpress/static/airwaybill/%s'%(a.airwaybill_number)))
+    ship_sum = outscan.shipments.filter(product_type = "cod").exclude(rts_status=1)
+    shipment_sum  =  ship_sum.aggregate(Sum('collectable_value'))
+    shipment_sum  =  shipment_sum['collectable_value__sum']
+    return render_to_response("delivery/delivery_sheet.html",
+                                  {'outscan':outscan,
+                                   'shipment':shipment,
+                                   'oid':oid,
+                                   'shipment_sum':shipment_sum,
+                                   },
+                                   context_instance = RequestContext(request))
+
+@csrf_exempt 
+def close_outscan(request):
+    '''Closing Outscan'''
+    outscan_id = request.POST['outscan_id']
+    outscan = DeliveryOutscan.objects.get(id = outscan_id)
+    outscan.status = 1
+    collectable_value = 0
+    for shipment in outscan.shipments.filter(product_type="cod"):
+          collectable_value = collectable_value + shipment.collectable_value
+    outscan.amount_to_be_collected = collectable_value
+    outscan.save()
+    return HttpResponse("Success")
+    
+
+@csrf_exempt
+def close_sal(request):
+    '''Closing Outscan'''
+    sal_id = request.POST['sal_id']
+    sal = ShipmentAtLocation.objects.get(id = sal_id)
+    sal_scanned = sal.scanned_shipments.all()
+   # for shipment in sal_scanned:
+    #    upd_time = shipment.added_on
+     #   monthdir = upd_time.strftime("%Y_%m")
+     #   shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+     #   shipment_history.objects.create(shipment=shipment, status=17, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod,remarks="SAL Tally closed")
+    if len(sal_scanned) == len(sal.total_undelivered_shipment.all()):    
+        sal.status = 1
+    else:
+        sal.status = 2
+    sal.save()
+    return HttpResponse("Success")
+
+@csrf_exempt
+def status_update(request):
+    '''Status Update for Shipment'''
+    if request.POST:
+        data_entry_emp = request.POST['data_entry_emp']
+        data_entry_emp = EmployeeMaster.objects.get(employee_code=int(data_entry_emp))
+        delivery_emp = request.POST['delivery_emp']
+        delivery_emp = EmployeeMaster.objects.get(employee_code=int(delivery_emp))
+        awb = request.POST['awbu'] or request.POST['awbd']
+        reason_code = request.POST['reason_code']
+        reason_code = ShipmentStatusMaster.objects.get(id = int(reason_code))
+        time = request.POST['time']
+        recieved_by = request.POST['recieved_by']
+        date = request.POST['date']
+        dat = dateutil.parser.parse(date)
+        date = dat.strftime("%Y-%m-%d") 
+        remarks = ""
+        try:
+            remarks = request.POST['remarks']
+        except:
+          pass
+        try:
+            shipment = Shipment.objects.get(airwaybill_number = int(awb), status__in = [7,8,9], current_sc=request.user.employeemaster.service_centre)
+        # shipment = Shipment.objects.get(airwaybill_number = int(awb))
+        except:
+            return HttpResponse("Incorrect Shipment Number")
+        if not shipment.deliveryoutscan_set.latest("added_on").status:
+            return HttpResponse("Please Close Outscan First")
+        if (request.POST['awbd'] <> ""):
+            if shipment.status <> 7:
+               return HttpResponse("Please Outscan the shipment")
+            status = 2
+            shipment.status = 9
+            altinstructiawb = InstructionAWB.objects.filter(batch_instruction__shipments__current_sc = request.user.employeemaster.service_centre, status = 0, batch_instruction__shipments=shipment)
+            if altinstructiawb:
+                    for a in altinstructiawb:
+                         a.status = 1
+                         a.save()
+            shipment.reason_code = reason_code
+            origin  =  request.user.employeemaster.service_centre
+            su  =  StatusUpdate(shipment = shipment, data_entry_emp_code = data_entry_emp, delivery_emp_code = delivery_emp, reason_code = reason_code, date = date, time = time, recieved_by = recieved_by, status = status, origin = origin)  
+            su.save()
+            shipment.updated_on = now
+            shipment.current_sc = request.user.employeemaster.service_centre
+            shipment.save()
+            
+            try:
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, status=9, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code)
+            except:
+                pass
+            #shipment = Shipment.objects.get(airwaybill_number = int(awb))
+           # su = StatusUpdate.objects.get_or_create(shipment = shipment, reason_code = reason_code, status = status,defaults={'data_entry_emp_code' : data_entry_emp, 'delivery_emp_code' : delivery_emp, 'date' : date, 'time' : time, 'recieved_by' : recieved_by, 'origin' : origin})     
+            #su  =  StatusUpdate(shipment = Shipment.objects.get(air	waybill_number = int(awb)), data_entry_emp_code = data_entry_emp, delivery_emp_code = delivery_emp, reason_code = reason_code, date = date, time = time, recieved_by = recieved_by, status = status, origin = origin)  
+            #origin  =  request.user.employeemaster.service_centre
+            #su  =  StatusUpdate(shipment = shipment, data_entry_emp_code = data_entry_emp, delivery_emp_code = delivery_emp, reason_code = reason_code, date = date, time = time, recieved_by = recieved_by, status = status, origin = origin)  
+            #su.save()
+            try:
+             su_undel = StatusUpdate.objects.filter(shipment=Shipment.objects.get(airwaybill_number=int(awb)), status=1)
+             for a in su_undel:
+                 a.status=3
+                 a.save()
+            except:
+             pass
+            if shipment.doshipment_set.filter(deliveryoutscan__status=1).order_by('-added_on')[:1]:
+               dos =  shipment.doshipment_set.filter(deliveryoutscan__status=1).order_by('-added_on')[:1][0]
+               dos.status = 1
+               dos.updated_on = now 
+               dos.save()
+               dos.deliveryoutscan.update_amount_collected()
+          
+            delivered_count = StatusUpdate.objects.filter(status = 2, origin = request.user.employeemaster.service_centre, date__range=(before,now)).count()
+            undelivered_count = StatusUpdate.objects.filter(status = 1, origin = request.user.employeemaster.service_centre, date__range=(before,now)).count()   
+            return render_to_response("delivery/status_update_data.html",
+                                      {'status_update':su,
+                                       'delivered_count':delivered_count,
+                                       'undelivered_count':undelivered_count,
+                                       },
+                                      
+                                      )
+            #return HttpResponseRedirect("/delivery/status_update/")
+                
+        else:
+         if shipment.status == 9:#For 202
+             if reason_code.id <> 44:
+                return HttpResponse("For updating this shipment enter the reason code as 202")
+             if shipment.doshipment_set.filter(deliveryoutscan__status=1).order_by('-added_on')[:1]:
+                dos =  shipment.doshipment_set.filter(deliveryoutscan__status=1).order_by('-added_on')[:1][0]
+                if dos.deliveryoutscan.cod_status == 1:
+                   return HttpResponse("COD closed, Please contact Accounts")
+                else:
+                   shipment.status = 7
+                   shipment.reason_code = reason_code
+                   shipment.updated_on = now
+                   shipment.current_sc = request.user.employeemaster.service_centre
+                   shipment.save()
+                   su = StatusUpdate.objects.filter(shipment=shipment, status=2).update(data_entry_emp_code = data_entry_emp, remarks=remarks, delivery_emp_code = delivery_emp, reason_code = reason_code, date = date, time = time, recieved_by = recieved_by, status = 1, origin = request.user.employeemaster.service_centre)     
+    
+                   dos.status = 0
+                   dos.updated_on = now
+                   dos.save()
+                   dos.deliveryoutscan.collection_status = 0
+                   dos.deliveryoutscan.save()
+                   dos.deliveryoutscan.update_amount_collected()
+                   upd_time = shipment.added_on
+                   monthdir = upd_time.strftime("%Y_%m")
+                   shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+                   shipment_history.objects.create(shipment=shipment, status=7, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code)
+         else:
+            status = 1    
+            shipment.status = 8
+            shipment.current_sc = request.user.employeemaster.service_centre
+            origin  =  request.user.employeemaster.service_centre     
+            su  =  StatusUpdate(shipment = Shipment.objects.get(airwaybill_number = int(awb)), remarks=remarks, data_entry_emp_code = data_entry_emp, delivery_emp_code = delivery_emp, reason_code = reason_code, date = date, time = time, recieved_by = recieved_by, status = status, origin = origin)  
+            su.save()
+            shipment.updated_on = now
+            shipment.save()
+            altinstructiawb = InstructionAWB.objects.filter(batch_instruction__shipments__current_sc = request.user.employeemaster.service_centre, status = 0, batch_instruction__shipments=shipment)
+            if altinstructiawb:
+                    for a in altinstructiawb:
+                         a.status = 1
+                         a.save()
+            try:
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, status=8, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code)
+            except:
+                pass    
+            print su
+            if shipment.doshipment_set.filter(deliveryoutscan__status=1).order_by('-added_on')[:1]:
+               dos =  shipment.doshipment_set.filter(deliveryoutscan__status=1).order_by('-added_on')[:1][0]
+               dos.status = 2
+               dos.updated_on = now 
+               dos.save()
+               dos.deliveryoutscan.update_amount_collected()
+
+         delivered_count = StatusUpdate.objects.filter(status = 2, origin = request.user.employeemaster.service_centre, date__range=(before,now)).count()
+         undelivered_count = StatusUpdate.objects.filter(status = 1, origin = request.user.employeemaster.service_centre, date__range=(before,now)).count()   
+            
+         return render_to_response("delivery/status_update_data.html",
+                                      {'status_update':su,
+                                       'delivered_count':delivered_count,
+                                       'undelivered_count':undelivered_count,
+                                       },
+                                      )
+            #return HttpResponseRedirect("/delivery/status_update/")
+    else:
+        if request.user.employeemaster.user_type == "Staff" or "Supervisor" or "Sr Supervisor":
+            status_update = StatusUpdate.objects.filter(origin = request.user.employeemaster.service_centre, date__range=(before,now)).order_by("-id")
+            delivered_count = StatusUpdate.objects.filter(status = 2, origin = request.user.employeemaster.service_centre, date__range=(before,now)).count()
+            undelivered_count = StatusUpdate.objects.filter(status = 1, origin = request.user.employeemaster.service_centre, date__range=(before,now)).count()   
+            outscan  =  DeliveryOutscan.objects.filter(origin = request.user.employeemaster.service_centre)
+        else:
+            outscan  =  DeliveryOutscan.objects.filter()
+            status_update = StatusUpdate.objects.filter(date__range=(before,now)).order_by("-id")
+            delivered_count = StatusUpdate.objects.filter(status = 2, origin = request.user.employeemaster.service_centre, date__range=(before,now)).count()
+            undelivered_count = StatusUpdate.objects.filter(status = 1, origin = request.user.employeemaster.service_centre, date__range=(before,now)).count()   
+            
+        reason_code  =  ShipmentStatusMaster.objects.all()      
+        return render_to_response("delivery/status_update.html",
+                                {'status_update':status_update,
+                                 'delivered_count':delivered_count,
+                                 'undelivered_count':undelivered_count,
+                                 'reason_code':reason_code},
+                               context_instance = RequestContext(request))
+
+@csrf_exempt
+def sal_tally(request):
+    '''SAL Tally'''
+    if request.POST:
+        employee_code = request.POST['emp_code']
+        employee_code = EmployeeMaster.objects.get(employee_code=int(employee_code))
+        date = request.POST['date']
+        origin = request.user.employeemaster.service_centre
+        sal  =  ShipmentAtLocation(data_entry_emp_code = employee_code, date = date, origin = origin)
+        sal.save()
+        s3 = Shipment.objects.filter((Q(status__in = [6,7,8]) | Q(return_shipment=2) &Q(status__in=[0,1,2,3,5])) &Q(current_sc = request.user.employeemaster.service_centre)).exclude(rts_status=2, reason_code_id=5)
+        for a in set(s3):
+               upd_time = a.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               history_latest=shipment_history.objects.filter(shipment=a).latest('updated_on')
+               if ((a.status in [6,7,8]) or (a.return_shipment and history_latest.status in [0,1,2,3,4,5])):
+      #                     total_undel_shipment.append(history_latest)
+                         sal.total_undelivered_shipment.add(a)
+       # undelivered_shipment = Shipment.objects.filter((Q(status__in = [6,7,8]) | Q(return_shipment=2) &Q(status__in=[0,1,2,3,5])) &Q(current_sc = request.user.employeemaster.service_centre)) 
+      #  undelivered_shipment = Shipment.objects.filter(status = 8, current_sc=request.user.employeemaster.service_centre)
+    #    if undelivered_shipment:# total_undel_shipment = [a for a in set(s3)]
+     #     for a in set(undelivered_shipment):
+      #      sal.total_undelivered_shipment.add(a)
+        return render_to_response("delivery/sal_data.html",
+                              {'a':sal},
+                               context_instance = RequestContext(request))
+    
+        #return HttpResponse("Sucess")
+    else:
+        if request.user.employeemaster.user_type == "Staff" or "Supervisor" or "Sr Supervisor":
+            sal  =  ShipmentAtLocation.objects.filter(origin = request.user.employeemaster.service_centre).order_by("-id")
+        else:  
+            sal  =  ShipmentAtLocation.objects.filter().order_by("-id")
+        shipment = Shipment.objects.filter(status = 6, current_sc = request.user.employeemaster.service_centre)    
+                        
+        return render_to_response("delivery/sal_tally.html",
+                              {'sal':sal},
+                               context_instance = RequestContext(request))
+
+def delivery_sheet_sal(request, sid):
+    '''Delivery Sheet for SAL'''
+    sal  =  ShipmentAtLocation.objects.get(id = sid)
+    shipment  =  sal.scanned_shipments.all()
+    #for a in shipment:
+        #ean  =  barcode.get_barcode('ean', str(a.airwaybill_number))
+        #ean.get_fullcode()
+        #ean  =  barcode.get_barcode('ean', str(a.airwaybill_number))
+        #ean.save(os.path.join(settings.PROJECT_ROOT,'/home/web/ecomm.prtouch.com/ecomexpress/static/airwaybill/%s'%(a.airwaybill_number)))
+         
+    return render_to_response("delivery/delivery_sheet.html",
+                                  {'outscan':sal,
+                                   'shipment':shipment,
+                                   'oid':sid,
+                                   },
+                                   context_instance = RequestContext(request))
+
+
+@csrf_exempt 
+def include_shipment_sal(request, sid):
+    '''Include Shipment in SAL batch'''
+    sal  =  ShipmentAtLocation.objects.get(id = sid)
+    if request.POST:
+        awb_number =  request.POST['awb']
+        shipment = Shipment.objects.get(airwaybill_number = awb_number, current_sc=request.user.employeemaster.service_centre)
+        upd_time = shipment.added_on
+        monthdir = upd_time.strftime("%Y_%m")
+        shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+        history_latest=shipment_history.objects.filter(shipment=shipment).latest('updated_on')
+        if ((shipment.status in [6,7,8]) or (shipment.return_shipment and history_latest.status in [0,1,2,3,4,5])):
+                    sal.scanned_shipments.add(shipment)
+                    return render_to_response("service_centre/shipment_bagging_data.html",
+                                  {'shipment':shipment,
+                                   },
+                                   context_instance=RequestContext(request))    
+           
+    else:
+        shipment  =  sal.scanned_shipments.all()
+        shipment_count  =  shipment.count()
+        return render_to_response("delivery/include_shipment_sal.html",
+                                  {'sal':sal,
+                                   'shipment':shipment,
+                                   'shipment_count':shipment_count,
+                                   'sid':sid,},
+                                   context_instance = RequestContext(request))
+        
+@csrf_exempt 
+def delink_shipment_sal(request, sid):
+    '''Delink Shipment in SAL batch'''
+    sal  =  ShipmentAtLocation.objects.get(id = sid)
+    if request.POST:
+        awb_number =  request.POST['awb']
+        try:
+            shipment  =  Shipment.objects.get(airwaybill_number = awb_number)
+            sal.scanned_shipments.remove(shipment)
+            return HttpResponse("Shipment removed Sucessfully")
+        
+        except:
+            return HttpResponse("Incorrect Shipment Number")   
+    else:
+        shipment  =  sal.scanned_shipments.all()
+        shipment_count  =  shipment.count()
+        return render_to_response("delivery/delink_shipment_sal.html",
+                                  {'sal':sal,
+                                   'shipment':shipment,
+                                   'shipment_count':shipment_count,
+                                   'sid':sid,},
+                                   context_instance = RequestContext(request))
+
+@csrf_exempt
+def cash_tally(request):
+    '''Cash Tally'''
+    if request.POST:
+        origin_sc  =  request.POST['origin_sc']
+        origin = ServiceCenter.objects.get(id = int(origin_sc))
+        date = request.POST['date']
+        if CODDeposits.objects.filter(origin = origin, status=0):
+            return HttpResponse("Please close existing Cash Deposit!")
+        codd  =  CODDeposits(origin = origin, date = date)
+        codd.save()
+        outscans  =  DeliveryOutscan.objects.filter(origin = request.user.employeemaster.service_centre,  collection_status__gte = 1, cod_status=0)
+        for outscan in outscans:
+            cod_outscan = CODDepositsOutscan(coddeposit=codd, deliveryoutscan = outscan)
+            cod_outscan.save()
+            outscan.cod_status = 1
+            outscan.save()
+            shipments = Shipment.objects.filter(doshipment__deliveryoutscan = outscan,  doshipment__status = 1, product_type = "cod", reason_code__id=1).exclude(rts_status=1)
+            codd.cod_shipments.add(*(list(shipments)))
+            
+        return render_to_response("delivery/codd_data.html",
+                                  {'a':codd},)
+  #      return HttpResponseRedirect("/delivery/cash_tally")
+    
+    outscans = DeliveryOutscan.objects.filter(origin = request.user.employeemaster.service_centre,  status = 1, cod_status=0)
+    pending_outscans = DeliveryOutscan.objects.filter(origin = request.user.employeemaster.service_centre,  status = 1, collection_status = 0, cod_status=0)
+    past_outscans = DeliveryOutscan.objects.filter(origin = request.user.employeemaster.service_centre, added_on__lt=now, status  = 1).exclude(collection_status = 1) # 1 collection completed  
+    coddeposits = CODDeposits.objects.filter(Q(origin = request.user.employeemaster.service_centre),Q(status=0) | Q(date=now.date())).order_by("-id")   
+    service_centre = ServiceCenter.objects.all()
+    pending_cod_shipments = Shipment.objects.filter(service_centre = request.user.employeemaster.service_centre, product_type__iexact = "cod")
+    for a in pending_cod_shipments:
+        try:
+          AirwaybillTally.objects.get_or_create(shipment=a, origin=request.user.employeemaster.service_centre, collectable_value=a.collectable_value)
+        except:
+          pass      
+     #  return HttpResponse(a.airwaybill_number)   
+   #      if not AirwaybillTally.objects.get(shipment=a, origin=request.user.employeemaster.service_centre, collectable_value=a.collectable_value):
+    #           AirwaybillTally.objects.create(shipment=a, origin=request.user.employeemaster.service_centre, collectable_value=a.collectable_value)
+    awbt_shipments_sucess = DeliveryOutscan.objects.filter(origin = request.user.employeemaster.service_centre,  status = 1, cod_status=0) 
+    awbt_shipments_pending = AirwaybillTally.objects.filter(origin=request.user.employeemaster.service_centre, status=0)
+   # awbt_shipments_sucess = AirwaybillTally.objects.filter(origin=request.user.employeemaster.service_centre, status=1)
+    reason_code = ShipmentStatusMaster.objects.all()
+    delivery_deposits = DeliveryDeposits.objects.filter(sc=request.user.employeemaster.service_centre)
+    total_success =  DeliveryOutscan.objects.filter(origin=request.user.employeemaster.service_centre, status=1, cod_status=0, amount_to_be_collected=F('amount_to_be_collected'))
+    #total_success =  DeliveryOutscan.objects.filter(origin=request.user.employeemaster.service_centre, status=1, cod_status=0)
+    #total_amt_colct = total_success.shipments.all()
+    #return HttpResponse(total_amt_colct)
+    total_mismatch = AirwaybillTally.objects.filter(origin=request.user.employeemaster.service_centre, status=1).exclude(collectable_value=F('amount_collected'))
+    
+    mismatch_amount_collected = total_mismatch.aggregate(Sum('amount_collected'))
+    mismatch_amount_collected = mismatch_amount_collected['amount_collected__sum'] 
+    mismatch_collectable_value = total_mismatch.aggregate(Sum('collectable_value'))
+    mismatch_collectable_value = mismatch_collectable_value['collectable_value__sum']
+    success_amount_collected = total_success.aggregate(Sum('amount_to_be_collected'))
+    success_amount_collected = success_amount_collected['amount_to_be_collected__sum']
+    
+    return render_to_response("delivery/cash_tally.html",
+                              {'service_centre':service_centre,
+                               'codd':coddeposits,
+                               'pending_cod_shipments':awbt_shipments_pending,
+                               'awbt_shipments_sucess':awbt_shipments_sucess,
+                               'reason_code':reason_code,
+                               'delivery_deposits':delivery_deposits,
+                               'total_success':total_success,
+                               'total_mismatch':total_mismatch,
+                               'mismatch_amount_collected':mismatch_amount_collected,
+                               'mismatch_collectable_value':mismatch_collectable_value,
+                               'success_amount_collected':success_amount_collected,
+                               'outscans':outscans,
+                               'pending_outscans':pending_outscans,
+                               'past_outscans':past_outscans,
+                               # 'origin_sc':request.user.employeemaster.service_centre
+                               },
+                               context_instance = RequestContext(request))
+
+@csrf_exempt
+def awb_tally(request):
+    upd_type=request.POST['upd_type']
+    if upd_type=="rc":
+        awb=request.POST['awb']
+        reason_code_id=request.POST['reason_code']
+        reason_code=ShipmentStatusMaster.objects.get(id=int(reason_code_id))
+        AirwaybillTally.objects.filter(id=int(awb)).update(reason_code=reason_code)
+        return HttpResponse(reason_code)
+    cash_emp = request.POST['cash_emp']
+    cash_emp = EmployeeMaster.objects.get(employee_code=int(cash_emp))
+    delivery_emp = request.POST['delivery_emp']
+    delivery_emp = EmployeeMaster.objects.get(employee_code=int(delivery_emp))
+    awb = request.POST['awb']
+    amount = request.POST['amt']
+    shipment = Shipment.objects.get(airwaybill_number=awb, status=9)
+    AirwaybillTally.objects.filter(shipment=shipment).update(cash_tally_emp_code = cash_emp, delivery_emp_code = delivery_emp, amount_collected=amount, status=1)
+    awb = AirwaybillTally.objects.get(shipment=shipment)
+    return render_to_response("delivery/cash_tally_data.html",
+                              {'a':awb},)
+    
+    
+@csrf_exempt 
+def include_shipment_codd(request, cid):
+    '''Inlcude Shipment in CODD'''
+    codd  =  CODDeposits.objects.get(id = cid)
+    if request.POST:
+        awb_number =  request.POST['awb']
+        try:
+            shipment  =  Shipment.objects.get(airwaybill_number = awb_number, product_type__iexact = "cod")
+        except:
+            return HttpResponse("Incorrect Shipment Number")
+        codd.cod_shipments.add(shipment)
+        return render_to_response("service_centre/shipment_bagging_data.html",
+                                  {'shipment':shipment,
+                                   },
+                                   context_instance=RequestContext(request))    
+                
+        return HttpResponse("Shipment added Sucessfully")
+           
+    else:
+        shipment  =  codd.cod_shipments.all()
+        shipment_count  =  shipment.count()
+        total_cod_shipment = StatusUpdate.objects.filter(date=codd.date, origin=request.user.employeemaster.service_centre)
+        tot_cod_shipment=[]
+        for a in total_cod_shipment:
+            tot_cod_shipment.append(a.shipment.airwaybill_number)
+        #shipment = Shipment.objects.filter(airwaybill_number__in=tot_cod_shipment, product_type__iexact="cod", status=9)
+        return render_to_response("delivery/list_undelivered_shipment.html",
+                                {'status':2,
+                                 'total_cod_shipment':shipment},
+                               context_instance = RequestContext(request))
+    
+#        return render_to_response("delivery/include_shipment_codd.html",
+#                                  {'codd':codd,
+#                                   'shipment':shipment,
+#                                   'shipment_count':shipment_count,
+#                                   'cid':cid,},
+#                                   context_instance = RequestContext(request))
+        
+@csrf_exempt 
+def delink_shipment_codd(request, cid):
+    '''Delink Shipment in CODD'''
+    codd = CODDeposits.objects.get(id = cid)
+    if request.POST:
+        awb_number = request.POST['awb']
+        try:
+            shipment = Shipment.objects.get(airwaybill_number = awb_number)
+            codd.cod_shipments.remove(shipment)
+            return HttpResponse("Shipment removed Sucessfully")
+        except:
+            return HttpResponse("Incorrect Shipment Number")   
+    else:
+        shipment  =  codd.cod_shipments.all()
+        shipment_count  =  shipment.count()
+        return render_to_response("delivery/delink_shipment_codd.html",
+                                  {'codd':codd,
+                                   'shipment':shipment,
+                                   'shipment_count':shipment_count,
+                                   'cid':cid,},
+                                   context_instance  =  RequestContext(request))
+
+def deposit_sheet(request, cid):
+    '''Deposit Sheet for CODD'''
+    codd  =  CODDeposits.objects.get(id = cid)
+    denomination=codd.denomination.filter().order_by("-id")
+    deno = {}
+    for a in denomination:
+        if not deno.get(a.type):
+            deno[a.type]=a.quantity
+    shipment  =  codd.cod_shipments.all()
+    shipment_sum = ""
+    if shipment:
+        shipment_sum  =  codd.cod_shipments.aggregate(Sum('collectable_value'))
+        shipment_sum  =  shipment_sum['collectable_value__sum']
+        codd.total_amount=shipment_sum
+        codd.save()
+        
+    return render_to_response("delivery/deposit_sheet.html",
+                                  {'codd_id':codd,
+                                   'shipment':shipment,
+                                   'cid':cid,
+                                   'sheet':'deposit',
+                                   'shipment_sum':shipment_sum,
+                                   'denomination':deno,
+                                   },
+                                   context_instance  =  RequestContext(request))
+
+@csrf_exempt 
+def close_codd(request):
+    '''Close CODD'''
+    codd_id = request.POST['codd_id']
+    codd  =  CODDeposits.objects.get(id = int(codd_id))
+    total = codd.cod_shipments.aggregate(Sum('collectable_value'))
+    
+    total = total['collectable_value__sum']
+    if not total:
+        total = 0
+    CODDeposits.objects.filter(id = codd_id).update(total_amount=int(total), status=1, deposited_on=now)
+    for shipment in codd.cod_shipments.all():
+        shipment_cod = shipment.codcharge_set.all()[0] 
+        shipment_cod.status = 1
+        shipment_cod.updated_on = now
+        shipment_cod.save()
+    
+    for coddoutscan in codd.coddepositsoutscan_set.all():
+        coddoutscan.status = 1
+        coddoutscan.updated_on = now
+        coddoutscan.save()
+    
+    return HttpResponse("Success")
+
+def cash_tally_deposits(request):
+    codd = request.POST['codd_id']
+    slip_number = request.POST['slip_number']
+    date = request.POST['date']
+    time = request.POST['time']
+    bank_code = request.POST['bank_code']
+    CODDeposits.objects.filter(id = int(codd)).update(slip_number=slip_number, date=date, time=time, bank_code=bank_code)
+    codd = CODDeposits.objects.get(id = int(codd))
+    if request.POST['1000'] <> "0":
+        denom = Denomination.objects.create(type = 1000, quantity=request.POST['d1000'])
+        codd.denomination.add(denom)
+    if request.POST['500'] <> "0":
+        denom = Denomination.objects.create(type = 500, quantity=request.POST['d500'])
+        codd.denomination.add(denom)
+    if request.POST['100'] <> "0":
+        denom = Denomination.objects.create(type = 100, quantity=request.POST['d100'])
+        codd.denomination.add(denom)
+    if request.POST['50'] <> "0":
+        denom = Denomination.objects.create(type = 50, quantity=request.POST['d50'])
+        codd.denomination.add(denom)
+    if request.POST['20'] <> "0":
+        denom = Denomination.objects.create(type = 20, quantity=request.POST['d20'])
+        codd.denomination.add(denom)
+    if request.POST['10'] <> "0":
+        denom = Denomination.objects.create(type = 10, quantity=request.POST['d10'])
+        codd.denomination.add(denom)
+    if request.POST['5'] <> "0":
+        denom = Denomination.objects.create(type = 5, quantity=request.POST['d5'])
+        codd.denomination.add(denom)
+    if request.POST['1'] <> "0":
+        denom = Denomination.objects.create(type = 1, quantity=request.POST['d1'])
+        codd.denomination.add(denom)
+    if request.POST['total']:
+        codd.collected_amount = int(request.POST['total'])
+        codd.save()
+    return HttpResponseRedirect('/delivery/cash_tally/')
+    
+def cash_deposit(request):
+    bank_code = request.POST['bank_code']
+    bank_name = request.POST['bank_name']
+    amount = request.POST['amount']
+    date = request.POST['date']
+    time = request.POST['time']
+    emp_code = request.POST['emp_code']
+    emp_name = request.POST['emp_name']
+    DeliveryDeposits.objects.create(bank_code=bank_code, bank_name=bank_name, amount=amount, date=date, time=time, emp_code=emp_code, emp_name=emp_name, sc=request.user.employeemaster.service_centre)
+    return HttpResponseRedirect("/delivery/cash_tally/")
+
+def return_redirection(request, rtype):
+  #  rtype = '3'
+    if rtype == '1':
+       rr = "/delivery/return_redirection/1/"
+       rsp = "service_centre/rtoservicecenter.html"
+    elif rtype == '2':
+       rr = "/delivery/return_redirection/2/"
+       rsp = "hub/return_redirection.html"
+    elif rtype == '3':
+       rr = "/delivery/return_redirection/3/"
+       rsp = "delivery/return_redirection.html"
+    '''Returning Shipment'''
+    if request.POST:
+        redir_code = request.POST['redir_code']
+        if redir_code == "76":
+            emp_code = request.POST['emp_code']
+            awb = request.POST['awb']
+            reason_code = request.POST['reason_code']
+            reason_code = ShipmentStatusMaster.objects.get(id = int(reason_code))
+            if request.POST.get('rts_reason'):
+                rts_reason = request.POST['rts_reason']
+            else:
+                rts_reason = reason_code
+            #destination = request.POST['dest']
+            #destination = ServiceCenter.objects.get(id = int(destination))
+            service_centre = ""
+            if request.POST['service_centre']:
+                 service_centre = request.POST['service_centre']
+                 service_centre=ServiceCenter.objects.get(id=int(service_centre))           
+                 destination_city=service_centre.city
+                 pincode=int(service_centre.pincode_set.all()[0].pincode)
+            else:
+                 pincode = request.POST['pincode']
+                 pincode = Pincode.objects.get(pincode=pincode)
+             
+                 shipment.service_centre=pincode.service_center
+                 destination_city=service_centre.city
+                 pincode = pincode.pincode
+ #           service_centre = request.POST['service_centre']
+  #          service_centre = ServiceCenter.objects.get(id = int(service_centre))
+            shipment  =  Shipment.objects.get(airwaybill_number = awb, current_sc=request.user.employeemaster.service_centre)
+            if shipment.status == 7:
+                return HttpResponse("Shipment in Outscan Stage, cannot be returned!!")
+            if shipment.status == 9:
+                return HttpResponse("Shipment already delivered, cannot be returned!!")
+            shipment.reason_code = reason_code
+            sctmg = ServiceCenterTransitMasterGroup.objects.get(service_center=request.user.employeemaster.service_centre)
+            tt_duration = 0
+            try:
+               transit_time = TransitMaster.objects.get(transit_master=sctmg.transit_master_group, dest_service_center=service_centre)
+               cutoff = datetime.datetime.strptime(transit_time.cutoff_time,"%H:%M")
+               tt_duration=int(transit_time.duration)
+            except:
+               tt_duration = 0
+               
+            if tt_duration <> 0:
+                     if now.time() > cutoff.time():
+                         tt_duration+=1 
+                     expected_dod = now + datetime.timedelta(days=tt_duration)
+                     try:
+                         HolidayMaster.objects.get(date=expected_dod.date())
+                         expected_dod = expected_dod + datetime.timedelta(days=1)
+                     except:
+                         pass   
+                     shipment.expected_dod=expected_dod
+                     
+            shipment.pincode=pincode
+            shipment.rts_reason = rts_reason
+            shipment.status=1
+            shipment.current_sc = request.user.employeemaster.service_centre
+            shipment.status_type=0
+            shipment.rd_status=1
+            shipment.return_shipment=1
+       #     shipment.original_dest=shipment.service_centre
+       #     shipment.save()
+            shipment.service_centre=service_centre
+            shipment.save()
+            altinstructiawb = InstructionAWB.objects.filter(batch_instruction__shipments__current_sc = request.user.employeemaster.service_centre, status = 0, batch_instruction__shipments=shipment)
+            if altinstructiawb:
+                    for a in altinstructiawb:
+                         a.status = 1
+                         a.save()
+            try:
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, status=17, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code, remarks="Redirection under Same Airwaybill")
+            except:
+                pass    
+            if reason_code.code == 666:
+                utils.update_sdl_billing(shipment)
+            return HttpResponseRedirect(rr)
+          
+        if redir_code == "74":
+            emp_code = request.POST['emp_code']
+            awb = request.POST['awb']
+            reason_code = request.POST['reason_code']
+            rts_reason = request.POST['rts_reason']
+            #new_airwaybill = request.POST['new_awb']
+            reason_code = ShipmentStatusMaster.objects.get(id = int(reason_code))
+            #destination = request.POST['destination']
+            #destination = ServiceCenter.objects.get(id = int(destination))
+            #pincode = request.POST['pincode']
+            #service_centre = request.POST['service_centre']
+            #service_centre = ServiceCenter.objects.get(id = int(service_centre))
+            shipment = Shipment.objects.get(airwaybill_number = awb, current_sc=request.user.employeemaster.service_centre)
+            if shipment.status == 7:
+                return HttpResponse("Shipment in Outscan Stage, cannot be returned!!")
+            if rtype == '3' and shipment.status <> 8:
+                return HttpResponse("Please update the shipment status before proceeding.")
+            if shipment.status == 9:
+                return HttpResponse("Shipment already delivered, cannot be returned!!")
+            #shipment.id=None
+          #shipment.airwaybill_number=new_airwaybill
+            try:
+              sctmg = ServiceCenterTransitMasterGroup.objects.get(service_center=request.user.employeemaster.service_centre)
+            except:
+               pass
+            tt_duration = 0
+            try:
+               transit_time = TransitMaster.objects.get(transit_master=sctmg.transit_master_group, dest_service_center=shipment.pickup.service_centre)
+               cutoff = datetime.datetime.strptime(transit_time.cutoff_time,"%H:%M")
+               tt_duration=int(transit_time.duration)
+            except:
+               tt_duration = 0
+               
+            if tt_duration <> 0:
+                     if now.time() > cutoff.time():
+                         tt_duration+=1 
+                     expected_dod = now + datetime.timedelta(days=tt_duration)
+                     try:
+                         HolidayMaster.objects.get(date=expected_dod.date())
+                         expected_dod = expected_dod + datetime.timedelta(days=1)
+                     except:
+                         pass   
+                     shipment.expected_dod=expected_dod
+          
+            shipment.return_shipment=2
+            shipment.status=1
+            shipment.rts_reason = rts_reason
+            shipment.status_type=0
+            shipment.reason_code=reason_code
+            shipment.rto_status=1
+            shipment.current_sc = request.user.employeemaster.service_centre
+          # shipment.destination_city=destination
+         #   shipment.original_dest=shipment.service_centre
+            shipment.pincode=shipment.pickup.pincode
+            shipment.service_centre=shipment.pickup.service_centre
+            shipment.save()
+            altinstructiawb = InstructionAWB.objects.filter(batch_instruction__shipments__current_sc = request.user.employeemaster.service_centre, status = 0, batch_instruction__shipments=shipment)
+            if altinstructiawb:
+                    for a in altinstructiawb:
+                         a.status = 1
+                         a.save()
+            try:
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, status=17, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code, remarks="Return to Origin")
+            except:
+                pass    
+            return HttpResponseRedirect(rr)
+        if redir_code == "75":
+          emp_code=request.POST['emp_code']
+          awb=request.POST['awb']
+          reason_code=request.POST['reason_code']
+          new_airwaybill=request.POST['new_awb']
+          reason_code=ShipmentStatusMaster.objects.get(id=int(reason_code))
+          #destination=request.POST['destination']
+          #destination=ServiceCenter.objects.get(id=int(destination))
+          #pincode=request.POST['pincode']
+          service_centre = ""
+          if request.POST['service_centre']:
+                 service_centre = request.POST['service_centre']
+                 service_centre=ServiceCenter.objects.get(id=int(service_centre))
+               
+          shipment = Shipment.objects.get(airwaybill_number=awb, current_sc=request.user.employeemaster.service_centre)
+          if shipment.status == 7:
+                return HttpResponse("Shipment in Outscan Stage, cannot be returned!!")
+          if shipment.status == 9:
+                return HttpResponse("Shipment already delivered, cannot be returned!!")
+          rts_reason = request.POST['rts_reason']
+          shipment.reason_code=reason_code
+          shipment.status=8
+          shipment.current_sc = request.user.employeemaster.service_centre
+          shipment.rts_reason = rts_reason
+          shipment.rts_date = now
+          shipment.rts_status = 2
+          ship = Shipment.objects.filter(airwaybill_number=new_airwaybill)
+          if ship:
+             return HttpResponse("Used Airwaybill entered, kindly recheck")
+          shipment.ref_airwaybill_number = new_airwaybill
+          shipment.save()
+          
+          altinstructiawb = InstructionAWB.objects.filter(batch_instruction__shipments__current_sc = request.user.employeemaster.service_centre, status = 0, batch_instruction__shipments=shipment)
+          if altinstructiawb:
+                    for a in altinstructiawb:
+                         a.status = 1
+                         a.save()
+          try:
+             upd_time = shipment.added_on
+             monthdir = upd_time.strftime("%Y_%m")
+             shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+             shipment_history.objects.create(shipment=shipment, status=17, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code, remarks="Redirection under on new Airwaybill" + str(new_airwaybill))
+          except:
+              pass    
+          shipment.id=None
+          shipment.ref_airwaybill_number=shipment.airwaybill_number
+          try:
+                       awb_num = AirwaybillNumbers.objects.get(airwaybill_number=new_airwaybill)
+                       awb_num.status=1
+                       awb_num.save()
+          except:
+                       pass
+          
+
+          shipment.airwaybill_number=new_airwaybill
+          shipment.reason_code=reason_code
+          shipment.current_sc = request.user.employeemaster.service_centre
+          if not service_centre:
+                 shipment.destination_city=shipment.pickup.subcustomer_code.address.city
+                 shipment.pincode=shipment.pickup.subcustomer_code.address.pincode
+                 pincode = Pincode.objects.get(pincode=shipment.pickup.subcustomer_code.address.pincode)	
+                 shipment.service_centre=pincode.service_center
+          else:
+                 shipment.service_centre=service_centre
+                 shipment.destination_city=service_centre.city	
+                 shipment.pincode=int(service_centre.pincode_set.all()[0].pincode)
+         # shipment.destination_city=shipment.pickup.subcustomer_code.address.city
+         # shipment.pincode=shipment.pickup.subcustomer_code.address.pincode
+         # pincode = Pincode.objects.get(pincode=shipment.pickup.subcustomer_code.address.pincode)
+          #shipment.original_dest=shipment.service_centre
+         # shipment.service_centre=pincode.service_center
+          if shipment.service_centre:
+              sctmg = ServiceCenterTransitMasterGroup.objects.get(service_center=request.user.employeemaster.service_centre)
+              tt_duration = 0
+              try:
+                   transit_time = TransitMaster.objects.get(transit_master=sctmg.transit_master_group, dest_service_center=shipment.pickup.service_centre)
+                   cutoff = datetime.datetime.strptime(transit_time.cutoff_time,"%H:%M")
+                   tt_duration=int(transit_time.duration)
+              except:
+                   tt_duration = 0
+               
+          if tt_duration <> 0:
+                     if now.time() > cutoff.time():
+                         tt_duration+=1 
+                     expected_dod = now + datetime.timedelta(days=tt_duration)
+                     try:
+                         HolidayMaster.objects.get(date=expected_dod.date())
+                         expected_dod = expected_dod + datetime.timedelta(days=1)
+                     except:
+                         pass   
+                     shipment.expected_dod=expected_dod
+          
+          shipment.status=1
+          shipment.status_type=0
+          shipment.inscan_date = now
+          shipment.return_shipment=3
+          shipment.rts_date = now
+          shipment.rts_status = 1
+          shipment.save()
+          rts_pricing(shipment)
+          try:
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, status=1, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code, remarks="Returning to Shipper: Org airwaybill number: " + str(awb))
+          except:
+                pass    
+          return HttpResponseRedirect(rr)
+    
+    else:
+        reason_code = ShipmentStatusMaster.objects.all()
+        service_centre = ServiceCenter.objects.all()  
+        return render_to_response(rsp,
+                                {'reason_code':reason_code,
+                                 'service_centre':service_centre},
+                               context_instance = RequestContext(request))
+
+def cash_denomination(request, cid):
+    codd =CODDeposits.objects.get(id=int(cid))
+    success_amount_collected = codd.cod_shipments.aggregate(Sum('collectable_value'))
+    success_amount_collected = success_amount_collected['collectable_value__sum']
+    #outscans = DeliveryOutscan.objects.filter(origin = request.user.employeemaster.service_centre,  status = 1)
+    #success_amount_collected = outscans.aggregate(Sum('amount_collected'))
+    #success_amount_collected = success_amount_collected['amount_collected__sum']
+    if request.POST:
+        pass
+    else:
+        
+        codd =CODDeposits.objects.get(id=int(cid))
+        codd.collected_amount = success_amount_collected
+        codd.save()
+        print codd.collected_amount 
+        denomination=codd.denomination.all()
+        d = {}
+        for a in denomination:
+                d[a.type]=a.quantity 
+        return render_to_response("delivery/cash_denomination.html",
+                                {'codd':codd,
+                                 'denomination':d},
+                               context_instance = RequestContext(request))
+
+    
+        
+@csrf_exempt            
+def denomination(request):
+    type = request.POST["type"]
+    quantity=request.POST['quantity']
+    cid = request.POST['codd_id']
+    amt = int(type)*int(quantity)
+    return HttpResponse(amt)
+    
+            
+def list_shipments(request):
+    s3 = Shipment.objects.filter((Q(status__in = [6,7,8]) | Q(return_shipment=2) &Q(status__in=[0,1,2,3,5])) &Q(current_sc = request.user.employeemaster.service_centre)).exclude(rts_status=2, reason_code_id=5)
+    total_undel_shipment = []
+    for a in set(s3):
+               upd_time = a.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               history_latest=shipment_history.objects.filter(shipment=a).latest('updated_on')     
+               if ((a.status in [6,7,8]) or (a.return_shipment and history_latest.status in [0,1,2,3,4,5])):
+                           total_undel_shipment.append(history_latest)
+
+ #   shipment = Shipment.objects.filter(status__in = [6,7,8], return_shipment=0, current_sc = request.user.employeemaster.service_centre)
+  #  return_ship = Shipment.objects.filter(return_shipment=2, status__in=[0,1,2,3,5]) 
+  #  return HttpResponse(shipment) 
+  #shipment = Shipment.objects.filter(current_sc = request.user.employeemaster.service_centre).exclude(status__in = [9,3,4,5])
+   # shipment = Shipment.objects.filter(current_sc = request.user.employeemaster.service_centre, status__gte=6).exclude(status = 9)
+   # shipment = Shipment.objects.filter(current_sc = request.user.employeemaster.service_centre, status_type__in=[1,2,3,4,5], status__gte=6).exclude(status__in=[9])
+   # total_undel_shipment = [a for a in set(s3)]
+
+   # if shipment:
+    #       for a in shipment:
+     #               print a.airwaybill_number
+      #              total_undel_shipment.append(a)
+    return render_to_response("delivery/list_undelivered_shipment.html",
+                                {'total_undel_shipment':total_undel_shipment},
+                               context_instance = RequestContext(request))
+        
+
+@csrf_exempt            
+def update_collected_value(request):
+    if request.POST and request.user.employeemaster.user_type != "Staff":
+        outscan_id  =  request.POST['id']
+        sc = request.user.employeemaster.service_centre
+        try:
+           outscan = DeliveryOutscan.objects.get(origin = sc, id = outscan_id )   
+        except DeliveryOutscan.DoesNotExist:
+           return HttpResponse("Error")
+        dos_status_not_updated = DOShipment.objects.filter(deliveryoutscan = outscan, status = 0)
+        if dos_status_not_updated:
+           return HttpResponse("First update all the shipments!")
+        if outscan.coddepositsoutscan_set.all():
+           return HttpResponse("LOCKED! You cannot update this after creating Cash deposit!")
+        amount_collected = request.POST['value']
+        outscan.amount_collected = amount_collected 
+        #outscan.save()
+        if float(outscan.amount_collected) == float(outscan.amount_to_be_collected): 
+             outscan.amount_mismatch = 0
+             outscan.collection_status = 1
+        else:
+             outscan.amount_mismatch = float(outscan.amount_collected) - float(outscan.amount_to_be_collected) 
+             outscan.collection_status = 2
+
+        shipments = Shipment.objects.filter(doshipment__deliveryoutscan = outscan, doshipment__status = 1, product_type = "cod", status=9)
+        # need to selected only delivered shipments need to check CODE 99 for status = 9 
+        # Value needs to be recalculated
+
+        for shipment in shipments: 
+             cash_emp = request.user.employeemaster
+             delivery_emp = outscan.employee_code
+             #return HttpResponse("%s - %s" % (cash_emp, delivery_emp))
+             AirwaybillTally.objects.filter(shipment=shipment).update(cash_tally_emp_code = cash_emp, delivery_emp_code = delivery_emp, amount_collected=shipment.collectable_value, status=1)
+             try:
+              awb = AirwaybillTally.objects.get(shipment=shipment)
+             except:
+              awb = AirwaybillTally.objects.filter(shipment=shipment)
+              awb = awb[0] 
+        outscan.save()
+        return HttpResponse("%s"% amount_collected)
+    return HttpResponseRedirect("/unavailable/")
+
+def mass_updation(request):
+    if request.POST:
+      remark = request.POST['remark']
+      reason_code=request.POST['reason_code']
+      reason_code=ShipmentStatusMaster.objects.get(id=int(reason_code))
+      conn=request.POST['conn']
+      c = conn.split('\r\n')
+      bag=request.POST['bag']
+      b = bag.split('\r\n')
+      awb=request.POST['awb']
+      a = awb.split('\r\n')
+      
+      if a:
+       for awb in a:
+         if awb:  
+          shipment = Shipment.objects.get(airwaybill_number=int(awb))
+          shipment.remark=remark
+          shipment.reason_code=reason_code
+          shipment.current_sc = request.user.employeemaster.service_centre
+          shipment.save()
+          try:
+               upd_time = shipment.added_on
+               monthdir = upd_time.strftime("%Y_%m")
+               shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+               shipment_history.objects.create(shipment=shipment, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code)
+          except:
+           pass
+       if b:
+        print b   
+        for bag in b:
+         print bag   
+         if bag:  
+          bag = Bags.objects.get(bag_number=bag)
+          print bag
+          for awb in bag.shipments.all():
+            if awb:
+              print awb    
+              shipment = Shipment.objects.get(id=int(awb.id))
+              shipment.remark=remark
+              shipment.reason_code=reason_code
+              shipment.save()
+              print "updated"
+              try:
+                   upd_time = shipment.added_on
+                   monthdir = upd_time.strftime("%Y_%m")
+                   shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+                   shipment_history.objects.create(shipment=shipment, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code)
+              except:
+               pass
+       if c:
+           for conn in c:
+               if conn:
+                   connection = Connection.objects.get(id=conn.id)    
+                   for bag in connection:
+                       if bag:
+                           bag = Bags.objects.get(id=bag.id)
+                           for awb in bag.shipments.all():
+                               if awb:
+                                  print awb.id   
+                                  shipment = Shipment.objects.get(id=int(awb.id))
+                                  shipment.remark=remark
+                                  shipment.reason_code=reason_code
+                                  shipment.save()
+                                  try:
+                                       upd_time = shipment.added_on
+                                       monthdir = upd_time.strftime("%Y_%m")
+                                       shipment_history = get_model('service_centre', 'ShipmentHistory_%s'%(monthdir))
+                                       shipment_history.objects.create(shipment=shipment, employee_code = request.user.employeemaster, current_sc = request.user.employeemaster.service_centre, expected_dod=shipment.expected_dod, reason_code=reason_code)
+                                  except:
+                                   pass
+      
+      reason_code = ShipmentStatusMaster.objects.all()      
+
+def sal_excel_download(request, sid):
+    #sal_id = request.GET.get('sal_id')
+    sal = ShipmentAtLocation.objects.get(pk=int(sid))
+    
+    # These are scanned shipments
+    tss = sal.scanned_shipments.all()
+    all_scanned = [a.airwaybill_number for a in tss]
+    
+    # These are all undelivered shipments
+    tus = sal.total_undelivered_shipment.all()
+    all_undelivered = (a.airwaybill_number for a in tus)
+    
+    # the airwaybill_numbers in all_undelivered are unscanned
+    # if it is not present in all_scanned
+    all_unscanned = list(set(all_undelivered) - set(all_scanned))
+    
+    # print 'downloading data as excel..'
+    count = 1
+    try:
+        sheet = book.add_sheet('Shipment at Location ')
+    except:
+        sheet = book.add_sheet('Shipment at Location %s' % count)
+        count += 1
+        
+    sheet.write(0, 3, "Shipment at Location", style=header_style)
+    sheet.write(2, 2, "SAL Tally id : %s " % sid, style=datetime_style)
+    sheet.write(3, 2, "Date : %s " % sal.date.strftime('%d-%m-%Y'), style=datetime_style)
+    
+    sheet.col(2).width = 6000
+    sheet.col(3).width = 6000
+    sheet.col(4).width = 10000
+    sheet.col(5).width = 5000
+    
+    sheet.write(4, 2, "AWB Number", style=header_style)
+    sheet.write(4, 3, "Verified/Unverified", style=header_style)
+    sheet.write(4, 4, 'Current Status', style=header_style)
+    sheet.write(4, 5, 'Last Updated On', style=header_style)
+
+    style = datetime_style
+    # write to excel    
+    for row, val in enumerate(all_scanned, start=5):
+        s = Shipment.objects.get(airwaybill_number=int(val))
+        sheet.write(row, 2, str(val), style=style)
+        sheet.write(row, 3, 'Verified', style=style)
+        sheet.write(row, 4, get_internal_shipment_status(s.status), style=style)
+        sheet.write(row, 5, s.updated_on, style=style)
+    
+    next_row = 5 + len(all_scanned)
+    for row, val in enumerate(all_unscanned, start = next_row):
+        s = Shipment.objects.get(airwaybill_number=int(val))
+        sheet.write(row, 2, str(val), style=style)
+        sheet.write(row, 3, 'Unverified', style=style)
+        sheet.write(row, 4, get_internal_shipment_status(s.status), style=style)
+        sheet.write(row, 5, s.updated_on, style=style)
+    
+    response = HttpResponse(mimetype='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename=ShipmentAtLocation.xls'
+    book.save(response)
+    return response

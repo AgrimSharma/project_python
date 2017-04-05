@@ -1,0 +1,17 @@
+{% load pickup_tags %}
+<h4>COD Deposit ({{codd.id}})</h4>
+
+<table class="table table-condensed table-striped table-bordered tm20">
+  <thead> <tr> <th>Serial Number</th> <th>Air waybill Number</th> <th>Collected Amt</th> <th>Pending Amt</th> </tr> </thead>
+  <tbody>
+    {% for ship in codd.cod_shipments.all %}
+    <tr>
+    <td>{{forloop.counter}}</td>
+    <td>{{ ship.airwaybill_number }}</td>
+    <td class="text-right">Rs. {{ ship.id|get_collected_amount }}</td>
+    <td class="text-right">Rs. {{ ship.collectable_value|subtract:ship.shipext.collected_amount|floatformat:"2" }}</td>
+    </tr>
+    {% endfor %}
+    <tr><td colspan=4 class="text-right">Total: {{ codd.total_amount|floatformat:"2" }}</td></tr>
+  </tbody>
+</table>

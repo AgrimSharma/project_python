@@ -1,0 +1,50 @@
+{%comment%}{% load reporttags%}{%endcomment%}
+        <div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Airwaybill no</th>
+                  <th>Order no</th>
+                  <th>Pickup Date</th>
+                  <th>Origin SC</th>
+                  <th>Destination SC</th>
+                  <th>Origin Region</th>
+                  <th>Origin State</th>
+                  <th>Shipper</th>
+                  <th>Consignee</th>
+                  <th>Collectable Value</th>
+                  <th>Mobile no</th>
+                  <th>Reason Code</th>
+                  <th>Reason Code Description</th>
+                  <th>Remarks</th>
+                  <th>No. of attempts</th>
+                  <th>Comment</th>
+                  <th>Current SC</th>
+                </tr>
+              </thead>
+              <tbody>{{shipments}}{{ships}}{{qq}}
+              {%for a in shipments%}{{a}}
+                <tr>
+                  <td>{{a.0}}</td>
+                  <td>{{a.1}}</td>
+                  <td>{{a.2}}</td>
+                  <td>{{a.3}}</td>
+                  <td>{{a.4}}</td>
+                  <td>{{a.5}}</td>
+                  <td>{{a.6}}</td>
+                  <td>{{a.7}}</td>
+                  <td>{{a.8}}</td>
+                  <td>{{a.9}}</td>
+                  <td>{{a.10}}</td>
+                  <td>{{a.11}}</td>
+                  <td>{{a.12}}</td>
+                  <td>{{a.13}}</td>
+                  <td>{{a.14}}</td>
+                  <td>{{a.15}}</td>
+                  <td>{{a.16}}</td>
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+            </div>
+  

@@ -1,0 +1,159 @@
+	        			<div class="popupHead">
+	        			<h3>Edit Customer</h3>
+        					<a href="#" id="popupContactClose">x</a>  
+	        			</div>
+	        			
+	        			
+	
+	<form  action="/customer/{{customer_id}}/" id="addcust" method="POST" class="form-inline">
+					<div class="popupBody">
+			
+				{% csrf_token %}
+			
+      <div class="control-group-left">
+        <label class="control-label2">Name<font style="color:#F00">*</font></label>
+        <div class="controls2">
+        {{ form.name }}
+        {% if form.name.errors %}<font style="color:#F00">{{ form.name.errors }}</font>{% endif %}
+        </div>
+        <label class="control-label2">Contract from<font style="color:#F00">*</font></label></label>
+        <div class="controls2">
+       	{{ form.contract_from }}
+        {% if form.contract_from.errors %}<font style="color:#F00">{{ form.contract_from.errors }}</font>{% endif %}
+        </div>
+        
+        <label class="control-label2">Legality<font style="color:#F00">*</font></label>
+        <div class="controls2">
+       		{{ form.legality }}
+        	{% if form.legality.errors %}<font style="color:#F00">{{ form.legality.errors }}</font>{% endif %}
+        </div>
+        
+        <label class="control-label2">Day of billing<font style="color:#F00">*</font></label>
+        <div class="controls2">
+       		{{ form.day_of_billing }}
+        	{% if form.day_of_billing.errors %}<font style="color:#F00">{{ form.day_of_billing.errors }}</font>{% endif %}
+        </div>
+        
+        <label class="control-label2">To-pay charge<font style="color:#F00">*</font></label>
+        <div class="controls2">
+        	 {{ form.to_pay_charge }}
+        	{% if form.to_pay_charge.errors %}<font style="color:#F00">{{ form.to_pay_charge.errors }}</font>{% endif %}
+   
+        </div>
+       
+        <label class="control-label2">Value Added Surcharge (%)<font style="color:#F00">*</font></label>
+        <div class="controls2">
+        	 {{ form.valu_added_surcharge }}
+        	{% if form.valu_added_surcharge.errors %}<font style="color:#F00">{{ form.valu_added_surcharge.errors }}</font>{% endif %}
+        </div>
+       
+      </div>
+      <div class="control-group-right pull-right">
+        <label class="control-label2">Code<font style="color:#F00">*</font></label>
+        <div class="controls2">
+        {{ form.code }}
+        {% if form.code.errors %}<font style="color:#F00">{{ form.code.errors }}</font>{% endif %}
+        </div>
+        <label class="control-label2">Contract to<font style="color:#F00">*</font></label></label>
+        <div class="controls2">
+        {{ form.contract_to }}
+        {% if form.contract_to.errors %}<font style="color:#F00">{{ form.contract_to.errors }}</font>{% endif %}
+        </div>
+        <label class="control-label2">Billing Cycle<font style="color:#F00">*</font></label>
+        <div class="controls2">
+        {{ form.billing_cycle }}
+        {% if form.billing_cycle.errors %}<font style="color:#F00">{{ form.billing_cycle.errors }}</font>{% endif %}
+        </div>
+        
+        <label class="control-label2">Credit limit<font style="color:#F00">*</font></label>
+        <div class="controls2">
+        <div class="input-prepend">
+				<span class="add-on">INR</span>
+				<input type="text" class="input-small" id="prependedInput" size="16" name="credit_limit" {%if form.credit_limit.value %} value="{{ form.credit_limit.value }}" {% endif %} class="input-medium"  id="id_credit_limit">
+			</div>
+        {% if form.credit_limit.errors %}<font style="color:#F00">{{ form.credit_limit.errors }}</font>{% endif %}
+        </div>
+         
+        <label class="control-label2">Return To Origin (%)<font style="color:#F00">*</font></label>
+        <div class="controls2">
+        	 {{ form.return_to_origin }}
+        	{% if form.return_to_origin.errors %}<font style="color:#F00">{{ form.return_to_origin.errors }}</font>{% endif %}
+        </div> 
+      
+			
+			<div class="controls2">
+<label class="checkbox2">
+ Fuel sucharge applicable
+</label>
+{{ form.fuel_surcharge_applicable }}
+{% if form.fuel_surcharge_applicable.errors %}<font style="color:#F00">{{ form.fuel_surcharge_applicable.errors }}</font>{% endif %}
+
+      </div>
+      </div>
+			
+	   			
+		</div>
+			<div class="popupFooter">
+			<div class="current" ></div>
+			<div class="inactive"></div>
+			<div class="inactive"></div>
+			<div class="inactive"></div>
+			<div class="pull-right" style="height: 30px; vertical-align: top;"> 
+			 <input class="btn" type="button" id="resetbutton" value="Reset">
+              <input class="btn btn-primary" type="button" id="submitbutton" value="Save">
+            </div>
+	</form>
+</div>
+
+ <script type="text/javascript">	
+ 
+ 
+	//CLOSING POPUP
+	//Click the x event!
+	$("#popupContactClose").click(function(){
+		disablePopup();
+	});
+
+ 
+	$('#submitbutton').click(function(){
+	
+		data = $("#addcust").serializeArray();
+		
+		$.ajax({
+			  type:"POST",
+			  url: "/customer/{{customer_id}}/",
+			  data: data,//{email: $('#id_email').val()},
+			  success: function(data){
+				  //alert(data);
+			    	//$('#popupContact').empty();
+			        $('#popupContact').html(data);
+			         }
+			});
+		
+		$.ajaxSetup({ 
+		     beforeSend: function(xhr, settings) {
+		         function getCookie(name) {
+		             var cookieValue = null;
+		             if (document.cookie && document.cookie != '') {
+		                 var cookies = document.cookie.split(';');
+		                 for (var i = 0; i < cookies.length; i++) {
+		                     var cookie = jQuery.trim(cookies[i]);
+		                     // Does this cookie string begin with the name we want?
+		                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+		                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                     break;
+		                 }
+		             }
+		         }
+		         return cookieValue;
+		         }
+		         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+		             // Only send the token to relative URLs i.e. locally.
+		             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+		         }
+		     } 
+		});
+		
+
+	});
+ </script>

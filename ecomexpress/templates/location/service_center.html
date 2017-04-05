@@ -1,0 +1,29 @@
+    	<div class="span4">
+          <div class="cust-details">
+             <div class="cust-title">
+                <i class="icon-sitemap" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span> ServiceCenter</span>
+           	 </div>
+             <div class="cust-content">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Shortcode </th>
+                          <th width="10%;"><a href="#"  class="AddLocation2" location="/location/add/center/" ><img src="{{ STATIC_URL }}assets/img/plus.png"/></a>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       {% for center in centers %}
+                        <tr>
+                          <td >{{ forloop.counter }}</td>
+                          <td row_id="{{ center.id }}" model_name="ServiceCenter"  field_name="center_name" onDblClick="javascript:changeContent(this);">{{ center.center_name }}</td>
+                          <td row_id="{{ center.id }}" model_name="ServiceCenter"  field_name="center_shortcode" onDblClick="javascript:changeContent(this);">{{ center.center_shortcode}}</td>
+                          <td></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+          		</div>
+         	</div>
+        </div><!-- /span6 -->

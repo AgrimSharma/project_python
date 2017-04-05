@@ -1,0 +1,22 @@
+
+    Softdata Integration
+
+        Snapdeal (SD) will push data for all AWBs to Ecom on manifest through API integration
+        Ecom will push First scan for accept/reject of pickup packages
+        Ecom will provide API for which SD will push Cancellation/Package Not Handed Over data to delivery so that those packages are returned back to seller.
+        In case data is not available with Ecom through push API integration, Ecom operation will work through current process of downloading data from Snapdeal transportation panel.
+
+    Serviceability Pincode API
+
+        Ecom will provide API from which Snapdeal will pull all serviceable pincodes for both payment methods
+        This will be pulled twice and will be kept in SD system/cache and hence manual intervention will be removed completely
+
+    AWB pull API
+
+        Ecom will provide API from which Snapdeal will pull AWB on daily basis to maintain limit of 2 lacs unused AWB for both payment methods
+        This will be pulled twice and will be kept in SD system/cache and hence manual intervention will be removed completely
+
+    RTO API
+
+        Ecom will provide API for which SD will push RTO data to Ecom so that those packages are returned back to seller without further processing
+        RTO criteria for shipment will be 15 days from pickup date.

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+{% endblock %}
+
+          		{% block content %}
+<script src="/static/assets/js/jquery-ui/development-bundle/ui/jquery.ui.datepicker.js"></script>
+<div id="backgroundPopup"></div>  
+    <script type="text/javascript">
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+    </script>
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid" style="min-height: 50px;">
+    <div class="span12">
+        <div class="pagination pull-left">
+<!-- add pagination here -->
+        </div>
+       
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Remittance for Customer: {{customer.name}}</span>
+          </div>
+          <div class="cust-content">
+            <ul class="nav nav-tabs" id="myTab">
+              <li class="active"><a data-toggle="tab" href="#productview" >Customer</a></li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div id="productview" class="tab-pane fade active in">
+              	
+                <table class="table">
+                           <tr>
+{%comment%}
+                            <td colspan="5">{%if error %}<span class="error" style="color:red">{{error}}</span><br>{%endif%}<form action="." id="remit_form" method="post">{% csrf_token %}<input type="text" class="remit_date hasDatepicker" name="remittance_date"> <input  type="text" name="amount" id="remit_amount"> <input type="submit" value="Add"></form></td>
+{%endcomment%}
+<td>
+
+<form action="/billing/remittance_update/{{customer.id}}/" method="post" id="remittance_form" enctype="multipart/form-data">
+{%csrf_token%}
+Date: <input type="text" class="remit_date" name="date" style="width:70px; height:20px" value="{% now 'Y-m-d' %}"/>
+UPLOAD: <input type="file" name="upload_file" id="id_batch_pdf">
+
+{%comment%}  <p class="help">Enter the same password as above, for verification.</p>{%endcomment%}
+
+  <input type="submit" class="btn btn-success" value="Update" />
+</form>
+
+</td>
+                        </tr>
+                           <tr>
+                            <td colspan="5"><b>Next Remittance Date: <span {%if remittance_delayed %}class="error" style="color:red"{%endif%}>{{next_remit_date}}</span>
+                      {%comment%}             <br /><a href="/billing/remittance/report/{{customer.id}}/{{next_remit_date|date:"Ymd"}}/">Download unremitted for the next remittance cycle</a>{%endcomment%}
+                                   <br /><br/>
+Unremitted Shipment:<br/>
+<form action='/billing/remittance/unremitted_report/{{customer.id}}/' method = "get">
+{%comment%}From Date: <input type="text" class="remit_date" name="from_date" style="width:70px; height:20px"/>{%endcomment%}
+To Date: <input type="text" class="remit_date" name="to_date" style="width:70px; height:20px"/>
+<input type="submit" class="btn btn-success" value="Download"/>
+</form>
+{%comment%}
+<a href="/billing/remittance/report/{{customer.id}}/all/">Download all unremitted shipments</a>
+                                  <br /><a href="/billing/remittance/delivered_not_deposited/{{customer.id}}/{{next_remit_date|date:"Ymd"}}/">Download all delivered but not Deposited</a>
+     {%endcomment%}                       </td>
+<td>
+All Unremitted Shipments:<br/>
+<form action='/billing/remittance/unremitted_report/0/' method = "get">
+{%comment%}From Date: <input type="text" class="remit_date" name="from_date" style="width:70px; height:20px"/>{%endcomment%}
+To Date: <input type="text" class="remit_date" name="to_date" style="width:70px; height:20px"/>
+<input type="submit" class="btn btn-success" value="Download"/>
+<br />
+<a href="/billing/remittance/report/allremitted/">All Remitted Shipments</a>
+</form>
+
+
+</td>
+                        </tr>
+                    <tr>
+                    <th>Remittance date </th>
+                   <th>Count</th>
+                    <th>Report</th>
+                    <th>Amount </th>
+                    <th>User</th>
+                    <th>Remitted on</th>
+                    </tr>
+ 
+                    <tbody>
+{%for remittance in remittances%}
+                           <tr>
+                            <td>{{remittance.remitted_on}}</td>
+                            <td>{{remittance.remittancecodcharge_set.count}}</td>
+                            <td><a href="/billing/remittance/report/previous/{{remittance.customer.id}}/{{remittance.id}}/">Download</a></td>
+                            <td>{{remittance.amount}}</td>
+                            <td>{{remittance.remitted_by.employeemaster.firstname}} {{remittance.remitted_by.employeemaster.lastname}}</td>
+                            <td>{{remittance.updated_on}}</td>
+                        </tr>
+{%endfor%}
+
+                     </tbody>
+                </table>
+                
+              </div>
+             
+                
+            </div>
+            
+          </div><!-- /cust-content -->
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+ 
+<div id="popupContact">  
+   
+        <a id="popupContactClose">x</a>  
+
+  </div>  
+<script>
+$(".remit_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+
+$("#remit_form").submit(function(){
+   if($('.remit_date').val() && $('#remit_amount').val()){
+     if(!confirm("Are you sure you want to remit for this date " + $('.remit_date').val())){
+         return false;
+     }
+   } else {
+       alert("All fields are mandatory!");
+       $('.remit_date').focus();
+       return false;
+   }
+});
+
+</script>
+{% endblock%}
+          	

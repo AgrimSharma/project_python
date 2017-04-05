@@ -1,0 +1,9 @@
+				{% for field in weight_rate_form %}
+        			<div class="{% cycle 'left-field' 'right-field' %}">
+               			<div> {{ field.label }}:</div>
+               			{{ field }}	           			
+               			<li style="width:220px;min-height:18px;color:red; list-style:none;" > 
+               			{{ field.errors|striptags }}
+               			</li>
+           			</div>
+   				 {% endfor %}

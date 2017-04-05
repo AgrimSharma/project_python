@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+{% endblock %}
+
+	{% block content %}
+ <script type="text/javascript">
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+    </script>
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+{% include "delivery/nav.html" %}    
+</div>
+  </div>
+       <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-briefcase" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>SAL Tally</span>
+            </div>
+          <div class="cust-content">
+          	<div class="content-login">
+            <h3>Welcome {{request.user.employeemaster.firstname}}</h3><br/>
+            <form name="bagging" action="">
+            	
+                <input type="text" value="{{request.user.employeemaster.employee_code}}" placeholder="Employee Code" class="ec" style="width:50px; height:30px"/>
+                <input type="text" value="{% now 'Y-m-d' %}" class="date" placeholder="Date" id="pickup_date" style="width:80px; height:30px"/>
+                <input type="submit" name="submit" class="btn btn-primary add-batch" value="Add" />   
+                
+<button class="btn btn-primary" href="#" title="View shipments" onClick="MM_openBrWindow('/delivery/list_shipments/','shipment','scrollbars=yes,width=400,height=300')">List Shipments</button> 
+            
+            </form>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr> <th>SAL Tally ID</th><th>Employee Code</th><th>Date</th><th>Scanned Undelivered/Total Undelivered</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+{% for a in sal %}
+                <tr><td>{{a.id}}</td><td>{{a.data_entry_emp_code.employee_code}}</td><td>{{a.date}}</td><td>{{a.scanned_shipments.count}}/{{a.total_undelivered_shipment.count}}</td><td style="width:468px"><button class="btn btn-primary include_shipment_sal" sal_id="{{a.id}}" id="include_shipment{{a.id}}" {% if a.status %} disabled="disabled" {%endif%} sal_id="{{a.id}}"> Include Shipment</button>&nbsp;<a href="#" class="btn btn-primary close-sal" sal_id="{{a.id}}"> Close Outscan</a> 
+{%comment%}
+                &nbsp;<button class="btn btn-primary delink_shipment_sal" sal_id="{{a.id}}"> Delink Shipment</button>&nbsp;<a href="#" class="btn btn-primary del_sheet_sal" sal_id="{{a.id}}"> Generate Delivery Sheet</a>&nbsp;{%endcomment%}
+                		<a href="/delivery/sal_excel_download/{{ a.id }}/" class="btn btn-primary sal-download-excel">Download Excel</a>
+<td id="success{{a.id}}">                
+{% if a.status %}
+<span class="label label-success">Closed</span>
+</td>
+             {%endif%}
+     
+
+</tr>
+{%endfor%}
+                </tbody>
+            </table>
+          </div>
+    </div><!-- /row-fluid -->
+    
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+<div id="popupContact">  
+   
+        <a id="popupContactClose">x</a>  
+
+  </div>  
+
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header cust-title">
+      <a class="close" data-dismiss="modal">×</a>
+      <div><font style="color:#fff; font-size:24px;"> Include Shipment </font> &nbsp;<div style="display:inline-block"><font style="color:#fff; font-size:14px;">Airway Bill:</font><input name="awb" class="awb" style=" width:100px" type="text" size="9"/> 
+  <!--    <font style="color:#fff; font-size:14px;">Count:</font><input name="awb" class="awb" style=" width:40px" type="text" size="9"/>--></div> </div>
+
+           
+    </div>
+    <div style="height:68px;" class="modal-body">
+   		 
+    </div>
+  </div><!--modal end-->
+
+<script>
+$("#pickup_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+$(function(){
+$(".add-batch").click(function(){
+
+var ec=$("input.ec").val();
+var date=$("input.date").val();
+var table_data = $(".table > tbody").html();
+
+var datastring = "emp_code="+ec+"&date="+date;
+
+$.ajax({
+type:"POST",
+url: "/delivery/sal_tally/",
+data: datastring,
+success: function(resp){
+$(".table > tbody").html("")
+$(".table > tbody").append(resp);
+$(".table > tbody").append(table_data);
+//alert("Sucessfully Added"); 
+//location.reload()
+}
+});
+return false;
+});
+
+$(".awb").change(function(){
+
+var awb=$("input.awb").val();
+var datastring = "awb="+awb;
+$.ajax({
+type:"POST",
+url: "/delivery/include_shipment/",
+data: datastring,
+success: function(resp){
+//alert(resp); 
+}
+});
+
+     return false;
+});
+
+
+$(".close-sal").live("click",function(){
+
+var sal_id=$(this).attr("sal_id");
+var datastring = "sal_id="+sal_id;
+$.ajax({
+type:"POST",
+url: "/delivery/close_sal/",
+data: datastring,
+success: function(resp){
+$("#success"+sal_id+"").html("<span class='label label-success'>Closed</span>");
+$("#include_shipment"+sal_id+"").attr("disabled", "disabled");
+$("#delink_shipment"+bag_id+"").attr("disabled", "disabled");
+}
+});
+
+     return false;
+});
+
+
+
+
+});
+
+</script>
+
+
+{% endblock %}
+          	

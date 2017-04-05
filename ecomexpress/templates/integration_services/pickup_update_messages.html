@@ -1,0 +1,26 @@
+{% extends "dashboard_base.html" %}
+
+{% block dash-title %}Pickup Dashbaord{% endblock %}
+
+{% block dash-content %}
+<div class="row">
+<table class="table table-striped table-condensed table-bordered w80">
+  <thead> <tr class="grey"> <th>Row Number</th> <th>Status</th> <th>Error Messages</th> </tr> </thead>
+  <tbody>
+  {% for k, v in errors.items %}
+  <tr>
+    <td>{{ k }}</td>
+    <td class="{% if v %}danger{% else %}success{% endif %}">{% if v %}Failed{% else %} Success{% endif %}</td>
+    <td>{{ v }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
+
+
+{% block extra-js %}
+<script type="text/javascript">
+</script>
+{% endblock %}

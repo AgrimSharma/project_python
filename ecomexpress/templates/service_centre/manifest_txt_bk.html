@@ -1,0 +1,17 @@
+{%load tags%}Emp Name - Code: {{request.user.employeemaster}}   ECOM Express Pvt Ltd Shipping Manifest  Date/Time: {% now "SHORT_DATETIME_FORMAT" %}   Bag No: {{bags.bag_number}}
+
+
+
+Sr  AWB./Ref.  Shipper         Consignee      Origin      Destination     Item Description    Pieces    Weight    Value
+-------------------------------------------------------------------------------------------------------------------------------
+
+{% for a in shipment%}{{forloop.counter}} {{a.airwaybill_number}}   {{a.shipper.name|truncatechars:20}}  {{a.consignee|get_unicode}}   {{a.pickup.service_centre}}   {{a.destinatio
+n_city}}    {{a.item_description}}    {{a.pieces}}   {{a.actual_weight}}Kg.   Rs.{{a.collectable_value}}
+--------------------------------------------------------------------------------------------------------------------------------
+{%endfor %}
+
+
+Total Shipment:    {{bags.shipments.count}}     Total Pieces:    {{bags.shipments.count}}     Total Weight:    {{total_weight}} Kgs
+
+
+                           

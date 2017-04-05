@@ -1,0 +1,29 @@
+<style>
+.table {border: 1px solid #ddd;}
+.table td, .table td{border-right: 1px solid #ddd;}
+</style>
+            <table class="table" id="service_centre_awb">
+              <thead>
+                <tr>
+                  <th>Sr No:</th>
+                  <th>Airwaybill No:</th>
+                  <th>Current Location</th>
+                  <th>Updated On</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for ship in ships %}
+                 <tr>
+                     <td>{{forloop.counter}}</td>
+                      {%  if request.user.employeemaster.user_type == "Client"%}
+                    <td>{{ship.0}}</td>
+                       {%else%}
+                     <td><a href="/track_me/?awb={{ship.0}}&order=" target="_blank">{{ship.0}}</a></td>
+                     {%endif%}
+                     <td>{{ship.1}}</td>
+                     <td>{{ship.2}}</td>
+                 </tr>
+                {% endfor %}
+              </tbody>
+              </table>

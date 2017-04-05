@@ -1,0 +1,8 @@
+<tr>
+{% comment %}<td>{{shipment.pickup_id}}</td>{% endcomment %}
+<td class="bold_display">{{shipment.airwaybill_number}}</td>
+<td>{{shipment.shipper.name|truncatechars:20}}</td>
+{%comment%}<td>{{shipment.destination_city}}</td>{%endcomment%}
+<td class="bold_display">{{shipment.service_centre.center_shortcode}}</td>
+<td>{{shipment.added_on|date:" d/m/Y    G:i"}}</td>
+</tr>

@@ -1,0 +1,11 @@
+        <tr><td>{{a.id}}</td><td>{{a.coloader}}</td><td>{%for b in a.destination.all%}
+                {{b}},{%endfor%}
+                </td><td>{{a.vehicle_number}}</td><td><a href="#" class="btn btn-primary include_connection" runcode_id="{{a.id}}" id="include_bags{{a.id}}"{% ifequal a.connection_status 3%} disabled="disabled" {%endifequal%}> Include Connection</a> &nbsp;<a href="#" class="btn btn-primary delink_connection" runcode_id="{{a.id}}" id="delink_bags{{a.id}}" {% ifequal a.connection_status 3%} disabled="disabled" {%endifequal%}> Delink Connection</a>&nbsp;<a href="#" class="btn btn-primary runcode_close" runcode_id="{{a.id}}"> Close</a></td>
+        <td id="success{{a.id}}">
+{% ifequal a.runcode_status 1%}
+<span class="label label-success">Closed</span>
+
+                  {%endifequal%}
+</td>
+
+                </tr>

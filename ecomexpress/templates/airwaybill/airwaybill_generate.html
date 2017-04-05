@@ -1,0 +1,42 @@
+<div class="modal-header">
+      <h3>Airway Bill Number</h3>
+    </div>
+    <br>
+<form name = 'theForm' method="post" action="/airwaybill/airwaybill_generate/">
+	{% csrf_token %}	
+<table>
+<tr>
+<td>Customer: </td>
+<td>
+<select name="customer">
+{%for a in customer%}
+<option value="{{a.id}}">{{a}}</option>
+{%endfor%}
+</select>
+</td>
+</tr>
+<tr>
+<td>AirwayBill Type: </td>
+<td><select name="type">
+{% for a in awb_type%}
+<option value="{{a.0}}">{{a.1}}</option>
+{%endfor%}
+</select>
+</td>
+<tr><td>Quantity: </td><td><input type="text" name="quantity"></td></tr>
+</table>
+    <button type="submit" class="btn btn-success">Generate</button>
+{%comment%}
+    <button type="submit" class="btn btn-success" name="export" value="1">Export as PRN</button>
+    <button type="submit" class="btn btn-success" name="export" value="2">Export as Excel</button>
+    {%endcomment%}
+</form>
+   
+
+
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+<html>
+<body>
+<link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" /> 
+	    
+  <div style="display:inline-block; width:300px; vertical-align:top; margin-top:22px; margin-left:30px">
+  <h3>Connections </h3>
+  <table class="table" border=1, cellspacing=1>
+  <thead>
+    <tr> <th>Bag Number</th> <th>Shipment</th> </tr> </thead>
+  <tbody>
+  {% for a in bags%}
+    <tr>
+      <td>{{a.bag_number}}</td>
+      <td>{%for a in a.shipments.all%} {{a.airwaybill_number}} {%endfor%}</td> </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+  </div>
+</body>       
+</html>

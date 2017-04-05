@@ -1,0 +1,12 @@
+<div class="add-details pull-right">
+{% ifequal request.user.employeemaster.user_type "Staff" %}
+           {%else%}
+             <a class= "update_pincode" href="#" rel="tooltip" title="Update Pincode(s)">
+               <i class="icon-upload-alt"></i>Update Pincode</a> &nbsp; &nbsp;
+             <a class= " upload_auto_pickup_file" href="#" rel="tooltip" pickup_id="{{pickup.id}}" title="Upload File">
+               <i class="icon-upload-alt"></i>Update Service Centre</a> &nbsp; &nbsp;
+           <!--{%if request.user.employeemaster.employee_code == '11324' or request.user.employeemaster.employee_code == '11285' or request.user.employeemaster.employee_code == '63392' %}
+           {%endif%}-->
+
+         {% endifequal %}
+</div>

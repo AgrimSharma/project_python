@@ -1,0 +1,18 @@
+{% extends "operations/page_layout.html" %}
+
+{% block nav-bar %}
+  <div class="row-fluid"> <div class="span12"> {% include 'hub/nav.html' %} </div> </div>
+{% endblock %}
+
+{% block page-header %} <span>Consolidated Bag Dashboard</span> {% endblock %}
+
+{% block page-body %}
+
+    <div class="row-fluid">
+    <table class="table table-striped">
+      <thead> <tr class="info"> <th>Bag No</th> <th>Created</th> <th>Hub</th> <th>Destination</th> <th>Actions</th> </tr> </thead>
+      <tbody id="cbag_table_body"> {% include 'operations/cbag_row.html' %} </tbody>
+    </table>
+    </div> <!-- end of form -->
+
+{% endblock %}

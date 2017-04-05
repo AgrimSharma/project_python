@@ -1,0 +1,24 @@
+
+<div class="cust-content">
+{% load tags %}
+   <table class="table">
+     <thead>
+        <tr>
+           {% for heading in report_fields %}
+           <th>{{ heading }}</th>
+           {% endfor %}
+        </tr>
+     </thead>
+     <tbobdy>
+        {% for row in display_list %}
+        <tr>
+           <td>{{ row.added_on }}</td>
+           <td>{{ row.subcustomer_code__name }}</td>
+           <td>{{ row.subcustomer_code__customer__name }}</td>
+           <td>{{ row.service_centre__center_name }}</td>
+           <td>{{ row.reason_code__code_description }}</td>
+       </tr>
+       {% endfor%}
+     </tbody>
+   </table>
+</div><!-- /cust-content -->

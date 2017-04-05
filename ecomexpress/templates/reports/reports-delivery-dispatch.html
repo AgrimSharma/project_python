@@ -1,0 +1,82 @@
+        <div class="cust-content" style="padding:0px; overflow-y:scroll; overflow-x:scroll; height:450px;" >
+
+            <table class="table" style="width:0px">
+
+              <thead>
+
+                <tr>
+
+                  <th>AWBNO</th>
+
+                  <th>Order No</th>
+
+                  <th>Pickup Date</th>
+
+                  <th>Shipper</th>
+
+                  <th>Consignee</th>
+
+                  <th>Address1</th>
+
+                  <th>Address2</th>
+
+                  <th>City name</th>
+
+                  <th>Pin Code</th>
+
+                  <th>COD Amount</th>
+
+                  <th>Date</th>
+
+                  <th>Time</th>
+
+                  <th>Recieved By</th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+              {%for shipment, status in shipments.items%}
+
+                <tr>
+
+                <td>{{shipment.airwaybill_number}}</td>
+
+                <td>{{shipment.order_number}}</td>
+
+                <td>{{shipment.pickup.pickup_date}}</td>
+
+                <td>{{shipment.shipper.name}}</td>
+
+                <td>{{shipment.consignee}}</td>
+
+                <td>{{shipment.consignee_address1}}</td>
+
+                <td>{{shipment.consignee_address2}}</td>
+
+                <td>{{shipment.destination_city}}</td>
+
+                <td>{{shipment.pincode}}</td>
+
+                <td>{{shipment.collectable_value}}</td>
+
+                <td>{%if status.date %} {{status.date}}{%else%}In Progress{%endif%}</td>
+
+                <td>{{status.time}}</td>
+
+                <td>{{status.recieved_by}}</td>
+
+                  
+
+                </tr>
+
+                {%endfor%}
+
+              </tbody>
+
+            </div>
+
+  

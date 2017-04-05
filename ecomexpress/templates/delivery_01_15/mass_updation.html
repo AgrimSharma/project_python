@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid"> <div class="span12"> {% include "delivery/nav.html" %} </div> </div>
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="survey-details">
+        <div class="cust-title">
+          <i class="icon-truck" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> 
+          <span>Mass Updation</span>
+        </div>
+        <div class="cust-content">
+        <div class="content-login" ><h3>Welcome {{request.user.employeemaster.firstname}}</h3><br/>
+        <span style="color: red"><b>{{msg}}</b></span>
+
+<div id="error-div">
+{% if errors %}
+  <p class="alert alert-error tm10">Some of the details are not updated. Please see the below error logs for details.</p>
+  <ul>
+  {% for key, value in errors.items %}
+    <li> "{{ key}} - {{ value }}" </li>
+  {% endfor %}
+  </ul>
+{% endif %}
+</div>
+
+<form action="." method="POST">
+{%csrf_token%}
+            <table>
+            	<tr>
+                   <td>Emp code</td><td><input type="text" style="width:40px; height:20px" value="{{request.user.employeemaster.employee_code}}"/></td>
+                   <td>Status</td><td>
+                   <select name="reason_code" class="reason_code">
+                   <option>Select Reason Code</option>
+                   {% for a in reason_code %} <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option> {% endfor %}
+                   {%if request.user.employeemaster.service_centre.center_shortcode == "DMG"%}
+                   <option value="4">888 - Shipment Destroyed/Abandoned</option>
+                   {%endif%}
+                   </select>
+                   <input type="text" id="remarks" style="width:215px; height:20px"/></td>
+                   <td>Date</td><td><input id="pickup_date" type="text" style="width:70px; height:20px" value="{% now 'Y-m-d' %}"/></td>
+                   <td>Time</td><td><input class="pickup_time" type="text" style="width:38px; height:20px" value="{% now 'H:i' %}"/></td>
+                   <td>Remark</td><td><input type="text" name="remark" style="width:200px; height:20px"/></td>
+                </tr>
+            </table>
+            <hr>
+            <table>
+             <tr> <td> Run Code<textarea name="rc" rows="10" cols="10"></textarea> </td> <td>&nbsp;</td> <td> Bags <textarea name="bag" rows="10" cols="10"></textarea> </td> <td>&nbsp;</td> <td> Air Waybill <textarea name="awb" rows="10" cols="10"></textarea> </td> </tr>
+            </table>
+            <table>
+            	<tr> <td><input type="submit" class="btn btn-redbutton" value="Mass Updations"></td> </tr>
+            </table>
+            </form>
+            </div>
+          </div>
+    </div><!-- /row-fluid -->
+  </div><!-- /container-fluid -->
+</div>
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3> Bag Exception Report </h3>
+    </div>
+    <div style="height:68px;" class="modal-body">
+    <form>
+     <input type="text" Placeholder=" Email"/>
+     <a href="#"><i class="icon-plus-sign"></i> </a><br>
+     <input type="button" class="btn btn-success" value="Send" />
+   </form>
+    </div>
+  </div><!--modal end-->
+<script>
+$("#pickup_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+$('.pickup_time').timepicker();
+$(".reason_code").change(function(){
+var reason_code = $("select.reason_code").val();
+var datastring = "reason_code="+reason_code;
+$.ajax({
+type:"POST",
+url: "/service-centre/reason_code/",
+data: datastring,
+success: function(resp){
+$("#remarks").val(resp);
+}
+});
+return false;
+});
+</script>
+{% endblock %}
+

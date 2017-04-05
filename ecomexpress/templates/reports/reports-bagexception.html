@@ -1,0 +1,28 @@
+<div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Destination</th>
+				  <th>Connection Date from Origin</th>
+                  <th>Bag Number</th>
+                  
+                </tr>
+              </thead>
+               <tbody>
+              {%for bags in shipments%}
+             
+                <tr>
+                <td>{{bags.0}}</td>
+                  
+                  <td>{{bags.1|date:"d-m-Y"}}</td>
+                  
+                 <td>{{bags.2}}</td>
+                 
+                </tr>
+             
+                {%endfor%}
+              </tbody>
+            </table>
+            
+          </div><!-- /cust-content -->
+    

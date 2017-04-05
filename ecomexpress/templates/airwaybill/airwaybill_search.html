@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+{% endblock %}
+          		{% block content %}
+          		
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="add-details pull-right">
+         <a href="#" id="generate_awb" rel="tooltip" title="Generate New Airway Bill"><i class="icon-plus-sign"> </i>Request </a> &nbsp; &nbsp;
+        </div>
+    </div>
+  </div>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-plane" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Airway Bill</span>
+            <div class="pull-right">
+            <form method="POST" action="/airwaybill/airwaybill_search/">{% csrf_token %}<input type="text" name="awb_number" placeholder="Airway Bill No."/></form>
+            </div>
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+        {%if awb%}
+          	<h1>Summary Report</h1>
+            <table class="table" style="margin-top:20px"width="523" height="289" border="0" cellpadding="0">
+              <tr>
+                <td width="205" valign="top"><h4>Airway Bill No.</h4></td>
+                <td width="205" valign="top">{{awb.airwaybill_number}}</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Customer</h4></td>
+                
+                <td width="205" valign="top">{%for a in awb.awbc_info.all%}
+{{a.customer}}
+{%endfor%}
+                </td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Date</h4></td>
+                <td width="205" valign="top">{%for a in awb.awbc_info.all%}
+{{a.created_on}}
+{%endfor%}</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Type</h4></td>
+                <td width="205" valign="top">
+                {%for a in awb.awbc_info.all%}
+                {% if a.type == '1' %}
+                  PPD
+                {% elif a.type == '2' %}
+                    COD
+                {% elif a.type == '3' %}
+                    Reverse Shipment
+                {% elif a.type == '4' %}
+                    PPD Zero
+                {% elif a.type == '5' %}
+                    COD Zero
+                {% endif %}
+
+{%endfor%}
+                </td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Status</h4></td>
+                <td width="205" valign="top"><span class="label label-success">
+                {%if awb.status == 0%}
+                Unused
+                {% endif %}
+                {%if awb.status == 1%}
+                Used
+                {% endif %}
+                </span></td>
+              </tr>
+			</table>
+			{%else%}
+			<table class="table">
+              <tr>
+                <th>Customer</th>
+                <th>Air waybill Type</th>
+                <th>Quantity</th>
+                <th>Generated on</th>
+                <th></th>
+                <th></th>
+              </tr>
+              <tr>
+              {% for a in awbc %}
+                <td>{{a.customer}}</td>
+                <td>
+                {% if a.type == '1' %}
+                  PPD
+                {% elif a.type == '2' %}
+                    COD
+                {% elif a.type == '3' %}
+                    Reverse Shipment
+                {% elif a.type == '4' %}
+                    PPD Zero
+                {% elif a.type == '5' %}
+                    COD Zero
+                {% endif %}
+   
+                </td>
+                <td>{{a.quantity}}</td>
+                <td>{{a.created_on|date:"d-m-Y | H:i:s"}}</td>
+               <td><a href="/airwaybill/airwaybill_download/{{a.id}}/1/" class="btn btn-success" target="_blank">Download as PRN</a>
+                
+               <a href="/airwaybill/airwaybill_download/{{a.id}}/2/" class="btn btn-success">Download as Excel</a>
+               </td>
+               
+              </tr>
+               {% endfor %}
+			</table>
+	
+    {% endif %}
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+   <div id="popupContact">  
+        <a id="popupContactClose">x</a>  
+  </div>  
+{% endblock %}
+          	

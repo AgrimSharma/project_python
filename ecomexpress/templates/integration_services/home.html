@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{%load tags%}
+
+{% block content %}
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  {% comment %}<div class="row-fluid"> <div class="span12"> {% include 'service_centre/nav.html' %} </div> </div>{% endcomment %}
+    
+  <div class="row-fluid" style="margin-top: 50px;">
+    <div class="span12">
+      <div class="survey-details">
+        <div class="cust-title">
+          <i class="icon-search" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Fetch Airwaybill Scan </span>
+          </div>
+          <div class="cust-content"> <div>
+          <h3>Welcome {{request.user.employeemaster.firstname}}</h3><br/>
+          <form action="#">
+              <textarea name="awbs" id="awbs" cols="200" rows="10"/></textarea>
+              <br>
+              <input type="text" name="location" id="location" placeholder="Enter Place Here" maxlength="100"/>   
+              <input type="text" name="pincode" id="pincode" placeholder="Enter Pincode Here" maxlength="50"/>   
+              <input type="submit" name="submit" class="btn btn-primary add-fetchbatch" value="fetch Awb" />   
+          </form>
+          </div>
+          <table class="table" id="awb_batch_table">
+              <thead> <tr>
+                <th>ID</th><th>Date</th><th>Status</th><th>Location</th><th>Pincode</th><th>Total Count</th>
+                <th>Processed Count</th><th>Download</th><th>Refresh</th></tr>
+              </thead>
+              <tbody>
+              {% for batch in fawb_batch %}
+              {% include "integration_services/fetch_awb_row.html" %} 
+              {%endfor%}
+              </tbody>
+          </table>
+</div>
+</div><!-- /row-fluid -->
+</div><!-- /container-fluid -->
+</div>
+
+<script>
+$(function(){
+$(".add-fetchbatch").click(function(){
+    var awbs = $("#awbs").val();
+    var pincode =$("#pincode").val();
+    var awb_location = $("#location").val();
+    $.ajax({
+        type:"POST",
+        url: "/services/create_batch/",
+        data: {'awbs': awbs,'location': awb_location, 'pincode': pincode},
+        success: function(resp){
+            if(resp.success){
+                $("#awb_batch_table > tbody").prepend(resp.html);
+            }else{
+                alert(resp.message);
+           }
+        }
+    });
+    return false;
+});
+
+$(".refresh_awb_batch").click(function(){
+    var batch_id = $(this).data('awb_batch_id');
+    $.ajax({
+        type:"POST",
+        url: "/services/refresh_awb_fetch/",
+        data: {'batch_id': batch_id},
+        success: function(resp){
+            $("#batch-" + batch_id).find('.processed_count').eq(0).text(resp.processed_count);
+        }
+    });
+    return false;
+});
+
+});
+</script>
+{% endblock %}

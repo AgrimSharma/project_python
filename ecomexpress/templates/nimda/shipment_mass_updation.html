@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+{% endblock %}
+{% block content %}
+<div id="backgroundPopup"></div>
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="add-details pull-right">
+          {%include 'nimda/nav.html'%}  <!--adding second navbar on top-->
+        </div>
+    </div>
+    <div class='pull-right'></div>
+  </div>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-plane" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Update Shipments</span>
+            <div class="pull-right"> </div>
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+<b>{{msg}}</b>
+
+<form action="/nimda_beta/shipment_update/" method="post" id="user_form" enctype="multipart/form-data">
+{%csrf_token%}
+<p>PLEASE CAREFULLY CHECK THE FILE BEFORE UPDATING!! </p>
+<p>(Weight Correction, COD amount Correction, Customer Correction)</p>
+UPLOAD: <input type="file" name="upload_file" id="id_batch_pdf"><br>
+
+  <input type="submit" class="btn btn-success" disabled value="Update" onclick="return confirm('Are you sure you want to proceed??');"/>
+</form>
+<hr>
+<form action="/nimda_beta/individual_shipment_update/" method="post">
+{%csrf_token%}
+Airwaybill: <input type="text" name="awb" disabled><br>
+<input type="radio" name="upd" value="1">&nbsp;CODD/POD Reversal&nbsp;&nbsp;
+<input type="radio" name="upd" value="2">&nbsp;RD reversal&nbsp;&nbsp;
+<input type="radio" name="upd" value="3">&nbsp;RTO reversal&nbsp;&nbsp;
+<input type="radio" name="upd" value="4">&nbsp;Shipment Closure&nbsp;&nbsp; <br><br>
+  <input type="submit" class="btn btn-success" value="Update" onclick="return confirm('Are you sure you want to proceed??');"/>
+</form>
+<hr>
+<b>Collectable Value Update: </b></br>
+Airwaybill: <input type="text" name="awb2" class="awb2"><br>
+Value: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="coll" class="coll_val"><br>
+<input type="button" class="btn btn-success coll_val" value="Update" />
+<hr>
+<b>Customer Code Updation: </b></br>
+Airwaybill:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="awb3" class="awb3"><br>
+Subcustomer Code:<input type="text" name="coll" class="sh_code">(Ecom: 2872)<br>
+<input type="button" class="btn btn-success subcust_code" value="Update" />
+</hr><hr>
+<br><b>Mark Shipment as Undelivered: </b></br>
+Airwaybill:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="undel_awb" class="undel_awb_val"><br>
+<input type="button" class="btn btn-success undel_awb" value="Update" /><br>
+<form id="mass_upload_correction" method="post" action="/nimda_beta/mass_shipment_upload/" enctype="multipart/form-data">
+{% csrf_token %}
+<br><b>Mass Shipment Upload mark as Undelivered: </b></br>
+UPLOAD: <input type="file" name="undel_awb_file"><br>
+<input type="submit" class="btn btn-success mass_awb_file" value="Update" />
+</form>
+<hr>
+<br><b>Employee Password Reset</b><br>
+Employee Code : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="emp_code" class="emp_code"><br>
+<input type="button" class="btn btn-success emp_reset" value="Password Reset" />
+<br>
+<hr>
+<br><b>RTS Reversal: </b></br>
+Airwaybill:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="rts_reversal" class="rts_reversal_val"><br>
+<input type="button" class="btn btn-success rts_reversal" value="Update" />
+<br><br> 
+<form action="/nimda_beta/shipment_update_weight/" method="post" id="user_form" enctype="multipart/form-data">
+{%csrf_token%}
+<br><b>Weight Update: </b></br>
+UPLOAD: <input type="file" name="upload_file" id="id_weight_update"><br>
+  <input type="submit" class="btn btn-success" value="Update" onclick="return confirm('Are you sure you want to proceed??');"/>
+</form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+
+   <div id="popupContact">
+        <a id="popupContactClose">x</a>
+  </div>
+
+<script>
+
+$('.emp_reset').click(function(){
+console.log("clicked here");
+alert("Password has been updated ");
+})
+
+$('.update_as_lost').click(function(){
+var awb=$('.update_as_lost').val()
+console.log(awb);
+alert("Shipment has been updated as lost");
+$.ajax({
+type:"POST",
+url:"nimda/update_as_lost/",
+data: "awb="+awb,
+success:function(resp){
+alert("Shipment has been updated as lost");
+}
+})
+})
+
+$('.rts_reversal').click(function(){
+var awb = $('.rts_reversal_val').val()
+$.ajax({
+type:"POST",
+url: "/nimda_beta/rts_reversal/",
+data: "awb="+awb,
+success: function(resp){
+alert('RTS has been reveresed');
+}
+})
+})
+
+$('.emp_reset').click(function(){
+var emp=$('.emp_code').val()
+$.ajax({
+ type:"POST",
+ url: "/nimda_beta/password_reset/",
+ data: "emp_code="+emp,
+ success: function(resp){
+alert(resp);
+ }
+})
+})
+
+
+$('.undel_awb').click(function(){
+var awb = $('.undel_awb_val').val()
+console.log(awb);
+$.ajax({
+type:"POST",
+url: "/nimda_beta/mark_ship_undelivered/",
+data: "awb="+awb,
+
+success: function(resp){
+alert('Shipment Updated as undelviered');
+}
+})
+})
+
+$('.coll_val').click(function(){
+var awb = $('.awb2').val()
+var value = $('.coll_val').val()
+console.log(awb)
+console.log(value)
+$.ajax({
+type:"POST",
+url: "/nimda_beta/coll_val/",
+data: "awb="+awb+"&coll_val="+value,
+success: function(resp){
+alert('Amount Updated');
+}
+})
+})
+
+$('.subcust_code').click(function(){
+var awb = $('.awb3').val()
+var value = $('.sh_code').val()
+$.ajax({
+type:"POST",
+url: "/nimda_beta/sh_code/",
+data: "awb="+awb+"&sh_code="+value,
+success: function(resp){
+alert('Updated');
+}
+})
+})
+
+</script>
+
+
+{%endblock%}

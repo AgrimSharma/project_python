@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+          		{% block content %}
+{% load sorting_tags %}
+{% autosort pickup %}
+<style>
+.td_nowrap {white-space: nowrap}
+</style>
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+    {% load pagination_tags %}
+    {% autopaginatepickup 50 %}
+    {% paginate %}
+  <div class="row-fluid">
+    <div class="span12">
+    
+        <div class="add-details pull-right">
+        
+        <!-- <a href="#" data-rev-action="modal" data-target="#add-revlet" rel="tooltip" title="Generate New Airway Bill"><i class="icon-plus-sign"> </i>Request </a> &nbsp; &nbsp;-->
+{% if request.user.employeemaster.user_type == "Customer"%}
+<a href="/track_me/?awb={{request.GET.awb}}&order=" title="Generate New Airway Bill"><i class="icon-signin"> </i>Status &amp; Scan </a> &nbsp; &nbsp;
+<a href="/track_me/multiple_airwaybill/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Multiple Air waybill </a> &nbsp; &nbsp;
+<a href="/track_me/bag_history/" title="Bag History"><i class="icon-briefcase"> </i>Bag History</a>&nbsp;&nbsp;
+{%else%}
+<a href="/track_me/?awb={{request.GET.awb}}&order=" title="Generate New Airway Bill"><i class="icon-signin"> </i>Status &amp; Scan </a> &nbsp; &nbsp;
+         <a href="/track_me/shipper_consignee/?awb={{request.GET.awb}}&order=" title="Generate New Airway Bill"><i class="icon-briefcase"> </i>Shipper-Consignee </a> &nbsp; &nbsp;
+         <a href="/track_me/pickup_package/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Pickup Package </a> &nbsp; &nbsp;
+         <a href="/track_me/comments/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Comments </a> &nbsp; &nbsp;
+         <a href="/track_me/multiple_airwaybill/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Multiple Air waybill </a> &nbsp; &nbsp;
+         <a href="/track_me/generic_query/?awb={{request.GET.awb}}&order="title="Generate New Airway Bill"><i class="icon-truck"> </i>Generic Query </a>
+          <a href="/track_me/complaints/?awb={{request.GET.awb}}&order=" title="Generate New Airway Bill"><i class="icon-truck"> </i>Complaints</a>  &nbsp; &nbsp;
+{%endif%}        
+</div>
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+      
+        <div class="survey-details">
+<form method="POST" action="/reports/customer_status/">
+   Date-From: <input type="text" name="date_from" class="reports_date date_from" style="width: 88px;"/>
+                Date-To: <input type="text" name="date_to" class="reports_date date_to" style="width: 88px;"/>
+
+<input type="Submit" value="Download" class=" btn btn-primary"> 
+</form>
+     <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Pickup Details for {{customer.name}}</span>
+           <!-- <div class="pull-right"><form><input type="text" placeholder="Airway Bill No."/></form></div>-->
+          </div>
+          
+          <div class="cust-content">
+          <div class="summary-content">
+          	<table class="table">
+            	<thead>
+                <tr>
+                 <th>Pickup Reg Number</th>
+                  <th>Customer Code</th>
+                  <th>Sub Customer Code</th>
+                  <th>Pickup Date</th>
+                  <th>Pickup Time</th>
+                  <th>Pincode</th>
+                  <th>Caller Name</th>
+                  <th>Pieces</th>
+                  <th>Actual Weight</th>
+                  <th>Volumetric Weight</th>
+                  <th>Service Centre</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {%for a in pickup%}
+              <tr>
+<td>{{a.id}}</td>
+                <td>
+                {{a.customer_code}}</td>
+                <td>{{a.subcustomer_code}}</td>
+                <td>{{a.pickup_date}}</td>
+                <td>{{a.pickup_time}}</td>
+                <td>{{a.pincode}}</td>
+                <td>{{a.caller_name}}</td>
+                <td>{{a.pieces}}</td>
+                <td>{{a.actual_weight}}</td>
+                <td>{{a.volumetric_weight}}</td>
+              <td>{{a.service_centre}}</td>
+<td>
+   {% ifequal pickup.status 0 %}
+                  <span class="label label-important">Pending</span>
+                  {% else %}  
+                  <span class="label label-success">Completed</span>
+                  {% endifequal %}
+</td>
+<td><a href="/track_me/customer_status/report_download/{{a.id}}/">Download</a></td>            
+</tr>
+              {%endfor%}
+              </tbody>
+            </table>
+            </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Airway Bill Number</h3>
+    </div>
+    <div class="modal-body">
+    			    <form class="form-horizontal">
+    <div class="control-group">
+    <label class="control-label" for="inputEmail">Customer</label>
+    <div class="controls">
+    <select>
+        <option>Flip Kart</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+	</select>
+    </div>
+    </div>
+    <div class="control-group">
+    <label class="control-label">Type</label>
+    <div class="controls">
+    <select>
+        <option>Type1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+	</select>
+    </div>
+    </div>
+    <div class="control-group">
+    <label class="control-label" >Quantity</label>
+    <div class="controls">
+   	<input type="text" placeholder="Quantity">
+    </div>
+    </div>
+    <div class="control-group">
+    <div class="controls">
+    <button type="submit" class="btn btn-success">Export</button>
+    </div>
+    </div>
+    </form>
+      
+    </div>
+  </div><!--modal end-->
+
+<script>
+$(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+
+$("#download_btn").click(function(){
+    $("#hidden_dn_field").val(1);
+});
+
+$("#submit_btn").click(function(){
+    $("#hidden_dn_field").val("");
+});
+
+</script>
+{% endblock %}
+          	

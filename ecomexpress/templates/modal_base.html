@@ -1,0 +1,43 @@
+<div class="temp-hide modal fade" id="{{ modal_id }}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">{{ modal_header }}</h4>
+      </div>
+      <div class="modal-body">
+	  <p>Please follow the below instructions when you upload your excel file containing the  pickup details.</p>
+        <ul>
+           <li>All your data should be filled in Sheet1.</li>
+           <li>The first row of your sheet will be column headers.</li>
+           <li>All your data should be filled from row1, col1. Means there should not be any blank rows or columns on the left side and top of your data</li>
+           <li>Columns should be in the following order: 
+              <ol> 
+                <li>customer code</li>
+                <li>pincode</li>
+                <li>vendor name</li>
+                <li>vendor address</li>
+                <li>vendor contact</li>
+                <li>shipment count</li>
+                <li>pickup date (dd/mm/yyyy)</li>
+             </ol>
+	   <li>Please download the format of uploading file from below link</li>
+	   <br>
+           <a style=" text-decoration:underline" href="/services/download_xcl/" > Pickup Sample File </a>	
+	
+           <!--input id="submit" name="format" class="btn btn-xs btn-primary pull-right" value="Download"-->
+        </ul>
+          <form action="/services/multiple_pickup_enroll/" method="POST" name="form" id="myForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>Choose File: </label><input type="file" name="input_file">
+            <br/>
+            <input type="submit" class="btn btn-xs btn-primary pull-right" value="Upload">
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary" id="{{ submit_id }}">Submit</button>-->
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

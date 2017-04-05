@@ -1,0 +1,52 @@
+v class="cust-content"  >
+
+            <table class="table" >
+
+              <thead>
+
+                <tr>
+		
+		  <th>Service Center</th>
+
+
+                  <th>No of Shipments</th>
+
+                  <th>Delivered</th>
+
+                 
+
+                  <th>%  Delivered</th>
+                 
+                  
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+              {%for shipment in shipments %}
+{%ifnotequal shipment.1 0%}
+                <tr>
+
+                <td>{{shipment.0}}</td>
+                                <td>{{shipment.1}}</td>
+<td>{{shipment.2}}</td>
+<td>{{shipment.3|floatformat:2}}</td>
+
+ 
+
+                
+
+                </tr>
+{%endifnotequal%}
+                {%endfor%}
+
+              </tbody>
+
+            </div>
+
+  
+
+
+

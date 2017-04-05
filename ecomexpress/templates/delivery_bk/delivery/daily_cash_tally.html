@@ -1,0 +1,76 @@
+{% load pickup_tags %}
+
+<div style="margin-left:10px;">
+    <div class="outscan-selection" style="margin:20px;">
+        <h5>Outscans List</h5>
+        <select class="outscans-list">
+            <option value="all">all</option>
+            {% for v in outscans_list %}
+            <option value="{{ v }}">{{ v }}</option>
+            {% endfor %}
+        </select>
+    </div><!-- outscan-selection -->
+    <input type="checkbox" id="cashtallyAirwaybillNumber" value="0"> Select All Airwaybill Numbers
+    <div class="cashtally-checked-visible">
+    <table class="table">
+        <thead>
+          <tr><th>Air Waybill No. </th><th>Pcs</th><th>Customer Name</th><th>Date of Delivery</th><th>Collectable Value</th><th>Collected Amount</th><th>Pending Amount</th></tr>
+        </thead>
+        <tbody>
+        {% for ship in unclosed_ships %}
+        <tr class="unclosed_ships calculate_me outscan-{{ ship.get_latest_deliveryoutscan.id }}">
+          <td id="awb-{{ ship.airwaybill_number }}">{% ifequal ship.shipext.cash_tally_status 0 %}<input type="checkbox" class="airwaybill_number_check" value="{{ ship.airwaybill_number }}">{% endifequal %}{{ ship.airwaybill_number }}</td>
+          <td>{{ ship.pieces }}</td>
+          <td>{{ ship.consignee }}</td>
+          <td>{{ ship.shipext.delivered_on}}</td>
+          <td>{{ ship.collectable_value }}</td>
+
+          <!-- checked part -->
+          <td class="collected_amount awbs-checked hide">Rs. <span id="{{ship.id}}" class="collected-{{ship.id}} {% ifequal ship.shipext.cash_tally_status 0 %} shipment_amount_collected{% endifequal %}">{{ ship|show_checked_collected_amount }}</span></td>
+          <td class="awbs-checked hide pending-{{ship.id}}" data-val="{{ ship.collectable_value|subtract:ship.shipext.collected_amount }}">Rs. {{ ship|show_pending_amount:1 }}</td>
+
+          <!-- unchecked part -->
+          <td class="collected_amount awbs-unchecked" >Rs. <span id="{{ship.id}}" class="collected-{{ship.id}} {% ifequal ship.shipext.cash_tally_status 0 %}shipment_amount_collected{% endifequal %}">{{ ship|show_unchecked_collected_amount }}</span></td>
+          <td class="awbs-unchecked pending-{{ship.id}}" data-val="{{ ship.collectable_value|subtract:ship.shipext.collected_amount }}">Rs. {{ ship|show_pending_amount:0}}</td>
+
+        </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+    </div>
+    <p><strong>Total Amount: Rs. <span id="total_amount_id">{{success_amount_collected|default_if_none:"" }}</strong></p>
+    <div class="update_message alert alert-info hide">Selected Shipments collected amount has been updated.</div>
+    <input type="button" class="btn btn-primary" id="updateCollectedAmount" value="Update"><br/>
+    <div class="img_loader hide"> <img src="/static/assets/img/ajax-loader.gif"></div>
+
+    <div class="add-ppd-shipment" style="margin-top: 20px;">
+      <h3>PPD Shipment Collection</h3>
+      <p class="hide alert alert-success add-ppd-shipment-success">Shipment Added Successfully.</p>
+      <table class="table add-ppd-shipment-table">
+        <tr>
+          <th>Airwaybill Number</th>
+          <th>Pieces</th>
+          <th>Amount</th>
+          <th>Customer</th>
+          <th>Collected Amount</th>
+          <th>Pending Amount</th>
+        </tr>
+      {% for ship in ppd_shipments %}
+      <tr class="awbt_shipments_success">
+        <td>{{ ship.airwaybill_number }}</td>
+        <td>{{ ship.pieces }}</td>
+        <td>{{ ship.collectable_value }}</td>
+        <td>{{ ship.consignee }}</td>
+        <td>Rs. {% if ship.shipext__collected_amount %}{{ ship.shipext__collected_amount }}{% else %} 0 {% endif %}</span></td>
+        <td>Rs. {{ ship.collectable_value|subtract:ship.shipext__collected_amount }}</td>
+      </tr>
+      {%endfor%}
+      </table>
+      <div class="hide alert alert-error add-ppd-shipment-error"></div>
+      <form class="form form-horizontal" name="CashTallyAddShipmentForm" method='POST' action='/delivery/cash_tally/add_shipment'>
+          <input type="text" name="ppd-airwaybill_number" placeholder="Airwaybill number" value="" />
+          <input type="text" name="cash_tally-collectable_amount" placeholder="Collectable Amount" value="" />
+          <input type="button" class="btn btn-primary" id="CashTallyAddShipment" value="Submit" />
+      </form>
+    </div> <! -- add-ppd-shipment-table -->
+</div>

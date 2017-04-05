@@ -1,0 +1,10 @@
+
+Customer Name: <select name="cust_id" style="width: 158px;" class="cust_name">
+  	<option value="0">All</option>
+  	{%for a in customer%}
+  	<option value="{{a.id}}">{{a}}</option>
+  	{%endfor%}
+        </select>
+
+<input type="button" class=" btn btn-primary" id="view_sub_customer_report" value="View"> 
+<input type="submit" value="Download" class="btn btn-primary" id="download_sub_customer_report">

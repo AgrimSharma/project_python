@@ -1,0 +1,15 @@
+{%load tags%}Emp Name - Code: {{request.user.employeemaster}}  ECOM Express Private LTD Transfer Challan Date/Time: {% now "SHORT_DATETIME_FORMAT" %} Vehicle No: {{connection.vehicle_number}}   Org :{{request.user.employeemaster.service_centre}}   DST:{{connection.destination}}
+
+Sr  Bag No.  Total Shipment         Total Weight                  DST
+
+--------------------------------------------------------------------------------------------
+
+{% for a, shipment in order_info.items%}{{forloop.counter}}  {{a.bag_number}}   {{shipment}}   {{a.actual_weight}}   {{a.destination}}   
+
+
+Shipment Details:
+
+{%for ship in a.shipments.all%}{{forloop.counter}}   {{ship.airwaybill_number}}   {{ship.shipper|truncatechars:20}}   {{ship.consignee|get_unicode|add_minimum_spaces:12}}   {{ship.item_description|get_unicode|truncatechars:30|add_minimum_spaces:30}}   {{ship.declared_value}}   
+{%endfor%}    
+---------------------------------------------------------------------------------------------
+  {%endfor%}

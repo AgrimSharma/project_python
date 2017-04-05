@@ -1,0 +1,117 @@
+          		{% extends "base.html" %}
+          		{% block content %}
+           		  	{% load sorting_tags %}
+<link rel="stylesheet" href="{{ STATIC_URL }}assets/customer/css/styles.css" />
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12">
+       {% include "customer/nav.html" %} 
+    </div>
+  </div>
+{%if save_form%}
+<h2>Details Updated Successfully!</h1>
+{%endif%}
+   <form method="post"> 
+{% csrf_token %}
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+                          {% include "customer/sub_nav.html" %} 
+                      <div class="tab-content" id="myTabContent">
+              <div id="productview" class="tab-pane fade active in">
+<table   class="table">
+                <tr>
+                <td>Fuel Surcharge Applicable</td><td><span class="reg-error">{{price_form.fuel_surcharge_applicable}}<p class="formerror">{% if price_form.errors.fuel_surcharge_applicable %} {{price_form.errors.fuel_surcharge_applicable}}{%endif%}</p></span></td>
+                </tr>
+                <tr>
+                <td>Fuel Surcharge</td><td>{%if fsf.id.value%}<input type="hidden" name="fsf-id" value="fsf.id.value">{%endif%}<input type="hidden" name="customer" value="{{c.id}}">
+        <table class="sub_table">
+			<tr>
+			<td>Min Rate (%)</td>
+			<td><span class="reg-error">{{fsf.fuelsurcharge_min_rate}}<p class="formerror">{% if fsf.errors.fuelsurcharge_min_rate %} {{fsf.errors.fuelsurcharge_min_rate}}{%endif%}</p></span></td>
+			<td>Min Fuel Rate ($)</td>
+			<td><span class="reg-error">{{fsf.fuelsurcharge_min_fuel_rate}}<p class="formerror">{% if fsf.errors.fuelsurcharge_min_fuel_rate %} {{fsf.errors.fuelsurcharge_min_fuel_rate}}{%endif%}</p></span></td>
+			</tr>
+			<tr>
+			<td>Flat Fuel Surcharge (%)</td>
+			<td><span class="reg-error">{{fsf.flat_fuel_surcharge}}<p class="formerror">{% if fsf.errors.flat_fuel_surcharge %} {{fsf.errors.flat_fuel_surcharge}}{%endif%}</p></span></td>
+			<td>Max Fuel Surcharge (%)</td>
+			<td><span class="reg-error">{{fsf.max_fuel_surcharge}}<p class="formerror">{% if fsf.errors.max_fuel_surcharge %} {{fsf.errors.max_fuel_surcharge}}{%endif%}</p></span></td>
+			</tr>
+        </table>        
+                
+                </td>
+                </tr>
+
+<tr><td>Valuable Cargo Handling Charges</td><td>
+<table class="sub_table">
+			<tr>
+			<td>Rate</td>
+			<td><span class="reg-error">{{price_form.vchc_rate}}<p class="formerror">{% if price_form.errors.vchc_rate %} {{price_form.errors.vchc_rate}}{%endif%}</p></span></td>
+			<td>Min Charge (INR)</td>
+			<td><span class="reg-error">{{price_form.vchc_min}}<p class="formerror">{% if price_form.errors.vchc_min %} {{price_form.errors.vchc_min}}{%endif%}</p></span></td>
+			</tr>
+</table>
+</td>
+</tr>
+
+<tr><td>Return To Origin Charges</td>
+			<td><span class="reg-error">{{price_form.return_to_origin}}<p class="formerror">{% if price_form.errors.return_to_origin %} {{price_form.errors.return_to_origin}}{%endif%}</p></span></td>
+</tr>
+
+<tr><td>To Pay Charges</td>
+	<td><span class="reg-error">{{price_form.to_pay_charge}}<p class="formerror">{% if price_form.errors.to_pay_charge %} {{price_form.errors.to_pay_charge}}{%endif%}</p></span></td>
+</tr>
+
+<tr><td>Reverse Charges</td>
+        <td><span class="reg-error">{{price_form.reverse_charges}}<p class="formerror">{% if price_form.errors.reverse_charges %} {{price_form.errors.reverse_charges}}{%endif%}</p></span></td>
+</tr>
+
+<tr><td>Demarrage Charges</td><td>
+<table class="sub_table">
+			<tr>
+			<td>Min Per Day (INR)</td>
+			<td><span class="reg-error">{{price_form.demarrage_min_amt}}<p class="formerror">{% if price_form.errors.demarrage_min_amt %} {{price_form.errors.demarrage_min_amt}}{%endif%}</p></span></td>
+			</tr><tr><td>Min per kg Rate</td>
+			<td><span class="reg-error">{{price_form.demarrage_perkg_amt}}<p class="formerror">{% if price_form.errors.demarrage_perkg_amt %} {{price_form.errors.demarrage_perkg_amt}}{%endif%}</p></span></td>
+			</tr>
+</table>
+</td>
+	
+</tr>
+
+<tr><td>Flat Cash on Deliver Charge</td>
+	<td><span class="reg-error">{{price_form.flat_cod_amt}}<p class="formerror">{% if price_form.errors.flat_cod_amt %} {{price_form.errors.flat_cod_amt}}{%endif%}</p></span></td>
+</tr>
+                <tr>
+                <td style="border:0px;">
+                  <a id="add_btn" href="#" class="btn btn-redbutton">{%if edit_form%}SAVE{%else%}ADD{%endif%}</a>
+                    <a href="/customer/" class="btn btn-redbutton">CANCEL</a>
+                </td>
+                </tr>
+
+
+</table>
+
+</div></div>
+	        			<!--  {{form}} -->
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->    
+   </form> 
+  </div><!-- /container-fluid -->
+             
+</div>
+<script>
+$("#add_btn").click(function(){ 
+    $("form").submit();
+    return false;
+});
+
+</script> 
+		          		{% endblock %}

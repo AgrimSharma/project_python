@@ -1,0 +1,33 @@
+<div class="cust-content">
+	<table class="table">
+              <thead>
+                <tr>
+                  <th>Origin</th>
+                  <th>Pickup Date</th>
+                  <th>DESTSC</th>
+                  <th>AWBNO</th>
+                  <th>Shipper Name</th>
+                  <th>Consignee Name</th>
+                  <th>Reason Code</th>
+                  <th>Status Date</th>
+                </tr>
+              </thead>
+              <tbody>
+              
+                {%for shipment in shipments %}
+                <tr>
+                  <td>{{shipment.0}}</td>
+                  <td>{{shipment.1}}</td>
+                  <td>{{shipment.2}}</td>
+                  <td>{{shipment.3}}</td>
+                  <td>{{shipment.4}}</td>
+                  <td>{{shipment.5}}</td>
+                  <td>{{shipment.6}}</td>
+                  <td>{{shipment.7}}</td>
+                  <td>{{shipment.8}}</td>
+                  
+                </tr>
+                {%endfor%}                
+              </tbody>
+            </table>
+           </div>

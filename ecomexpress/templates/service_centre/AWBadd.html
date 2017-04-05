@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+	{% block content %}
+<div id="wrap">
+
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12"> {% include "service_centre/nav.html" %} </div>
+  </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Data Entry</span>
+          </div>
+          <form action="." method="post">
+{% csrf_token %}
+          <div class="cust-content">
+            <table cellpadding="3" cellspacing="2">
+            	<tr>
+{%comment%}                	<td align="center" valign="middle">Pup Emp:</td><td align="center" valign="middle"><input type="text" style="width:58px"></td>{%endcomment%}
+                    <td align="center" valign="middle">Pup Date:</td><td align="left" valign="middle"><input id="pickup_date" type="text" style="width:60px" value="{% now 'Y-m-d' %}"></td>
+                    <td align="center" valign="middle">Pup Time:</td><td align="left"><input type="text" style="width:30px" value="{% now 'H:i' %}"></td>
+                    <td align="left" valign="middle">Pup No.:</td><td align="left" valign="middle"><input type="text" id="pickup" style="width:56px" class="pup_num" name="pup_num"></td>
+                    <td align="center" valign="middle">Customer Code</td><td align="left" valign="middle"><input type="text" style="width:42px" id="customer_code"></td>
+                  	<td align="center" valign="middle">Vendor/Sub Code</td><td align="center" valign="middle"><input type="text" style="width:42px" id="subcustomer_code"></td>
+       {%comment%}             <td align="center" valign="middle">MF LOC</td><td align="center" valign="middle"><input type="text" disabled style="width:40px"></td>
+                  	<td align="center" valign="middle">Count:</td><td align="left" valign="middle"><input type="text" disabled style="width:40px"></td>{%endcomment%}
+       {%comment%}
+            </table>
+                <hr>
+                <table cellpadding="3" cellspacing="2">
+
+          	    <td align="center" valign="middle">Product:</td><td align="left" valign="middle">
+           	    <select style="width:70px" name="product_code" id="product_code"><option>COD</option><option>PRE</option>
+           	    </select></td>
+                <td align="center" valign="middle">Dox/Duts</td><td align="left" valign="middle"><select style="width:70px"><option>DUT</option><option>DOC</option></select></td>
+        {%endcomment%}        <td align="center" valign="middle">AWB No.</td><td align="left" valign="middle"><input type="text" class="awb_num" style="width:100px" id="airwaybill_number" name="airwaybill_number"></td>
+                <td align="left" valign="middle">Order No.:</td><td align="left" valign="middle"><input type="text" id="order_number" name="order_number"></td>
+{%comment%}                <td align="center" valign="middle">DEST:</td><td align="left" valign="middle">
+                <select name="dest" style="width:70px">
+                                  <option>------</option>
+{% for a in destination %}
+                <option value="{{a.id}}">{{a.city_shortcode}}</option>
+{% endfor %}
+                </select></td>
+                <td align="center" valign="middle">Service Centre:</td><td align="left" valign="middle">
+                <select style="width:70px" name="service_centre" id="service_centre">
+                  <option>------</option>
+{% for a in service_centre %}
+                <option value="{{a.id}}">{{a.center_shortcode}}</option>
+{% endfor %}
+                </select></td>
+          {%endcomment%}
+                 </tr>
+
+            </table>
+            <hr>
+            <table width="908" height="85" border="0" align="center" cellpadding="2">
+              <tr>
+                <td height="22" colspan="5" align="right" valign="top"><h4>Shipper</h4></td>
+                <td valign="top">&nbsp;</td>
+                <td width="278" colspan="3" valign="top"><h4>Consignee</h4></td>
+              </tr>
+{%comment%}
+              <tr>
+                <td width="162" align="right" valign="top">Sub/Vendor</td>
+                <td width="60" align="right" valign="top">
+                <select name="subvendor" style="width:70px">
+                  <option>------</option>
+{% for a in sub_vendor %}
+                <option value="{{a.id}}">{{a.name}}</option>
+{% endfor %}
+
+                </select></td>
+                <td width="45" align="right" valign="top">Client</td>
+                <td width="60" colspan="2" align="right" valign="top">
+
+                <select name="customer" style="width:70px">
+                  <option>------</option>
+{% for a in customer %}
+                <option value="{{a.id}}">{{a.code}}</option>
+{% endfor %}
+
+
+                </select></td>
+
+                <td width="265" align="center" valign="top">Code</td>
+{%endcomment%}
+                <td colspan="3" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="5" align="right" valign="top"><input type="text" name="customer_name" id="customer_name"/></td>
+                <td width="265" align="center" valign="top">Name</td>
+                <td colspan="3" valign="top"><input type="text" id="consignee" name="consignee_name"/></td>
+              </tr>
+{%comment%}
+            <tr>
+                <td colspan="5" align="right" valign="top"><input type="text"/></td>
+                <td width="265" align="center" valign="top">Sender/Attention</td>
+                <td colspan="3" valign="top"><input type="text"/></td>
+              </tr>
+{%endcomment%}
+              <tr>
+                <td colspan="5" align="right" valign="top"><input type="text" id="address_line1"/></td>
+                <td width="265" align="center" valign="top">Address1</td>
+                <td colspan="3" valign="top"><input type="text" id="consignee_address1" name="consignee_address1"/></td>
+              </tr>
+              <tr>
+                <td colspan="5" align="right" valign="top"><input type="text" id="address_line2"/></td>
+                <td width="265" align="center" valign="top">Address2</td>
+                <td colspan="3" valign="top"><input type="text" name="consignee_address2"/></td>
+              </tr>
+              <tr>
+                <td colspan="5" align="right" valign="top"><input type="text" id="address_line3"/></td>
+                <td width="265" align="center" valign="top">Address3</td>
+                <td colspan="3" valign="top"><input type="text" name="consignee_address3"/></td>
+              </tr>
+              <tr>
+                <td colspan="5" align="right" valign="top"><input type="text" id="address_line4"/></td>
+                <td width="265" align="center" valign="top">Address4</td>
+                <td colspan="3" valign="top"><input type="text" name="consignee_address4"/></td>
+              </tr>
+
+              <tr>
+                <td colspan="5" align="right" valign="top"><input type="text" size="6" maxlength="6" style="width:60px" id="pincode"/></td>
+                <td width="265" align="center" valign="top">Pincode</td>
+                <td colspan="3" valign="top"><input type="text" id="pincode2" name="pincode"/></td>
+              </tr>
+              <tr>
+                <td colspan="3" align="right" valign="top">&nbsp;</td>
+                <td align="right" valign="top"><input type="text" size="10" maxlength="10" style="width:100px" id="mobile"/></td>
+                <td align="right" valign="top"><input type="text" id="callers_number" size="10" maxlength="10" style="width:100px"/></td>
+                <td width="265" align="center" valign="top">Telephone</td>
+                <td valign="top"><input type="text" size="10" maxlength="10" style="width:100px" name="mobile"/></td>
+                <td valign="top"><input type="text" size="10" maxlength="10" style="width:100px" name="telephone"/></td>
+
+              </tr>
+              <tr>
+			<td colspan="3" align="right" valign="top"><input type="text" style="width:180px" /></td>
+                <td colspan="2" align="right" valign="top"><input type="text" style="width:180px" /></td>
+                <td width="265" align="center" valign="top">Email Id</td>
+                <td colspan="2" valign="top"><input type="text" style="width:180px" /></td>
+                <td valign="top"><input type="text" style="width:180px" /></td>
+              </tr>
+              <tr>
+                <td colspan="5" align="right" valign="top"><input type="text" style="width:376px" id="remarks"/></td>
+                <td width="265" align="center" valign="top">Special Instructions</td>
+                <td colspan="3" valign="top"><input type="text" style="width:376px" name="special_instruction"/></td>
+              </tr>
+            </table>
+            <hr>
+            <table>
+            	<tr>
+                	<td width="44">Pkgs:</td><td width="36"><input type="text" name="packages" style="width:50px"></td>
+                    <td width="99">Pkgs Dim/Size :</td>
+                    <td width="229">
+                    <input type="text" placeholder="length" name="length" style="width:50px">
+                    X<input type="text" placeholder="breadth" name="breadth" style="width:50px">X<input type="text" name="height" placeholder="height" style="width:50px">
+
+                    {%comment%}
+                    	<select style="width:60px">
+                        	<option>1</option><option>123</option>
+                            </select>x
+                            <select style="width:60px"><option>1</option><option>123</option></select>x<select style="width:60px"><option>1</option><option>123</option></select></td>
+                            {%endcomment%}
+                     <td>Actual Weight</td><td><input type="text" id="actual_weight" name="actual_weight" placeholder="0.00" style="width:50px"/></td>
+                	<td>Dim Weight</td><td><input type="text" id="volumetric_weight" name="dim_weight" placeholder="0.00" style="width:50px"/></td>
+                </tr>
+
+            </table>
+            <hr>
+            <table style="margin-bottom:30px;">
+
+                <tr>&nbsp;&nbsp;
+{% if request.user.employeemaster.user_type == "Staff" or request.user.employeemaster.user_type == "Supervisor" or request.user.employeemaster.user_type == "Sr Supervisor"%}
+  {%else%}
+          <input type="button" class="btn btn-redbutton submit" value="Submit">
+
+{%endif%}
+                </form>
+{% comment %}
+	<a href="#" class="btn btn-redbutton">ADD</a>&nbsp;&nbsp;
+                    <a href="#" class="btn btn-redbutton">EDIT</a>&nbsp;&nbsp;
+                    <a href="#" class="btn btn-redbutton">SAVE</a>&nbsp;&nbsp;
+                    <a href="#" class="btn btn-redbutton">DELETE</a>&nbsp;&nbsp;
+                    <a href="#" class="btn btn-redbutton">VIEW</a>&nbsp;&nbsp;
+                    <a href="#" class="btn btn-redbutton">CANCEL</a>&nbsp;&nbsp;
+                    <a href="#" class="btn btn-redbutton">BACK</a>&nbsp;&nbsp;
+                    {%endcomment%}
+                </tr>
+            </table>
+          </div>
+        </div>
+          <!-- /cust-content --
+        </div>
+      </div>
+      <div class="span4">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Outscan</span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+          	<h1>Summary Report</h1>
+            <table class="table" style="margin-top:20px"width="523" height="289" border="0" cellpadding="0">
+              <tr>
+                <td width="205" valign="top"><h4>Airway Bill No.</h4></td>
+                <td width="205" valign="top">KA123456789</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Customer</h4></td>
+                <td width="205" valign="top">Flipkart</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Date</h4></td>
+                <td width="205" valign="top">5/10/2012</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Type</h4></td>
+                <td width="205" valign="top">Lorem Ipsum </td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Status</h4></td>
+                <td width="205" valign="top"><span class="label label-success">Used</span></td>
+              </tr>
+			</table>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- span6 -->
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+
+<script>
+$("#pickup_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "dd/mm/yy" });
+$(function(){
+
+
+$(".submit").click(function(){
+var awb=$("input.awb_num").val();
+var pincode=$("input#pincode2").val();
+var datastring = "pincode="+pincode+"&awb_num="+awb;
+$.ajax({
+type:"POST",
+url: "/service-centre/awb_edit/",
+data: datastring,
+success: function(resp){
+alert(resp);
+//location.reload()
+}
+});
+return false;
+});
+
+
+$(".awb_num").change(function(){
+
+var awb=$("input.awb_num").val();
+var datastring = "awb_num="+awb;
+$.ajax({
+type:"POST",
+url: "/service-centre/awb_add/awb_num/",
+data: datastring,
+success: function(resp){
+
+
+data=eval('(' + resp + ')');
+$("#pincode2").val(data.pincode);
+$("#consignee_address1").val(data.consignee_address1);
+$("#consignee").val(data.consignee);
+$("#actual_weight").val(data.actual_weight);
+$("#pickup").val(data.pickup);
+$("#volumetric_weight").val(data.volumetric_weight);
+$("#order_number").val(data.order_number);
+
+}
+});
+
+     return false;
+
+});
+
+$(".pup_num").change(function(){
+
+var pup=$("input.pup_num").val();
+var datastring = "pup_num="+pup;
+$.ajax({
+type:"POST",
+url: "/service-centre/awb_add/pup_num/",
+data: datastring,
+success: function(resp){
+data=eval('(' + resp + ')');
+$.each(data, function(key, value) {
+$("#"+ key).val(value);
+//    alert(key + "=" + value);
+});
+}
+});
+
+     return false;
+
+});
+});
+</script>
+
+{% endblock %}
+

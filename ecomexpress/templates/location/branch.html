@@ -1,0 +1,32 @@
+    	<div class="span4">
+          <div class="cust-details">
+             <div class="cust-title">
+                <i class="icon-leaf" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span> Branch</span>
+           	 </div>
+             <div class="cust-content">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Shortcode </th>
+                          <th>Type </th>
+                          <th width="10%;"><a href="#"  class="AddLocation2" location="/location/add/branch/" ><img src="{{ STATIC_URL }}assets/img/plus.png"/></a>
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for branch in branches %}
+                        <tr>
+                          <td >{{ forloop.counter }}</td>
+                          <td row_id="{{ branch.id }}" model_name="Branch"  field_name="branch_name" onDblClick="javascript:changeContent(this);">{{ branch.branch_name }}</td>
+                          <td row_id="{{ branch.id }}" model_name="Branch"  field_name="branch_shortcode" onDblClick="javascript:changeContent(this);">{{ branch.branch_shortcode}}</td>
+                          <td row_id="{{ branch.id }}" model_name="Branch"  field_name="branch_type" onDblClick="javascript:changeContent(this);">{{ branch.branch_type }}</td>
+                          <td></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+          		</div>
+         	</div>
+        </div><!-- /span6 -->

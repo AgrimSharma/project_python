@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+<style>
+.rev_pickup td{background: #FFCCCC}
+</style>
+{% endblock %}
+
+
+          		{% block content %}
+<div id="backgroundPopup"></div>  
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="pagination pull-left">
+        <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+        </ul>
+        </div>
+{%include 'pickup/nav.html'%} 
+   </div>
+</div><b>
+{{msg}}</b></br></br></br>
+  {%ifequal a 1%}
+{%ifequal ptype 0%}
+<form method="POST" action=".">
+{%csrf_token%}
+
+                	Customer Name: <select name="cust_id" style="width: 158px;">
+   <option value="0">All</option>
+
+                					{%for a in customer%}
+                					<option value="{{a.id}}">{{a}}</option>
+                					{%endfor%}
+                               </select>
+                Date-From: <input type="text" name="date_from" class="reports_date" style="width: 88px;"/>
+                Date-To: <input type="text" name="date_to" class="reports_date" style="width: 88px;"/>
+               Destination <select name="sc" style="width: 90px;"/>
+   <option value="0">All</option>
+
+{%for a in sc%}
+                					<option value="{{a.id}}">{{a}}</option>
+                					{%endfor%}
+               </select>
+<input type="submit" class=" btn btn-primary" value="View">`
+</form>
+{%endifequal%}
+{%endifequal%}
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+         <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i>{%block title%}  <span>Pickup Dashboard</span>{%endblock%}
+<div class="pull-right">
+<a style="color:#FFF; text-decoration:underline" href="#" data-rev-action="modal" data-target="#add-revlet"><img src="{{ STATIC_URL }}assets/img/plus.png"/>Bulk Pickup Upload </a>
+</div>
+          </div>
+          <div class="cust-content">
+{%block table%}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>PUR No.</th>
+                  <th>Customer</th>
+                  <th>Sub Customer</th>  
+                  <th>Sub Customer Address</th>
+                  <th>Contact Person</th>
+                  <th>Time Slot Requested</th>
+                  <th>Number Of Shipment</th>
+                  <th>Requested On</th>
+                  <th>Status</th>
+                  <th>Employe Code</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for pickup in pickup %}
+		{% with pickupCounter=forloop.counter0 %}
+                {% comment %}{% if pickup.reverse_pickup and pickup.is_past_due %}{% endcomment %}
+                {% if True %}
+                {% else %}
+                <tr {% if pickup.reverse_pickup %}class="rev_pickup"{%endif%}>
+                  <td>{{pickup.id}}</td>
+                  <td>{{pickup.customer_code}}</td>
+                  <td>{{pickup.subcustomer_code}}</td>
+                  <td>{{pickup.address_line1}},{{pickup.address_line2}}, {{pickup.address_line3}}</td>
+                  <td>{{pickup.caller_name}}</td>
+                  <td>{{pickup.pickup_date}} | {{pickup.pickup_time}}</td>
+                  <td><a href="/service-centre/field_pickup_operation/{{pickup.id}}">{{pickup.pieces}}</a></td>
+                  <td>{{pickup.added_on}}</td>
+                  <td>
+                  {% if pickup.reverse_pickup %}
+                  <span class="label label-important">Complete in 72 hours</span>
+                  {% else %}
+                    {% ifequal pickup.status 1 %}
+                    <span class="label label-sucess">Completed</span>
+                    {% else %}  
+                    <span class="label label-important">Pending</span>
+                    {% endifequal %}
+                  {% endif %}
+                  </td>
+		  {% comment %} {% for em in emp %}
+			{% if forloop.counter0 == pickupCounter %}{% endcomment %}
+                  <td><input type="text" id="emp_code{{pickup.id}}" value="{{pickupCounter.emp}}" name="emp_code" style="width:90px; height:20px" onchange="update_emp({{pickup.id}});"/></td>
+		{% comment %}	{% endif %}
+                  {% endfor %}{% endcomment %}
+		  <td> 
+                    <a href="/pickup/edit_pickup/{{pickup.id}}/" class="btn2 btn-info" rel="tooltip" title="View Pickup"><i class="icon-eye-open"></i>Edit</a>
+                  </td>
+                  {%if pickup.reverse_pickup%}<td><a href="/pickup/reverse/download/{{pickup.id}}/1/" class="btn btn-success" target="_blank">Download</a></td>{%endif%}
+                  <td> <a class= "btn2 upload_file" href="#" rel="tooltip" pickup_id="{{pickup.id}}" title="Upload File"><i class="icon-upload-alt"></i> Upload</a></td>
+                  <td> <a class= "btn2 btn-info" href="/pickup/copy_pickup/{{pickup.id}}/" rel="tooltip" pickup_id="{{pickup.id}}" title="Copy Pickup">
+                       <i class="icon-copy"></i> Copy</a>
+                  </td>
+                  {% comment %} <td>
+                     <a class= "btn2 btn-danger" href="/pickup/cancel_pickup/{{pickup.id}}/" rel="tooltip" title="Cancel Pickup" onclick="{return confirm ('Are you sure?')}">
+                     <i class="icon-trash"></i> Cancel</a></td>{% endcomment %}
+              </tr>
+              {% endif %}
+	     {% endwith %}
+            {% endfor %}
+               
+              </tbody>
+            </table>
+{%endblock%}
+            </div>
+            
+          </div><!-- /cust-content -->
+       {%comment%}   <div class="pull-right" style="display:inline-block"><a href="#"> Print Pickup Sheet</a></div>{%endcomment%}
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet" style="height:150px;width:300px">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+   <p>   File Upload:</p>
+<br>
+          <form method="post" action="/pickup/bulk_pickup_registration/" enctype="multipart/form-data">
+{% csrf_token %}
+ <input type="file" name="upload_file" id="id_batch_pdf"><br>
+<button name="sub" type="submit">Submit</button>
+</form>
+
+
+    </div>
+    <div class="modal-body">
+      
+    </div>
+  </div><!--modal end-->
+
+
+   <div id="popupContact">  
+   
+        <a id="popupContactClose">x</a>  
+
+  </div> 
+<script>
+function update_emp(pickup_id){
+var emp_code = $('#emp_code'+pickup_id).val();
+//var tmp = emp_code +pickup_id;
+//alert(emp_code)
+$.ajax({
+type:"POST",
+url:"/pickup/update_employee/",
+data:"emp_code="+emp_code+"&pickup_id="+pickup_id
+})
+}
+</script>
+ 
+<script type="text/javascript">
+$(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+</script>
+{% endblock %}
+          	

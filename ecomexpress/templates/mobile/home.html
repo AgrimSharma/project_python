@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{%load tags%}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+{% endblock %}
+
+{% block content %}
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12"> {% include 'service_centre/nav.html' %} </div>
+  </div>
+    
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="survey-details">
+        <div class="cust-title">
+          <i class="icon-search" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Fetch Airwaybill Scan </span>
+          </div>
+        <div class="cust-content"> <div class="content-login">
+          <h3>Welcome {{request.user.employeemaster.firstname}}</h3><br/>
+<form action="#">
+    <textarea name="awbs" id="awbs" cols="200" rows="10"/></textarea>
+    <br>
+    <input type="submit" name="submit" class="btn btn-primary add-fetchbatch" value="fetch Awb" />   
+</form>
+</div>
+<table class="table">
+    <thead>
+        <tr><th>ID</th><th>Date</th><th>Status</th><th>Total Count</th><th>Processed Count</th><th>Correct Count</th><th>Not Found Count</th><th>Download</th></tr>
+    </thead>
+    <tbody>
+{% for a in fawb_batch %}
+<tr><td>{{a.id}}</td><td>{{a.added_on}}</td><td>{{a.status|get_fetchawb_status}}</td><td>{{a.total_count}}</td><td>{{a.processed_count}}</td><td>{{a.correct_count}}</td><td>{{a.correct_count}}</td>
+<td id="success{{a.id}}">
+{% if a.status %}
+<span class="label label-success">Download</span>
+</td>
+{%endif%}
+</tr>
+{%endfor%}
+</tbody>
+</table>
+</div>
+</div><!-- /row-fluid -->
+</div><!-- /container-fluid -->
+</div>
+
+<div id="popupContact">  <a id="popupContactClose">x</a>  </div>  
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3> Air Waybill </h3>
+    </div>
+    <div style="height:68px;" class="modal-body">
+   		
+    </div>
+  </div><!--modal end-->
+
+<script>
+$(function(){
+$(".add-fetchbatch").click(function(){
+    var awbs=$("#awbs").val();
+    //alert(awbs);
+    var datastring = "awbs="+awbs;
+    $.ajax({
+        type:"POST",
+        url: "/services/create_batch/",
+        data: datastring,
+        success: function(resp){
+                alert(resp['id']);
+                tr_resp = "<tr><td>"+resp['id']+"</td><td></td><td>In Queue</td><td>"+resp['total_count']+"</td><td></td><td></td><td></td><td></td></tr>"
+                alert( tr_resp);
+                $(".table > tbody").prepend(tr_resp);
+        }
+        });
+    return false;
+});
+
+$(".download").click(function(){
+var connection_id=$(this).attr("connection_id");
+$.ajax({
+type:"POST",
+url: "/service-centre/download_connection/",
+data:"connection_id="+connection_id,
+success:function(resp){
+window.location = resp;
+}
+});
+});
+
+
+$(".connection").live("click",function(){
+    var connection_id=$(this).attr("connection_id");
+    var datastring = "connection_id="+connection_id;
+        $.ajax({
+            type:"POST",
+            url: "/service-centre/close_connection/",
+            data: datastring,
+            success: function(resp){
+                $("#success"+connection_id+"").html("<span class='label label-success'>Closed</span>");
+                {% ifequal request.user.employeemaster.user_type 'Staff'%}
+                $("#include_bags"+connection_id+"").attr("disabled", "disabled");
+                $("#delink_bags"+connection_id+"").attr("disabled", "disabled");
+                {%endifequal%}
+            }
+        });
+        return false;
+    });
+});
+</script>
+{% endblock %}

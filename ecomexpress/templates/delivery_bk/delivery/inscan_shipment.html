@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="wrap">
+
+    <div class="container-fluid main" role="main" id="main">
+        <div class="row-fluid">
+            <div class="span12">
+{% include "delivery/nav.html" %}
+            </div>
+
+
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="survey-details">
+                    <div class="cust-title">
+                        <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Debag Shipment</span>
+                        {%comment%}            <div style="display:inline-block"> <input style=" width:100px" type="text" size="9" name="bag_num" class="bag_num" id="bag_scan" placeholder="Bag No."/></div>{%endcomment%}
+                        <div style="display:inline-block"><input style=" width:100px" type="text" size="9" placeholder="AWB Number" class="awb_num awb-barcode-scanner"/></form></div>
+                    <div style="display:inline-block">Total Records:<input id="total_count" style=" width:20px" type="text" size="9" placeholder="No. of records in file" value="{{total_records}}"/></div>
+                    <div style="display:inline-block">Success:<input id="verified_count" style=" width:20px" type="text" size="9" placeholder="Inscan Count" value="{{success_count}}"/></div>
+
+                    <div style="display:inline-block">Mismatch:<input id="mismatch_count" style=" width:20px" type="text" size="9" placeholder="Data mismatch count" value="{{mismatch_count}}"/></div>
+<div style="display:inline-block"> <input name="submit" class="btn btn-primary" style=" width:91px" onClick="window.location.reload()" value="Refresh Count" /></div>
+
+                    <a style="color:#FFF; text-decoration:underline" href="/service-centre/download_xcl/3/" > Download Excel </a>
+                </div>
+                <div class="cust-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th width="88px" style="text-align:center">Client Code</th>
+                                <th style="text-align:center">Shipper</th>
+                                <th>Consignee</th>
+
+                                <th style="text-align:center">Dest</th>
+                                <th width="60px" style="text-align:center">Pincode</th>
+                                <th style="text-align:center">Pieces</th>
+                                <th style="text-align:center">Value</th>
+                                <th style="text-align:center">Actual Weight</th>
+                                <th width="100px" style="text-align:center">Air Waybill No.</th>
+                                <th style="text-align:center">Order No.</th>
+                                <th style="text-align:center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in shipment%}
+                            <tr>
+                                <td>{{a.shipper.code}}</td>
+                                <td width="176px">{{a.shipper|truncatechars:20}}</td>
+                                <td width="176px">{{a.consignee}}</td>
+                                <td>{{a.service_centre}} </td>
+                                <td>{{a.pincode}} </td>
+                                <td>{{a.pieces}}</td>
+                                <td>{{a.collectable_value}}</td>
+                                <td>{{a.actual_weight}} Kgs.</td>
+                                <td>{{a.airwaybill_number}}</td>
+                                <td>{{a.order_number}}</td>
+
+                                <td>
+                                    {% ifequal a.status_type 0%}
+                                    <span class="label label-red">Unverified</span>
+                                    {%endifequal%}
+                                    {% ifequal a.status_type 1%}
+                                    <span class="label label-success">Verified</span>
+                                    {%endifequal%}
+
+                                    {% ifequal a.status_type 4%}
+                                    <span class="label label-red">Mismatch</span>
+                                    {%endifequal%}
+
+                                    {% ifequal a.status_type 5%}
+                                    <span class="label label-black">Extra</span>
+                                    <a href="#" class="btn btn-primary revert-inscan-shipment-a" rel-data="{{ a.airwaybill_number }}">Revert</a>
+                                    {%endifequal%}
+                                </td>
+                            </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+
+                </div>
+                <div style="margin-top:10px">
+                    <div style="display:inline-block; width:10px; height:10px; background:#F00"></div><div style="display:inline-block">&nbsp; Data</div>
+
+                    <div class="pull-right" style="display:inline-block"><a href="#"  href="#" data-rev-action="modal" data-target="#add-revlet"> Notify</a></div>
+                </div>
+                <!-- /cust-content --
+            </div>
+        </div>
+        <div class="span4">
+            <div class="survey-details">
+                <div class="cust-title">
+                    <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Outscan</span>
+                    <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+                </div>
+                <div class="cust-content">
+
+                </div>
+            </div>
+        </div><!-- span6 -->
+    </div><!-- /row-fluid -->
+
+</div><!-- /container-fluid -->
+
+</div>
+
+
+
+<script>
+    $(function(){
+        $(".awb_num").focus();
+        $("#bag_scan").change(function(){
+            $(".awb_num").focus();
+        });
+        $(".awb_num").change(function(){
+
+            var awb_num=$("input.awb_num").val();
+            //var bag_num=$("input.bag_num").val();
+            var table_data = $(".table > tbody").html();
+            var datastring = "awb_num="+awb_num;
+            $.ajax({
+                type:"POST",
+                url: "/delivery/inscan_shipment/",
+                data: datastring,
+                success: function(resp){
+                  if (resp=="1"){
+                     alert("Invalid Shipment Number"); 
+                     return false;
+                  }
+                  $(".table > tbody").html("")
+                  $(".table > tbody").append(resp);
+                  $(".table > tbody").append(table_data);
+                  var d = $("#tot_count").html();
+                  var e = $("#suc_count").html();
+                  var f = $("#mis_count").html();
+                  $("#total_count").val(d);
+                  $("#verified_count").val(e);
+                  $("#mismatch_count").val(f);
+                },
+                error:function(resp){
+                    alert("Invalid Shipment Number")
+                },
+
+            });
+            $(".awb_num").val("");
+            $(".awb_num").focus();
+            return false;
+
+        });
+
+        $(".revert-inscan-shipment-a").live('click' ,function (e){
+            e.preventDefault();
+            var awb_no = $(this).attr('rel-data');
+            var that = this;
+            $.ajax({
+                url: "/delivery/inscan_shipment/revert/",
+                type:"POST",
+                data:{'awb_no':awb_no},
+                success:function(resp){
+                    if (resp.success){
+                        $(that).parents('tr').remove();
+                    }else{
+                        alert('Revert failed. Please try again');
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+
+{% endblock %}
+
+

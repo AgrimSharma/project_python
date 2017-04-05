@@ -1,0 +1,73 @@
+<!-- Modal (include bag) -->
+<div id="connection_include_bag_popup" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header cust-title">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <span>Include Bag</span>
+    <input name="bag_number" id="bag_scan" class="bag_number" style=" width:100px" type="text" size="9"/>      
+    <font style="color:#fff; font-size:14px;">Count:</font>
+    <input name="awb" id="shipment_count" class="awb" style=" width:40px" type="text" size="9" value="{{bag_count}}"/>
+  </div>
+  <div class="modal-body include_cbag_modal_body">
+   <p class="alert alert-error hide include_cbag_message"></p>
+    <table class="table table-striped table-bag">
+      <thead> <tr class="info"> <th>Bag No</th> <th>Actual Weight</th> <th>Hub</th> <th>Destination</th></tr> </tr> </thead>
+      <tbody id="connection_include_bag_modal_body"> </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+<!-- Modal -->
+
+<script>
+$(function(){
+$("#bag_scan").focus();
+
+var include_bag_original = function(){
+    var bag_number = $("input.bag_number").val();
+    var actual_weight = $("input.actual_weight").val();
+    $.ajax({
+        type:"POST",
+        url: "/service-centre/include_bags_connection/",
+        data: {'cid': {{cid}}, 'bag_num': bag_number},
+        success: function(resp){
+            if(resp.success){
+                $(".table-bag > tbody").prepend(resp.html);
+                var shipment_count = parseInt($("#shipment_count").val()) + parseInt(resp.ship_count);
+                $("#shipment_count").val(shipment_count);
+            }else{ alert(resp.message) }
+        }
+    });
+    $("#bag_scan").val("");
+    $("#bag_scan").focus();
+};
+
+var include_bag = _.throttle(include_bag_original, 3000);
+
+$("#bag_scan").die('keydown').live('keydown' ,function(e){
+   if(e.keyCode == 13 || e.keyCode == 9){ include_bag(); }
+});
+
+var include_bag_popup_original = function(){
+    $.ajax({
+        type:"GET",
+        url: "/service-centre/get_connection_bags/",
+        data: {'cid': {{cid}} },
+        success: function(resp){
+            $("#connection_include_bag_modal_body").html(resp.html);
+            $("#connection_include_bag_popup").modal('show');
+        }
+    });
+};
+
+
+var include_bag_popup = _.throttle(include_bag_popup_original, 3000);
+
+$(".include_bags").live('click' ,function(e){
+    console.log('include bags');
+    include_bag_popup();
+});
+
+});
+</script>

@@ -1,0 +1,70 @@
+    <div class="modal-header cust-title" style="width: 872px;">
+      <a class="close" data-dismiss="modal">×</a>
+      <div>
+      <font style="color:#fff; font-size:24px;"> Include Shipment </font> &nbsp;<div style="display:inline-block"><font style="color:#fff; font-size:14px;">Airway Bill:</font><input name="awb" id="awb_scan" class="awb" style=" width:100px" type="text" size="9"/> 
+      <font style="color:#fff; font-size:14px;">Count:</font><input name="awb" class="awb" id="shipment_count" style=" width:40px" type="text" size="9" value="{{shipment_count}}"/>
+            <font style="color:#fff; font-size:14px;">Reverse Outscan ID:{{oid}}</font>
+       </div> 
+      </div>
+<div class="modal-body">
+<table class="table-bag">
+<thead>
+<tr>
+
+<th>&nbsp;AWB</th>
+<th>&nbsp;Shipper</th>
+<th>Consignee</th>
+<th>&nbsp;Vendor</th>
+<th>&nbsp;Added On</th>
+
+</tr>
+</thead>
+<tbody>
+   		 {% for a in shipment%}
+<tr>
+<td>{{a.reverseshipment.airwaybill_number}}</td>
+<td>{{a.reverseshipment.shipper|truncatechars:20}}</td>
+<td>{{a.reverseshipment.pickup_consignee}}</td>
+<td>{{a.reverseshipment.shipper}}</td>
+<td>{{a.reverseshipment.added_on|date:" d/m/Y    G:i"}}</td>
+</tr>
+   		 {% endfor%}
+</tbody>
+</table>
+    </div>
+    </div>
+
+<script>
+$(function(){
+$("#awb_scan").focus();
+$(".awb").change(function(){
+
+var awb=$("input.awb").val();
+var table_data = $(".table-bag > tbody").html();
+var datastring = "awb="+awb;
+$.ajax({
+type:"POST",
+url: "/pickup/include_shipment/{{oid}}/",
+data: datastring,
+success: function(resp){
+if( resp =="" || resp == "Incorrect Shipment Number"){
+   alert(resp)
+} else {
+$(".table-bag > tbody").html("")
+$(".table-bag > tbody").append(resp);
+$(".table-bag > tbody").append(table_data);
+shipment_count = parseInt($("#shipment_count").val())+parseInt(1);
+$("#shipment_count").val(shipment_count);
+}
+
+}
+});
+$("#awb_scan").val("");
+$("#awb_scan").focus();
+});
+
+
+
+});
+</script>
+

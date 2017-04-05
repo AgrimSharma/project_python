@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.cs_instruction td{background: #FFCCCC}
+</style>
+
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+    <div class="span12">
+        <div class="add-details pull-right">
+            {% include "track_me/header.html" %}
+        </div>
+    </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+	  <form name="track" id="bagHistoryForm" action="." method="GET">
+              {% csrf_token %}
+	      <b>Bag Number:</b><input class="bag_number" name="bag_number" type="text" />
+          <input class="btn btn-primary" name="Submit" type="submit" value="submit">
+          <input class="clear btn btn-primary" name="clear" type="button" value="clear">
+          </form>
+        {% if message %}
+        <p class="alert alert-error">{{ message }}</p>
+        {% endif %}
+        <h3> Bag Details:</h3>
+        <table class="table table-bordered table-condensed">
+           <thead>
+           <tr class="success"> 
+              <th> Bag Number:</th>
+              <th> Bag Type:</th>
+              <th> Origin:</th>
+              <th> Destination: </th>
+              <th> Hub:</th>
+              <th> Current SC:</th>
+              <th> Added On:</th>
+              {% comment %}<th> Status:</th>{% endcomment %}
+           </tr>
+           </thead>
+           <tbody>
+            <tr> 
+              <td> {{ bag.bag_number }}</td>
+              <td> {{ bag.bag_type }}</td>
+              <td> {{ bag.origin }}</td>
+              <td> {{ bag.destination }}</td>
+              <td> {{ bag.hub }}</td>
+              <td> {% if bag.current_sc %}{{ bag.current_sc }}{% endif %}</td>
+              <td> {{ bag.added_on }}</td>
+              {% comment %}<td> {{ bag.status }}</td>{% endcomment %}
+            </tr>
+           </tbody>
+        </table>
+
+      <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Bag History</span>
+          </div>
+          <div class="cust-content"><div class="summary-content">
+          	<table border="1" bordercolor="#99B" class="table">
+              <thead style="background-color: #3731B0; color: white; font-size: 14px;">
+                <tr>
+                  <th width="150">Date/Time</th> <th>Status</th> <th width="150">Reason Code</th><th width="150">Service Centre</th> <th width="150">Employee</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for h in history %}
+                <tr>
+                  <td>{{h.updated_on|date:"d M, Y, H:i"}} hrs</td>
+                  <td>{{h.remarks }}</td>
+                  <td>{{h.reason_code|default_if_none:"" }}</td>
+                  <td>{{h.bag_sc.center_shortcode}}</td>
+                  <td>{{h.employee}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+<script>
+$(document).ready(function(e){
+    $(".bag_number").focus();
+    $(".clear").click(function(e){
+        $(".bag_number").val('');
+    });
+});
+</script>
+
+{% endblock %}

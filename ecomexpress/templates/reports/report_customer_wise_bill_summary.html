@@ -1,0 +1,50 @@
+    
+        <div class="cust-content">
+{% load tags %}            
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>CustCode</th>
+           		  <th>Customer Name</th>
+           		  <th>Bill No</th>
+          		  <th>Freight Charges</th>
+           		  <th>COD Charges</th>
+           		  <th>Other Charges</th>
+           		  <th>Fuel Sc</th>
+           		  <th>Service Tax</th>
+           		  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+              {%for shipment, awbtally in shipment.items%}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td></td>
+                  <td>{{shipment.pickup.pickup_date|date:"SHORT_DATE_FORMAT"}}</td>
+                  <td>{{shipment.pickup.service_centre}}</td>
+                  <td>{{shipment.shipper.code}}</td>
+                  <td>{{shipment.consignee}}</td>
+                  <td>{{awbtally.collectable_value|default:shipment.collectable_value}}</td>
+                  <td>{{awbtally.amount_collected|default:0}}</td>
+                  
+                  <td>
+                  {%if awbtally.amount_collected%}
+                  
+                  
+                  {{awbtally.amount_collected|subtract:awbtally.collectable_value}}
+                  {%else%}
+                  {{awbtally.collectable_value|default:shipment.collectable_value}}
+                  {%endif%}
+                  </td>
+                  <td>{{awbtally.delivery_emp_code.employee_code}}</td>
+                  <td>{{awbtally.delivery_emp_code.firstname}}</td>
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+            </div>
+  
+
+           
+       

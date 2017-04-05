@@ -1,0 +1,266 @@
+<!doctype html>
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <title>EEPL - Ecom Express</title>
+    <meta charset="utf-8">
+    <title>Ecom Express</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta property="og:image" content="http://www.domain.com/images/logo.png"/>
+    <meta property="og:title" content="-- description here --"/>
+    <meta property="og:url" content="http://www.domain.com"/>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}assets/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="{{ STATIC_URL }}assets/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}assets/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}assets/img/apple-touch-icon-114x114.png">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/font-awesome.css">
+    <script src="{{ STATIC_URL }}assets/js/libs/modernizr.custom.60077.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/popup.css" />
+    <script src="{{ STATIC_URL }}assets/js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css">
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.core.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.widget.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.datepicker.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui-timepicker-addon.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui-timepicker-addon.js"></script>
+    {% block header %}
+    {% endblock %}
+    <style>
+        .blink {
+            background: none repeat scroll 0 0 rgb(249, 6, 17);
+            border: 1px solid #c8040d;
+            padding:6px;
+            color:#fff;
+            border-radius:4px;
+            font-weight:bold;
+            position: relative;
+            text-align:center;
+            margin-top:5px;
+            margin-left:10px;
+            text-transform:uppercase;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+            width:70px;
+        }
+        .blink a {text-decoration:none;color:#FFF;}
+        .emp-name{padding:5px; background: #CCC}
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="brand" href="#"><img src="{{ STATIC_URL }}assets/img/ecomlogosmall.png"/></a>
+                <!-- actions -->
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".main-toolbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="btn-toolbar nav-collapse pull-right main-toolbar" id="main-toolbar">
+                <div class="btn-group myaccount">
+                    {% load tags %}
+                    {% if request.user.employeemaster.department.name == "Finance"  and  request.user.employeemaster.user_type == "Sr Manager" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                       
+                        <a class="{% active request '/billing/remittance/' %}" href="/billing/remittance/"><i class="icon-money"></i><span>Billing</span></a>
+                   {% elif request.user.employeemaster.user_type == "Customer" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                    {% elif request.user.employeemaster.department.name == "Finance"  and  request.user.employeemaster.user_type == "Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/octroi/' %}" href="/octroi/"><i class="icon-money"></i><span>Octroi</span></a>
+
+                    {% elif request.user.employeemaster.department.name == "Finance"  and  request.user.employeemaster.user_type == "Manager" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/customer/' %}" href="/customer/"><i class="icon-user"></i><span>Customer</span></a>
+                    {% elif request.user.employeemaster.department.name == "Customer Service" and  request.user.employeemaster.user_type == "Sr Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                    {% elif request.user.employeemaster.department.name == "Customer Service" and  request.user.employeemaster.user_type == "Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                    {% elif request.user.employeemaster.department.name == "Customer Service Accounts" and  request.user.employeemaster.user_type == "Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                    {% elif request.user.employeemaster.department.name == "Customer Service" and  request.user.employeemaster.user_type == "Manager" %}
+                        <a class="{% active request '/airwaybill/airwaybill_search/' %}" href="/airwaybill/airwaybill_search/"><i class="icon-plane"></i><span>Airway Bill</span></a>
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                    {% elif request.user.employeemaster.department.name == "Operations" and  request.user.employeemaster.user_type == "Manager" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/service-centre/' %}" href="/service-centre/"><i class="icon-truck"></i><span>Service Center</span></a>
+                        <a class="{% active request '/hub/' %} ecomm_hub" href="/hub/"><i class="icon-money"></i><span>Hub</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                    {% elif request.user.employeemaster.department.name == "Operations" and  request.user.employeemaster.user_type == "Sr Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/service-centre/' %}" href="/service-centre/"><i class="icon-truck"></i><span>Service Center</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                    {% elif request.user.employeemaster.department.name == "Operations" and  request.user.employeemaster.user_type == "Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/service-centre/' %}" href="/service-centre/"><i class="icon-truck"></i><span>Service Center</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                    {% elif request.user.employeemaster.department.name == "Operations" and  request.user.employeemaster.user_type == "Staff" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/service-centre/' %}" href="/service-centre/"><i class="icon-truck"></i><span>Service Center</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                    {% elif request.user.employeemaster.department.name == "Hub" and  request.user.employeemaster.user_type == "Manager" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/hub/' %} ecomm_hub" href="/hub/"><i class="icon-money"></i><span>Hub</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                        <a class="{% active request '/service-centre/' %}" href="/service-centre/"><i class="icon-truck"></i><span>Service Center</span></a>
+                    {% elif request.user.employeemaster.department.name == "Hub" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/hub/' %} ecomm_hub" href="/hub/"><i class="icon-money"></i><span>Hub</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                    {% elif request.user.employeemaster.department.name == "HR" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/authentication/employee/' %}" href="/authentication/employee/" class="active"><i class="icon-group"></i><span>Employee</span></a>
+                    {% elif request.user.employeemaster.department.name == "Sale" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                    {% elif request.user.employeemaster.department.name == "IT"  and  request.user.employeemaster.user_type == "Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/airwaybill/airwaybill_search/' %}" href="/airwaybill/airwaybill_search/"><i class="icon-plane"></i><span>Airway Bill</span></a>
+                        <a class="{% active request '/billing/' %}" href="/billing/"><i class="icon-money"></i><span>Billing</span></a>
+                        <a class="{% active request '/customer/' %}" href="/customer/"><i class="icon-user"></i><span>Customer</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/authentication/employee/' %}" href="/authentication/employee/" class="active"><i class="icon-group"></i><span>Employee</span></a>
+                    {% elif request.user.employeemaster.department.name == "IT"  and  request.user.employeemaster.user_type == "Sr Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/airwaybill/airwaybill_search/' %}" href="/airwaybill/airwaybill_search/"><i class="icon-plane"></i><span>Airway Bill</span></a>
+                        <a class="{% active request '/billing/' %}" href="/billing/"><i class="icon-money"></i><span>Billing</span></a>
+                        <a class="{% active request '/customer/' %}" href="/customer/"><i class="icon-user"></i><span>Customer</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                    {% elif request.user.employeemaster.user_type == "Customer"%}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                    {% elif request.user.employeemaster.user_type == "Director" or request.user.employeemaster.user_type == "Sr Manager" %}
+                        <a class="{% active request '/airwaybill/airwaybill_search/' %}" href="/airwaybill/airwaybill_search/"><i class="icon-plane"></i><span>Airway Bill</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/service-centre/' %}" href="/service-centre/"><i class="icon-truck"></i><span>Service Center</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/hub/' %} ecomm_hub" href="/hub/"><i class="icon-money"></i><span>Hub</span></a>
+                        <a class="{% active request '/billing/' %}" href="/billing/"><i class="icon-money"></i><span>Billing</span></a>
+                        <a class="{% active request '/octroi/' %}" href="/octroi/"><i class="icon-money"></i><span>Octroi</span></a>
+                        <a class="{% active request '/customer/' %}" href="/customer/"><i class="icon-user"></i><span>Customer</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                        <a class="{% active request '/authentication/employee/' %}" href="/authentication/employee/" class="active"><i class="icon-group"></i><span>Employee</span></a>
+                    {% elif request.user.employeemaster.department.name == "Operations" and request.user.employeemaster.user_type == "Sr Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/service-centre/' %}" href="/service-centre/"><i class="icon-truck"></i><span>Service Center</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                    {% elif request.user.employeemaster.department.name == "Operations" and request.user.employeemaster.user_type == "Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/pickup/' %}" href="/pickup/"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+                        <a class="{% active request '/service-centre/' %}" href="/service-centre/"><i class="icon-truck"></i><span>Service Center</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+ 
+                   {% elif request.user.employeemaster.department.name == "Finance" and request.user.employeemaster.user_type == "Sr Supervisor" %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                   {% else %}
+                        <a class="{% active request '/track_me/' %}" href="/track_me/?awb=&order="><i class="icon-plane"></i><span>Track Me</span></a>
+                    {%endif%}
+                    {% if request.user.employeemaster.service_centre.center_shortcode == "DEH" or request.user.employeemaster.service_centre.center_shortcode == "BOM" or request.user.employeemaster.service_centre.center_shortcode == "BLR"  or request.user.employeemaster.service_centre.center_shortcode == "AHH" or request.user.employeemaster.service_centre.center_shortcode == "JAH" or request.user.employeemaster.service_centre.center_shortcode == "LKH"  or request.user.employeemaster.service_centre.center_shortcode == "OKP"  or request.user.employeemaster.service_centre.center_shortcode == "BLM" %}
+                        <a class="{% active request '/hub/' %} ecomm_hub" href="/hub/"><i class="icon-money"></i><span>Hub</span></a>
+                    {%endif%}
+                    {% if request.user.employeemaster.service_centre.center_shortcode == "BOM" and request.user.employeemaster.service_centre.type == 1 and request.user.employeemaster.department.name = "Finance" %}
+                        <a class="{% active request '/octroi/' %}" href="/octroi/"><i class="icon-money"></i><span>Octroi</span></a>
+                        <a class="{% active request '/reports/' %}" href="/reports/"><i class="icon-briefcase"></i><span>Reports</span></a>
+                        <a class="{% active request '/delivery/' %}" href="/delivery/"><i class="icon-share-alt"></i><span>Delivery</span></a>
+                    {%endif%}
+                    <a href="/authentication/logout_view/"><i class="icon-signout"></i><span>Logout</span></a>
+                </div>
+                </div>
+            </div><!-- /container-fluid -->
+
+        </div><!-- /navbar-inner -->
+        <div class="emp-name"><b> Name:</b> {{request.user.employeemaster.firstname}} {{request.user.employeemaster.lastname}} &nbsp;&nbsp;<b>Service Centre</b> {{request.user.employeemaster.service_centre}}
+            <div class="pull-right"><a href="/authentication/change_password/">Change Password</a></div>
+        </div>
+
+        {%ifequal request.user.employeemaster.service_centre|instruction:request.user.employeemaster.service_centre 'alert'%}
+        <div class="blink"> <i class="icon-bell"> </i>
+            <a href="#" onClick="MM_openBrWindow('/track_me/alert/','ALERT','scrollbars=yes,width=400,height=300')">ALERT</a></div>
+        {%endifequal%}
+
+    </div><!-- /navbar -->
+
+    {% load humanize %}
+    {% block content %}
+
+    {% endblock %}
+
+    {% block basescripts %}
+    <script type="text/javascript">
+        function MM_openBrWindow(theURL,winName,features) { //v2.0
+            window.open(theURL,winName,features);
+        }
+    </script>
+    {% endblock %}
+    <script>window.jQuery || document.write('<script src="assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+        <!-- bootstrap -->
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-transition.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-alert.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-modal.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-dropdown.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-scrollspy.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-tab.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-tooltip.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-popover.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-button.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-collapse.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-carousel.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-typeahead.js"></script>
+        <!-- <script src="http://malsup.github.com/jquery.form.js"></script>   -->
+        <script src="{{ STATIC_URL }}assets/js/application.js"></script>
+        <script>$(rev.init);</script>
+        <script type="text/javascript">
+            $("[rel=tooltip]").tooltip();
+            (function() {
+                $("[rel=popover]").popover();
+            })();
+            $(document).ready(function(){
+                $('.blink').each(function() {
+                    var elem = $(this);
+                    setInterval(function() {
+                        if (elem.css('background-color') == 'rgb(249, 6, 17)') {
+                            elem.css('background-color', 'rgb(200, 4, 13)');
+                            } else {
+                            elem.css('background-color', 'rgb(249, 6, 17)');
+                        }
+                    }, 1000);
+                });
+
+                var hub_count = $("a[href='/hub/']").length;
+                if (hub_count > 1){
+                     $("a[href='/hub/']").eq(0).remove();
+                }
+            });
+        </script>
+</body>
+</html>
+

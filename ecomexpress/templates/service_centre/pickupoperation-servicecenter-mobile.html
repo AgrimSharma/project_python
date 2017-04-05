@@ -1,0 +1,281 @@
+{% extends "base_mobile.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+{% load humanize %}
+{% endblock %}
+
+
+	{% block content %}
+<br></br>
+<br></br>
+<div id="backgroundPopup"></div>
+
+<div id="wrap" style="width:400px"    >
+  <div class="container-fluid main" role="main" id="main" style="margin-top:10px">
+    <div class="row-fluid" style="margin-top:10px">
+      <div class="span12" style="margin-top:-10px">
+      <div class="survey-details"  style="margin-top:-0px">
+<!--        <div class="cust-title" style="margin-top:-0px" > 40px/68px-->
+     <div style="color:black; margin-left:5px;  margin-top:-150px;" style="font-size: 20px ;">Records&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Count&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Mismatch</div><div>&nbsp;&nbsp;<input id="total_count" style=" width:50px;font-size:20px;height:22px;" type="text" size="5" value="{{total}}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id="verified_count" style=" width:50px;font-size:20px;height:22px;" type="text" size="15" value="{{success}}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input  id="mismatch_count" style="width:50px;font-size:20px;height:22px;" type="text" size="15" value="{{mismatch}}"/></div>
+</br>
+          <center>  <i class="icon-signin" style="font-size: 20px ; margin-right: 10px;margin-top: 0px;"></i> <span>Field Pickup Operations</span>
+</br>           <div style="display:inline-block"> <form id="shipment_count" name="shipment_pricing" method="POST">{% csrf_token %}<input name="awb" id="awb_scan" class="awb awb-barcode-scanner"  type="text" size="15" style="width:175px;font-size:25px;height:28px;" placeholder="Air Waybill No."/></form></div> 
+</center>
+{% ifequal pid 0%}
+<select name="pickup_select" class="pickup_select" style="width:135px;">
+<option value="">--Select Pickup--</option>
+{% for a in pickups%}
+
+<option style="color:black;"  value="{{a.id}}">{{a.customer_name}}-{{a.added_on|date:"SHORT_DATE_FORMAT"}}-ID:{{a.id}}</option>
+
+{%endfor %}
+</select>
+
+{%endifequal%}
+<br></br>
+          {%ifnotequal pid 0%}
+          <br>
+           <div style="color:black; {{pikup.customer_name}}-{{pikup.added_on|date:"SHORT_DATE_FORMAT"}}-ID:{{pikup.id}}</div>
+            <br>
+          {%endifnotequal%}
+          <div class="cust-content">
+            <table class="table">
+              <thead>
+ {% for a in  shipment%}
+
+                <tr>
+
+                  <td style="text-align:center">AWB No.</td>
+                  <td width="176px" id="{{a.airwaybill_number}}awb">{{a.airwaybill_number}}</td>
+                </tr><tr>
+ <td style="text-align:center">Order No.</td> 
+<td id="{{a.airwaybill_number}}order_number">{{a.order_number}}</td>
+</tr><tr>
+<td style="text-align:center">Weight</td>
+                  <td id="{{a.airwaybill_number}}actual_weight">{{a.actual_weight}} gms.</td>
+</tr><tr>
+                  <td style="text-align:center">Value</td>
+ <td id="{{a.airwaybill_number}}collectable_value"> Rs. {{a.collectable_value|intcomma}}</td>
+</tr><tr>
+
+                  <td style="text-align:center">Pincode</td>
+ <td id="{{a.airwaybill_number}}pincode">{{a.pincode}}</td>
+</tr><tr>
+
+                  <td>Status</td>
+ <td id="{{a.airwaybill_number}}status_type">
+                  {% ifequal a.status_type 0%}
+                  <span class="label label-red">Unverified</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 1%}
+                  <span class="label label-success">Verified</span>
+                  {%endifequal%}
+
+                  {% ifequal a.status_type 2%}
+                  <span class="label label-blue">Mismatch</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 3%}
+                  <span class="label label-black">Mismatch</span>
+                  {%endifequal%}
+
+                  {% ifequal a.status_type 4%}
+                  <span class="label label-red">Mismatch</span>
+                  {%endifequal%}
+               
+ </tr>
+{%endfor %}
+              </tbody>
+            </table>
+
+          </div>
+          <div style="margin-top:10px">
+<table align="center">
+<tr>
+<th><a href="#" class="btn btn-redbutton" style="width:100px">Reconcile Pickup</a></th>
+<th><a href="/service-centre/generate_exception/{{pid}}/" class="btn btn-redbutton exception" style="width:100px" >Generate Exception</a></th>
+</tr>
+<tr>
+<th><a href="#" class="btn btn-redbutton" style="width:100px">Update Exception Code</a></th>
+<th><a href="#" class="btn btn-redbutton complete-pickup" style="width:100px" pid="{{pid}}">Complete Pickup</a></th>
+</tr>
+</table> </div>
+          <div style="margin-top:10px">
+          <div style="display:inline-block; width:10px; height:10px; background:#060"></div><div style="display:inline-block"> &nbsp; Verified</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#00C"></div><div style="display:inline-block">&nbsp; Pincode</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#F00"></div><div style="display:inline-block">&nbsp; Data</div>
+          <div style="display:inline-block; width:10px; height:10px; background:#000"></div><div style="display:inline-block"> &nbsp; Value</div>
+          </div></div>
+          <!-- /cust-content --
+        </div>
+      </div>
+      <div class="span4">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Outscan</span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+          	<h1>Summary Report</h1>
+            <table class="table" style="margin-top:20px"width="523" height="289" border="0" cellpadding="0">
+              <tr>
+                <td width="205" valign="top"><h4>Airway Bill No.</h4></td>
+                <td width="205" valign="top">KA123456789</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Customer</h4></td>
+                <td width="205" valign="top">Flipkart</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Date</h4></td>
+                <td width="205" valign="top">5/10/2012</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Type</h4></td>
+                <td width="205" valign="top">Lorem Ipsum </td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Status</h4></td>
+                <td width="205" valign="top"><span class="label label-success">Used</span></td>
+              </tr>
+			</table>
+            </div>
+
+          </div>
+        </div>
+      </div><!-- span6 -->
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+
+
+   <div id="popupContact">
+
+        <a id="popupContactClose">x</a>
+
+  </div>
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Download file from Shipper portal</h3>
+    </div>
+    <div style="height:300px;" class="modal-body">
+   		<form>
+          <table>
+          	<tr><td>Emp Code:</td><td><input style=" width:40px" type="text"/></td></tr>
+        	<tr><td>Customer Code:</td><td><input style=" width:40px" type="text"/></td></tr>
+        	<tr><td>Vendor Code:</td><td><input style=" width:40px" type="text"/></td></tr>
+            <tr><td>Date</td><td><input style=" width:70px" type="text"/></td></tr>
+            <tr><td>Time</td><td><input style=" width:38px" type="text"/></td></tr>
+
+        	<tr>
+            <td><input type="button" class="btn btn-redbutton" value="Download" /></td></tr>
+            </table>
+        </form>
+    </div>
+  </div><!--modal end-->
+
+<script>
+$(function(){
+$("#awb_scan").focus();
+
+$("#shipment_count").submit(function(){
+     //alert("test");
+     return false;
+});
+$(".awb").change(function(){
+
+var awb=$("#awb_scan").val();
+var table_data = $(".table > tbody").html();
+var counter = $('.table > tbody').children('tr:last').attr('counter');
+if (!counter) {
+counter=0;
+}
+counter=parseInt(counter)+1;
+var datastring = "awb="+awb+"&comp="+0+"&counter="+counter;
+$.ajax({
+type:"POST",
+url: "/service-centre/field_pickup_operation/{{pid}}/",
+data: datastring,
+success: function(resp){
+if (resp==1) {
+alert("Already exists");
+}
+else if (resp==2) {
+alert("Incorrect Airwaybill Number");
+}
+
+else{
+$(".table > tbody").html("")
+$(".table > tbody").append(resp);
+$(".table > tbody").append(table_data);
+
+
+var d = $("#tot_count").html();
+var e = $("#suc_count").html();
+var f = $("#mis_count").html();
+$("#total_count").val("");
+$("#verified_count").val("");
+$("#mismatch_count").val("");
+
+$("#total_count").val(d);
+$("#verified_count").val(e);
+$("#mismatch_count").val(f);
+}
+}
+});
+     $("#awb_scan").val("");
+     $("#awb_scan").focus();
+     return false;
+
+});
+
+$(".exception").click(function(){
+
+$.ajax({
+type:"POST",
+url: "/service-centre/generate_exception/{{pid}}/",
+success: function(resp){
+alert(resp);
+}
+});
+
+     return false;
+});
+
+
+
+
+$(".pickup_select").change(function(){
+var pikup = $("select.pickup_select").val();
+window.location.replace("/service-centre/field_pickup_operation/"+pikup+"/");
+return false;
+
+});
+
+
+
+$(".complete-pickup").click(function(){
+var comp=1;
+var datastring = "comp="+comp;
+$.ajax({
+type:"POST",
+url: "/service-centre/field_pickup_operation/{{pid}}/",
+data: datastring,
+success: function(resp){
+location.reload()
+}
+});
+     return false;
+});
+
+});
+</script>
+{% endblock %}
+

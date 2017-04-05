@@ -1,0 +1,177 @@
+from django.db.models import *
+
+from authentication.models import EmployeeMaster
+from pickup.models import *
+from service_centre.models import Shipment
+
+'''
+Top level structure of document ref to Shipment_Status_XML_Specification.xlsx
+<ShipmentInformation>
+    <TransactionInformation>
+    <EdiDocumentInformation>
+    <ShipmentStatusSeq>
+'''
+# Create your models here.
+class ShipmentInformation(models.Model):
+    TransactionInformation = models.ForeignKey('TransactionInformation', related_name='am_t_info')
+    EdiDocumentInformation = models.ForeignKey('EdiDocumentInformation', related_name='am_e_d_info')
+    # ShipmentStatusSeq = models.ForeignKey('ShipmentStatusSeq', related_name='am_s_s_seq')
+    when_created = models.DateTimeField(auto_now=True)
+    when_modified = models.DateTimeField(auto_now_add=True)
+    
+    @property
+    def get_shipment_info(number, date, time):
+	pass
+
+
+class TransactionInformation(models.Model):
+    SenderIdentifier = models.CharField(max_length=6)
+    recipientidentifier = models.CharField(max_length=6, default="AMAZON", editable=False)	# Always AMAZON
+    DateOfPreparation = models.CharField(max_length=6)
+    TimeOfPreparation = models.CharField(max_length=6)
+
+
+class EdiDocumentInformation(models.Model):
+    EdiDocumentStandard = models.CharField(max_length=3, default='X12', editable=False)
+    EdiDocumentName = models.CharField(max_length=3, default='XML', editable=False)
+    EdiDocumentVersion = models.FloatField(max_length=3, default='1.1', editable=False)
+
+
+class ItemInformation(models.Model):
+    '''
+    <ItemID>
+    <CartonQuantity>
+    <PalletQuantity>
+    '''
+    itemid = models.CharField(max_length=15, db_index=True)
+    cartonquantity = models.IntegerField(max_length=15)
+    palletquantity = models.IntegerField(max_length=15)
+	
+
+class ShipmentStatus(models.Model):
+    '''
+    Contains ItemInformation
+    '''
+    shipment_info = models.ForeignKey('ShipmentIdentification', related_name="am_ship_info")
+    # shipmentidentification = models.ForeignKey(Shipment, related_name="am_status_shipment")
+    # locationcode = models.ForeignKey(shipmenthistory_date)	# shipmenthistory_date.current_sc_id
+
+    # <ShipmentStatusInformation>
+    # statuscategory = models.ForeignKey(Shipment)	# status_type
+    # status = models.ForeignKey(Shipment, related_name="am_status_code")	# status Shipment Status Code. All possible status codes are in Status_Code tab
+    # referenceid = models.ForeignKey(Pickup, related_name="am_status_pickup")	# PICKUP_MANIFEST_ID
+    # statusreason = models.ForeignKey(Shipment, related_name="am_status_reason")	# Shipment Status Reason Code. All possible status reason code are in Status_Reason_Code tab 
+
+    appointmentstatus = models.CharField(max_length=20) 
+    appointmentstatusreason = models.CharField(max_length=20)
+    
+    # 
+    recipientidentifier = models.CharField(max_length=6, default="AMAZON", editable=False)	# Always AMAZON
+    # messagereferencenum = models.CharField(max_length=20)	# CharField
+    # amazonreferencenumber = models.CharField(max_length=20)	# ARN - Amazon Reference Number
+
+    # <TransportInformation>
+    stagecode = models.CharField(max_length=20, null=True, blank=True)
+    trailernumber = models.CharField(max_length=20, null=True, blank=True)
+    transportmode = models.CharField(max_length=20)    # Reference of Ship Method. It can be the ship method name from the manifest
+    carrierscac = models.CharField(max_length=20)	# SCAC code of the carrier
+    sealnumber = models.CharField(max_length=20, null=True, blank=True)
+
+    # <PurchaseOrderSeq>		
+    purchaseordernumber = models.IntegerField(max_length=30, null=True, blank=True)
+    
+    # <DateTimePeriodInformation>
+    datetimeperiodcode = models.ForeignKey('EstimatedDeliveryDateTime', related_name="am_dtpc")
+    # datetimeperioddescription =  models.ForeignKey('EstimatedDeliveryDateTime', related_name="am_dtpd")
+    # datetimeperiodformat = models.ForeignKey('EstimatedDeliveryDateTime', related_name="amdtpf")
+    # datetimeperiodvalue = models.DateTimeField(max_length=14)
+
+    # <<EstimatedDeliveryDateTime>
+    # estimateddeliverydatetime = models.ForeignKey('EstimatedDeliveryDateTime', related_name="am_eddt")
+       
+    # <TransportEquipmentInformation>
+    equipmentcode = models.CharField(max_length=20, null=True, blank=True)
+    equipmenttype = models.CharField(max_length=20, null=True, blank=True)
+
+    # <MeasurementInformation>
+    measurementcode = models.CharField(max_length=20, null=True, blank=True)
+    measurementvalue = models.IntegerField(max_length=20, null=True, blank=True)
+    grossweightuom = models.CharField(max_length=20, null=True, blank=True)
+    grossweightvalue = models.FloatField(max_length=20, null=True, blank=True)
+    measurementinformation = models.TextField(max_length=20, null=True, blank=True)
+
+    iteminformation = models.ForeignKey(ItemInformation)
+    # <ShipmentReferenceSequence>
+        # <ShipmentReference>
+    referenceid = models.CharField(max_length=20, null=True, blank=True)
+    referenceidtype = models.CharField(max_length=20, null=True, blank=True)
+
+    # <LadingHandlingReqSeq>
+        # <LadingHandlingRequirements>
+    handlingcode = models.CharField(max_length=20, null=True, blank=True)
+    specialservicescode = models.CharField(max_length=20, null=True, blank=True)
+    handlingdescription = models.TextField(max_length=20, null=True, blank=True)
+    # <LadingExceptionSeq>
+        # <LadingException>
+    ladingexceptioncode = models.CharField(max_length=20, null=True, blank=True)
+    packagingformcode = models.CharField(max_length=20, null=True, blank=True)
+    ladingquantity = models.IntegerField(max_length=10, null=True, blank=True)
+
+    def get_loccode(self, ship_date):
+        # date = check date in proper format.
+        # if format improper, return error
+        # else check shipmenthistory_date.current_sc_id
+        try:
+            hist_date = datetime.datetime.strftime(ship_date, "%Y_%m")
+	except:
+	    print "Invalid date"
+	    return False
+
+	from django.db.models import get_model
+	ship_hists = get_model('service_centre', 'ShipmentHistory_'+hist_date)
+	ships = ship_hists.objects.filter(shipment=self.shipment_info.shipmentidentifier)
+	try:
+	    return [ship.current_sc for ship in ships if ship.updated_on.date()==ship_date.date()][0]
+	except:
+	    print ship_date.date()
+	    return # [ship.current_sc_id for ship in ships if ship.added_on.date()==ship_date.date()][0]
+
+class ShipmentIdentification(models.Model):
+    '''
+    Contains ShipmentStatus objects
+    '''
+    messagereferencenum = models.IntegerField(max_length=15)
+    shipmentidentifier = models.ForeignKey(Shipment, null=True, blank=True, related_name="am_shipment")
+    # carriertrackingnum = models.ForeignKey(airwaybill.AirwaybillNumbers)
+    amazonreferencenumber = models.IntegerField(max_length=15)
+    shipmentinformation = models.ForeignKey('ShipmentInformation')
+
+
+class EstimatedDeliveryDateTime(models.Model):
+    '''
+    <EstimatedDeliveryDateTime>
+    '''
+    datetimeperiodcode = models.IntegerField(default=203)
+    estimateddeliverydatetimetz = models.CharField(max_length=3, default="IST", editable=False)
+    estimateddeliverydatetimeformat = models.CharField(max_length=18, default="YYYYMMDDHHMMSS", editable=False)
+    estimateddeliverydatetimevalue = models.DateTimeField(max_length=14)
+
+    def get_DTPI(self):
+	dati = datetime.datetime.strftime(self.estimateddeliverydatetimevalue, "%Y%m%d%H%M")
+	return self.estimateddeliverydatetimetz, self.estimateddeliverydatetimeformat, dati
+
+
+class AMZShipmentSatus(models.Model):
+    status_code = models.CharField(max_length=5, db_index=True)
+    amz_reason_code = models.CharField(max_length=5, db_index=True)
+    amz_status_code = models.CharField(max_length=5, db_index=True)
+
+
+class AMZShipment(models.Model):
+    shipment = models.ForeignKey(Shipment)
+    message_refernce_num = models.CharField(max_length=50)
+    CarrierTrackingNum = models.CharField(max_length=50, help_text="awb number")
+    amazon_reference_number = models.CharField(max_length=50)
+    transport_mode = models.CharField(max_length=50)
+    refernce_id = models.CharField(max_length=50)
+

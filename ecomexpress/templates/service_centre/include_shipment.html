@@ -1,0 +1,95 @@
+    <div class="modal-header cust-title" style="width: 872px; height:40px">
+      <a class="close" data-dismiss="modal">×</a>
+      <div>
+      <font style="color:#fff; font-size:24px;"> Include Shipment </font> &nbsp;<div style="display:inline-block"><font style="color:#fff; font-size:14px;">Airway Bill:</font><input name="awb"  id="awb_scan" class="awb" style=" width:100px" type="text" size="9"/> 
+      <font style="color:#fff; font-size:14px;">Count:</font><input name="awb" id="shipment_count" class="awb" style=" width:40px; font-size:20px; height:18px;" type="text" size="9" value="{{shipment_count}}"/>
+            <font style="color:#fff; font-size:14px;">Bag Number:</font><font style="color:#fff; font-size:26px;"><b>{{bags.bag_number}}</b></font>
+       </div> 
+      </div>
+<div class="modal-body">
+<table class="table-bag">
+<thead>
+<tr>
+{%comment %}<th>&nbsp;Pickup ID</th>{%endcomment%}
+<th>&nbsp;AWB</th>
+<th>&nbsp;Shipper</th>
+{% comment %}<th>Destination</th>{% endcomment %}
+<th>&nbsp;DST</th>
+<th>&nbsp;Added On</th>
+</tr>
+</thead>
+<tbody>
+   		 {% for a in shipment%}
+<tr>
+{%comment%}<td>{{a.id}}</td>{%endcomment%}
+<td>{{a.airwaybill_number}}</td>
+<td>{{a.shipper|truncatechars:20}}</td>
+{% comment %}<td>{{a.destination_city}}</td>{% endcomment %}
+<td>{{a.service_centre.center_shortcode}}</td>
+<td>{{a.added_on|date:" d/m/Y    G:i"}}</td>
+</tr>
+   		 {% endfor%}
+</tbody>
+</table>
+    </div>
+    </div>
+
+<script>
+$(function(){
+
+$("#awb_scan").focus();
+$(".awb").change(function(){
+
+
+var awb=$("input.awb").val();
+$(".bold_display").removeClass('bold_display');
+var table_data = $(".table-bag > tbody").html();
+var datastring = "awb="+awb;
+$.ajax({
+    type:"POST",
+    url: "/service-centre/include_shipment/{{bid}}/",
+    data: datastring,
+    success: function(resp){
+        $("#awb_scan").val("");
+        if (resp==1) {
+            alert("Already exists");
+        }
+        else if (resp == "Soft Data not Uploaded") {
+            alert(resp);
+        }
+        else if (resp == "Non Serviceable pincode") {
+            alert(resp);
+        }
+        else if (resp == "Shipment Not Inscanned") {
+            alert(resp);
+        }
+        else if (resp.slice(0,23) == "Shipment already bagged") {
+            alert(resp);
+        }
+        else if (resp=="Invalid Airwaybill number"){
+            alert(resp);
+        }
+        else if (resp=="Incorrect Shipment Number"){
+            alert(resp);
+        }
+        else if (resp=="Shipment Misrouted"){
+            alert("Shipment Misrouted "+awb);
+        } else {
+            $(".table-bag > tbody").html("")
+            $(".table-bag > tbody").append(resp);
+            $(".table-bag > tbody").append(table_data);
+            shipment_count = parseInt($("#shipment_count").val())+parseInt(1);
+            $("#shipment_count").val(shipment_count);
+        }
+    }
+});
+    $("#awb_scan").val("");
+     $("#awb_scan").focus();
+ 
+     return false;
+
+
+});
+});
+</script>
+

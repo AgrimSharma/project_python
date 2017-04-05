@@ -1,0 +1,357 @@
+{% extends "base.html" %}
+
+          		{% block content %}
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+{%include 'pickup/nav.html'%} 
+  </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Pickup Registration</span>
+          </div>
+          <div class="cust-content">
+           <div style="margin-left:20px;" >
+{% ifnotequal status 'edit' %}
+                <form method="POST" action="/pickup/registration/">
+{% else %}
+                <form method="POST" action="/pickup/edit_pickup/{{id}}/">
+{% endifnotequal %}
+                
+                	{% csrf_token %}	
+                	<table>
+                    <legend>Demographic Details</legend>
+                        <tr>
+{%comment%}
+                            <td valign="middle"> Area*</td> <td> 
+                            <select name="area" id="id_area">
+<option value="" selected="selected">---------</option>
+                            {% for a in area %}
+<option value="{{a.id}}">{{a.area_name}}</option>
+{% endfor %}
+
+</select>
+                            </td>
+                            {%endcomment%}
+                            <td valign="middle"> Customer Code*</td> <td> 
+                            <select name="customer_code" id="id_customer_code" class="customer_code">
+<option value="" selected="selected">---------</option>
+                            {% for a in customer %}
+<option value="{{a.id}}">{{a.name}} - {{a.code}}</option>
+{% endfor %}
+</select>
+
+                            </td>
+
+                           <td valign="middle"> Sub Customer Code</td> <td> 
+                            <select name="subcustomer_code" id="id_subcustomer_code" class="subcustomer_code">
+<option value="" selected="selected">---------</option>
+</select>
+
+                            </td>
+
+
+                            <td valign="middle"> PUR No.</td> <td> {{pur|add:"1"}}</td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <table>
+                    	<legend>Customer Details</legend>
+                        <tr>
+                            <td valign="middle"> Customer Name*</td> <td> <input type="text" id="name" name="customer_name"/></td>
+                            <td valign="middle"> To Pay <input type="checkbox" name="to_pay" id="id_to_pay"/></td>
+                            <td valign="middle"> Regular Pickup <input type="checkbox" class="selectall" name="regular_pickup" id="id_regular_pickup"/></td>
+                            <td valign="middle"> Mode*<select name="mode" style="width:180px" id="id_mode">
+<option value="" selected="selected">---------</option>
+                            {% for a in mode%}
+<option value="{{a.id}}">{{a.name}}</option>
+{% endfor %}
+
+</select></td>
+
+                        </tr>
+                        <tr>
+                            <td valign="middle"> Address*</td> <td> <input type="text" id="address1" name="address_line1"/></td>
+                            <td> <input  type="text" id="address2" name="address_line2"/></td>
+                            <td> <input  type="text" id="address3" name="address_line3"/></td>
+                            <td> <input  type="text" id="address4" name="address_line4"/></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle"> Pin Code*</td> <td> <input type="text" style="width:100px" id="pincode" name="pincode"/></td>
+                            <td valign="middle"> Mobile No.</td> <td> <input type="text" style="width:100px" name="mobile"/></td>
+                            <td valign="middle"> Telephone</td> <td> <input type="text" style="width:100px" id="phone" name="telephone"/></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle"> Caller Name</td> <td> <input type="text" name="caller_name"/></td>
+                            <td valign="middle">Caller phone</td> <td> <input type="text" style="width:100px" name="callers_number"/></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle"> Email</td> <td> <input type="text" id="email" name="email"/></td>
+                        </tr>
+                        <tr>
+                            <td valign="middle"> Pickup Date*</td> <td> <input type="text" class="pickup_date" name="pickup_date" value="{% now 'Y-m-d' %}"/></td>
+                            <td valign="middle"> Pickup Time</td> <td>
+                             <input type="test" class="pickup_time" style="width:100px" name="pickup_time" value="{% now 'H:i' %}"/></td>
+                            <td valign="middle"> Office Close Time</td> <td> <input type="text" class="pickup_time" style="width:100px" name="office_close_time"/></td>
+                        </tr>
+                       
+                    </table>
+                    <hr>
+                    <table>
+                    	<legend>Product Details</legend>
+                        <tr>
+                            <td valign="middle"> Pieces</td> <td> <input type="text"  style="width:100px" name="pieces"/></td>
+                            {%comment%}
+                            <td valign="middle"> Product Code</td><td><select name="product_code">
+                            <option value="COD">COD</option><option value="PPD">PPD</option><option value="CSD">CSD</option><option value="CBD">CBD</option></select></td>
+                            {%endcomment%}
+                        </tr>
+                        <tr>
+                            <td valign="middle"> Actual Wt.(Kgs)</td> <td> <input type="text" name="actual_weight"/></td>
+                            <td valign="middle"> Vol Wt.(Kgs)</td> <td> <input type="text" id="volume_weight" name="volume_weight"/></td> <td><a href="#" data-rev-action="modal" data-target="#add-revlet">calculate volume weight</a></td>
+                         </tr>
+                        <tr>
+
+                            <td valign="middle"> Service Centre*</td><td><select name="service_centre" id="id_service_centre">
+{%comment%}
+<option value="" selected="selected">---------</option>
+                        
+
+    {% for a in service_centre %}
+<option value="{{a.id}}">{{a.center_name}}</option>
+{% endfor %}
+{%endcomment%}
+</select></td>
+                {%comment%}            <td valign="middle"> Pickup Route</td><td><select name="pickup_route">
+
+                            <option value="1">Abc</option><option value="2">Xyz</option></select></td>{%endcomment%}
+                        </tr>
+                    </table>
+                    <hr>
+                    <table>
+                    	<legend>Remarks</legend>
+                        <tr>
+                            <td valign="middle"> Remarks</td> <td> <input type="text" name="remarks"/></td>
+                         </tr>
+                         <tr>
+                            <td valign="middle"> Reminders</td><td><input type="text" name="reminder"/></td>
+                        </tr>
+                    </table>
+                    <hr>
+
+
+ 
+                    <table>
+                        <legend>Scheduler</legend>
+
+<tr>
+                            <td valign="middle"><input type="checkbox" class="selectall"/><b> Days</b></td> <td><b>Time</b></td>
+                         </tr>
+
+                        <tr>
+                            <td valign="middle"><input type="checkbox" name="pickup_scheduler" class="id_regular_pickup" value="1"/> Monday</td> <td><input type="test" class="pickup_time" style="width:100px" name="pickup_time1" value="{% now '10:00' %}"/></td>
+                         </tr>
+                         <tr>
+                            <td valign="middle"> <input type="checkbox" name="pickup_scheduler" class="id_regular_pickup" value="2"/> Tuesday</td><td><input type="test" class="pickup_time" style="width:100px" name="pickup_time2" value="{% now '10:00' %}"/></td>
+                        </tr>
+<tr>
+                            <td valign="middle"> <input type="checkbox" name="pickup_scheduler" class="id_regular_pickup" value="3"/> Wednesday</td><td><input type="test" class="pickup_time" style="width:100px" name="pickup_time3" value="{% now '10:00' %}"/></td>
+                        </tr>
+<tr>
+                            <td valign="middle"> <input type="checkbox" name="pickup_scheduler" class="id_regular_pickup" value="4"/> Thursday</td><td><input type="test" class="pickup_time" style="width:100px" name="pickup_time4" value="{% now '10:00' %}"/></td>
+                        </tr>
+<tr>
+                            <td valign="middle"> <input type="checkbox" name="pickup_scheduler" class="id_regular_pickup" value="5"/> Friday</td><td><input type="test" class="pickup_time" style="width:100px" name="pickup_time5" value="{% now '10:00' %}"/></td>
+                        </tr>
+<tr>
+                            <td valign="middle"> <input type="checkbox" name="pickup_scheduler" class="id_regular_pickup" value="6"/> Saturday</td><td><input type="test" class="pickup_time" style="width:100px" name="pickup_time6" value="{% now '10:00' %}"/></td>
+                        </tr>
+<tr>
+                            <td valign="middle"> <input type="checkbox" name="pickup_scheduler" class="id_regular_pickup" value="7"/> Sunday</td><td><input type="test" class="pickup_time" style="width:100px" name="pickup_time7" value="{% now '10:00' %}"/></td>
+                        </tr>
+
+<tr>
+                            <td valign="middle"> Schedule Uptil </td>
+	      <td> <input type="text" class="pickup_date" name="schedule_date" value="{% now '2016-01-01' %}"/></td> </tr>
+             </table>
+                    <hr>
+
+
+
+
+                    <input type="Submit" class="btn btn-primary" value="ADD">
+
+{% comment %}
+                    <a href="#" class="btn btn-primary">ADD</a>
+                    <a href="#" class="btn btn-primary">EDIT</a>
+                    <a href="#" class="btn btn-primary">SAVE</a>
+                    <a href="#" class="btn btn-primary">View</a>
+
+{% endcomment %}    
+
+                </form>
+               </div>
+          </div><!-- /cust-content -->
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Calculate volume weight</h3>
+    </div>
+    <div class="modal-body">
+      <form name="contact" action=""> 
+
+      <table style="margin-left:10px">
+                	<tr>
+                    	<td>Product Type</td><td><select style="width:100px"><option>Air</option><option>Road</option></select></td>
+                        <td>Pieces*</td><td><input type="text" name="pieces" class="pieces" style="width:70px"/></td>
+                    </tr>
+                    <tr>
+                        <td>Length*</td><td><input type="text" class="length" name="length" style="width:70px"/></td></tr>
+                      <tr>  <td>Width*</td><td><input type="text" class="width" name="width" style="width:70px"/></td></tr>
+                       <tr> <td>Height*</td><td><input type="text" class="height" name="height" style="width:70px"/></td>
+                    </tr>
+                    <tr>
+                        <td>For SFC, 1 CFT rate (in KGS)</td><td><input type="text"/></td>
+                    </tr>
+                    <tr>
+                        <td>Customer Area</td><td><input type="text" style="width:200px"/></td>
+                        <td>Code</td><td><input type="text" style="width:100px"/></td>
+                    </tr>
+                    <tr>
+                        <td>Unit*</td>
+                        <td><input  type="radio" class="unit" name="unit" value="cm" checked="checked"/> Centimeter
+                        <input  type="radio" class="unit" name="unit" value="in"/> Inches
+                        </td>
+
+                    </tr>
+                   
+
+                </table>
+                 <label class="error" for="name" id="name_error">Fields marked as * are required.</label>  
+ <input type="submit" name="submit" class="btn btn-primary calc-button" id="submit_btn" value="Calculate" />  
+</form> 
+                <div>
+             		 <b>Weight (in KGS):<p id="message"></p></b>
+                </div>
+    </div>
+  </div><!--modal end-->
+
+<script>
+$(".pickup_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+$('.pickup_time').timepicker();
+
+function enable_cb() {
+  if (this.checked) {
+    $("input.id_regular_pickup").removeAttr("disabled");
+  } else {
+    $("input.id_regular_pickup").attr("disabled", true);
+  }
+}
+
+
+$(function(){
+
+enable_cb();
+$("#id_regular_pickup").click(enable_cb);
+
+$(".selectall").click(function () {
+          $('.id_regular_pickup').attr('checked', this.checked);
+    });
+
+$('.error').hide(); 
+$(".calc-button").click(function(){
+$('.error').hide(); 
+var unit=$('input:radio[name=unit]:checked').val();
+var lengtha=$("input.length").val();
+var width=$("input.width").val();
+var height=$("input.height").val();
+var pieces=$("input.pieces").val();
+if (lengtha=="" || width=="" || height=="" || pieces ==""){
+$("label.error").show();
+$("input#pieces").focus();
+return false;
+}
+var datastring = "length="+lengtha+"&width="+width+"&height="+height+"&pieces="+pieces+"&unit="+unit;
+
+//alert(datastring);return false;
+$.ajax({
+type:"POST",
+url: "/pickup/volumetric_calculator/",
+data: datastring,
+success: function(resp){
+$('#message').html(resp)
+$('#volume_weight').val(resp)
+ 
+}
+});
+return false;
+});
+
+$("select.customer_code").change(function(){
+
+if(($(this).val() == "0") || ($(this).val() == "")) return;
+       var cust_code = $("select.customer_code").val();
+ 
+       $.get('/customer/customer_subcustomer/' + cust_code + '/', function(data){
+        data = eval(data);
+            $("select#id_subcustomer_code").html("<option>Select a Sub Customer</option>");
+            $.each(data, function(index, d){
+            //    alert(d);
+                $('select#id_subcustomer_code').append($("<option></option>").attr("value",d.subcust_id).text(d.subcust));
+            });
+        });
+});
+
+
+
+
+$(".subcustomer_code").change(function(){
+var subcust_code = $("select.subcustomer_code").val();
+var datastring = "subcust_code="+subcust_code;
+$.ajax({
+type:"POST",
+url: "/customer/subcustomer_info/",
+data: datastring,
+success: function(resp){
+
+data=eval('(' + resp + ')');
+
+
+
+$.each(data, function(key, value) {
+$("#"+ key).val(value);
+   // alert(key + "=" + value);
+});
+$('select#id_service_centre').html($("<option></option>").attr("value",data.sc_id).text(data.sc_val));
+
+
+}
+
+});
+
+     return false;
+
+});
+});
+
+
+</script>
+
+
+{% endblock %}
+          	

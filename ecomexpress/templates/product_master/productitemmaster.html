@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+</head>
+<style type="text/css">
+
+table{
+font-family:sans-serif;
+letter-spacing: 0px;
+}
+
+
+table td{
+font-size:12px;
+}
+table p{
+letter-spacing: 1px;
+}
+
+
+
+
+</style>
+<body>
+<A HREF="javascript:void(0)"
+onclick="window.open('/service-centre/generate_challan/{{connection.id}}/?print=1','welcome');"><i class="icon-print" style="font-size:18px;"></i>
+Print</A>
+
+<A  onclick="window.open('/service-centre/generate_challan/{{connection.id}}/?print=2')"   HREF='#'><i class="icon-print" style="font-size:18px;"></i> Lazer Print</A>
+
+<br>
+<table border="0" width="719" height="200" border="0" cellpadding="2">
+  <tr>
+    <td height="40" colspan="5" align="center" valign="top"><p align="center">ECOM Express Private LTD<br />
+    Transfer Challan</p></td>
+  </tr>
+  <tr>
+    <td colspan="5" valign="top"><p>Emp Code :{{request.user.employeemaster.employee_code}}</p></td>
+  </tr>
+  <tr>
+    <td height="22" colspan="5" valign="top"><p>Vehicle No :{{connection.vehicle_number}}</p></td>
+  </tr>
+  <tr>
+    <td colspan="5" valign="top"><p>Org :{{request.user.employeemaster.service_centre}}</p></td>
+  </tr>
+  <tr>
+    <td colspan="4" valign="top">DST:{{connection.destination}}</td>
+    <td width="154" valign="top">Departure Time:</td>
+  </tr>
+
+</table>
+</br>
+<table border="0" width="719" height="200" border="0" cellpadding="2">
+  <tr>
+
+    <td width="112" height="58" valign="top">Sr No.</td>
+    <td width="180" valign="top">Bag No.</td>
+    <td width="156" valign="top">Total Shipment</td>
+    <td width="85" valign="top">Total Weight</td>
+    <td height="58" valign="top">DST</td>
+<td></td>
+
+    
+
+  </tr>
+  {% for a, shipment in order_info.items%}
+
+  <tr>
+
+    <td>{{forloop.counter}}</td>
+    <td >{{a.bag_number}}</td>
+    <td >{{shipment}}</td>
+    <td >{{a.actual_weight}}</td>
+    <td >{{a.destination}}</td>
+<td></td>
+</tr>
+   <tr><td colspan="6">Shipment Details:</td></tr>
+   {%for ship in a.shipments.all%}
+   <tr>
+<td>
+{{forloop.counter}}</td>
+<td>
+{{ship.airwaybill_number}}</td>
+<td>
+{{ship.shipper}}</td>
+<td>
+{{ship.consignee}}</td>
+<td>
+{{ship.item_description}}</td>
+<td>
+{{ship.declared_value}}</td>
+                        </tr>
+{%endfor%}
+<tr><td colspan="6">&nbsp;</td></tr>
+
+
+
+
+    {%endfor%}
+</table>
+{%comment%}
+</br>
+Shipment Details:
+<table border="0" width="719" height="200" border="0" cellpadding="2">
+<tr>
+<td>Sr No.</td>
+<td>Airwaybill Number</td>
+<td> Shipper</td>
+<td> Consignee</td>
+<td>Content</td>
+<td>Value</td>
+</tr>
+
+
+{% for a, shipment in order_info.items%}
+{%for ship in a.shipments.all%}
+<tr>
+<td>
+{{forloop.counter}}</td>
+<td>
+{{ship.airwaybill_number}}</td>
+<td>
+{{ship.shipper}}</td>
+<td>
+{{ship.consignee}}</td>
+<td>
+{{ship.item_description}}</td>
+<td>
+{{ship.collectable_value}}</td>
+			</tr>
+{%endfor%}
+{%endfor%}
+
+
+</table>
+{%endcomment%}
+<script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+<script>
+$(function(){
+{%if request.GET.print %}
+var print = {{request.GET.print}}
+{%else%}
+var print = 0
+{%endif%}
+if (print == 1){
+window.print();
+window.close();
+}
+
+});
+
+</script>
+
+</body>
+</html>

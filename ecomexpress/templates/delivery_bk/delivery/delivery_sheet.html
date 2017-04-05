@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+<link rel="stylesheet" href="/static/assets/css/styles.css" />
+<link rel="stylesheet" href="/static/assets/css/font-awesome.css">
+<style type="text/css">
+body {
+	margin: 5px;
+    {%if request.GET.print %}
+        font-family: sans-serif!important;
+        background:#FFF!important;
+    {%endif %}
+}
+
+table{
+font-family:sans-serif;
+letter-spacing: 1px;
+font-size:11px;
+}
+table p{
+font-family:sans-serif;
+letter-spacing: 1px;
+}
+table td{
+font-family:sans-serif;
+letter-spacing: 0px;
+font-size:11px;
+}
+
+table tr{
+border-bottom:1px dotted black;
+}
+
+</style>
+</head>
+
+<body>
+
+{%if not request.GET.print %}
+<A HREF="/delivery/delivery_sheet/{{oid}}/?print=3"><i class="icon-print" style="font-size:18px;"></i> Print</A>
+<A onclick="window.open('/delivery/delivery_sheet/{{oid}}/?print=2')"  HREF="#"><i class="icon-print" style="font-size:18px;"></i> Lazer Print</A>
+<A HREF="/delivery/delivery_sheet/{{oid}}/?print=1"><i class="icon-print" style="font-size:18px;"></i>Print PDF</A>
+{%endif %}
+
+<table width="833" height="160" border="0" cellpadding="2" cellspacing=0 style="margin:auto" cellpaddding="2">
+  <tr>
+    <td height="19" colspan="3" valign="middle">Emp Name - Code: <br>{{outscan.employee_code}}</td>
+    <td colspan="3" rowspan="2" align="center" valign="middle" style="font-size:10px; ">{%comment%}ECOM Express Pvt Ltd{%endcomment%}</td>
+    <td colspan="1" rowspan="2" valign="middle">Date/Time: {% now "SHORT_DATETIME_FORMAT" %}</td>
+  </tr>
+  <tr>
+    <td height="20" colspan="3" valign="middle">Outscan No: {{oid}}</td>
+  </tr>
+  <tr>
+    <td width="25" height="40" align="center" valign="middle">Sr</td>
+    <td width="94" align="center" valign="middle">AWB./Ref.</td>
+    <td width="103" align="center" valign="middle">Shipper Name</td>
+    <td  align="center" valign="middle">Consignee</td>
+    <td  align="center" valign="middle">Collection Amount</td>
+    <td  align="center" valign="middle">Signature</td>
+    <td  align="center" valign="middle">time</td>
+  </tr>
+  {% for a in shipment%}
+  <tr>
+    <td valign="middle">&nbsp;{{forloop.counter}}</td>
+    <td width="94" valign="middle"style="text-align: center; font-size:12px">&nbsp;{{a.airwaybill_number}}
+    {%if a.rts_status or a.rto_status%}
+    </br>
+    Return: {{a.ref_airwaybill_number|default_if_none:"RTO"}}
+    {%endif%}
+
+    {%comment%}
+    {%if a.rto_status %}
+    </br>
+    Return: {{a.ref_airwaybill_number}}
+    {{%endif%}}{%endcomment%}
+
+    <br />Ref: {{a.order_number}}</td>
+   <!-- <td width="103" valign="middle">&nbsp;{{a.shipper.name|truncatechars:20}}</td>
+   --> <td width="300" valign="middle">
+    {%if a.return_shipment == 3 or a.return_shipment == 2 or a.rts_status == 1 %}
+    {{a.pickup.subcustomer_code.name}}<br/>
+    {{a.pickup.subcustomer_code.address.address1|truncatechars:45}}<br/>
+        {{a.pickup.subcustomer_code.address.address2|truncatechars:45}}<br/>
+    {{a.pickup.subcustomer_code.address.pincode}}<br/>
+    {%if a.pickup.subcustomer_code.address.phone %}{{a.pickup.subcustomer_code.address.phone}}{%endif%}
+    {%elif  a.reverse_pickup and a.status == 32 %}
+{% with a.normal_shipment_pickup.all|first as revship %}
+      {{revship.pickup_consignee}}
+      {{revship.pickup_consignee_address1|truncatechars:45}}</br>
+{{revship.pickup_consignee_address2|truncatechars:45}}</br>
+  
+Mobile: {{a.mobile}} Pincode:  {{revship.pickup_pincode}}</br>
+{% endwith %}
+    {%else%}
+    {{a.consignee}}<br />
+        {{a.consignee_address1|truncatechars:45}} {%comment%}{{a.consignee_address2}}{{a.consignee_address3|default_if_none:""}} {{a.consignee_address4|default_if_none:""}},
+        {{a.destination_city}}<br />
+        {{a.pincode}}<br />{%endcomment%}
+        {%if a.mobile %}{{a.mobile}}{%endif%}
+    {%endif%}
+    
+
+    {%comment%}
+    {% for order in a.orders.all%}
+    {{order}}
+    {%endfor%}
+    {%endcomment%}
+
+    </td>
+    <td width="124" valign="middle" style="text-align: center;font-size:12px">Type:
+{%if a.rts_status or a.rto_status%}
+RTS
+{%elif a.reverse_pickup  %}
+RVP
+{%else%}
+{{a.product_type|upper}}&nbsp;{%ifequal a.product_type "cod"%}<br>Amt: {{a.collectable_value}}{%endifequal%}
+{%endif%}
+</td>
+    <td width="174" valign="middle">&nbsp;</td>
+    <td width="154" valign="middle">&nbsp;</td>
+  </tr>
+{%endfor%}
+
+<tr>
+  <td align="center">Total: </td><td align="center">{{shipment.count}}</td>
+  <td align="center">Total COD value:</td><td  align="center">{{shipment_sum|default_if_none:""}} Rs.</td>
+  </tr>
+{%for a,b in order_info.items%}
+{{a}}{{b}}
+{%endfor%}
+
+</table>
+<script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+<script>
+$(function(){
+	{%if request.GET.print %}
+	var print = {{request.GET.print}}
+	{%else %}
+	var print = 0
+	{%endif %}
+	if (print == 1){
+	window.print();
+	}
+	else if (print == 2){
+	window.print();
+	}
+
+	});
+
+</script>
+
+</body>
+</html>

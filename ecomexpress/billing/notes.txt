@@ -1,0 +1,89 @@
+Check List:
+===========
+  - Freight Charge
+    * should applied for all shipments, cant be zero for any shipments.
+    * same for all customers except 4, 6, 7 , 13, 108, 126, 224
+  - Cod charge
+  - fuel surcharge
+  - rto charge
+  - vchc charge
+  - sdl charge
+  - weight zero or greater than 500
+
+
+Naaptol: 34004 / 4
+==================
+  - RTS Shipments: rto charge is 70 % of freight charge, fuel surcharge is 0
+
+TV18: 11007 / 7
+=================
+  - if weight is less than or equals 250gms, then 500gms slabs
+
+Awari: 81013 / 13
+=================
+  - RTS Shipments: rto charge is 50 % of freight charge
+
+MMI: 80108 / 108
+================
+  - If ncr - ncr: fuel surcharge is 25% of freight charge
+
+Vector Ecomerce: 80126 / 126
+============================
+  - RTS Shipments: rto charge is 70 % of freight charge
+
+RobMall: 64224 / 224
+====================
+  - if weight is less than or equals 750gms, then 500gms slabs for x-delhi ncr
+
+vchc should be 0 for all customers except for blue stone, jasper, om gold
+
+
+General
+========
+  - check whether all shipments have order price
+  - check all cod shipments has codcharges (exception, if parent awb has been returned after softdata upload)
+  - shipments with product type other than 'ppd' or 'cod'
+  - chargeable weight of any shipments cant be 0
+  - cod cant have collectable value 0
+  - cod shipments with collectable value 0
+  - check for None value for charges, if exists should be converted to zero.
+  
+Jasper
+======
+  - No fuel surcharges
+  - cod charges are applied at 1.8 %
+  - No sdl charges
+
+NINETY NINE LABELS - 25053
+==========================
+  - For RTS shipments no freight charges for RTS shipments
+
+Rate Comparison
+==============
+  - select customer
+  - select year and month (only prev month, current month  possible)
+
+once submit, check for each shipment 
+  - whether freight rate is applied correctly for origin zone to destination zone. 
+  - cod charge applied for cod shipments
+  - check whether reverse charge applied for reverse shipments
+
+vchc check
+  - list all shipments for which vchc charge is applied
+  
+sdl check
+  - list all shipments for which sdl charge is applied
+
+
+checks
+======
+- RTS shipments to be removed from reverse pickup billing
+- check if whether any rts_status = 0 shipments has ref_airwaybill number. if then make ref_shipment's customer is ecomm.
+
+
+MMI
+===
+NCR - NCR fuelsurcharge 25 is not applied.
+
+BLR - HYD - rate should be BLR - STH but not it is taking BLR - BLR rate: this is beacause rate upload format.
+actually these rate should apply only if shipment moves from BLR - BLR or HYD - HYD or MAA - MAA

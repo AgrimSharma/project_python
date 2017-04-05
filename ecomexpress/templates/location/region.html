@@ -1,0 +1,36 @@
+			  	{% load sorting_tags %}
+				{% autosort regions %}
+			
+			  {% comment  %} {% load pagination_tags %}
+	                {% autopaginate  regions 1 %}
+  	              	{% paginate %} {% endcomment %}
+          <div class="cust-details">
+             <div class="cust-title">
+                <i class="icon-globe" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span> Region</span>
+                <input type="text" placeholder="Search" class="input-mini pull-right"/>           	 </div>
+             <div class="cust-content">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>{% anchor region_name Name %}</th>
+                          <th>{% anchor region_shortcode Shortcode %} </th>
+                          <th width="10%;">
+                          <a href="#"  id="AddLocation" ><img src="{{ STATIC_URL }}assets/img/plus.png"/></a>
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for region in regions %}
+                        <tr>
+                          <td >{{ forloop.counter }}</td>
+                          <td row_id="{{ region.id }}" model_name="Region"  field_name="region_name" onDblClick="javascript:changeContent(this);">{{ region.region_name }}</td>
+                          <td row_id="{{ region.id }}" model_name="Region"  field_name="region_shortcode" onDblClick="javascript:changeContent(this);">{{ region.region_shortcode }}</td>
+                          <td> </td>
+                        </tr>
+                      {% endfor %}
+                      
+                      </tbody>
+                    </table>
+          		</div>
+         	</div>

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+    <div class="row-fluid">
+      <div class="span12">
+          <div class="cust-content">
+          <div class="summary-content">
+          <h4 style="margin:50px 10px;">Update one or more PIM records</h4>
+          <input type="button" class="btn btn-primary" value="Add single PIM record" id="pim-single-upload" data-rev-action="modal" data-target="#addone">
+
+          <input type="button" class="btn btn-primary" value="Upload file with PIM records" id="pim-upload1" data-rev-action="modal" data-target="#addfile">
+           
+           <div id ="count" style="margin-top:20px;">
+            <p class="alert alert-info">{{count}} ProductItemMasters updated </p>
+          </div>
+          <div id ="warning" style="margin-top:20px;">
+           {% if warnings %}
+          <p class="alert alert-error">Errors</p>
+          <table>
+            {% for warning in warnings %}
+            <tr class="alert alert-error"><td>{{warning}}</td></tr>
+            {%endfor%}
+          </table>
+          {% endif %}
+          </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+  </div><!-- /container-fluid -->
+</div>
+
+
+
+  <div class="modal hide modal-mis-div" id="addone">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h4>Update single record</h4>
+    </div>
+    <div style="height:300;" class="modal-body" overflow-y:scroll>
+        <p>Update records for a single squ_id</p>
+        <form method="post" action="/product_master/pim_update/" enctype="multipart/form-data">
+          {%csrf_token%}
+		  <p>
+			<label for="squ_id">squ_id</label>
+			<input  type="text" name="squ_id">
+		  </p>
+		  <p>
+			<label for="product_description">Product Description</label>
+			<input  type="text" name="product_description">
+		  </p>
+		  <p>
+			<label for="product_weight">Weight</label>
+			<input  type="text" name="product_weight">
+		  </p>
+		  <p>
+			<label for="product_height">Height</label>
+			<input  type="text" name="product_height">
+		  </p>
+		  <p>
+			<label for="product_breadth">Breadth</label>
+			<input type="text" name="product_breadth">
+		  </p>
+		  <p>
+			<label for="product_length">length</label>
+			<input  type="text" name="product_length">
+		  </p>
+		  <p>
+			<label for="customer">Customer</label>
+			<select name="customer">
+			  {% for a in customers%}
+				  <option value="{{a.code}}">{{a}}</option>
+			  {%endfor%}
+			</select>
+		  </p>
+          <br/>
+          <input type="submit" class="btn btn-primary" value="addone" />
+        </form>
+    </div>
+ </div>
+
+
+<div class="modal hide modal-mis-div" id="addfile">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h4>Upload file to update ProductItemMaster</h4>
+    </div>
+    <div style="height:auto;" class="modal-body">
+        <p>Please follow the below instructions when you upload your excel file containing ProductItemMaster details.</p>
+        <ul>
+           <li>All your data should be filled in Sheet1.</li>
+           <li>The first row of your sheet will be column headers.</li>
+           <li>All your data should be filled from row1, col1. Means there should not be any blank rows or columns on the left side and top of your data</li>
+           <li>Columns should be in the following order:
+              <ul>
+                  <li>Product Description (col 1)</li>
+                  <li>Weight (Col 2)</li>
+                  <li>Height (Col 3)</li>
+                  <li>Breadth (Col 4)</li>
+                  <li>length (Col 5)</li>
+				  <li>length (Col 6)</li>
+				  <li>customer (Col 7)</li>
+              </ul>
+        </ul>
+
+        <form method="post" action="/product_master/pim_update/" enctype="multipart/form-data">
+          {%csrf_token%}
+          <input  type="file" class="btn" value="browse" name="pim_file"/>
+          <br/>
+          <br/>
+          <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
+    </div>
+ </div>
+
+{% endblock %}

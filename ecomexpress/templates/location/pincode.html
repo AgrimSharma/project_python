@@ -1,0 +1,28 @@
+        <div class="span4">
+          <div class="cust-details">
+             <div class="cust-title">
+                <i class="icon-list-alt" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span> Pincode</span>
+           	 </div>
+             <div class="cust-content">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Shortcode </th>
+                          <th width="10%;"><a href="#"  class="AddLocation2" location="/location/add/pincode/" ><img src="{{ STATIC_URL }}assets/img/plus.png"/></a>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for pincode in pincodes %}
+                        <tr>
+                          <td >{{ forloop.counter }}</td>
+                          <td row_id="{{ pincode.id }}" model_name="Pincode"  field_name="pincode" onDblClick="javascript:changeContent(this);">{{ pincode.pincode }}</td>
+                          <td></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+          		</div>
+         	</div>
+        </div><!--span6 -->

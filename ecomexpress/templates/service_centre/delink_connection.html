@@ -1,0 +1,90 @@
+    <div class="modal-header cust-title" style="width: 872px; ">
+      <a class="close" data-dismiss="modal">×</a>
+      <div>
+<form>
+      <font style="color:#fff; font-size:24px;"> Delink Connection </font> &nbsp;<div style="display:inline-block">
+    
+<font style="color:#fff; font-size:14px;">Connection Number*:</font><input name="bag_number" id="bag_scan" class="connection_number" style=" width:100px" type="text" size="9"/>      
+{%comment%}
+<font style="color:#fff; font-size:14px;">Actual Weight*:</font><input name="actual_weight" class="actual_weight" style=" width:100px" type="text" size="9"/>      
+{%endcomment%}
+      <font style="color:#fff; font-size:14px;">Count:</font><input name="awb" id="shipment_count" class="awb" style=" width:40px" type="text" size="9" value="{{connection_count}}"/>
+     {%comment%} <input type="button" class=" btn btn-primary add_bags" value="ADD" style="margin-top:-10px">{%endcomment%}
+</form>
+       </div> 
+      </div>
+<div class="modal-body">
+<table class="table-bag">
+<thead>
+<tr>
+<th>Connection Number</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody>
+   		 {% for a in connection%}
+<tr id="{{a.id}}">
+<td>{{a.id}}</td>
+<td>{{a.destination}}</td>
+<td><a class="btn2 btn-danger" href="#" rel="tooltip" title="Delink Bag" bag_number="{{a.id}}"><i class="icon-trash"></i> Delink</a></td>
+
+</tr>
+   		 {% endfor%}
+</tbody>
+</table>
+    </div>
+    </div>
+
+<script>
+$(function(){
+$("#bag_scan").focus();
+$(".bag_number").change(function(){
+
+var bag_number=$("input.bag_number").val();
+var datastring = "connection_num="+bag_number;
+$.ajax({
+type:"POST",
+url: "/service-centre/delink_connection/{{rid}}/",
+data: datastring,
+success: function(resp){
+$("#"+bag_number+"").remove();
+shipment_count = parseInt($("#shipment_count").val())-parseInt(1);
+
+$("#shipment_count").val(shipment_count);
+
+//alert(resp); 
+
+//location.reload();
+}
+});
+$("#bag_scan").val("");
+     $("#bag_scan").focus();
+ 
+});
+
+$(".btn-danger").click(function(){
+var conf = confirm('Are you sure?');
+if (conf){
+bag_number = $(this).attr("bag_number");
+var datastring = "connection_num="+bag_number;
+$.ajax({
+type:"POST",
+url: "/service-centre/delink_connection/{{rid}}/",
+data: datastring,
+success: function(resp){
+$("#"+bag_number+"").remove();
+shipment_count = parseInt($("#shipment_count").val())-parseInt(1);
+
+$("#shipment_count").val(shipment_count);
+
+//alert(resp); 
+}
+});
+
+
+}
+});
+
+});
+</script>
+

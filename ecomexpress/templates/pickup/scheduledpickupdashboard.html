@@ -1,0 +1,87 @@
+{% extends "pickup/pickupdashboard.html" %}
+
+{%block title%} <span>Scheduled Pickup Dashboard</span>{%endblock%}
+{%block table%}
+<style>
+.jq_amount_collected {display: inline-block; border: 1px solid #ccc; width: 60px; border-radius: 5px; text-align: right; padding: 2px; box-shadow: 5px 5px 2px #888888;}
+</style>
+<form name="track" id="trackmeForm" action="/pickup/pickup_sheet/" method="GET">
+<b>Employee Code</b><input class="emp_code" name="emp_code" type="text" />
+<input type="Submit" class="btn btn-success" value ="Generate P/U Sheet"/>
+</form>
+
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>SPUR No.</th>
+                  <th>Customer</th>
+                  <th>Sub Customer</th>
+                  <th>Address</th>
+                  <th>Phone Number</th>
+                  <th>Pickup Time</th>
+                  <th>No. Of Shipment</th>
+                  <th>Status</th>
+                  <th>Reasonn Code</th>
+                  <th>Employee Code</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for pickup in pickup %}
+               <tr id="{{pickup.id}}">
+                  <td>{{pickup.id}}</td>
+                  <td>{{pickup.subcustomer_code.customer}}</td>
+                  <td>{{pickup.subcustomer_code}}</td>
+                  <td>{{pickup.subcustomer_code.address}}</td>
+		<td>{{pickup.subcustomer_code.address.phone}}</td>
+                  <td>{{pickup.pickup_date}} | {{pickup.pickup_time}}</td>
+                  <td><a href="/service-centre/field_pickup_operation/{{pickup.id}}">{{pickup.pieces}}</a></td>
+                  
+                  <td>
+                    {% ifequal pickup.status 0 %}
+                    <span class="label label-important">Pending</span>
+                    {% else %}
+                    <span class="label label-success">Completed</span>
+                    {% endifequal %}
+                  </td>
+                  <td><span id="{{pickup.id}}"  class="res_code jq_amount_collected">{{pickup.reason_code|default_if_none:""}}</span></td>
+                  <td><span id="{{pickup.id}}"  class="emp_code jq_amount_collected">{{pickup.pickedup_by|default_if_none:""}}</span></td>
+{%comment%}{%if pickup.pickedup_by%}<td><a href="/pickup/pickup_sheet/{{pickup.id}}/" class="btn btn-success">P/U Sheet</a></td>{%endif%}{%endcomment%}
+        {%comment%}          <td>
+                    <a href="/pickup/edit_pickup/{{pickup.id}}/" class="btn2 btn-info" rel="tooltip" title="View Pickup"><i class="icon-eye-open"></i>Edit</a>
+                  </td>
+                  {%if pickup.reverse_pickup%}<td><a href="/pickup/reverse/download/{{pickup.id}}/1/" class="btn btn-success" target="_blank">Download</a></td>{%endif%}
+                  <td> <a class= "btn2 upload_file" href="#" rel="tooltip" pickup_id="{{pickup.id}}" title="Upload File"><i class="icon-upload-alt"></i> Upload</a></td>
+                  <td> <a class= "btn2 btn-info" href="/pickup/copy_pickup/{{pickup.id}}/" rel="tooltip" pickup_id="{{pickup.id}}" title="Copy Pickup">
+                       <i class="icon-copy"></i> Copy</a>
+                  </td>{%endcomment%}
+  </tr>
+            {% endfor %}
+
+              </tbody>
+            </table>
+
+<script src="/static/assets/js/jquery.jeditable.mini.js"></script>
+<script>
+
+ $(document).ready(function() {
+     $('.res_code').editable('/pickup/update_reason_code/', {
+     indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+         callback : function(value) {
+         $("#"+value+"").remove();        
+}
+});     
+
+
+ $('.emp_code').editable('/pickup/update_employee_code/', {
+         indicator : 'Saving...',
+         width : '50px',
+         tooltip   : 'Click to edit',
+});
+ });
+</script>
+{%endblock%}
+

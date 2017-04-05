@@ -1,0 +1,19 @@
+<html>
+<body>
+<link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" /> 
+	    
+  <div style="display:inline-block; width:300px; vertical-align:top; margin-top:22px; margin-left:30px">
+  <h3>Connections </h3>
+  <table class="table" border=1, cellspacing=1>
+  <thead>
+    <tr> <th>Connection Number</th><th>Bags</th> </tr> </thead>
+  <tbody>
+  {% for conn, bags in conn_bags.items %}
+    <tr>
+      <td>{{ conn }}</td> <td>{{ bags }}</td> </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+  </div>
+</body>       
+</html>

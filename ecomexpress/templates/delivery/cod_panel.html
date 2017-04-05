@@ -1,0 +1,20 @@
+{% extends "billing_admin/admin_base.html" %}
+{% load tags %}
+
+{% block sidebar %} {% include "delivery/cod_panel_sidebar.html" %}{% endblock %}
+{% block content %}
+
+<div class="row content-row">
+  <div class="col-lg-12" id="id_cod_panel_dashboard">
+    <h2 class="page-header">COD PANEL</h2>
+    <p> Welcome to the cod panel dashboard.</p>
+  </div> <!-- /.col-lg-12 -->
+</div> <!-- /.row -->
+
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript"> 
+ECOMM.cod_panel.init();
+</script>
+{% endblock %}

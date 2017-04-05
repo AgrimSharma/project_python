@@ -1,0 +1,34 @@
+{%load tags%}Emp Name - Code: {{outscan.employee_code}}	Date/Time: {% now "SHORT_DATETIME_FORMAT" %} Outscan No: {{oid}}		
+
+
+Sr  AWB./Ref.  Shipper         Consignee	                Cod Amt      Sign     time
+--------------------------------------------------------------------------------------------
+{% for a in shipment%}{{forloop.counter}} {{a.airwaybill_number}}{%if a.rts_status%}
+Return: {{a.ref_airwaybill_number}}{%endif%} 
+Ref: {{a.order_number|add_minimum_spaces:14}}  {{a.shipper.name|truncatechars:20}}  {%if a.return_shipment == 3 or a.return_shipment == 2 or a.rts_status == 1 %}{{a.pickup.subcustomer_code.name}}
+                            {{a.pickup.subcustomer_code.address.address1|truncatechars:45}}
+                            {{a.pickup.subcustomer_code.address.address2|truncatechars:45}}
+                            {{a.pickup.subcustomer_code.address.pincode}}
+                            {%if a.pickup.subcustomer_code.address.phone %}{{a.pickup.subcustomer_code.address.phone}}{%endif%}
+                        {%else%} {{a.consignee|get_unicode}}
+	       		     Phone {%if a.mobile %}{{a.mobile|add_minimum_spaces:20}}{%endif%}       
+{{a.consignee_address1|get_unicode|address_split_dc:31}}{%if a.consignee_address2%}
+                             {{a.consignee_address2|get_unicode|truncatechars:31}}{%endif%}{%if a.consignee_address3%}
+                             {{a.consignee_address3|get_unicode|truncatechars:31}}{%endif%}{%if a.consignee_address4%}
+                             {{a.consignee_address4|get_unicode|truncatechars:31}}{%endif%}
+                             {{a.pincode}}      {%endif%}                       {%if not a.rts_status %}{%ifequal a.product_type "cod"%}Amt:{{a.collectable_value}}{%endifequal%}{%endif%}
+--------------------------------------------------------------------------------------------
+{%endfor %}
+Total: {{shipment.count}}		Total COD value:   {{shipment_sum|default_if_none:""}} Rs.
+
+{%ifequal 2 1%}
+1. 700120867 
+Ref:600145411  V4U SHOPPING  RAM LAL MANDAL
+	       		     Phone 9911847096                   
+	     		     S/O-RAM CHANDAR MANDAL,
+                             C/O-JAI BABA HARIDAS SETARING 
+	                     AND PROPERTY, AREA-JANTAV VIHAR,
+                             NEAR-DAV PUBLIC SCHOOL, DELHI,    Amt:3000.0
+	 	            110043
+--------------------------------------------------------------------------------------------
+{%endifequal%}

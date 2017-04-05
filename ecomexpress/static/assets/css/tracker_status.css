@@ -1,0 +1,123 @@
+
+li { list-style:none }
+
+a img,:link img,:visited img { border:none }
+address { font-style:normal }
+fieldset { border: none;}
+legend { display:none; }
+
+.floatleft{
+float:left;
+}
+
+.clearfix{
+clear:both;
+}  
+.items li
+{
+    float: left;
+    margin: 0px 0px 5px 0px;
+	font-family: Arial;
+}
+
+.arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    display: inline-block;
+    float: left;
+}
+.arrow-right-todo{
+border-left: 20px solid #EBEBEB;
+}
+.arrow-right-done{
+border-left: 20px solid yellowgreen;
+}
+.arrow-right-stop{
+border-left: 20px solid red;
+}
+.arrow-in {
+    width: 0;
+    height: 0;
+    border-top: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    display: inline-block;
+    float: left;
+    background-color: #EBEBEB;
+    border-left: 20px solid #f7f7f7;
+}
+
+  
+.items li .outerContainer
+{
+    display: table;
+    height: 60px;
+    width: 120px;
+    background-color:#EBEBEB;
+    float: left;
+}
+  
+
+
+.items li .outerContainer .innerContainer
+{
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    margin: 0 auto;
+}
+  
+.items li .outerContainer .innerContainer .element a
+{
+    color: #999999;
+    text-decoration: none;
+    padding: 0px 10px;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.step_icon{
+margin-left:5px;
+float:left;
+}
+.step{
+margin-right:5px;
+float:right;
+color:white;
+width:70px;
+}
+
+.done_step{
+background-color:yellowgreen;
+}
+.stop_step{
+background-color:red;
+}
+
+.up-arrow{
+background:url('../img/up-arrow.png') left center no-repeat;
+}
+.down-arrow{
+background:url('../img/down-arrow.png') left center no-repeat;
+}
+.show_tracker{
+height:30px;
+width:1120px;
+border-bottom-width:1px;
+border-bottom-style:solid;
+margin:0px 0px 60px 25px;
+border-bottom-color:#D0D0D0;
+}
+.dropdownwrap{
+width:1180px;
+}
+.trackdropdown{
+display:inline-block;
+height:10px;
+width:20px;
+}
+.tmargin10{
+margin-top:10px;
+}

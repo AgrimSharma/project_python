@@ -1,0 +1,70 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+{%load billtags%}
+
+<style type="text/css">
+body {
+	margin-left: 0px;
+	margin-top: 75px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+table {height: auto; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px}
+th {height: 45px; background-color: rgb(136, 136, 136); color: rgb(136,0,0)}
+td {padding:2px 4px;}
+td.thickBorder{ border: solid #000 2px; text-align:right;}
+td.sideBorder{ border-collapse: collapse;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-left: 2px solid #000;}
+td.side2Border{ border-collapse: collapse;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-right: 2px solid #000;}
+td.side3Border{ border-collapse: collapse;
+    border-top: 0px solid #fff;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-left: 1px solid #000;}
+
+td.noborder{border:0px;}
+tr.noborder{border:0px;}
+td.grey{ color:#ffffff; text-align:center; font-size:20px;font-weight:bold;}
+  
+#productitemmaster_detail { font-size: 9px;}
+.total_val { font-size: 10px; font-weight: bold;}
+
+#productitemmaster_detail td:nth-child(n+7) { text-align: center}
+#productitemmaster_detail tr:nth-last-child(n-6) { text-align: center}
+
+.logo {float: left; }
+.logo img {height: 57px; width: auto}
+.other_details {float: right; text-align: left; width: 300px; text-transform: capitalize; font-size: 12px;}
+
+</style>
+
+<div>
+<table width="834" height="741" border="1.7" cellpadding="0" cellspacing="0" style="margin:auto">
+<h3 align='center'>Product Item Master</h1>
+	<th>customer</th>
+	<th>squ_id</th>
+	<th>prodlength</th>
+	<th>desc</th>
+	<th>height</th>
+	<th>breadth</th>
+	<th>id</th>
+	<th>weight</th>
+	{% for item in this_pim%}
+	  <tr>
+	  {% for head, values in item.iteritems %}
+		<td>{{values}}</td>
+	  {% endfor %}
+	  </tr>
+	{% endfor %}
+</table>
+</div>
+
+{% endblock %}

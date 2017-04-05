@@ -1,0 +1,111 @@
+<html>
+<head>
+<link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" />
+<script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+<script type='text/javascript'>
+    function formValidator (){
+        var collection_amount = {{ codd.total_amount }};
+        var amount_entered = $('#dtotal').val();
+        var amountentered = parseFloat(amount_entered);
+        var collectionamount = parseFloat(collection_amount);
+        var collectionamtp20 = collectionamount + 20;
+        var collectionamtm20 = collectionamount - 20;
+        var slip_no = $("#slip_number").val();
+        if (isNaN(amountentered)){
+            alert('Please enter denominations');
+            return false;
+        }
+        else if( amountentered <= collectionamtm20 || amountentered >= collectionamtp20)
+        {
+            alert("Amount Mismatch");
+            return false;
+        }
+        else if(slip_no == null || slip_no =="" || slip_no =="None"){
+            alert("Invalid Slip Number.");
+            return false;
+        }
+        else{
+            document.forms['theForm'].submit();
+        }
+        return false;
+    }
+</script>
+</head>
+<body>
+<div class="modal-header">
+  <a class="close" data-dismiss="modal">×</a>
+  <h3>Paying-in-Slip</h3>
+</div>
+<div class="modal-body">
+   <form name='theForm' method="post" action="/delivery/cash_tally_deposits/">
+   <input type="hidden" class="codd_id" name="codd_id" value="{{ codd.id }}"/>
+   {%csrf_token%}
+   <table>
+       <tr>
+            <td>CODD ID:<input readonly type="text" class="codd_code" name="codd_code" style="width:120px" value="{{ codid }}"/></td>
+       </tr>
+       <tr>
+            <td>Paying-in-Slip No:<input type="text" id="slip_number" name="slip_number" style="width:50px" value="{% if codd.slip_number %}{{codd.slip_number}}{% endif %}"/></td>
+       </tr>
+       <tr>
+            <td>Paying-in-Slip Date and Time:<input type="text" class="cash_tally_date" name="date" style="width:70px"  value="{% now 'Y-m-d' %}"/><input type="text" class="deposit_time" name="time" style="width:50px" value="{% now 'H:i' %}"/></td>
+       </tr>
+       <tr>
+            <td>CMS/Bank Code<input type="text" name="bank_code" style="width:50px" value="{{codd.bank_code}}"/><input type="text"style="width:150px"/></td>
+       </tr>
+       <tr>
+            <td>Collection Amount<input type="text" class="total_amount" value="{{codd.total_amount}}" readonly/>
+            <table>
+                <thead>
+                <th>Denomination</th>
+                <th>Nos.</th>
+                <th>Amount</th>
+                </thead>
+                <tr>
+                  <td> 1000</td><td><input type="text" dtype="1000" name="d1000" class="denomination" value="{{denomination.1000}}" style="width:23px"></td><td><input readonly type="text" id="d1000" name="1000" {%if denomination.1000%}value="{% widthratio denomination.1000 1 1000 %}"{%else%}value="0"{%endif%} style="width:50px"></td>
+                </tr>
+                <tr>
+                  <td> 500</td><td><input type="text" dtype="500" name="d500" class="denomination" style="width:23px" value="{{denomination.500}}"></td><td><input readonly type="text" id="d500" name="500" {%if denomination.500%}value="{% widthratio denomination.500 1 500 %}"{%else%}value="0"{%endif%} style="width:50px"></td>
+                </tr>
+                <tr>
+                  <td> 100</td><td><input type="text" dtype="100" name="d100" class="denomination" style="width:23px" value="{{denomination.100}}"></td><td><input readonly type="text" id="d100" name="100" {%if denomination.100%}value="{% widthratio denomination.100 1 100 %}"{%else%}value="0"{%endif%} style="width:50px"></td>
+                </tr>
+                <tr>
+                  <td> 50</td><td><input type="text" dtype="50" name="d50" class="denomination" style="width:23px" value="{{denomination.50}}"></td><td><input readonly type="text" id="d50" name="50" {%if denomination.50%}value="{% widthratio denomination.50 1 50 %}"{%else%}value="0"{%endif%} style="width:50px"></td>
+                </tr>
+                <tr>
+                  <td> 20</td><td><input type="text" dtype="20" name="d20" class="denomination" style="width:23px" value="{{denomination.20}}"></td><td><input readonly type="text" id="d20" name="20" {%if denomination.20%}value="{% widthratio denomination.20 1 20 %}"{%else%}value="0"{%endif%} style="width:50px"></td>
+                </tr>
+                <tr>
+                  <td> 10</td><td><input type="text" dtype="10" name="d10" class="denomination" style="width:23px" value="{{denomination.10}}"></td><td><input readonly type="text" id="d10" name="10" {%if denomination.10%}value="{% widthratio denomination.10 1 10 %}"{%else%}value="0"{%endif%} style="width:50px"></td>
+                </tr>
+                <tr>
+                  <td> 5</td><td><input type="text" dtype = "5" name="d5" class="denomination" style="width:23px" value="{{denomination.5}}"></td><td><input readonly type="text" id="d5" name="5" {%if denomination.5%}value="{% widthratio denomination.5 1 5 %}"{%else%}value="0"{%endif%}style="width:50px"></td>
+                </tr>
+                <tr>
+                  <td> others</td><td><input type="text" dtype="1" name="d1" class="denomination" style="width:23px" value="{{denomination.1}}"></td><td><input readonly type="text" id="d1" name="1" {%if denomination.1%}value="{% widthratio denomination.1 1 1 %}"{%else%}value="0"{%endif%}style="width:50px"></td>
+                </tr>
+                <tr>
+                  <td> <strong>Total</strong></td><td></td><td><input readonly type="text" id="dtotal" name ="total" style="width:50px"></td>
+                </tr>
+            </table>
+        </tr>
+        </table>
+            <input type="button" id="subs" class="btn btn-success" name="theButton" value="Submit" onClick="javascript:formValidator();"/>
+        </form>
+    </div>
+<script type="text/javascript">
+$(function(){
+    $(".denomination").change(function(){
+        var dtype=$(this).attr("dtype");
+        var quantity = $(this).val();
+        var amt = dtype*quantity;
+        $('#d'+dtype+'').val(amt);
+        $('#dtotal').val("");
+        var total = parseInt($("#d1000").val())+parseInt($("#d500").val())+parseInt($("#d100").val())+parseInt($("#d50").val())+parseInt($("#d20").val())+parseInt($("#d10").val())+parseInt($("#d5").val())+parseInt($("#d1").val());
+        $('#dtotal').val(total);
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.td_nowrap {white-space: nowrap}
+</style>
+
+<div id="wrap">
+  {% load pickup_tags %}
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="add-details pull-right">
+           {% include 'track_me/header.html' %}
+        </div>
+    </div>
+   </div>
+  <div class="row-fluid">
+    <div class="span12">
+	<div>
+          <form method="post" action="/track_me/multiplebag_detail/" onsubmit="return CheckLength();">  
+          {%csrf_token%}
+         	 <table>
+             		<tr>
+                  		<td><b>Multiple Air waybill</b></td><td> <textarea name="multipleawb" id="multipleawb" rows="5" cols="10"/></textarea> </td>
+                  
+                  		<td><input type="submit" class="btn btn-primary"  id="submit_btn" name = "submit"></td>
+				
+		 	        <td><input type="submit" id="download_btn" class="btn btn-primary" name = "download" value="Download"></td>
+                 
+              		</tr>
+           	</table>   
+           </form>
+
+       </div>
+ 		<div class="cust-title">
+              		<i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Multiple Bag Details </span>
+        	</div> 
+			<div class="summary-content"> 
+				<table class = "table">
+					<thead>
+						<tr>
+							<th>Connection Id</th>
+							<th>Bag Number</th>
+							<th>No Of Shipments</th>
+							<th>List Of Airwaybills</th>
+							<th>Current Status</th>
+							<th>Current Service Center</th>
+							<th>Origin</th>
+							<th>destination</th>
+						</tr>
+					</thead>
+				<tbody>
+			                {% for key, values in data_dict.items %}
+                			<tr>
+					  <td>{{values.connection_id}}</td>
+                  			  <td><a href = "/track_me/bag_history/?bag_number={{key}}">{{key}}</a> </td>
+                  			  <td>{{values.no_of_shipments}} </td>
+                  			  <td>{% for awb in values.awbs %} {{ awb }}, {% endfor %}</td>
+                  			  <td>{{values.bag_status}} </td>
+                  			  <td>{{values.current_sc}}</td>	
+                  			  <td>{{values.origin}}</td>	
+                  			  <td>{{values.destination}}</td>	
+					</tr>
+					{% endfor %}
+				</tbody>
+				</table>
+			</div>
+                    </div>
+           </div>
+
+ </div><!-- /row-fluid -->
+      
+   </div><!-- /container-fluid -->
+<script type = "text/javascript">
+function CheckLength()
+{
+    var text = $("#multipleawb").val()
+    var lines = text.split(/\r|\r\n|\n/);
+    var count = lines.length;
+    if (count > 100)
+    {
+        alert('Too Many Airwaybill Number')
+        return False;  
+    }
+    return True;
+}
+</script>
+   {% endblock %}

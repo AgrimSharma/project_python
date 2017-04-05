@@ -1,0 +1,37 @@
+<form id="updation_form" method="POST" action="delivery/view_edit.html">
+<table>
+    {% for field in view_credit_detail_form %}
+    <tr>
+        <td>{{ field.label_tag }}</td>
+        <td>{{ field }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<table>
+    {{ formset.management_form }}
+    {{ formset.non_form_errors }}
+    <tr>
+    {% for form in formset|slice:":1" %}
+    {% for field in form %}
+        <td style="width: 180px;"> {{ field.label_tag }} </td>
+    {% endfor %}
+    {% endfor %}
+    </tr>
+    <tr class="awb_formset">
+    {% for form in formset %}
+    <tr>
+    {% for field in form %}
+        <td style="width: 180px;"> {{ field }} </td>
+    {% endfor %}
+    </tr>
+    {% endfor %}
+    </tr>
+</table>
+</form>
+
+<script type="text/javascript">
+
+$("#id_card_details .paid").hide();
+$("#id_card_details label[for='id_form-0-payment_so_far']").hide();
+
+</script>

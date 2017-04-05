@@ -1,0 +1,482 @@
+<input type="text" id="awb-correction-input" value="" placeholder="Enter AWB Number">
+<div id="awbCorrectionError" class="hide alert alert-error">
+    <h4>Some error in request. Please check airwaybill no.</h4>
+</div>
+<div id="AwbCorrectionContentEmpty">
+    <table class='table table-striped table-bordered awb-correction-table'>
+        <tr>
+            <td>Awb No: </td>
+            <td>Product: </td>
+            <td>Origin: </td>
+            <td>Origin SC:</td>
+            <td>Destn: </td>
+            <td>Destn SC: </td>
+            <td>Pcs: </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan=2>Customer Code: </td>
+            <td colspan=2>Sub Customer Code: </td>
+            <td colspan=4></td>
+        </tr>
+        <tr>
+            <td colspan=4>
+                <pre>
+                    Shipper Details:
+                    Name   :
+                    Address:
+                    City   :
+                    Phone  :
+                    Pincode:
+                    State  :
+                </pre>
+            </td>
+            <td colspan=4>
+                <pre>
+                    Consignee Details:
+                    Address:
+
+
+
+
+
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td>SDD/SDL/RTO/To pay/TAB</td>
+            <td colspan=2>Pickup Date:</td>
+            <td>Pickup Time:</td>
+            <td colspan=4 >Actual weight: </td>
+        </tr>
+        <tr>
+            <td colspan=4>Sdd Amount:</td>
+            <td colspan=4>Chargeable Weight:</td>
+        </tr>
+        <tr>
+            <td colspan=4>Sdl Amount:</td>
+            <td colspan=4>Freight:</td>
+        </tr>
+        <tr>
+            <td colspan=4>RTO Amount:</td>
+            <td colspan=4>Fuel Surcharge:</td>
+        </tr>
+        <tr>
+            <td colspan=4>Tab Amount: 0</td>
+            <td colspan=4>Stax: 0</td>
+        </tr>
+        <tr>
+            <td colspan=4>Reverse charge Amount:</td>
+            <td colspan=4>Edu. Cess Tax:</td>
+        </tr>
+        <tr>
+            <td colspan=4>Tab Amount:</td>
+            <td colspan=4>HCess Tax:</td>
+        </tr>
+        <tr>
+            <td colspan=4>Cod Charge Amount:</td>
+            <td colspan=4>Total:</td>
+        </tr>
+        <tr>
+            <td colspan=4>Collectable Amount:</td>
+            <td>Length:</td>
+            <td>Breadth:</td>
+            <td>Height:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan=4 >Declare Value:</td>
+            <td colspan=4></td>
+        </tr>
+        <tr>
+            <td colspan=4>VCHC Charges:</td>
+            <td colspan=4></td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+   $(".effective_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+   $(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yymmdd" });
+   $("#id_cutoff_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+</script>
+<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+-->
+
+<script src="/static/assets/js/jquery.jeditable.mini.js"></script>
+<script src="/static/assets/js/add_button.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  //$( ".customer-pricing-content" ).accordion();
+
+  $(".myTabContent div").hide();
+  $(".customer-billing-content").show();
+
+  $('.view_report').click(function(event) {
+    var report_type = $(".report-list option:selected").val();
+	var substr = report_type.split('/');
+	var txt = $('.report-list option:selected').text();
+	var date_to = $(".date_to").val();
+	if (date_to){
+		if (substr[3]=='mcsr'){
+			date_to = date_to.substr(0, 6);
+			url =  '/'+substr[1]+'/'+substr[2]+'/'+substr[3]+'/'+date_to;
+				}
+		else if (substr[3]=='month_date_sales_report'){
+			date_to = date_to.substr(0, 6);
+			url =  '/'+substr[1]+'/'+substr[2]+'/'+substr[3]+'/'+date_to;
+				}
+
+		else if(txt == 'Prev Month Collection'){
+			date = date_to.substr(0, 6);
+			url = '/'+substr[1]+'/'+substr[2]+'/'+substr[3]+'/'+date;
+			}
+		else
+			{
+			url =  '/'+substr[1]+'/'+substr[2]+'/'+substr[3]+'/'+date_to;
+			}
+		}
+	else{
+		url =  report_type;
+	}
+
+	window.location = url;
+   });
+
+  $(".report-list").change(function(e){
+       var option = $('option:selected', this).attr('title');
+       if (option == 'Reconciliation Report'){
+         $("#billing-input-form").remove();
+         $.ajax({
+             type: 'GET',
+             url: "{% url billing-reconciliation-report-home %}",
+             success: function(resp){
+                 $(".select-header").after(resp.html)
+             }
+         });
+      }else{
+         $("#billing-input-form").hide();
+     }
+   });
+
+   $("#input_view_report").live('click', function(e){
+       var $loader = $('#loadingdiv');
+       function showLoader() {
+            $loader.fadeIn();
+        }
+        $('.cust-content').empty();
+        showLoader();
+        var date_from = $(".input_date_from").val();
+        var date_to = $(".input_date_to").val();
+        var cust_id = $(".cust_name").val();
+        data = {'date_from':date_from, 'date_to': date_to, 'cust_id':cust_id};
+        $.ajax({
+            url: '{% url billing-reconciliation-report %}',
+            type: "GET",
+            data: data,
+            success: function(data) {
+                $loader.fadeOut('fast');
+                $('.cust-content').html(data.html);
+            }
+        });
+   }); // view report click event
+
+  function show_awb_error(){
+      $("#awbError").show();
+  }
+
+  function show_awb_correction_error(){
+      $("#AwbCorrectionContent").hide();
+      $("#awbCorrectionError").show();
+  }
+
+  function update_awb_finance_details(data){
+      var data_table = data['html'];
+      if(data['rts_status'] == '1'){
+          $("#update-pricing").hide();
+          $("#update-rts-pricing").attr('data-id', data['shipment_id']);
+          $("#update-rts-pricing").show();
+      }else{
+          $("#update-rts-pricing").hide();
+          $("#update-pricing").attr('data-id', data['shipment_id']);
+          $("#update-pricing").show();
+      }
+      //$(".myTabContent div").hide();
+      //$(".customer-billing-content").show();
+      $("#myAwbContent").html();
+      $("#myAwbContent").html(data_table);
+      $("#myAwbContent").show();
+      return false;
+  }
+
+  $("#get-awb-finance").click(function (e){
+       var awb_num = $("#awb-input").val();
+       $.ajax({
+            type: 'GET',
+            url: "{% url awb-finance-details %}",
+            data: {'awb_num': awb_num},
+            success: function(data){
+                if (data['success']){
+                    update_awb_finance_details(data);
+                }else{
+                    show_awb_error();
+                }
+            }
+       });
+       return false;
+  });
+
+
+  //$("#get-awb-correction").click(function (e){
+  $("#awb-correction-input").keypress(function (e){
+       if (e.which == 13){
+           var awb_num1 = $("#awb-correction-input").val();
+           var awb_num = $(this).val();
+           $.ajax({
+                type: 'GET',
+                url: "{% url awb-correction-details %}",
+                data: {'awb_num': awb_num},
+                success: function(data){
+                    if (data['success']){
+                        $("#AwbCorrectionContentEmpty").hide();
+                        $("#awbCorrectionError").hide();
+                        $("#AwbCorrectionContent").html(data['html']);
+                        $("#AwbCorrectionContent").show();
+                        $("#awbCorrectionError").hide();
+                    }else{
+                        show_awb_correction_error();
+                    }
+                }
+           });
+           return false;
+       }
+  });
+
+  $("#update-rts-pricing").live('click', function(e){
+        var ship_id = $(this).attr('data-id');
+        $.ajax({
+            type: 'POST',
+            url: "{% url bill-update-rts-pricing %}",
+            data: {'ship_id': ship_id, 'rts_update':1},
+            success: function(data){
+                //console.log('content ..',data);
+                if (data['success']){
+                    update_awb_finance_details(data);
+                }else{
+                    show_awb_error();
+                }
+            }
+       });
+  });
+
+  $("#update-pricing").live('click', function(e){
+        var ship_id = $(this).attr('data-id');
+        $.ajax({
+            type: 'POST',
+            url: "{% url bill-update-rts-pricing %}",
+            data: {'ship_id': ship_id, 'rts_update':0},
+            success: function(data){
+                //console.log('content ..',data);
+                if (data['success']){
+                    update_awb_finance_details(data);
+                }else{
+                    show_awb_error();
+                }
+            }
+       });
+  });
+
+  $("#get-awb-finance-page").click(function (e){
+       $(".myTabContent div").hide();
+       $(".awb-finance-content").show();
+  });
+
+  $("#get-customer-billing-page").click(function (e){
+       $(".myTabContent div").hide();
+       $(".customer-billing-content").show();
+  });
+
+  $("#get-billing-cutoff-page").click(function(e){
+       e.preventDefault();
+       $(".myTabContent div").hide();
+       $("#billing-cutoff-content").show();
+  });
+
+  $("#get-customer-pricing-page").click(function(e){
+       e.preventDefault();
+       $(".myTabContent div").hide();
+       $(".customer-pricing-content").show();
+  });
+
+  $("#get-awb-correction-page").click(function(e){
+       e.preventDefault();
+       $(".myTabContent div").hide();
+       $(".awb-correction-content").show();
+       $("#AwbCorrectionContentEmpty").show();
+       $("#AwbCorrectionContent").hide();
+
+  });
+
+
+  $('.edit').live('click', function(){
+      $(this).editable('/billing/edit-field/', {
+          indicator : 'Saving...',
+          width : '50px',
+          height: '20px',
+          submitdata: {'field_name':$(this).attr('data-val')},
+          tooltip   : 'Click to edit',
+          callback : function(value) {
+              $("#"+value+"").remove();
+                   }
+          }).click(function (evt){
+              $(this).find('input').keydown(function(event){
+                  if(event.which == 9){
+                      var that = this;
+                      var a = $(that).parents('td').eq(0);
+                      $(this).closest('form').submit();
+                      $(a).next('td.edit').click();
+                      return false;
+                  }
+              });
+       });
+       $(this).click();
+  });
+
+  $(".editable").live('click', function(){
+      $(this).editable('/billing/add-select/', {
+          data:"{'NH':'NH','B':'B','C':'C','NCR':'NCR','Other North':'Other North','S':'S','Bengaluru':'Bengaluru','Mumbai':'Mumbai','SXA':'SXA','WS':'WS'}",
+          type:"select",
+          submit: "OK"
+      });
+      $(this).click();
+  });
+
+   $(".submit-row").live('click', function (){
+          var submit_row = {};
+          var id_str = $(this).siblings().find('tr:last').find('td:first').attr('id').split('-');
+          submit_row.model_name = id_str[0];
+          submit_row.customer_id = id_str[2];
+          var last_row = $(this).siblings().find('tr:last').find('td').each(function(ind, val){
+              var id_str = $(val).attr('id').split('-');
+              var val_str = $(val).text();
+              submit_row[id_str[1]] = val_str;
+          });
+          var that = this;
+          $.ajax({
+             url: '/billing/add-row/',
+             type:'POST',
+             data: submit_row,
+             success: function(data){
+                 if (data.success){
+                    console.log('removing this',$(that));
+                    $(that).remove();
+                 }
+             }
+          });
+          return false;
+   });
+
+
+    $(".add-row").live('click', function(){
+        // add row
+        $(this).parents('.effective_section').next().addRow();
+        $(this).parents('.effective_section').next().append('<input type="button" class="submit-row" value="Submit">');
+
+        // make the row inline editable
+        $(".new-edit").editable('/billing/add-select/', {
+        indicator : 'Saving...',
+        width : '50px',
+        height: '20px',
+        submitdata: {'field_name':$(this).attr('data-val')},
+        tooltip   : 'Click to edit',
+        callback : function(value) {
+            $("#"+value+"").remove();
+                    }
+        }).click(function (evt){
+            $(this).find('input').keydown(function(event){
+                if(event.which == 9){
+                    $(this).closest('form').submit();
+                    $(this).next('td.edit').click();
+                }
+            });
+        });
+
+    }); // end of add-row live
+
+    $(".effective-update").live('click', function (){
+        var input = $(this).parents('div.effective_section').find('input.effective_date');
+        var eff_date = $(input).val().trim();
+        var input_id = $(input).attr('id').trim();
+        console.log(eff_date, input_id);
+        $.ajax({
+            url: '/billing/update-effective-date/',
+            type: 'POST',
+            data: {'effective_date':eff_date, 'input_id':input_id},
+            success: function(resp){
+                console.log('response is :', resp);
+            }
+        });
+    });
+
+    $("[id^='customer_pricing-']").click(function (e){
+        var cid = $(this).attr('data-id').trim();
+        var ajax_class = ".ajax_loader-" + cid;
+        $(ajax_class).show();
+        var content_div = $("#customer_"+cid);
+        $.ajax({
+            url: '/billing/get_customer_pricing/',
+            type: 'GET',
+            data: {'customer_id': cid},
+            success: function(resp){
+                $('.customer_rates').html('');
+                $(content_div).html('');
+                $(content_div).html(resp.html);
+                $(content_div).show();
+                $(ajax_class).hide();
+            }
+        });
+    });
+
+
+  $(".awbedit").live('click', function(){
+      $(this).next('input').show();
+      $(this).next('input').attr('class', 'awbactive');
+      $(this).hide();
+  });
+
+  $("#awb_correction_submit").live('click', function(){
+      var data = {};
+      $("input.awbactive").each(function(i, v){
+          var value = $(v).val();
+          var field = $(v).attr('data-field');
+          data[field] = value;
+      });
+      var awb_number = $("#correction_awb_number").attr('data-val');
+      data['awb_number'] = awb_number;
+
+      $.ajax({
+          type:'POST',
+          url:'/billing/awb-correction-edit/',
+          data: data,
+          success: function(resp){
+             $("#AwbCorrectionUpdateError").html('');
+             if(Object.keys(resp).length > 0){
+                 $("#AwbCorrectionUpdateError").show();
+                 $.each(resp, function(k,v){
+                     if(k=='edit'){
+                         $("#AwbCorrectionUpdateError").append("<span class='alert alert-error'>Billing already done for this awb. Modification not allowed!</span>");
+                     }else{
+                         var str = k.replace(/_/g, ' ');
+                         $("#AwbCorrectionUpdateError").append("<span class='alert alert-error'>Wrong value for "+str+"</span>");
+                     }
+                 });
+             }else{
+                 $("#awb-correction-input").val('');
+                 $("#AwbCorrectionContent").hide();
+                 $("#AwbCorrectionContentEmpty").show();
+             }
+          }
+      });
+  });
+});
+</script>

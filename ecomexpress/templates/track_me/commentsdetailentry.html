@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="wrap">
+    <div class="container-fluid main" role="main" id="main">
+        <div class="row-fluid">
+           <div class="add-details pull-right"> {% include 'track_me/header.html' %} </div>
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+	            <form name="track" action="." method="GET">
+	            <div>
+	                <b>Waybill No </b><input class="awb" name="awb" type="text" value="{{shipment.airwaybill_number}}" onchange="this.form.order.value='';this.form.submit()"/>
+	                <b>Order No.  </b><input class="order" name="order" type="text" value="{{shipment.order_number}}" onchange="this.form.awb.value='';this.form.submit()"/>
+	                {% ifequal 2 1 %}
+	                <b>Waybill No.  </b><input class="awb" name="awb" type="text" value="{{shipment.airwaybill_number}}" onchange="this.form.submit()"/>
+                    <b>Order No.  </b><input class="order" name="order" type="text" value="{{shipment.order_number}}" onchange="this.form.submit()"/>
+                    {% endifequal %}
+	            </div>
+                </form>
+            </div>
+        </div>
+        {% include "track_me/trackme_shipment_details.html" %}
+        <div class="survey-details">
+            <div class="cust-title">
+              <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i>
+              <span>Comments Detail Entry</span>
+            </div>
+            <div class="pull-right" style="margin-top:-33px;margin-right:15px;">
+			  <a style="color:#FFF; text-decoration:underline" href="#" data-rev-action="modal" 
+                  data-target="#add-revlet"><img src="{{ STATIC_URL }}assets/img/plus.png"/>Upload</a>
+			</div>
+        </div>
+<!-- add it here -->
+        <div class="cust-content">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+{% if request.user.employeemaster.user_type == "Customer"%}
+<a data-toggle="tab" href="#commentsdetailentry">Comments Detail Entry</a></li>
+{%else%}
+            <a data-toggle="tab" href="#commentsdetailentry">Comments Detail Entry</a></li>
+            <li><a data-toggle="tab" href="#callcentrereport">Call Centre Report</a></li>
+{%endif%}      
+  </ul>
+        <div class="tab-content">
+            <div class="active tab-pane" id="commentsdetailentry"> 
+                {% include "track_me/comments_detail_entry.html" %}
+            </div>
+            <div id="callcentrereport" class="tab-pane"> 
+                {% include "track_me/call_centre_report.html" %} 
+            </div>
+        </div> <!-- tab-content -->
+        </div> <!-- cust-content -->
+        <!--works fine-->
+
+    </div><!--main-->
+</div><!--wrap-->
+{% endblock %}
+

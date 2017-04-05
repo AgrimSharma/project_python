@@ -1,0 +1,86 @@
+    <div class="modal-header cust-title" style="width: 872px; ">
+      <a class="close" data-dismiss="modal">×</a>
+      <div>
+      <font style="color:#fff; font-size:24px;"> Delink Bags </font> &nbsp;<div style="display:inline-block">
+    
+<font style="color:#fff; font-size:14px;">Bag Number*:</font><input name="bag_number" id="bag_scan" class="bag_number" style=" width:100px" type="text" size="9"/>      
+
+      <font style="color:#fff; font-size:14px;">Count:</font><input name="awb" class="awb" id="shipment_count" style=" width:40px" type="text" size="9" value="{{bag_count}}"/>
+       </div> 
+      </div>
+<div class="modal-body">
+<table class="table-bag">
+<thead>
+<tr>
+<th>Bag Number</th>
+<th>Actual Weight</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody>
+   		 {% for a in bags%}
+<tr id="{{a.bag_number}}">
+<td>{{a.bag_number}}</td>
+<td>{{a.actual_weight}}</td>
+<td>{{a.destination}}</td>
+<td><a class="btn2 btn-danger" href="#" rel="tooltip" title="Delink Bag" bag_number="{{a.bag_number}}"><i class="icon-trash"></i> Delink</a></td>
+</tr>
+   		 {% endfor%}
+</tbody>
+</table>
+    </div>
+    </div>
+
+<script>
+$(function(){
+$("#bag_scan").focus();
+$(".bag_number").change(function(){
+
+var bag_number=$("input.bag_number").val();
+var datastring = "bag_num="+bag_number;
+$.ajax({
+type:"POST",
+url: "/service-centre/delink_bags/{{cid}}/",
+data: datastring,
+success: function(resp){
+$("#"+bag_number+"").remove();
+shipment_count = parseInt($("#shipment_count").val())-parseInt(1);
+
+$("#shipment_count").val(shipment_count);
+
+//alert(resp); 
+
+//location.reload();
+}
+});
+$("#bag_scan").val("");
+     $("#bag_scan").focus();
+ 
+});
+
+$(".btn-danger").click(function(){
+var conf = confirm('Are you sure?');
+if (conf){
+bag_number = $(this).attr("bag_number");
+var datastring = "bag_num="+bag_number;
+$.ajax({
+type:"POST",
+url: "/service-centre/delink_bags/{{cid}}/",
+data: datastring,
+success: function(resp){
+$("#"+bag_number+"").remove();
+shipment_count = parseInt($("#shipment_count").val())-parseInt(1);
+
+$("#shipment_count").val(shipment_count);
+
+//alert(resp); 
+}
+});
+
+
+}
+});
+
+});
+</script>
+

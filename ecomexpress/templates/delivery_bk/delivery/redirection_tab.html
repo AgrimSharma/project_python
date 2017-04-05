@@ -1,0 +1,28 @@
+<div style="float:left;width:40%">
+<div id="popupRTOShipment" style="background-color:#fff;"></div>
+<h4 style=" display:inline-block">Redirection Under Same Air waybill</h4>
+<form>
+{% csrf_token %}
+  <table>
+    <tr> <td>Emp Code*</td><td><input id="emp_code_rd" type="text" style="width:40px;"/></td> </tr>
+    <tr><td>AWB*</td><td><input type="button" id="awb_rdw" href="#" data-rev-action="modal" data-target="#add-revlet" class="awb-barcode-scanner btn btn-primary" value="Include Shipments"></td>
+
+    <tr> <td>Reason Code:*</td><td> <select id="reason_code_rd" class="reason_code" type="ro"> <option>Select Reason Code</option> {% for a in reason_code %} {%if a.code == 207 or a.code == 230%} <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option> {%endif%} {% endfor %} </select> </td> </tr>
+    <tr> <td>Service Centre:</td><td> <select id="service_centre_rd" id="dest"> <option>Select Service Centre</option> {% for a in service_centre %} <option value="{{a.id}}">{{a.center_shortcode}}</option> {% endfor %} </select> </td> </tr>
+    <tr>
+      <td> <input type="hidden" id="rdsubmitFormAwbList" value=""> </td> </tr>
+   </table>
+   <table>
+      <tr> <td><input type="button" class="btn btn-redbutton" id="rdsubmitForm" value="Submit"/> </td> </tr>
+   </table>
+</form>
+</div>
+
+<div style="float:left;width:40%">
+<h4>Find the correct service center to be redirected</h4>
+<p>Paste the consignee address in the below text area to get the correct pincode / service center to be redirected.</p>
+<hr/>
+<textarea id="shipment_address" rows="3" cols="200"></textarea>
+<input type="button" id="address_pincode" class="btn btn-primary" value="Get correct Sc">
+<h3 class="redirect_sc"></h3>
+</div>

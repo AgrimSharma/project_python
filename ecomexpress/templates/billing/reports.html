@@ -1,0 +1,125 @@
+<div class="row">
+    <div class="span6">
+        <div style="min-height:200px; height:auto;">
+            <div style="min-height:200px; height:auto;border:1px solid #999 ;">
+                <div style="display:inline-block; width:100%;">
+                    <h2 style="font-size: 18px;font-weight: bold;letter-spacing: 0.8px; padding: 10px;
+                        background-color:#3731B0; color:#fff">Prebilling Report</h2>
+                </div>
+                <div style="padding:20px;">
+                    <form method="POST" action="{% url preview-billing %}" style="width:300px; margin: 10px auto;">
+                    {% csrf_token %}
+                    {{ preview_form.as_table }}
+                    <br/>
+                    <input class="btn btn-primary" type="submit" value="Preview" style="margin: 10px auto;">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="span6">
+        <div style="min-height:200px; height:auto;">
+            <div style="min-height:200px; height:auto;border:1px solid #999;">
+                <div style="display:inline-block; width:100%;">
+                    <h2 style="font-size: 18px;font-weight: bold;letter-spacing: 0.8px; padding: 10px;
+                        background-color:#3731B0; color:#fff">Post Billing Report</h2>
+                </div>
+                <div style="padding:20px;">
+                    <div class="img_loader_codd"> <img src="/static/assets/img/ajax-loader.gif"></div>
+                    <form method="GET" style="width:300px; margin: 10px auto;">
+                    {{ reports_form.as_table }}
+                    <br/>
+                    <table>
+			<tr>
+			    <td>
+				<div class="btn-group">
+                                    <button id="id_billing_summary" class="btn btn-primary dropdown-toggle">Billing Summary</button>
+                                    <button class="id_msr btn btn-primary dropdown-toggle">MSR</button>
+                                </div>
+			    </td>
+			</tr>
+			<tr>
+                             <td>
+                                 <div class="btn-group">
+                                     <button id="id_invoice_pdf_headless" class="btn btn-primary dropdown-toggle">Headless Invoice</button>
+                                     <button id="id_invoice_pdf" class="btn btn-primary dropdown-toggle">Invoice</button>
+                                </div>
+			    </td>
+			</tr>
+			<tr>
+                             <td>
+                                 <div class="btn-group">
+                                     <button id="id_awb_pdf" class="btn btn-primary dropdown-toggle">AWB pdf </button>
+                                     <button id="id_awb_excel" class="btn btn-primary dropdown-toggle">AWB Excel </button>
+                                 </div>
+                             </td>
+                        </tr>
+			<tr>
+                            <td>
+                                 <div class="btn-group">
+                                     <button id="id_jasper_report" class="btn btn-primary dropdown-toggle">Jasper Report</button>
+                                     <button class="btn btn-primary dropdown-toggle">EBS Reports</button>
+                                 </div>
+                             </td>
+                         </tr>
+                    </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(".img_loader_codd").hide();
+    var generate_report_main = function(report_type){
+        $(".img_loader_codd").show();
+        var year = $('#id_report_year').val();
+        var month = $('#id_report_month').val();
+        var customer = $('#id_report_customer').val();
+        $.ajax({
+            url: '/billing/generate_report',
+            type: 'GET',
+            data: {'month': month, 'year': year, 'customer': customer, 'report_type':report_type},
+            success: function(resp){
+               console.log(resp);
+               if (resp.success){ window.location = resp.file_path}
+               else{ alert('please retry ');}
+               $(".img_loader_codd").hide();
+            }
+        });
+    };
+
+    var generate_report = _.throttle(generate_report_main, 5000);
+
+    $("#id_billing_summary").live('click', function(e){
+        e.preventDefault();
+        generate_report('bill_summary');
+    });
+
+    $("#id_invoice_pdf").live('click', function(e){
+        e.preventDefault();
+        generate_report('invoice_pdf');
+    });
+
+    $("#id_invoice_pdf_headless").live('click', function(e){
+        e.preventDefault();
+        generate_report('invoice_pdf_headless');
+    });
+
+    $("#id_awb_pdf").live('click', function(e){
+        e.preventDefault();
+        generate_report('awb_pdf');
+    });
+
+    $("#id_awb_excel").live('click', function(e){
+        e.preventDefault();
+        generate_report('awb_excel');
+    });
+
+    $("#id_jasper_report").live('click', function(e){
+        e.preventDefault();
+        generate_report('jasper_report');
+    });
+
+</script>

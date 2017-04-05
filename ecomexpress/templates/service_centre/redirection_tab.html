@@ -1,0 +1,49 @@
+<div style="float:left;width:40%">
+<div id="RO" class="tab-pane fade active in" style=" margin-left:10px;">
+<input placeholder="076" disabled style="width:23px; display:inline-block"/> 
+<h4 style=" display:inline-block">Redirection Under Same Air waybill</h4>
+<form id='rdform'>
+{% csrf_token %}
+<input type="hidden" name="redir_code" value="76">
+<table>
+<tr> 
+<td>Emp Code:*</td>
+<td><input id="emp_code_rd" name="emp_code" type="text" style="width:40px;" value="{{request.user.employeemaster.employee_code}}"/></td> 
+</tr>
+<tr>
+<td>AWB*</td><td><input type="button" id="awb_rdw" href="#" data-rev-action="modal" data-target="#add-revlet" class="awb-barcode-scanner btn btn-primary" value="Include Shipments"></td>
+</tr>
+<tr>
+<td>Reason Code:*</td><td> 
+<select id="reason_code_rd" name="reason_code" class="reason_code" type="ro"> 
+<option>Select Reason Code</option> 
+{% for a in reason_code %} 
+<option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option> 
+{% endfor %} 
+</select> 
+</tr>
+<tr> <td>Service Centre:*</td><td> 
+<select name="service_centre_rd" id = "service_centre_rd" id="dest"> 
+<option>Select Service Centre</option> 
+{% for a in service_centre %} 
+<option value="{{a.id}}">{{a.center_shortcode}}</option> 
+{% endfor %} 
+</select> </td> </tr>
+    <tr> <td>
+		<input type="hidden" id="rdsubmitFormAwbList" value="">
+	    </td>
+</tr>
+  </table>
+  <table>
+    <tr> <td><input type="submit" class="btn btn-redbutton" id="rdsubmitForm" value="Submit"/> </td> </tr>
+  </table>
+  </form>
+</div> <!-- RO -->
+</div>
+
+<div style="float:left;width:40%">
+<h4>get your correct service center from here</h4>
+<hr/>
+<textarea id="shipment_address" rows="3" cols="200">Paste your address / pincode here</textarea>
+<input type="button" id="address_pincode" class="btn btn-primary" value="Get correct Sc">
+</div>

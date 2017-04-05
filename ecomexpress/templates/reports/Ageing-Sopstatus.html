@@ -1,0 +1,199 @@
+<!doctype html>
+  <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+  <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title>ECOM</title>    
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">        
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />    
+
+    
+    <meta property="og:image" content="http://www.domain.com/images/logo.png"/>
+    <meta property="og:title" content="-- description here --"/>
+    <meta property="og:url" content="http://www.domain.com"/>
+        
+    <link rel="shortcut icon" href="assets/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/img/apple-touch-icon-114x114.png">
+         
+    <link rel="stylesheet" href="assets/css/styles.css" /> 
+    <link rel="stylesheet" href="assets/css/font-awesome.css">           
+    
+    <script src="assets/js/libs/modernizr.custom.60077.js"></script>      
+  </head>
+                           
+  <body>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid nav-fluid">
+        <a class="brand" href="#">ECOM</a>
+        
+        <!-- actions -->
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".main-toolbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+
+        <div class="btn-toolbar nav-collapse pull-right main-toolbar" id="main-toolbar">
+          <div class="btn-group myaccount">
+            <a href="pickup.html"><i class="icon-plus-sign"></i><span>Pickup</span></a>
+            <a><i class="icon-plane"></i><span>Track Me</span></a>
+            <a><i class="icon-truck"></i><span>Service Center</span></a>
+            <a><i class="icon-briefcase" class="active2"></i><span>CS Reports</span></a>
+            <a><i class="icon-money"></i><span>Billing</span></a>
+            <a href="customerdetails.html"><i class="icon-user"></i><span>Customer</span></a>
+            <a><i class="icon-thumbs-up"></i><span>Delivery</span></a>
+            <a href="employee.html"><i class="icon-group"></i><span>Employee</span></a>
+            <a href="#"><i class="icon-signout"></i><span>Logout</span></a>
+          </div>                              
+        </div>        
+        
+      </div><!-- /container-fluid -->
+    </div><!-- /navbar-inner -->
+  </div><!-- /navbar -->
+
+
+{% include "reports/report_header.html" %}
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="pagination pull-left">
+        <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+        </ul>
+        </div>
+        <div class="add-details pull-right">
+         <a href="finders.html" rel="tooltip" title="Check Pending Pickup"><i class="icon-exclamation-sign"> </i>Download Beyond SOP cases </a>&nbsp; &nbsp;
+         <a href="pickupdashboard.html" rel="tooltip" title="Check Completed Pickup"><i class="icon-thumbs-up"> </i>Update Return Instructions </a>&nbsp; &nbsp;
+         <a href="pickupdashboard.html" rel="tooltip" title="Check Completed Pickup"><i class="icon-thumbs-up"> </i>Download Feedback on Return Instructions </a>
+         
+
+
+        </div>
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Ageing-SOP Status</span>
+            <div class="pull-right"><input type="text" placeholder="Enter instructions update Date (dd/mm/yy)"/></div>
+          </div>
+          <div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Origin</th>
+                  <th>Origin Service Center</th>
+                  <th>Pickup Date</th>
+                  <th>DST</th>
+                  <th>DSCn</th>
+                  <th>AWBNO</th>
+                  <th>Customer Code</th>
+                  <th>Shipper Consignee</th>
+                  <th>Status Code</th>
+                  <th>Status update Date</th>
+                  <th>Status update Days</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>DEL</td>
+                  <td>CP</td>
+                  <td>28/09/2012</td>
+                  <td>CHAN</td>
+                  <td>CHAN</td>
+                  <td>10123</td>
+                  <td>JAB-10234</td>
+                  <td>ABC</td>
+                  <td>003</td>
+                  <td>3/10/2012</td>
+                  <td>6</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            </div>
+            
+          </div><!-- /cust-content -->
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3Address</h3>
+    </div>
+    <div class="modal-body">
+      
+    </div>
+  </div><!--modal end-->
+
+
+
+   <!-- uncomment pre-deloy -->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+  <script>window.jQuery || document.write('<script src="assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+  <!-- bootstrap -->
+  <script src="assets/js/bootstrap-transition.js"></script>
+  <script src="assets/js/bootstrap-alert.js"></script>
+  <script src="assets/js/bootstrap-modal.js"></script>
+  <script src="assets/js/bootstrap-dropdown.js"></script>
+  <script src="assets/js/bootstrap-scrollspy.js"></script>
+  <script src="assets/js/bootstrap-tab.js"></script>
+  <script src="assets/js/bootstrap-tooltip.js"></script>
+  <script src="assets/js/bootstrap-popover.js"></script>
+  <script src="assets/js/bootstrap-button.js"></script>
+  <script src="assets/js/bootstrap-collapse.js"></script>
+  <script src="assets/js/bootstrap-carousel.js"></script>
+  <script src="assets/js/bootstrap-typeahead.js"></script>
+  
+  <script src="assets/js/application.js"></script>
+  <script>$(rev.init);</script> 
+   <script type="text/javascript">
+    $("[rel=tooltip]").tooltip();
+</script> 
+   
+<script type="text/javascript">
+        (function() {
+            $("[rel=popover]").popover();
+        })();
+    </script>
+
+  
+<script>
+	$('#myTab a').click(function (e) {
+    e.preventDefault();
+    $(this).tab('show');
+    })
+
+</script>
+
+ 
+
+  </body>
+</html>

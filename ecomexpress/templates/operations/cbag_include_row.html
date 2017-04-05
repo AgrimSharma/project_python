@@ -1,0 +1,3 @@
+{% for bag in bags %}
+<tr id="bag-{{ bag.bag.bag_number }}" data-bag="{{ bag.bag.bag_number }}"><td>{{ bag.bag.bag_number }}</td><td>{{ bag.bag.actual_weight }}</td><td>{{ bag.bag.hub }}</td><td>{{ bag.bag.destination }}</td><td><input type="button" class="btn btn-danger cbag-remove-bag btn-mini" value="Exclude"></td></tr>
+{% endfor %}

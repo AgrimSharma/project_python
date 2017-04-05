@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+    <div class="row-fluid">
+      <div class="span12">
+          <div class="cust-content">
+          <div class="summary-content">
+          <h4 style="margin:50px 10px;">Multiple Shipments weight updation</h4>
+          <input type="button" class="btn btn-primary" value="Weight Correction" id="ship-upload" data-rev-action="modal" data-target="#ship">
+
+          <input type="button" class="btn btn-primary" value="Weight + LBH Correction" id="ship-upload1" data-rev-action="modal" data-target="#ship1">
+          <a href="generate_reports/" type="button" "PDSR & Daywise"/>
+          <input type="button" class="btn btn-primary" value=" PDSR & Daywise " id="ship-upload1"  data-target="#ship1">
+           
+           <div id ="count" style="margin-top:20px;">
+            <p class="alert alert-info">{{count}} airwaybill updated </p>
+          </div>
+          <div id ="warning" style="margin-top:20px;">
+           {% if warnings %}
+          <p class="alert alert-error">Errors</p>
+          <table>
+            {% for warning in warnings %}
+            <tr class="alert alert-error"><td>{{warning}}</td></tr>
+            {%endfor%}
+          </table>
+          {% endif %}
+          </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+  </div><!-- /container-fluid -->
+</div>
+
+
+
+  <div class="modal hide modal-mis-div" id="ship">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h4>Upload file for Shipment Weight Updation</h4>
+    </div>
+    <div style="height:auto;" class="modal-body">
+        <p>Please follow the below instructions when you upload your excel file containing the octroi details.</p>
+        <ul>
+           <li>All your data should be filled in Sheet1.</li>
+           <li>The first row of your sheet will be column headers.</li>
+           <li>All your data should be filled from row1, col1. Means there should not be any blank rows or columns on the left side and top of your data</li>
+           <li>Columns should be in the following order:
+              <ul>
+                  <li>Airwaybill Number (col 1)</li>
+                  <li>Weight (Col 2)</li>
+              </ul>
+        </ul>
+        <form method="post" action="/service-centre/shipment_update/" enctype="multipart/form-data">
+          {%csrf_token%}
+          <input  type="file" class="btn" value="browse" name="ship_file"/>
+          <br/>
+          <br/>
+          <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
+    </div>
+ </div>
+
+
+<div class="modal hide modal-mis-div" id="ship1">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h4>Upload file for Shipment Weight,length,breadth,height Updation</h4>
+    </div>
+    <div style="height:auto;" class="modal-body">
+        <p>Please follow the below instructions when you upload your excel file containing the octroi details.</p>
+        <ul>
+           <li>All your data should be filled in Sheet1.</li>
+           <li>The first row of your sheet will be column headers.</li>
+           <li>All your data should be filled from row1, col1. Means there should not be any blank rows or columns on the left side and top of your data</li>
+           <li>Columns should be in the following order:
+              <ul>
+                  <li>Airwaybill Number (col 1)</li>
+                  <li>Weight (Col 2)</li>
+                  <li>Length (Col 3)</li>
+                  <li>Breadth (Col 4)</li>
+                  <li>Height (Col 5)</li>
+              </ul>
+        </ul>
+
+        <form method="post" action="/service-centre/shipment_lbh_update/" enctype="multipart/form-data">
+          {%csrf_token%}
+          <input  type="file" class="btn" value="browse" name="ship_file"/>
+          <br/>
+          <br/>
+          <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
+    </div>
+ </div>
+
+
+{% endblock %}
+
+

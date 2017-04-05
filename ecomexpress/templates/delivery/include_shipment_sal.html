@@ -1,0 +1,128 @@
+    <div class="modal-header cust-title" style="width: 872px; ">
+      <a class="close" data-dismiss="modal">×</a>
+      <div>
+      <font style="color:#fff; font-size:24px;"> Include Shipment </font> &nbsp;<div style="display:inline-block"><font style="color:#fff; font-size:14px;">Airway Bill:</font><input name="awb" id="awb_scan" class="awb awb-barcode-scanner" style=" width:100px" type="text" size="9"/>
+ 
+      <font style="color:#fff; font-size:14px;">Count:</font><input name="awb" class="awb" style=" width:40px" id="shipment_count" type="text" size="9" value="{{shipment_count}}"/>
+            <font style="color:#fff; font-size:14px;">Date:{{sal.date}}</font>
+
+       </div> 
+      </div>
+<div class="modal-body">
+<table class="table-bag">
+<thead>
+<tr>
+<th>&nbsp;AWB</th>
+<th>&nbsp;Shipper</th>
+<th>Destination</th>
+<th>&nbsp;DST SC</th>
+<th>&nbsp;Added On</th>
+<th>&nbsp;Reason</th>
+</tr>
+</thead>
+<tbody>
+   		 {% for a in shipment%}
+<tr>
+<td>{{a.airwaybill_number}}</td>
+<td>{{a.shipper.name|truncatechars:20}}</td>
+<td>{{a.destination_city}}</td>
+<td>{{a.service_centre}}</td>
+<td>{{a.added_on|date:" d/m/Y    G:i"}}</td>
+<td>{{a.reason_code}}</td>
+</tr>
+   		 {% endfor%}
+</tbody>
+</table>
+    </div>
+    </div>
+
+<script>
+$(function(){
+$("#awb_scan").focus();
+
+$(".awb-barcode-scanner").change(function(){
+var scan_type = 0
+var awb=$("input.awb").val();
+current_time = new Date();
+      difference_time = current_time - start_time;
+      //alert(current_time);
+      //alert(start_time);
+      //alert(difference_time);
+      if(difference_time > 400){
+          //alert(difference_time);
+          alert("You are not allowed to key in.\nPlease use Barcode Scanner!");
+          $(".awb-barcode-scanner").val("");
+          start_time = 0;
+          scan_type = 1
+      //    return false;
+      }
+      start_time = 0;
+
+
+var table_data = $(".table-bag > tbody").html();
+var datastring = "awb="+awb+"&scan_type="+scan_type;
+$.ajax({
+type:"POST",
+url: "/delivery/include_shipment_sal/{{sid}}/",
+data: datastring,
+success: function(resp){
+$(".table-bag > tbody").html("")
+$(".table-bag > tbody").append(resp);
+$(".table-bag > tbody").append(table_data);
+shipment_count = parseInt($("#shipment_count").val())+parseInt(1);
+
+$("#shipment_count").val(shipment_count);
+
+//alert(resp); 
+//location.reload();
+},
+error: function(resp){
+alert("Incorrect Airwaybill"); 
+},
+});
+$("#awb_scan").val("");
+$("#awb_scan").focus();
+
+});
+
+});
+
+
+
+</script>
+
+
+
+
+<script>
+//alert($("#test").val());
+var start_time = "";
+$(".awb-barcode-scanner").keypress(function(event){
+   if (!start_time){
+      start_time = new Date()
+   }
+});
+
+
+//$(".awb-barcode-scanner").change(function(event){
+  //    current_time = new Date();
+    //  difference_time = current_time - start_time;
+      //alert(current_time);
+      //alert(start_time);
+      //alert(difference_time);
+ //     if(difference_time > 400){
+   //       //alert(difference_time);
+       //   alert("You are not allowed to key in.\nPlease use Barcode Scanner!");
+     //     $(".awb-barcode-scanner").val("");
+//          start_time = 0;
+  //        return false;
+    //  }
+      //start_time = 0;
+//});
+
+$('.awb-barcode-scanner').live("cut copy paste",function(e) {
+     e.preventDefault();
+});
+
+</script>
+

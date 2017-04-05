@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid"><div class="span12">{% include 'service_centre/nav.html' %}</div></div>
+
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="survey-details">
+        <div class="cust-title">
+            <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Return</span>
+        </div>
+        <div class="cust-content">
+          <ul class="nav nav-tabs" id="myTab"> <li class="active"><a data-toggle="tab" href="#RTO">RTO</a></li> </ul>
+          <div class="tab-content" id="myTabContent">
+            <div id="RTO" class="tab-pane active">
+              <div style=" margin-left:10px;">
+              <input placeholder="074" disabled style="width:23px; display:inline-block"/> <h4 style=" display:inline-block">Return To Origin</h4>
+              <form id="rtoform">
+                {% csrf_token %}
+                <input type="hidden" name="redir_code" value="74">
+              	<table>
+                  <tr> <td>Emp Code*</td><td><input type="text" id="emp_code_rto" name="emp_code" style="width:40px;" value="{{request.user.employeemaster.employee_code}}"/></td> </tr>
+                  <tr> <td>AWB*</td><td><input type="text" class="awb_scan rto_awb" id="rto_awb" name="awb" style="width:70px;"/></td> </tr>
+                  <tr> <td>Reason Code:*</td><td> <select name="reason_code" id="reason_code_rto" class="reason_code" type="rto"> <option>Select Reason Code</option> {% for a in reason_code %} <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option> {% endfor %} </select> </td> </tr>
+                </table>
+                <table>
+                  <tr> <td><input type="submit" class="btn btn-redbutton" id="rtosubmitForm" value="Submit"/> </td> </tr>
+                </table>
+                </form>
+            </div> <!-- RTO -->
+        </div> <!-- MyTabContent -->
+        </div> <!-- cust-content -->
+        </div> <!-- survey details -->
+        </div> <!-- span 12 -->
+  </div> <!-- row fluid -->
+  </div> <!-- wrap -->
+</div> <!-- main -->
+<script type="text/javascript">
+$(".awb_scan").focus();
+
+$("#rtosubmitForm").click(function(e){
+        e.preventDefault();
+var emp_code=$("input#emp_code_rto").val();
+var awb=$("input#rto_awb").val();
+var rc=$("select#reason_code_rto").val();
+var datastring = "emp_code="+emp_code+"&awb="+awb+"&reason_code="+rc+"&redir_code="+"74";
+$.ajax({
+                                type:"POST",
+                                url: "/delivery/return_redirection/1/",
+                                data: datastring,
+                                success: function(resp){
+$("input#rto_awb").val("");
+$("input#rto_awb").focus();
+
+ alert(resp);
+ }
+});
+});
+
+
+</script>
+{% endblock %}
+

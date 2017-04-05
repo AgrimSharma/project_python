@@ -1,0 +1,76 @@
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+{% endblock %}
+
+{%block content%}
+<style>
+.jq_amount_collected {display: inline-block; border: 1px solid #ccc; width: 60px; border-radius: 5px; text-align: right; padding: 2px; box-shadow: 5px 5px 2px #888888;}
+</style>
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+
+<div class="ship-content">
+{% load tags %}
+
+<form>
+   <table class="table">
+     <thead>
+        <tr>
+<th>Sr. No</th>
+           <th>Customer Name</th>
+<th>Total Declared Value</th>
+           <th>Octroi Paid</th>
+<th>Number of Shipments</th>
+<!--  <th>Ecomm Oct %ge</th> -->
+	   <th>Receipt Number</th>
+        </tr>
+     </thead>
+     <tbody>
+  {%for ship in shipments%} 
+        <tr><td>
+{{ forloop.ciounter }}  </td>
+<td>{{ship.shipper__name}} </td>
+<td>{{ship.declared_value}} </td>
+<td>{{ship.decl_sum}}  </td>
+	   <td>{{ship.ship_count}}</td>
+	   <td> <input type="text" id="reciept_number" name="reciept-{{ship.shipper__id}}"  value="" style="width:100px"/></td>
+       </tr>
+     {% endfor%}
+     </tbody>
+   </table>
+</form>
+</div><!-- ship-content -->
+<!--<button type="button" class="btn btn-primary submit" data-rshipid="{{ rshipment.id}}">Save </button>-->
+<button id = "savedata">Save</button>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+$("#savedata").click(function(e){
+
+var str = $( "form" ).serialize();
+    $( "#results" ).text( str );
+console.log( str); 
+ $.ajax({
+                        url: "/hub/update_reciepts/{{oct_id}}/",
+                        type: "POST",
+                        data: str,
+                        success: function(response) {
+                            alert(response);
+                          },
+                    }); 
+  return false;
+});
+</script>
+
+{% endblock %}
+
+<div id="popupContact">
+
+        <a id="popupContactClose">x</a>
+
+  </div>
+</div>
+<script src="/static/assets/js/jquery.jeditable.mini.js"></script>
+<script type="text/javascript">
+
+

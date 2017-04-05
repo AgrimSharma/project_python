@@ -1,0 +1,71 @@
+<select style="width: 158px;" class="report_type"  onChange="window.open(this.options[this.selectedIndex].value,'_top')">
+<option>Select</option>
+{% load tags %}
+{% if request.user.employeemaster.user_type == "Staff" or request.user.employeemaster.user_type == "Supervisor" or request.user.employeemaster.user_type == "Sr Supervisor"%}
+<option value="/reports/not_outscan/">Not Out Scan Report</option>
+<option value="/reports/bag_detail/">Bag Detail Report</option>
+<option value="/reports/bag_exception/">Bag Exception Report</option>
+<option value="/reports/data_uploaded_status/">Data uploaded status Report</option>
+<option value="/reports/shpt_pickuped_status/">Shipment Pickuped Status Report</option>
+{%endif%}
+<option value="/reports/ndr/">NDR</option>
+<option value="/reports/daily_sales_register/">Daily sales Register</option>
+<option value="/reports/customer_wise_day_wise_sales_summary/">Customer-wise Day-wise Sales Summary</option>
+<option value="/reports/customer_wise_bill_summary/">Customer-wise Bill Summary</option>
+<option value="/reports/performance_analysis/">Performance Analysis</option>
+<option value="/reports/performance_analysis_location/">Performance Analysis - Location </option>
+<option value="/reports/performance_analysis_customer/">Performance Analysis - Customer </option>
+<option value="/reports/strike_rate_analysis_location/">Strike Rate Analysis(Location)</option>
+<option value="/reports/strike_rate_analysis_customer/">Strike Rate Analysis(Customer)</option>
+<option value="/reports/ageing_sop/">Ageing Sop</option>
+<option value="/reports/noinfo/">No-Information </option>
+<option value="/reports/cust_reconcilation_report/">Customer Reconciliation Report</option>                          
+<option value="/reports/backdated/">Back Dated Reports </option>
+<option value="/reports/previousday/">Previous Day Delivery  </option>             
+<option value="/reports/cod_collection/">COD Collection Exception</option>
+<option value="/reports/cod_collection_del/">COD Collection POD</option>
+<option value="/reports/cod_collection_rev/">COD Collection POD rev</option>
+
+<option value="/reports/cod_collection/daytally/">COD Collection Day Tally</option>
+<option value="/reports/delivery_dispatch/">Delivery Dispatch Reports</option>
+<option value="/reports/day_wise_count/">Day-wise Count</option>
+<option value="/reports/delivery_performance/">Delivery Performance Report</option>
+<option value="/reports/not_outscan/">Not Out Scan Report</option>
+<option value="/reports/bag_detail/">Bag Detail Report</option>
+<option value="/reports/bag_exception/">Bag Exception Report</option>
+<option value="/reports/data_uploaded_status/0/">Data uploaded status Report</option>
+<option value="/reports/data_uploaded_status/1/">Shipment Pickuped Status Report</option>
+<option value="/reports/data_uploaded_status/2/">PPC Not Outscan Report</option>
+<option value="/reports/data_uploaded_status/7/">Pending Outscan Report</option>
+<option value="/reports/hub_notoutscan/">Hub Not Outscan Report</option>
+<option value="/reports/bag_inbound/2/">Bag-Inbound Report</option>
+<option value="/reports/bag_inbound/7/">Bag-Outbound Report</option>
+<option value="/reports/outscan_for_shipment/">Outscans Report</option>
+<option value="/reports/sub_customers/">Subcustomers Report</option>
+<option value="/reports/coddeposit_confirmation/">COD Deposits Confirmation Report</option>
+<option value="/reports/get_inscan_report/">Inscans Report</option>
+<option value="/reports/weekly_report/">Weekly Report</option>
+<option value="/reports/get_prev_day_load_report/">Previous Day Load Report</option>
+<option value="/reports/get_daily_report/">Daily Report</option>
+<option value="/reports/get_missed_pickup/">Missed Pickup Report</option>
+<option value="/reports/rto_status_report/">RTO Status Report</option>
+<option value="/reports/outscan_performance_report/">Outscan Performance Report</option>
+<option value="/reports/correction_report/">Correction Report</option>
+<option value="/reports/tally_input_xml/">Tally Input XML</option>
+<option value="/reports/telecalling_report/">Telecalling Report</option>
+<option value="/reports/pickup_report/">Pickup MIS Report</option>
+<option value="/reports/overage_report/">Overage Report</option>
+<option value="/reports/shortage_report/">Shortage Report</option>
+<option value="/reports/trf_invice_report/">Trf Invoice Report</option>
+<option value="/reports/daily_cash_tally_report/">Daily Cash Tally Report</option>
+ <option value="/reports/west_bengal_report/">West Bengal Report</option>
+<option value="/reports/daywise_report/">Daywise report</option>
+</select>
+
+<script type='text/javascript'>                                                      
+    $(document).ready(function(){
+        var path = '{{request.get_full_path}}';
+        $(".report_type").val( path ).attr('selected',true);
+        //$(".report_type option[value='{{request.get_full_path}}']").attr("selected", "selected");
+    });
+</script>

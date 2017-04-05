@@ -1,0 +1,455 @@
+<table class='table table-striped table-bordered pricing-table'>
+   <caption><b>General</b></caption>
+   <tr>
+       <th id="gen-minactualweight-{{customer.id}}">Vol Divisor</th>
+       <th id="gen-demarrage_min_amt-{{customer.id}}">Min Actual Weight</th>
+       <th id="gen-to_pay_charge-{{.id}}">To Pay Charge</th>
+       <th id="gen-demarrage_min_amt-{{customer.id}}">Demarrage Charge (Per Day)</th>
+       <th id="gen-demarrage_perkg_amt-{{customer.id}}">Demarrage Charge (Per Kg)</th>
+       <th id="gen-reverse_charges-{{customer.id}}">Reverse Charge</th>
+       <th id="gen-vchc_min-{{customer.id}}">VCHC min Charge </th>
+       <th id="gen-vchc_rate-{{customer.id}}">VCHC min Rate</th>
+       <th id="gen-vchc_min_amnt_applied-{{customer.id}}">VCHC min Amount Applied</th>
+       <th id="gen-fuel_surcharge_applicable-{{customer.id}}">Fuel Surcharge Applicable</th>
+       <th id="gen-flat_cod_amt-{{customer.id}}">Flat COD Charge</th>
+    </tr>
+    <tr>
+        <td class="edit" id="gen-volumetricweightdivisor-{{customer.id}}">{% if customer.volumetricweightdivisor_set.get.divisor%}{{customer.volumetricweightdivisor_set.get.divisor}}{%else%}5000{%endif%}</td>
+       <td class="edit" id="gen-minactualweight-{{customer.id}}">{{customer.minactualweight_set.get.weight}}</td>
+       <td class="edit" id="gen-to_pay_charge-{{customer.id}}">{{customer.to_pay_charge}}</td>
+       <td class="edit" id="gen-demarrage_min_amt-{{customer.id}}">{{customer.demarrage_min_amt}}</td>
+       <td class="edit" id="gen-demarrage_perkg_amt-{{customer.id}}">{{customer.demarrage_perkg_amt}}</td>
+       <td class="edit" id="gen-reverse_charges-{{customer.id}}">{{customer.reverse_charges|default_if_none:'0.0'}}</td>
+       <td class="edit" id="gen-vchc_min-{{customer.id}}">{{customer.vchc_min}}</td>
+       <td class="edit" id="gen-vchc_rate-{{customer.id}}">{{customer.vchc_rate}}</td>
+       <td class="edit" id="gen-vchc_min_amnt_applied-{{customer.id}}">{{customer.vchc_min_amnt_applied}}</td>
+       <td class="" id="gen-fuel_surcharge_applicable-{{customer.id}}">{{customer.fuel_surcharge_applicable}}</td>
+       <td class="edit" id="gen-flat_cod_amt-{{customer.id}}">{{customer.flat_cod_amt|default_if_none:'0.0'}}</td>
+     </tr>
+ </table>
+
+ <div class="effective_section pull-right" style="width:250px; margin-top:10px;">
+     <label>Effective Date</label>
+     <input type="text" id="defaultfreight-{{ customer.id }}" class="effective_date" value="{% if customer.freightslab_set.all %} {{ customer.freightslab_set.all.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+ <table class='table table-striped table-bordered pricing-table' style="background:#orange;">
+    <caption><b>Default Freight Rate</b></caption>
+    <tr>
+      <th id="defaultfreight-slab-{{customer.id}}">Slab</th>
+      <th id="defaultfreight-weight_rate-{{customer.id}}">Weight Rate</th>
+      <th id="defaultfreight-range_from-{{customer.id}}">Range From</th>
+      <th id="defaultfreight-range_to-{{customer.id}}">Range To</th>
+     </tr>
+     {% if customer.freightslab_set.all %}
+     {% for c in customer.freightslab_set.all %}
+     <tr>
+       <td id="defaultfreight-slab-{{ c.id }}" class="edit">{{c.slab}}</td>
+       <td id="defaultfreight-weight_rate-{{ c.id }}" class="edit">{{c.weight_rate}}</td>
+       <td id="defaultfreight-range_from-{{ c.id }}" class="edit">{{c.range_from}}</td>
+       <td id="defaultfreight-range_to-{{ c.id }}" class="edit">{{c.range_to}}</td>
+     </tr>
+    {% endfor %}
+    {% endif %}
+  </table>
+
+ <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+     <label>Effective Date</label>
+     <input type="text" id="freight-{{ customer.id }}" class="effective_date" value="{% if freights %} {{ freights.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+ <table class='table table-striped table-bordered pricing-table' style="background:#orange;">
+    <caption><b>Freight Rate</b></caption>
+    <tr>
+      <th id="freight-zone_org-{{customer.id}}" >Origin Zone</th>
+      <th id="freight-zone_dest-{{customer.id}}">Destination Zone</th>
+      <th id="freight-slab-{{customer.id}}">Slab</th>
+      <th id="freight-rate_per_slab-{{customer.id}}">Rate Per Slab</th>
+      <th id="freight-range_from-{{customer.id}}">Range From</th>
+      <th id="freight-range_to-{{customer.id}}">Range To</th>
+     </tr>
+     {% for c in freights %}
+     <tr>
+       <td id="freight-zone_org-{{ c.id }}" class="editabl">{{c.zone_org.zone_name}}</td>
+       <td id="freight-zone_dest-{{ c.id }}" class="editabl">{{c.zone_dest.zone_name}}</td>
+       <td id="freight-slab-{{ c.id }}" class="edit">{{c.slab}}</td>
+       <td id="freight-rate_per_slab-{{ c.id }}" class="edit">{{c.rate_per_slab}}</td>
+       <td id="freight-range_from-{{ c.id }}" class="edit">{{c.range_from}}</td>
+       <td id="freight-range_to-{{ c.id }}" class="edit">{{c.range_to}}</td>
+     </tr>
+    {%endfor%}
+  </table>
+
+ {% if codfreights %}
+   <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+     <label>Effective Date</label>
+     <input type="text" id="codfreight-{{ customer.id }}" class="effective_date" value="{% if codfreights %} {{ codfreights.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+   </div>
+
+  <table class='table table-striped table-bordered pricing-table'>
+     <caption><b>COD Freight Rate</b></caption>
+     <tr>
+       <th id="codfreight-zone_org-{{customer.id}}">Origin Zone</th>
+       <th id="codfreight-zone_dest-{{customer.id}}">Destination Zone</th>
+       <th id="codfreight-slab-{{customer.id}}">Slab</th>
+       <th id="codfreight-rate_per_slab-{{customer.id}}">Rate Per Slab</th>
+       <th id="codfreight-range_from-{{customer.id}}">Range From</th>
+       <th id="codfreight-range_to-{{customer.id}}">Range To</th>
+       <th id="codfreight-weight_rate-{{customer.id}}">Default Slab Rate</th>
+     </tr>
+
+    {% for c in codfreights %}
+     <tr>
+        <td id="codfreight-zone_org-{{ c.id }}" class="editabl">{{c.zone_org}}</td>
+        <td id="codfreight-zone_dest-{{ c.id }}" class="editabl">{{c.zone_dest}}</td>
+        <td id="codfreight-slab-{{ c.id }}" class="edit">{{c.freight_slab.slab}}</td>
+        <td id="codfreight-rate_per_slab-{{ c.id }}" class="edit">{{c.rate_per_slab}}</td>
+        <td id="codfreight-range_from-{{ c.id }}" class="edit">{{c.freight_slab.range_from}}</td>
+        <td id="codfreight-range_to-{{ c.id }}" class="edit">{{c.freight_slab.range_to}}</td>
+        <td id="codfreight-weight_rate-{{ c.id }}" class="edit">{{c.freight_slab.weight_rate}}</td>
+     </tr>
+     {%endfor%}
+  </table>
+  {%endif%}
+
+  {% if rtsfreights %}
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="rtsfreight-{{ customer.id }}" class="effective_date" value="{% if customer.effective_date %} {{ rtsfreights.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+  </div>
+  <table class='table table-striped table-bordered pricing-table'>
+     <caption><b>RTS Freight Rate</b></caption>
+     <tr>
+       <th id="rtsfreight-zone_org-{{customer.id}}">Origin Zone</th>
+       <th id="rtsfreight-zone_dest-{{customer.id}}">Destination Zone</th>
+       <th id="rtsfreight-slab">Slab</th>
+       <th id="rtsfreight-rate_per_slab-{{customer.id}}">Rate Per Slab</th>
+       <th id="rtsfreight-range_from-{{customer.id}}">Range From</th>
+       <th id="rtsfreight-range_to-{{customer.id}}">Range To</th>
+       <th id="rtsfreight-weight_rate-{{customer.id}}">Default Slab Rate</th>
+     </tr>
+
+    {% for c in rtsfreights %}
+     <tr>
+       <td id="freight-zone_dest-{{ c.id }}" class="editabl">{{c.zone_org}}</td>
+       <td id="freight-zone_dest-{{ c.id }}" class="editabl">{{c.zone_dest}}</td>
+       <td id="rtsfreight-slab-{{ c.id }}" class="edit">{{c.freight_slab.slab}}</td>
+       <td id="rtsfreight-rate_per_slab-{{ c.id }}" class="edit">{{c.rate_per_slab}}</td>
+       <td id="rtsfreight-range_from-{{ c.id }}" class="edit">{{c.freight_slab.range_from}}</td>
+       <td id="rtsfreight-range_to-{{ c.id }}" class="edit">{{c.freight_slab.range_to}}</td>
+       <td id="rtsfreight-weight_rate-{{ c.id }}" class="edit">{{c.freight_slab.weight_rate}}</td>
+      </tr>
+      {%endfor%}
+  </table>
+  {%endif%}
+
+  {%if reversefreights %}
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="reversefreight-{{ customer.id }}" class="effective_date" value="{% if reversefreights.0.effective_date %} {{ reversefreights.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+  <table class='table table-striped table-bordered pricing-table'>
+     <caption><b>Reverse Freight Rate</b></caption>
+     <tr>
+           <th id="reversefreight-zone_org-{{customer.id}}">Origin Zone</th>
+           <th id="reversefreight-zone_dest-{{customer.id}}">Destination Zone</th>
+           <th id="reversefreight-slab-{{customer.id}}">Slab</th>
+           <th id="reversefreight-rate_per_slab-{{customer.id}}">Rate Per Slab</th>
+           <th id="reversefreight-range_from-{{customer.id}}">Range From</th>
+           <th id="reversefreight-range_to-{{customer.id}}">Range To</th>
+           <th id="reversefreight-weight_rate-{{customer.id}}">Default Slab Rate</th>
+    </tr>
+
+     {% for c in reversefreights %}
+     <tr>
+        <td id="freight-zone_org-{{ c.id }}" class="ditable">{{c.zone_org}}</td>
+        <td id="freight-zone_dest-{{ c.id }}" class="ditable">{{c.zone_dest}}</td>
+        <td id="reversefreight-slab-{{ c.id }}" class="edit">{{c.freight_slab.slab}}</td>
+        <td id="reversefreight-rate_per_slab-{{ c.id }}" class="edit">{{c.rate_per_slab}}</td>
+        <td id="reversefreight-range_from-{{ c.id }}" class="edit">{{c.freight_slab.range_from}}</td>
+        <td id="reversefreight-range_to-{{ c.id }}" class="edit">{{c.freight_slab.range_to}}</td>
+        <td id="reversefreight-weight_rate-{{ c.id }}" class="edit">{{c.freight_slab.weight_rate}}</td>
+
+     </tr>
+     {%endfor%}
+  </table>
+  {%endif%}
+
+  {% if sddfreights %}
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="sddfreight-{{ customer.id }}" class="effective_date" value="{% if sddfreights.0.effective_date %} {{ sddfreights.0.effective_date|date:"Y-m-d"}} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+  <table class='table table-striped table-bordered pricing-table'>
+     <caption><b>SDD Freight Rate</b></caption>
+     <tr>
+      <th id="sddfreight-zone_org-{{customer.id}}">Origin Zone</th>
+      <th id="sddfreight-zone_dest-{{customer.id}}">Destination Zone</th>
+      <th id="sddfreight-slab-{{customer.id}}">Slab</th>
+      <th id="sddfreight-rate_per_slab-{{customer.id}}">Rate Per Slab</th>
+      <th id="sddfreight-range_from-{{customer.id}}">Range From</th>
+      <th id="sddfreight-range_to-{{customer.id}}">Range To</th>
+      <th id="sddfreight-weight_rate-{{customer.id}}">Default Slab Rate</th>
+    </tr>
+
+    {% for c in sddfreights %}
+     <tr>
+       <td id="freight-zone_org-{{ c.id }}" class="ditable">{{c.zone_org}}</td>
+       <td id="freight-zone_dest-{{ c.id }}" class="ditable">{{c.zone_dest}}</td>
+       <td id="sddfreight-slab-{{ c.id }}" class="edit">{{c.freight_slab.slab}}</td>
+       <td id="sddfreight-rate_per_slab-{{ c.id }}" class="edit">{{c.rate_per_slab}}</td>
+       <td id="sddfreight-range_from-{{ c.id }}" class="edit">{{c.freight_slab.range_from}}</td>
+       <td id="sddfreight-range_to-{{ c.id }}" class="edit">{{c.freight_slab.range_to}}</td>
+       <td id="sddfreight-weight_rate-{{ c.id }}" class="edit">{{c.freight_slab.weight_rate}}</td>
+      </tr>
+      {%endfor%}
+  </table>
+  {%endif%}
+
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="defaultfs-{{ customer.id }}" class="effective_date" value="{% if customer.fuelsurcharge_set.get.fuelsurchargezone.effective_date %} {{ customer.fuelsurcharge_set.get.fuelsurchargezone.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+ <table class='table table-striped table-bordered pricing-table'>
+       <caption><b>Default Fuel Surcharge</b></caption>
+       <tr>
+           <th id="defaultfs-fuelsurcharge_min_rate-{{customer.id}}">Default Fuel Surcharge Min rate</th>
+           <th id="defaultfs-fuelsurcharge_min_fuel_rate-{{customer.id}}">Fuel Surcharge Min Fuel rate</th>
+           <th id="defaultfs-flat_fuel_surcharge-{{customer.id}}">Flat Fuel Surcharge</th>
+           <th id="defaultfs-max_fuel_surcharge-{{customer.id}}">Max Fuel Surcharge</th>
+
+       </tr>
+           <td id="defaultfs-fuelsurcharge_min_rate-{{ customer.id }}" class="edit">{{customer.fuelsurcharge_set.get.fuelsurcharge_min_rate}}</td>
+           <td id="defaultfs-fuelsurcharge_min_fuel_rate-{{ customer.id }}" class="edit">{{customer.fuelsurcharge_set.get.fuelsurcharge_min_fuel_rate}}</td>
+           <td id="defaultfs-flat_fuel_surcharge-{{ customer.id }}" class="edit">{{customer.fuelsurcharge_set.get.flat_fuel_surcharge}}</td>
+           <td id="defaultfs-max_fuel_surcharge-{{ customer.id }}" class="edit">{{customer.fuelsurcharge_set.get.max_fuel_surcharge}}</td>
+        </tr>
+   </table>
+
+   {%if customer.fuelsurcharge_set.get.fuelsurchargezone_set.all%}
+     <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+     <label>Effective Date</label><input type="text" id="fuelsc_zone-{{ customer.id }}" class="effective_date" value="{% if customer.fuelsurcharge_set.get.fuelsurchargezone_set.all.0.effective_date %} {{ customer.fuelsurcharge_set.get.fuelsurchargezone_set.all.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+   <table class='table table-striped table-bordered pricing-table'>
+      <caption><b>Fuel Surcharge Zone Wise</b></caption>
+     <tr>
+           <th id="fuelsc_zone-f_zone_org-{{customer.id}}">Origin Zone</th>
+           <th id="fuelsc_zone-f_zone_dest-{{customer.id}}">Destination Zone</th>
+           <th id="fuelsc_zone-fuelsurcharge_min_rate-{{customer.id}}">Zone Fuel Surcharge Min Rate</th>
+           <th id="fuelsc_zone-fuelsurcharge_min_fuel_rate-{{customer.id}}">Zone FS Fuel Rate</th>
+           <th id="fuelsc_zone-flat_fuel_surcharge-{{customer.id}}">Flat FS</th>
+           <th id="fuelsc_zone-max_fuel_surcharge-{{customer.id}}">Max Fuel Surcharge</th>
+           <th id="fuelsc_zone-product-{{customer.id}}">Product</th>
+     </tr>
+  {%for b in customer.fuelsurcharge_set.get.fuelsurchargezone_set.all%}
+     <tr>
+        <td class="">{{b.f_zone_org}}</td>
+        <td class="">{{b.f_zone_dest}}</td>
+        <td id="fuelsc_zone-fuelsurcharge_min_rate-{{ b.id }}" class="edit">{{b.fuelsurcharge_min_rate}}</td>
+        <td id="fuelsc_zone-fuelsurcharge_min_fuel_rate-{{ b.id }}" class="edit">{{b.fuelsurcharge_min_fuel_rate}}</td>
+        <td id="fuelsc_zone-flat_fuel_surcharge-{{ b.id }}" class="edit">{{b.flat_fuel_surcharge}}</td>
+        <td id="fuelsc_zone-max_fuel_surcharge-{{ b.id }}" class="edit">{{b.max_fuel_surcharge}}</td>
+        <td id="fuelsc_zone-product-{{ b.id }}" class="">{{b.product.all|default_if_none:""}}</td>
+      </tr>
+            {%endfor%}
+
+  </table>
+  {%endif%}
+
+  {%if customer.rtsfuelzone_set.all or customer.rtsfuel_set.get%}
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="rtsfuelsc_zone-{{ customer.id }}" class="effective_date" value="{% if customer.rtsfuelzone_set.all.0.effective_date %} {{ customer.rtsfuelzone_set.all.0.effective_date|date:"Y-m-d"}} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+   <table class='table table-striped table-bordered pricing-table'>
+    <caption><b>RTS Fuel Surcharge Zone Wise</b></caption>
+    <tr>
+          <th id="rtsfuelsc_zone-default-{{customer.id}}">RTS default FS</th>
+          <th id="rtsfuelsc_zone-origin-{{customer.id}}">RTS Origin FS Zone</th>
+          <th id="rtsfuelsc_zone-destination-{{customer.id}}">RTS Destination FS Zone</th>
+          <th id="rtsfuelsc_zone-rate-{{customer.id}}">FS Rate</th>
+     </tr>
+            {%for b in customer.rtsfuelzone_set.all%}
+     <tr>
+          <td class="">{{customer.rtsfuel_set.get.rate|default_if_none:"0"}}</td>
+          <td id="rtsfuelsc_zone-origin-{{customer.id}}"class="">{{b.origin}}</td>
+          <td id="rtsfuelsc_zone-destination-{{customer.id}}"class="">{{b.destination}}</td>
+          <td id="rtsfuelsc_zone-rate-{{ b.id }}" class="edit">{{b.rate}}</td>
+      </tr>
+            {%endfor%}
+
+  </table>
+{%endif%}
+
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="codcharge-{{ customer.id }}" class="effective_date" value="{% if customer.cashondelivery_set.all.0.effective_date %} {{ customer.cashondelivery_set.all.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+ <table class='table table-striped table-bordered pricing-table'>
+    <caption><b>Default COD Charge</b></caption>
+     <tr>
+       <th id="codcharge-COD_service_charge-{{customer.id}}">COD Service Charge</th>
+       <th id="codcharge-start_range-{{customer.id}}">Start Range</th>
+       <th id="codcharge-end_range-{{customer.id}}">End Range</th>
+       <th id="codcharge-flat_COD_charge-{{customer.id}}">Flat COD Charge</th>
+       <th id="codcharge-minimum_COD_charge-{{customer.id}}">Minimum COD Charge</th>
+     </tr>
+     {%for b in customer.cashondelivery_set.all%}
+     <tr>
+       <td id="codcharge-COD_service_charge-{{ b.id }}" class="edit">{{b.COD_service_charge}}</td>
+       <td id="codcharge-start_range-{{ b.id }}" class="edit">{{b.start_range}}</td>
+       <td id="codcharge-end_range-{{ b.id }}"class="edit">{{b.end_range}}</td>
+       <td id="codcharge-flat_COD_charge-{{ b.id }}"class="edit">{{b.flat_COD_charge}}</td>
+       <td id="codcharge-minimum_COD_charge-{{ b.id }}"class="edit">{{b.minimum_COD_charge}}</td>
+      </tr>
+      {%endfor%}
+
+  </table>
+ {%if  customer.cashondeliveryzone_set.all %}
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="codzone-{{ customer.id }}" class="effective_date" value="{% if customer.cashondeliveryzone_set.all.0.effective_date %} {{ customer.cashondeliveryzone_set.all.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+ <table class='table table-striped table-bordered pricing-table'>
+     <caption><b>COD Charge Zone Wise</b></caption>
+     <tr>
+       <th id="codzone-COD_service_charge-{{customer.id}}">COD Service Charge Zone</th>
+       <th id="codzone-start_range-{{customer.id}}">Start Range</th>
+       <th id="codzone-end_range-{{customer.id}}">End Range</th>
+       <th id="codzone-c_zone_org-{{customer.id}}">Origin</th>
+       <th id="codzone-c_zone_dest-{{customer.id}}">Destination</th>
+       <th id="codzone-flat_COD_charge-{{customer.id}}">Flat COD Charge</th>
+       <th id="codzone-minimum_COD_charge-{{customer.id}}">Minimum COD Charge</th>
+     </tr>
+     {%for b in customer.cashondeliveryzone_set.all %}
+     <tr>
+       <td id="codzone-COD_service_charge-{{ b.id }}" class="edit">{{b.COD_service_charge}}</td>
+       <td id="codzone-start_range-{{ b.id }}" class="edit">{{b.start_range}}</td>
+       <td id="codzone-end_range-{{ b.id }}" class="edit">{{b.end_range}}</td>
+       <td class="">{{b.c_zone_org}}</td>
+       <td class="">{{b.c_zone_dest}}</td>
+       <td id="codzone-flat_COD_charge-{{ b.id }}" class="edit">{{b.flat_COD_charge}}</td>
+       <td id="codzone-minimum_COD_charge-{{ b.id }}" class="edit">{{b.minimum_COD_charge}}</td>
+      </tr>
+     {%endfor%}
+
+  </table>
+  {%endif%}
+
+  {%if customer.sdlslabcustomer_set.all%}
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="sdlcharge-{{ customer.id }}" class="effective_date" value="{% if customer.sdlslabcustomer_set.all.0.effective_date %} {{ customer.sdlslabcustomer_set.all.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+  <table class='table table-striped table-bordered pricing-table'>
+    <caption><b>SDL Charge</b></caption>
+     <tr>
+        <th id="sdlcharge-slab-{{customer.id}}">Slab</th>
+        <th id="sdlcharge-weight_rate-{{customer.id}}">Rate</th>
+        <th id="sdlcharge-range_from-{{customer.id}}">Range From</th>
+        <th id="sdlcharge-range_to-{{customer.id}}">Range To</th>
+     </tr>
+            {%for b in customer.sdlslabcustomer_set.all%}
+     <tr>
+        <td id="sdlcharge-slab-{{ b.id }}" class="edit">{{b.slab}}</td>
+        <td id="sdlcharge-weight_rate-{{ b.id }}" class="edit">{{b.weight_rate}}</td>
+        <td id="sdlcharge-range_from-{{ b.id }}" class="edit">{{b.range_from}}</td>
+        <td id="sdlcharge-range_to-{{ b.id }}" class="edit">{{b.range_to}}</td>
+      </tr>
+     {%endfor%}
+
+  </table>
+  {%endif%}
+
+ {%if customer.rtsfreightzone_set.all%}
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="rtsfreightzone-{{ customer.id }}" class="effective_date" value="{% if customer.rtsfreightzone_set.all.0.effective_date %} {{ customer.rtsfreightzone_set.all.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+ <table class='table table-striped table-bordered pricing-table'>
+    <caption><b>RTS Freight Zone</b></caption>
+     <tr>
+       <th id="rtsfreightzone-zone_org-{{customer.id}}">Origin</th>
+       <th id="rtsfreightzone-zone_dest-{{customer.id}}">Destination</th>
+       <th id="rtsfreightzone-rate-{{customer.id}}">Rate</th>
+       <th id="rtsfreightzone-freight_charge-{{customer.id}}">Freight Charge</th>
+       <th id="rtsfreightzone-slab-{{customer.id}}">Slab</th>
+       <th id="rtsfreightzone-range_from-{{customer.id}}">Range From</th>
+       <th id="rtsfreightzone-range_to-{{customer.id}}">Range To</th>
+       <th id="rtsfreightzone-weight_rate-{{customer.id}}">Weight Rate</th>
+     </tr>
+            {%for b in customer.rtsfreightzone_set.all%}
+     <tr>
+       <td class="">{{b.origin}}</td>
+       <td class="">{{b.destination}}</td>
+       <td id="rtsfreightzone-rate-{{ b.id }}" class="edit">{{b.rate}}</td>
+       <td id="rtsfreightzone-freight_charge-{{ b.id }}" class="edit">{{b.freight_charge}}</td>
+       <td id="rtsfreightzone-slab-{{ b.id }}" class="edit">{{b.slab}}</td>
+       <td id="rtsfreightzone-range_from-{{ b.id }}" class="edit">{{b.range_from}}</td>
+       <td id="rtsfreightzone-range_to-{{ b.id }}" class="edit">{{b.range_to}}</td>
+       <td id="rtsfreightzone-weight_rate-{{ b.id }}" class="edit">{{b.weight_rate}}</td>
+      </tr>
+            {%endfor%}
+
+  </table>
+  {%endif%}
+
+
+  {%if customer.rtsfreightslabrate_set.all%}
+  <div class="effective_section pull-right" style="width:250px; margin-top:20px;">
+      <label>Effective Date</label>
+      <input type="text" id="rtsfreightslab-{{ customer.id }}" class="effective_date" value="{% if customer.rtsfreightslabrate_set.all.0.effective_date %} {{ customer.rtsfreightslabrate_set.all.0.effective_date|date:"Y-m-d" }} {% else %} {% now "Y-m-01" %} {% endif %}" style="margin-bottom:0px; width:80px;">
+     <input type="button" class="btn btn-primary effective-update" value="Update" style="margin-right:10px;">
+     <span class=""><img class="add-row" src="/static/assets/img/plus.png">Add</span>
+ </div>
+  <table class='table table-striped table-bordered pricing-table'>
+    <caption><b>RTS Freight Slab Rate</b></caption>
+     <tr>
+        <th id="rtsfreightslab-slab-{{ customer.id }}">Slab</th>
+        <th id="rtsfreightslab-range_from-{{ customer.id }}">Range From</th>
+        <th id="rtsfreightslab-range_to-{{ customer.id }}">Range To</th>
+        <th id="rtsfreightslab-origin-{{ customer.id }}">Origin</th>
+        <th id="rtsfreightslab-destination-{{ customer.id }}">Destination</th>
+        <th id="rtsfreightslab-rate-{{ customer.id }}">Rate</th>
+        <th id="rtsfreightslab-normal_applicable-{{ customer.id }}">Normal Applicable</th>
+     </tr>
+            {%for b in customer.rtsfreightslabrate_set.all%}
+     <tr>
+       <td id="rtsfreightslab-slab-{{ b.id }}" class="edit">{{b.slab}}</td>
+       <td id="rtsfreightslab-range_from-{{ b.id }}" class="edit">{{b.range_from}}</td>
+       <td id="rtsfreightslab-range_to-{{ b.id }}" class="edit">{{b.range_to}}</td>
+       <td id="rtsfreightslab-origin-{{ b.id }}" class="">{{b.origin}}</td>
+       <td id="rtsfreightslab-destination-{{ b.id }}" class="">{{b.destination}}</td>
+       <td id="rtsfreightslab-rate-{{ b.id }}" class="edit">{{b.rate}}</td>
+       <td id="rtsfreightslab-normal_applicable-{{ b.id }}" class="">{{b.normal_applicable}}</td>
+      </tr>
+            {%endfor%}
+  </table>
+  {%endif%}
+  <script type="text/javascript">
+   $(".effective_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+  </script>

@@ -1,0 +1,102 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Fieldset, ButtonHolder
+from crispy_forms.layout import Submit, Div, Column, Field
+
+from django import forms
+from django.forms.formsets import formset_factory
+
+from service_centre.models import Shipment, ShipmentExtension, CODCharge
+from service_centre.models import outscans_update_for_cash_tally
+from service_centre.models import DOShipment, CashTallyHistory
+from authentication.models import EmployeeMaster
+from .models import CreditcardDelivery, UpdateCardPaymentModified
+
+
+class CreditcardDeliveryForm(forms.ModelForm):
+    airwaybill_number = forms.CharField()
+    employee_code = forms.CharField()
+
+    class Meta:
+        model = CreditcardDelivery
+        fields = (
+            'employee_code', 'airwaybill_number', 'credit_card_number', 
+            'credit_card_owner', 'bank_name','collected_amount',
+            'transaction_id', 'transaction_date', 'transaction_time'
+        )
+
+    def save(self, commit=False):
+        super(CreditcardDeliveryForm, self).save(commit=False)
+
+        airwaybill_number = self.cleaned_data.pop('airwaybill_number')
+        emp_code = self.cleaned_data.pop('employee_code')
+        collected_amount = self.cleaned_data.get('collected_amount')
+        shipment = Shipment.objects.get(airwaybill_number=airwaybill_number)
+        employee = EmployeeMaster.objects.get(employee_code=emp_code)
+
+        credit = CreditcardDelivery.objects.create(
+                shipment=shipment, employee=employee, 
+                **self.cleaned_data
+        )
+
+        CashTallyHistory.objects.create(shipment=shipment, current_collection=collected_amount)
+        ShipmentExtension.objects.filter(shipment=shipment).update(
+                cash_tally_status=1, cash_deposit_status=1, 
+                collected_amount=shipment.collectable_value
+        )
+        CODCharge.objects.filter(shipment=shipment).update(status=1)
+        outscans = DOShipment.objects.filter(shipment=shipment, status=1).values_list('deliveryoutscan__id', flat=True)
+        outscans_update_for_cash_tally(outscans)
+        return credit
+
+
+# ok
+class CreditAwbDetailForm(forms.Form):
+    airwaybill_number = forms.CharField()
+    airwaybill_amount = forms.CharField()
+    credit_card_payment_received = forms.CharField()
+    balance_pending = forms.CharField()
+    delivery_centre = forms.CharField()
+    remarks = forms.CharField()             
+    
+CreditAwbDetailFormSet = formset_factory(CreditAwbDetailForm, extra=1) 
+
+
+# form 1
+class CreditDateForm(forms.Form):
+    entry_date = forms.DateField()
+    system_date = forms.DateField()
+    payment_type = forms.ChoiceField(
+        choices=(
+            (1, 'Full Payment'), 
+            (0, 'Partial Payment')))
+
+    def __init__(self):
+        self.fields['system_date'].widget.attrs['readonly'] = True
+
+# form 3
+class CreditPaymentDetailForm(forms.Form):
+    transaction_date = forms.DateField()
+    transaction_slipno_detail = forms.CharField()
+    credit_payment_received_detail = forms.CharField()
+    terminalid_detail = forms.CharField()
+
+class CreditCardPaymentDepositForm(forms.Form):
+    PAYMENT_TYPE_CHOICES = (
+        (1, 'Full Payment'),
+        (0, 'Part Payment'),
+    )
+    entry_date = forms.DateField()
+    system_date = forms.DateField()
+    payment_type = forms.ChoiceField(choices=PAYMENT_TYPE_CHOICES)
+    transaction_slip_no = forms.CharField(max_length=20)
+    transaction_date = forms.DateField()
+    updated_date = forms.DateField()
+
+
+class CreditPaymentAwbDetailsForm(forms.Form):
+    airwaybill_number = forms.CharField(max_length=15)
+    airwaybill_amount = forms.FloatField()
+    credit_card_payment_received = forms.FloatField()
+    balance = forms.FloatField()
+    remarks = forms.CharField(max_length=200, required=False)
+

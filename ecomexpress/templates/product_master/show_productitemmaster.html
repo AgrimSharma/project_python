@@ -1,0 +1,126 @@
+{%load billtags%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>ProductItemMaster Details</title>
+<style type="text/css">
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font-family:Arial, Helvetica, sans-serif;
+}
+td {padding:2px 4px;}
+td.thickBorder{ border: solid #000 2px; text-align:right;}
+td.sideBorder{ border-collapse: collapse;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-left: 2px solid #000;}
+td.side2Border{ border-collapse: collapse;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    border-right: 2px solid #000;}
+td.side3Border{ border-collapse: collapse;
+    border-top: 0px solid #fff;
+    border-bottom: 0px;
+    border-right: 0px;
+    border-left: 1px solid #000;}
+
+td.noborder{border:0px;}
+tr.noborder{border:0px;}
+td.grey{ color:#ffffff; text-align:center; font-size:20px;font-weight:bold;}
+  
+#airwaybill_detail { font-size: 9px;}
+.total_val { font-size: 10px; font-weight: bold;}
+
+#airwaybill_detail td:nth-child(n+7) { text-align: center}
+#airwaybill_detail tr:nth-last-child(n-6) { text-align: center}
+
+.logo {float: left; }
+.logo img {height: 57px; width: auto}
+.other_details {float: right; text-align: left; width: 300px; text-transform: capitalize; font-size: 12px;}
+#account_summary { margin: auto}
+#account_summary td{ text-align: left; border:1px solid;; font-size: 10px;}
+
+</style>
+</head>
+
+<body>
+<table width="834" height="741" border="0" cellpadding="0" cellspacing="0" style="margin:auto">
+  
+
+
+<tr>
+    <td id="productitemmaster_detail" colspan="4" valign="top" >
+    <table width="916" border="0" cellpadding="0" cellspacing='0'>
+    <tr>
+    <td height="20" colspan="4" valign="top" >&nbsp;</td>
+  </tr>
+      <tr>
+        <td height="33" colspan="12"  style="text-align: center; color: black; font-weight: bold; font-size: 12px">Air Waybill-wise Charges</td>
+      </tr>
+      <tr>
+        <td height="23"  style='text-align:center; font-weight:bold;'>Sl.No</td>
+        <td height="23"  style='text-align:center; font-weight:bold;'>id</td>
+        <td height="23"  style='text-align:center; font-weight:bold;'>Product Description</td>
+        <td height="23"  style='text-align:center; font-weight:bold;'>Weight</td>
+        <td height="23"  style='text-align:center; font-weight:bold;'>Height</td>
+        <td height="23" style='text-align:center; font-weight:bold;'>Breadth</td>
+        <td height="23" style='text-align:center; font-weight:bold;'>length</td>
+        <td height="23" style='text-align:center; font-weight:bold;'>squ_id</td>
+        <td height="23" style='text-align:center; font-weight:bold;'>Weight</td>
+        <td height="23" style='text-align:center; font-weight:bold;'>Customer</td>
+      </tr>
+  
+
+      {%for a in service_centre.productitemmaster.all %}
+      <!-- {%if a.order_price_set.all%} -->
+
+      <tr>
+    
+        <td height="11" >{{forloop.counter}}</td>
+        <td height="11"  style='text-align:center'>{{a.id}}</td>
+        <td height="11"  style='text-align:center'>{{a.product_description}}</td>
+        <td height="11"  style='text-align:center'>{{a.product_weight}}</td>
+        <td height="11"  style='text-align:center'>{{a.product_height}</td>
+        <td height="11"  style="text-align:center;">{{a. product_breadth}}</td>
+        <td height="11"  style='text-align:center;'>{{a.product_length}}</td>
+        <td height="11"  style="text-align: center;">{{a.squ_id}}</td>
+        <td height="11"  style="text-align: center;">{{a.customer</td>
+
+      {% if forloop.counter|divisibleby:50 %}
+      <tr>
+    <td height="70" colspan="4" valign="top" >&nbsp;</td>
+  </tr>
+  <tr>
+        <td height="11" >{{forloop.counter}}</td>
+        <td height="11"  style='text-align:center'>{{a.id}}</td>
+        <td height="11"  style='text-align:center'>{{a.product_description}}</td>
+        <td height="11"  style='text-align:center'>{{a.product_weight}}</td>
+        <td height="11"  style='text-align:center'>{{a.product_height}</td>
+        <td height="11"  style="text-align:center;">{{a. product_breadth}}</td>
+        <td height="11"  style='text-align:center;'>{{a.product_length}}</td>
+        <td height="11"  style="text-align: center;">{{a.squ_id}}</td>
+        <td height="11"  style="text-align: center;">{{a.customer</td>
+    </tr>
+  {% endif %}
+    
+{%endfor%}
+
+          </table>
+          </td>
+  </tr>
+
+  <tr>
+    <td height="50" colspan="4" valign="top" >&nbsp;</td>
+  </tr>
+
+</table>
+
+
+</table>
+</body>
+</html>
+

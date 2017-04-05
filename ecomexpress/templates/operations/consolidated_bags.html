@@ -1,0 +1,34 @@
+{% extends "operations/page_layout.html" %}
+
+{% block page-header %}
+<span>Create Consolidated Bag</span>
+{% endblock %}
+
+{% block page-body %}
+    <div class="row-fluid">
+      <form class="form-inline" method="POST" id="cbag-form">
+      <table>
+          <tr>
+              {% for field in cbag_form %}
+                  <td>{{ field.label }}</td>     
+              {% endfor %}
+              <td> </td>
+          </tr>
+          <tr>
+              {% for field in cbag_form %}
+                  <td>{{ field }}</td>     
+              {% endfor %}
+              <td> <input type="button" id="create_cbag" value="Create" class="btn btn-primary"> </td>
+          </tr>
+      </table>
+      </form>
+    </div> <!-- end of form -->
+
+    <div class="row-fluid">
+    <table class="table table-striped">
+      <thead> <tr class="info"> <th>Bag No</th> <th>Created</th> <th>Hub</th> <th>Destination</th> <th>Actions</th> </tr> </thead>
+      <tbody id="cbag_table_body"> {% include 'operations/cbag_row.html' %} </tbody>
+    </table>
+    </div> <!-- end of form -->
+
+{% endblock %}

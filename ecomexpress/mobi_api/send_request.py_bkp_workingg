@@ -1,0 +1,68 @@
+import os
+import sys
+
+os.environ['DJANGO_SETTINGS_MODULE'] = "ecomexpress.settings"
+sys.path.append('/home/web/ecomm.prtouch.com/ecomexpress/')
+import urllib2
+import urllib
+from service_centre.models import Customer
+from urllib2 import urlopen, HTTPError
+import httplib2
+import httplib, urllib
+from xml.etree import ElementTree
+from xml.dom.minidom import parseString    
+import xmltodict
+from xml.dom.minidom import Node
+import xml.dom.minidom
+from xml.dom.minidom import parse
+import StringIO
+
+def main():
+     params = urllib.urlencode({'customerCode':'c00000002','Password':'traconmobi@123','datetime':'2014-09-01 10:00'})
+     headers = {"Content-Length":len(params),"Host":"navatech.cloudapp.net","Content-type": "application/x-www-form-urlencoded"}
+     conn = httplib.HTTPConnection("navatech.cloudapp.net")
+     conn.request("POST","/TOMWS/Pickup.asmx/TOM_PCK_EXPORT",params,headers)
+     response = conn.getresponse()
+     print response.status
+     print "####################################"
+     r=response.read()
+     stri=response.read()
+     dom = parse(StringIO.StringIO(r))
+     newdata=[]
+     data=["AssignmentRefPickUpID","AssignmentNo","ClientPickUpID","ClientShipperAccNo","ClientShipperName","UserName","Scan_Item","PickupStatus","isFreight","FreightAmount","FreightCollected","AttemptDate","AttemptTime","ServerUpdateDateTime"]
+     newdata.append("anyType")
+     #for d in data:
+     #    alist=n.getElementsByTagName(d)
+     #    for a in alist:
+     #       print a.childNodes[0].nodeValue,"\t",d
+     for d in newdata:
+           alist=dom.getElementsByTagName(d)
+           print len(alist)
+           for a in alist:
+               for n in data:
+                #print a.getElementsByTagName(n)
+                 for b in  a.getElementsByTagName(n):
+                    if n == b.nodeName:
+                        print "values are","Node is",n,"\t",b.childNodes[0].data
+               print "############## NEW RECORD #############"
+     #dom = parseString(response.read())
+     #print dom
+     #xmlTag = dom.getElementsByTagName('arrAssignment')[0].toxml()
+     #print xmlTag
+     #dom=xml.dom.minidom.parse(response.read())
+     #topic=dom.getElementsByTagName('anyType')
+     #for node in topic:
+     #  alist=getChildrenByTitle(node)
+     #  print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$",node
+     #  break
+     #  for a in alist:
+     #       Title= a.childNodes[0].nodeValue
+            #print Title.strip()
+            #print a.__dict__
+     #print xmlTag
+     #xmlData=xmlTag.replace('<anyType>','').replace('</anyType>','')
+     #for x in xmlData.getchildren():
+     #    print x
+     #strxml_parse = xmltodict.parse(xmlTag)
+     #print strxml_parse["AssignmentVO"]
+main()

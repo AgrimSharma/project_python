@@ -1,0 +1,139 @@
+# Create your views here.
+
+import os
+import sys
+
+PROJECT_ROOT_DIR = '/home/web/ecomm.prtouch.com/ecomexpress/'
+os.environ['DJANGO_SETTINGS_MODULE'] = "ecomexpress.settings"
+sys.path.append('/home/web/ecomm.prtouch.com/ecomexpress/')
+
+import datetime
+import fileinput
+import sys
+from django.db.models import Q
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
+from django.core.servers.basehttp import FileWrapper
+
+from service_centre.models import *
+from privateviews.decorators import login_not_required
+# from api.utils import api_auth
+
+today = datetime.datetime.strftime(datetime.datetime.today(), "%Y%m%d")
+
+@login_not_required
+@csrf_exempt
+def get_pincodes_txt(request):
+    q = Q()
+    date_range = (datetime.date.today() - datetime.timedelta(days=700))
+    '''
+    if request.POST:
+        if not capi:
+            return HttpResponse("%s"%"Unauthorised Request")
+        if request.POST.get("date"): 
+            if not validate_date(request.POST.get("date")): 
+                return HttpResponse("%s"%"invalid date field")
+            q = q & Q(added_on__gte = request.POST.get("date"))
+        if request.POST.get("state"): 
+            q = q & Q(service_center__city__state__state_shortcode = request.POST.get("state"))
+        capi =  api_auth(request)
+    '''
+    entry_string= ''
+    complete=[]
+    location = Pincode.objects.filter(status=1).values("pincode", "service_center__city__city_name", "service_center__city__city_shortcode", "service_center__center_shortcode",  "service_center__city__state__state_name", "service_center__city__state__state_shortcode", "date_of_discontinuance", "pin_route__pinroute_name")
+    x = 0
+    for l in location:
+        srecords = {'pincode':l['pincode'],"city":l['service_center__city__city_name'],"state":l['service_center__city__state__state_name'],"city_code":l['service_center__city__city_shortcode'],"dccode":l['service_center__center_shortcode'],"state_code":l['service_center__city__state__state_shortcode'],"date_of_discontinuance":l['date_of_discontinuance'],"route":l['pin_route__pinroute_name']}
+	x+=1
+	# <Entry>IN,380051|AMD,AMDD,X01</Entry>
+	entry = ['IN', l['pincode'], '|',l['service_center__city__city_shortcode'],l['service_center__center_shortcode'],l['service_center__city__state__state_shortcode']]
+	complete.append(entry)
+    if not complete == []:
+	for i in complete:
+            string = '\t'*4+'<Entry>'
+	    string+=(','.join(str(j) for j in i[:2]))
+	    string+='|'
+	    # string+=str(i[4])
+	    string+=(','.join(str(j) for j in i[3:]))
+	    string+=('</Entry>\n')
+	    entry_string+=string
+    else:
+        entry_string+="Currently no entries in the database"
+   
+    file_name = today+".Default.XXXIN.RouteFile.txt"
+#    return HttpResponse(entry_string)
+    file_path = PROJECT_ROOT_DIR + 'static/uploads/outfile.txt'
+    template_path = os.path.dirname(os.path.abspath(__file__)) 
+    
+    with open(file_path, 'w') as outfile:
+	# "Ensure file RF.txt is in the same folder as views.py".
+	try:
+	    for line in fileinput.input(template_path+'/RF.txt'):
+            	outfile.write(line.replace('Entries HeRe', entry_string))
+    	except:
+	    HttpResponse("Template not found.")
+
+    filed = FileWrapper(file(file_path))
+
+#    return HttpResponse('outfile.txt', content_type="text")
+    response =  HttpResponse(filed, content_type="application/text")
+    response['Content-Disposition'] = 'attachment; filename="'+file_name+'"'
+    return response
+
+def create_amz_shipment(ship_stat):
+    try:
+	ship = Shipment.objects.create(
+	       pickup=ship_stat.pickup,
+	       reverse_pickup=True,	# check mappable value.
+	       airwaybill_number=get_amazon_awb(ship_stat.ShipmentIdentification.CarrierTrackingNum),
+	       order_number=ship_stat.order_number,
+	       product_type=ship_stat.product_type,
+	       shipper=ship_stat.ShipFromInformation.PartyName,
+	       consignee=ship_stat.ShipToInformation.PartyName,
+	       consignee_address1=ship_stat.ShiprToInformation.Address.Line1,
+	       consignee_address2=ship_stat.ShipToInformation.Address.Line2,
+	       consignee_address3=ship_stat.ShipToInformation.Address.Line3,
+	       destination_city=ship_stat.ShipToInformation.Address.City,
+	       pincode=ship_stat.ShipToInformation.Address.PostalCode,
+	       current_sc=service_centre.objects.get(pincode=pincode),	# check mappable value.
+	       state=ship_stat.ShipToInformation.StateProvinceCode,
+	       mobile=ship_stat.ShipToInformation.mobile,	# can't find mappable value.
+	       telephone=ship_stat.telephone,	# can't find mappable field.
+	       item_description=ship_stat.item_description,	# can't find mappable value.
+	       pieces=ship_stat.ItemInformation.PalletQuantity	# ?? can't find unique mappable value.
+	       collectable_value=ship_stat.collectable_value,
+	       declared_value=ship_stat.declared_value,
+	       actual_weight=ship_stat.actual_weight,	# ?? can't find unique mappable value.
+	       volumetric_weight=ship_stat.volumetric_weight,
+	       length=ship_stat.length,
+	       breadth=ship_stat.breadth,
+	       height=ship_stat.height,
+	       status_type=ship_stat.status_type,	# check mappable value.
+	       status =ship_stat.ShipmentStatusInformation.Status,	# check mappable value.
+	       remark=ship_stat.remark,
+	       service_centre=pin.service_center,	# check mappable value.
+	       original_dest=pin.service_center)
+    except Exception, e:
+	return str(e)
+
+
+def get_amazon_awb(awb_number):
+    from airwaybill.models import AirwaybillNumbers
+    try:
+	found = AirwayBillNumbers.objects.get(airwaybill_number=awb_number)
+        if found.status is not False:
+	    amazon_shipment = found
+	    return amazon_shipment
+        else:
+	    return False
+    except:
+	return None
+
+
+def create_amazon_shipment(ship_stat):
+    for ShipmentStatusSeq.ShipmentStatus:
+	shipment_status=create_amz_shipment(ShipmentStatus)
+    
+    success = ShipmentInfo.models.create(messagereferencenum=ship_stat.ShipmentIdentification.MessageReferenceNum, amazonreferencenumber=ship_stat.ShipmentIdentification.AmazonReferenceNumber, shipment_status=shipment_status)
+    pass

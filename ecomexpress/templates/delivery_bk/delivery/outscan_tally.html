@@ -1,0 +1,24 @@
+<h4>Outscans Collections</h4>
+<table id="outscanCollections" class="table tableawbsuc">
+  <thead>
+    <tr>
+    <th>Outscan No</th><th>Employee Code</th><th>Date</th><th>Collectable Value</th><th>Amount Collected</th><th>Status</th><th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for os  in outscans%}
+  <tr>
+    <td>{{os.id}}</td>
+    <td>{{os.employee_code.employee_code}}</td>
+    <td>{{os.added_on}}</td>
+    <td>{{os.amount_to_be_collected}}</td>
+    <td><span id="{{os.id}}" class="">{{os.amount_collected}}</span></td>
+    <td>{%ifequal os.collection_status 0%}Pending{%endifequal%}
+    {%ifequal os.collection_status 2%}Mismatch{%endifequal%}
+    {%ifequal os.collection_status 1%}Collected{%endifequal%}</td>
+    <td>{{os.amount_mismatch|floatformat:"2"}}</td>
+  </tr>
+  {%endfor%}
+  </tbody>
+</table>
+

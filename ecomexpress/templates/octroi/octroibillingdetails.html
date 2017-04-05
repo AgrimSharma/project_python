@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script type="text/javascript">
+    function MM_openBrWindow(theURL,winName,features) { //v2.0
+      window.open(theURL,winName,features);
+    }
+</script>
+{% load sorting_tags %}
+{% load reporttags %}
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+
+  <div class="row-fluid" style="min-height: 50px">
+    <div class="span12 select-header">
+ <!--       <div class="add-details pull-right" style='margin-right:40px;'> {% include "octroi/reports-list.html" %} </div> -->
+    </div>
+  </div> <!-- row fluid -->
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+
+          <div class="cust-title">
+            <i class="icon-user" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Customer Octroi Billing Details</span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+
+          <div class="cust-content">
+          	<ul class="nav nav-tabs" id="myTab">
+              <li class="active"><a data-toggle="tab" href="#unbilledCustomers">Unbilled Customers</a></li>
+              <li><a data-toggle="tab" href="#billedCustomers" >Billed Customers</a></li>
+  	       <li><a data-toggle="tab" href="#octroireports" >Octroi Reports</a></li>
+
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane active" id="unbilledCustomers">
+                <table class="table">
+                <thead>
+                  <tr> <th>#</th> <th>Name</th> <th>Code</th> <th>Contract From</th> <th>Contract To</th> <th>Octroi Billing</th> </tr>
+                </thead>
+                <tbody>
+                {%for customer in unbilled_customers %}
+                <tr>
+                    <td>{{forloop.counter}}</td> <td>{{customer.name}}</td> <td>{{customer.code}}</td> <td>{{customer.contract_from}}</td> <td>{{customer.contract_to}}</td>
+                    <td><a href="customer/{{customer.id}}/" title="View Customer Details" class="btn2 btn-info" rel="tooltip"> <i class="icon-eye-open"></i>view details</a> </td>
+                </tr>
+                {%endfor%}
+                </tbody>
+                </table>
+              </div> <!-- unbilled customers -->
+
+              <div class="tab-pane" id="billedCustomers">
+                <table class="table">
+                <thead>
+                  <tr> <th>#</th> <th>Name</th> <th>Code</th> <th>Contract From</th> <th>Contract To</th> <th>Octroi Billing</th> </tr>
+                </thead>
+                <tbody>
+                {%for customer in billed_customers %}
+                <tr>
+                    <td>{{forloop.counter}}</td> <td>{{customer.name}}</td> <td>{{customer.code}}</td> <td>{{customer.contract_from}}</td> <td>{{customer.contract_to}}</td>
+                    <td><a href="customer/{{customer.id}}/" title="View Customer Details" class="btn2 btn-info" rel="tooltip"> <i class="icon-eye-open"></i>view details</a> </td>
+                </tr>
+                {%endfor%}
+                </tbody>
+                </table>
+              </div> <!-- billed customers -->
+<!--  report html -->
+	<div class="tab-pane" id="octroireports">
+	<br><br>
+	<form method="POST" action="/octroi/octroi_cus_process_reports/" >
+        <select id="oc_reports" name ="oc_reports" style="width: 158px;">
+	<option value="1">Bill Wise report</option>
+	<option value="2">Customer wise report</option>
+	</select>
+        Date from:<input type="text" id="oc_date_from" name="date_from" class="reports_date date_from" style="width: 88px;"/>
+
+        Date to:<input type="text" id="oc_date_to" name="date_to" class="reports_date date_to" style="width: 88px;"/>
+
+	<span id="label">Customer Name:</span> <select id="oc_cust_id" class='cust_name' name='cust_name' style="width: 158px;">
+                                                        <option value="0">All</option>
+                                                        {%for a in cust%}
+                                                        <option value="{{a.id}}">{{a}}</option>
+                                                        {%endfor%}
+                               </select>
+	<input type="Submit" value="Download" class=" btn btn-primary oc_view_report">
+	<input type="Submit" value="Download" class=" btn btn-primary oc_cus_view_report">
+</form>
+<script>
+</script>
+
+	</div>
+<!-- report html end -->
+            </div><!-- tab content -->
+          </div><!-- cust-content -->
+
+      </div>
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+
+<script src="/static/assets/js/jquery.jeditable.mini.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+       $(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yymmdd" });
+       $('.oc_cus_view_report').hide();
+       $('.oc_view_report').show();
+       $('#oc_cust_id').show();
+       $('#label').show();
+
+        $('#oc_reports').on('change', function() {
+            var val = this.value;
+            if(val == 1){
+	        $('.oc_cus_view_report').hide();
+	        $('.oc_view_report').show();
+	        $('#oc_cust_id').show();
+	        $('#label').show();
+            }
+            else if(val==2){
+	        $('.oc_cus_view_report').show();
+	        $('.oc_view_report').hide();
+	        $('#oc_cust_id').hide();
+	        $('#label').hide();
+            }
+        });
+    });
+</script>
+
+{% endblock%}
+

@@ -1,0 +1,10 @@
+<tr><td>{{a.id}}</td><td>{{a.employee_code.employee_code}}</td><td>{{a.route}}</td>
+<td><button class="btn btn-primary include_shipment_revoutscan" outscan_id="{{a.id}}" id="include_shipment{{a.id}}"{% ifequal a.status 1%} disabled="disabled" {%endifequal%}> Include Shipment</button> &nbsp;<button class="btn btn-primary delink_shipment_revoutscan" outscan_id="{{a.id}}" id="delink_shipment{{a.id}}" bag_id="{{a.id}}" {% ifequal a.status 1%} disabled="disabled" {%endifequal%}> Delink Shipment</button>&nbsp;<a href="#" class="btn btn-primary revdel_sheet" outscan_id="{{a.id}}"> Generate Pickup Sheet</a>&nbsp;<a href="#" class="btn btn-primary close-outscan" outscan_id="{{a.id}}"> Complete Outscan</a></td>
+
+<td id="success{{a.id}}">
+{% ifequal a.status 1%}
+<span class="label label-success">Closed</span>
+           {%endifequal%}
+</td>
+</tr>
+

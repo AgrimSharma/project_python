@@ -1,0 +1,47 @@
++ Added model customer.Customer
+ + Added model customer.Shipper
+ + Added model customer.ShipperMapping
+ + Added model customer.Product
+ + Added model customer.CashOnDelivery
+ + Added model customer.CashOnDeliveryZone
+ + Added model customer.FuelSurcharge
+ + Added model customer.FuelSurchargeZone
+ + Added M2M table for product on customer.FuelSurchargeZone
+ + Added model customer.FreightSlab
+ + Added model customer.FreightSlabCity
+ + Added M2M table for product on customer.FreightSlabCity
+ + Added model customer.FreightSlabOriginZone
+ + Added M2M table for product on customer.FreightSlabOriginZone
+ + Added model customer.FreightSlabDestZone
+ + Added M2M table for product on customer.FreightSlabDestZone
+ + Added model customer.FreightSlabZone
+ + Added model customer.FreightSlabHistory
+ + Added M2M table for product on customer.FreightSlabHistory
+ + Added model customer.CODFreightSlab
+ + Added model customer.CODFreightSlabZone
+ + Added model customer.RTSFreightSlab
+ + Added model customer.RTSFreightSlabZone
+ + Added model customer.ReverseFreightSlab
+ + Added model customer.ReverseFreightSlabZone
+ + Added model customer.SDLSlab
+ + Added model customer.SDDZone
+ + Added M2M table for pincode on customer.SDDZone
+ + Added model customer.SDDSlabZone
+ + Added model customer.ExceptionMaster
+ + Added model customer.BrandedFleetCustomer
+ + Added model customer.BrandedFullTimeEmployeeCustomer
+ + Added model customer.Remittance
+ + Added model customer.VolumetricWeightDivisor
+ + Added model customer.MinActualWeight
+ + Added model customer.SDLSlabCustomer
+ + Added model customer.CustomerAPI
+ + Added model customer.RTSFreightZone
+ + Added model customer.RTSFuelZone
+ + Added model customer.RTSFreight
+ + Added model customer.RTSFuel
+ + Added model customer.RTSFreightSlabRate
+ + Added model customer.CustomerReportNames
+ + Added model customer.ChargeType
+ + Added model customer.CustomerChargeMapping
+ + Added model customer.SubcustomerDetailsUpload
+

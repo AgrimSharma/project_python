@@ -1,0 +1,175 @@
+<!doctype html>
+  <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+  <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+  <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title>ECOM</title>    
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">        
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />    
+
+    <meta property="og:image" content="http://www.domain.com/images/logo.png"/>
+    <meta property="og:title" content="-- description here --"/>
+    <meta property="og:url" content="http://www.domain.com"/>
+        
+    <link rel="shortcut icon" href="{{ STATIC_URL }}assets/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="{{ STATIC_URL }}assets/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}assets/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}assets/img/apple-touch-icon-114x114.png">
+         
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" />            
+    
+    <script src="{{ STATIC_URL }}assets/js/libs/modernizr.custom.60077.js"></script>      
+
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/popup.css" /> 
+			<script src="{{ STATIC_URL }}assets/js/jquery-1.7.2.min.js"></script>
+		    <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>  
+  </head>
+<body>
+<div id="backgroundPopup"></div>  
+    <div class="header" style="text-align:center; padding-top:10px;">
+    	<img src="{{ STATIC_URL }}assets/img/Ecomlogo.png"/>
+    	<br>
+    	<span style="font-size: 26px; font-weight: bold;color:#2B0E80;">SCAD<span style="color:#D70000;">i</span></span>
+  </div>
+   <div class="container-fluid" roll="main" id="main">
+    <div class="span6">
+      {% if error %}
+          <p class="alert alert-error">{{ error }}</p>
+      {% endif %}
+      <!--a href="/track_me/scan_open/1/" class="forgotpass pull-right">Track Shipment</a-->
+      <div class="login">
+        <div class="title">
+          Login
+          
+        </div>
+        
+        <div class="content-login">
+
+          <form action="." method="POST">
+          {% csrf_token %}	
+            <input type= "text" name ="username" placeholder="Username" class="user-name"/>
+            <input type= "Password" name="password" placeholder="Password"/>
+            <input type="submit" class="button-login"/>
+         <!--   <a href="#" class="forgotpass pull-right" id="forgotpass">Forgot Your Password?</a> -->
+             <a href="/authentication/resetpassword/" >Forgot Your Password?</a>
+          </form>
+        </div>
+
+      </div>
+    </div>
+    <div class="span6">
+      <div class="login">
+        <div class="title">
+          Ecom Express News
+          
+        </div>
+        <div class="content-login" style="
+    font-size: 12px;
+padding-top:0px;">
+<b></br>
+Ecom Express is delighted to announce that it is serving over 200 towns, 2208 pincodes across the country from 258 distribution centers and 23 processing centers. We process over 100,000 shipments each day.
+
+<p> 
+<p> 
+
+Ecom Express is India's fastest growing e-commerce dedicated logistics solutions provider. Our extensive network across Metro, Tier I, Tier II and Tier III towns allows us to serve the growing needs of our customers. It is indeed our pleasure to serve you at any of our locations with the same quality and service that our esteemed customers expect from us.
+
+{%comment%}
+Dear Stakeholders,</br>
+
+It gives us immense pleasure to share with you all our successful completion of First year of operations.</br>
+It was as if yesterday that we all came into existence after grueling thought processes on how to create a different organisation which would be aligned with the changing times and requirements of the new ecommerce market.
+</br>
+
+It is our belief that we wouldn’t have been where we are today without your active support and trust. We do believe we will continue to get your active support as before in taking Ecom to the next level.
+</br>
+
+How we have done so far, history will only judge but we all have did our best with Integrity, Commitment, Openness, Respect and Passion.
+</br>
+
+We thank you all and wish many more Anniversaries to all of us together. 
+</br>
+{%endcomment%}
+        </div>
+      </div>
+    </div>
+  </div>
+    
+   <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Record</h3>
+    </div>
+    <div class="modal-body">
+      
+    </div>
+  </div><!--modal end-->
+
+<!-- 
+  <div class="modal hide modal-add-revlet" id="password_reset" style="height:100px;">
+    <div style="background-color:red;" class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3 >Reset Password</h3>
+    </div>
+    <div class="modal-body">
+       <form  method="post" action="/authentication/myresetpassword/">
+        {% csrf_token %}  
+        <input type="text" placeholder="Employee Code (required)" name="id_code" id="id_code">
+        <input class="btn btn-primary " id="myresetPassword" type="button" value="submit" >
+        </form>
+    </div>
+  </div>   -->
+
+
+   <div id="popupContact">  
+   
+        <a id="popupContactClose">x</a>  
+
+  </div>  
+
+  
+    <!-- uncomment pre-deloy -->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+  <script>window.jQuery || document.write('<script src="assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+  <!-- bootstrap -->
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-transition.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-alert.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-modal.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-dropdown.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-scrollspy.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-tab.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-tooltip.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-popover.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-button.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-collapse.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-carousel.js"></script>
+  <script src="{{ STATIC_URL }}assets/js/bootstrap-typeahead.js"></script>
+  
+  <script src="{{ STATIC_URL }}assets/js/application.js"></script>
+  <script>$(rev.init);</script>  
+   <script type="text/javascript">
+   $("#myresetPassword").click(function(){
+      var id_code = $("#id_code").val();
+      $.ajax({
+                   type: "POST",
+                   url: '/authentication/resetpassword/',
+                   data: {'id_code':id_code,
+                           
+                          },
+                   success: function(data){
+                         console.log('Received data : ',data['title']);
+                       }
+            });
+    });
+    </script>
+  </body>
+ </html>

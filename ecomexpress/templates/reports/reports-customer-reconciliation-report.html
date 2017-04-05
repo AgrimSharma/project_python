@@ -1,0 +1,48 @@
+	<div class="cust-content">
+            <table class="table">
+              <thead>
+         
+             	 <tr>
+              <th>Status Code</th>
+                  <th>Description</th>
+				  
+				  <th>Prepaid Shipments</th>
+            <th>Shipments-COD</th>
+           <th>Value-COD</th>  
+             </tr>
+              {%for key,value in scaned.items%}
+             
+                <tr>
+              <th>{{key.code}}</th>
+              <th>{{key.code_description}}</th>
+                  <th>{{value.0}}</th>
+				  
+				  <th>{{value.1 }}</th>
+            <th>{{value.2}}</th>
+            
+           </tr>
+             
+             	 
+             
+                {%endfor%}
+                
+                <tr>
+              <th> </th>
+                  <th>TOTAL</th>
+				  <th>{{scaned_ppd}}</th>
+            <th>{{scaned_cod}}</th>
+           <th>{{col_value}}</th>  
+             </tr>
+             
+              <tr>
+              <th>NONE</th>
+                  <th>DIFFERENCE</th>
+				  <th>{{ppd_diff}}</th>
+            <th>{{cod_diff}}</th>
+           <th>{{cod_val_diff}}</th>  
+             </tr>
+              </tbody>
+            </table>
+            
+          </div><!-- /cust-content -->
+    

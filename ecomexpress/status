@@ -1,0 +1,77 @@
+bag status:
+0:bag creation at service centre
+1:bag closed
+2:bag connected
+3:bag at hub
+5:bag creation at hub
+6:bag closed at hub
+7:bag connected at hub
+8:delivery inscan
+9:debagged at hub, all shipments delinked
+10:debagged at delivery, all shipments delinked
+11:deleted
+
+bag_status_type:
+0:unverified
+1:mismatch
+2:verified
+
+1:verified
+2:short
+3:extra
+
+
+shipment status:
+0:shipment creation
+1:field pickup operation completion
+2:inscan operation completion
+3:added to bag(service centre)
+4:debag shipment(hub)
+5:added to bag(hub)
+6:debag shipment(delivery centre)
+7:outscan
+8:undelivered
+9:delivered and closed
+
+#airport+confirm: connected to destination
+
+11:alternate instruction
+12:complaint
+13:assigned to run code
+14:connected to destination(airport confirm from sc)
+15:connected to destination(airport confirm from hub)
+16:comments
+17:return (only in hist)
+20:telecalling
+21:call center comments
+
+#reverse
+30 reverse pickup
+31 reverse shipemnt outscan for pickup
+32 reverse pickup registered
+33 reverse pickup failed
+
+
+shipment_status_type:
+0:unverified
+1:verified
+2:pincode missing
+3:value missing
+4:data missing
+5:extra
+ 
+return shipment:
+0:not return
+1:return rd
+2:return rto
+3.return rts 
+ 
+connection_status:
+0:connection creation(sc)
+1:connection closed (sc)
+2:connected to run code(sc)
+3:connection creation(hub)
+4:connection closed (hub)
+5:connected to run code(hub)
+6:connection verified and closed (dc)
+7:connection verified and closed (hub)

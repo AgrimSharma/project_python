@@ -1,0 +1,85 @@
+{% load pickup_tags %}
+<div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; width: 1000px;margin: auto;">
+  <div style="width:310px; display:inline-block;margin-right:10px; border-right:1px solid #B6B6B6;  height:100px;">
+  <table>
+      <tr> <td width="150"><b>Origin</b></td><td><b>: </b></td><td>{{shipment.pickup.service_centre}}</td> </tr>
+      <tr> <td><b>Destination</b></td><td><b>: </b></td><td>{{shipment.service_centre}}</td> </tr>
+      {% if shipment.manifest_location%}
+      <tr> <td><b>Manifest Location</b></td><td><b>: </b></td><td>{{shipment.manifest_location}}</td></tr>
+      {%endif%}
+      <tr> <td><b>Product</b></td><td><b>: </b></td><td>{{shipment.product_type}}</td> </tr>
+      <tr> <td><b>Weight</b></td><td><b>: </b></td><td>{{shipment.actual_weight}} Kgs </td> </tr>
+      <tr> <td><b>Pieces</b></td><td><b>: </b></td><td>{{shipment.pieces}} </td> </tr>
+     <tr> <td><b>Website</b></td><td><b>: </b></td><td>{{shipment.shipper.website}} </td> </tr>
+  </table>
+  </div>
+  <div style="width:310px; display:inline-block;margin-right:10px;padding-right:20px; border-right:1px solid #B6B6B6;  height:100px;">
+  <table>
+    <tr> <td width="150"><b> Shipper Name </b></td><td><b>:</b></td> <td>{{shipment.shipper.name}}</td> </tr>
+    <tr> <td><b> Consignee </b></td><td><b>:</b></td> <td>{{shipment.consignee|upper}}</td> </tr>
+    <tr> <td><b> P/U Date</b></td><td><b>: </b></td> <td>{{shipment.added_on|date:"d M, Y, H:i"}} hrs</td> </tr>
+    <tr> <td><b> Status</b></td><td><b>: </b></td>
+      <td> {%if shipment.reverse_pickup_id%}
+             {{shipment.reason_code|default_if_none:""}}
+           {%else%}
+             {{history_latest.reason_code}}
+           {%endif%}
+          {%if reverse_pickup%}
+           {{rev_status}}
+         {%endif%}
+      </td>
+    </tr>
+  </table>
+
+  </div>
+  <div style="width:320px; display:inline-block;  height:100px;">
+  <table>
+     <tr>
+          <td width="150"><b> Status Date/Time</b></td><td><b>: </b></td>
+          <td>{{history_latest.updated_on|date:"d M, Y, H:i"}} hrs</td>
+     </tr>
+	 <tr>
+          <td><b> Receiver</b></td><td><b>: </b></td>
+          <td>{{status_update.recieved_by|upper}}</td>
+     </tr>
+     <tr>
+          <td><b> Expected Delivery Date</b></td><td><b>: </b></td>
+          <td>{{shipment.expected_dod|date:"d M, Y, H:i"}} hrs</td>
+     </tr>
+     <tr>
+          <td><b> Expected POD Date</b></td><td><b>: </b></td>
+          <td>{{shipment.expected_dod|date:"d M, Y, H:i"}} hrs</td>
+     </tr>
+     <tr>
+          <td><b>Delivered By</b></td><td><b>: </b></td>
+          <td>{{status_update.delivery_emp_code.firstname|upper}} {{status_update.delivery_emp_code.lastname|upper}} - {{status_update.delivery_emp_code.employee_code}}</td>
+     </tr>
+     <tr>
+          {% if shipment.rts_status == 1 or shipment.rts_status == 2 %}
+          <td><b>Ref Airwaybill</b></td><td><b>: </b></td>
+          <td><a href="/track_me/?awb={{shipment.ref_airwaybill_number}}&order=">{{shipment.ref_airwaybill_number}}</a></td>
+     </tr>
+     <tr>
+          <td><b>Ref Status</b></td><td><b>: </b></td>
+          <td>{{ shipment.ref_airwaybill_number|show_ref_awb_status}}</td>
+     </tr>
+     {% endif %}
+  </table>
+  </div>
+
+<div style="margin-top: 35px;"><b>Last Comments / Alt Instructions</b>:</div>
+    <div style="overflow:auto;">
+	<div style="margin: 10px;width:80%;float:left;">
+	{{history_latest_inst.0.remarks}}<br>
+	<span style="font-size:10px;">By {{history_latest_inst.0.employee_code}} at {{history_latest_inst.0.updated_on|date:"d M, Y, H:i"}} hrs</span>
+	</div>
+
+        {% ifequal shipment.rto_status 1%}
+        <div class="label label-info" style="width:6%; text-align:center;float:right;">RTO</div>
+        {% endifequal %}
+        {% ifequal shipment.rts_status 1%}
+        <div class="label label-warning" style="width:48px; text-align:center;float:right; background-color:#b94a48;">RTS</div>
+        {% endifequal %}
+    </div>
+</div>
+<hr>

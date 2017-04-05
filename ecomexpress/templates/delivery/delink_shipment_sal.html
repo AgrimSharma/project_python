@@ -1,0 +1,90 @@
+    <div class="modal-header cust-title" style="width: 872px;">
+      <a class="close" data-dismiss="modal">×</a>
+      <div>
+      <font style="color:#fff; font-size:24px;"> Delink Shipment </font> &nbsp;<div style="display:inline-block"><font style="color:#fff; font-size:14px;">Airway Bill:</font><input name="awb" id="awb_scan" class="awb" style=" width:100px" type="text" size="9"/> 
+      <font style="color:#fff; font-size:14px;">Count:</font><input name="awb" class="awb" id="shipment_count" style=" width:40px" type="text" size="9" value="{{shipment_count}}"/>
+            <font style="color:#fff; font-size:14px;">Outscan ID:{{oid}}</font>
+       </div> 
+      </div>
+<div class="modal-body">
+<table class="table-bag">
+<thead>
+<tr>
+<th>&nbsp;Pickup ID</th>
+<th>&nbsp;AWB</th>
+<th>&nbsp;Shipper</th>
+{% comment %}<th>Destination</th>{% endcomment %}
+<th>DST</th>
+<th>Added On</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+   		 {% for a in shipment%}
+<tr id="{{a.airwaybill_number}}">
+<td>{{a.id}}</td>
+<td>{{a.airwaybill_number}}</td>
+<td>{{a.shipper|truncatechars:20}}</td>
+{% comment %}<td>{{a.destination_city}}</td>{% endcomment %}
+<td>{{a.service_centre}}</td>
+<td>{{a.added_on|date:" d/m/Y    G:i"}}</td>
+<td><a class="btn2 btn-danger" href="#" rel="tooltip" title="Delink Shipment" awb="{{a.airwaybill_number}}"><i class="icon-trash"></i> Delink</a></td>
+</tr>
+   		 {% endfor%}
+</tbody>
+</table>
+    </div>
+    </div>
+
+<script>
+$(function(){
+$("#awb_scan").focus();
+$(".awb").change(function(){
+
+var awb=$("input.awb").val();
+var datastring = "awb="+awb;
+$.ajax({
+type:"POST",
+url: "/delivery/delink_shipment_sal/{{sid}}/",
+data: datastring,
+success: function(resp){
+$("#"+awb+"").remove();
+shipment_count = parseInt($("#shipment_count").val())-parseInt(1);
+
+$("#shipment_count").val(shipment_count);
+
+//alert(resp); 
+//location.reload();
+}
+});
+$("#awb_scan").val("");
+$("#awb_scan").focus();
+
+});
+
+$(".btn-danger").click(function(){
+var conf = confirm('Are you sure?');
+if (conf){
+awb = $(this).attr("awb");
+var datastring = "awb="+awb;
+$.ajax({
+type:"POST",
+url: "/delivery/delink_shipment_sal/{{sid}}/",
+data: datastring,
+success: function(resp){
+$("#"+awb+"").remove();
+shipment_count = parseInt($("#shipment_count").val())-parseInt(1);
+
+$("#shipment_count").val(shipment_count);
+
+//alert(resp); 
+//location.reload();
+}
+});
+
+
+}
+});
+});
+</script>
+

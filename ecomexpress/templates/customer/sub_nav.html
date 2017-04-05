@@ -1,0 +1,19 @@
+            <i class="icon-user" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>{%if not c%}Add {%endif%}Customer{%if c%}: {{c.name}}{%endif%}</span>
+                        <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+{%if not "customer/add" in request.path %}
+       	 <ul class="nav nav-tabs" id="myTab">
+              <li{%if "customer/edit" in request.path %} class="active"{%endif%}><a href="/customer/edit/{{c.id}}/" >Customer Details</a></li>
+              <li{%if "customer/shippers" in request.path %} class="active"{%endif%}><a href="/customer/shippers/{{c.id}}/" >Sub Customer</a></li>
+              <li{%if "customer/price/" in request.path %} class="active"{%endif%}><a href="/customer/price/{{c.id}}/" >Pricing Details</a></li>
+              <li{%if "customer/rates" in request.path %} class="active"{%endif%}><a href="/customer/rates/{{c.id}}/" >Reverse Rates</a></li>
+              <li{%if "customer/fs" in request.path %} class="active"{%endif%}><a href="/customer/fs/{{c.id}}/" >Fuel Surcharge</a></li>
+              <li{%if "customer/cod" in request.path %} class="active"{%endif%}><a href="/customer/cod/{{c.id}}/" >Cash on Delivery</a></li>
+              <li{%if "customer/pricematrix" in request.path %} class="active"{%endif%}><a href="/customer/pricematrix/{{c.id}}/" >Zone Matrix</a></li>
+              <li{%if "customer/branding" in request.path %} class="active"{%endif%}><a href="/customer/branding/{{c.id}}/" >Branding</a></li>
+              <li{%if "customer/rates" in request.path %} class="active"{%endif%}><a href="/customer/rates/{{c.id}}/" >Rates</a></li>
+              <!--li><a data-toggle="tab" href="#domestic">Pricing Details</a></li>
+              <li><a data-toggle="tab" href="#volume">Customer Status</a></li-->
+         </ul>
+{%endif%}

@@ -1,0 +1,25 @@
+<table class="table-bag">
+<thead>
+<tr>
+<th>Pickup ID</th>
+<th>AirwayBill Number</th>
+<th>Shipper</th>
+<th>Destination</th>
+<th>Destination Service Centre</th>
+<th>Added On</th>
+</tr>
+</thead>
+<tbody>
+   		 {% for a in shipment%}
+<tr>
+<td>{{a.id}}</td>
+<td>{{a.airwaybill_number}}</td>
+<td>{{a.shipper}}</td>
+<td>{{a.destination}}</td>
+<td>{{a.destination_sc}}</td>
+<td>{{a.added_on}}</td>
+</tr>
+   		 {% endfor%}
+</tbody>
+</table>
+

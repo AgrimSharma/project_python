@@ -1,0 +1,119 @@
+<div class="col-lg-12">
+    <h1 class="page-header">Billing Reports<span class="btn btn-success btn-sm pull-right" id="id_billing_reports_update">Get Updates</span></h1>
+
+    <table class="table table-striped table-responsive table-condensed">
+        <thead> <tr class="info"> <th>Sl No</th> <th>Bill No</th> <th>From</th> <th>To</th> <th>Status</th> <th>Report</th> </tr> </thead>
+        <tbody>
+        {% for bill in queue %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ bill.id }}</td>
+            <td>{{ bill.billing_from }}</td>
+            <td>{{ bill.billing_to }}</td>
+            <td>{% if bill.status  == 0 %} Added to Queue {% elif bill.status == 1 %} Processing {% elif bill.status == 2 %} Completed {% endif %}</td>
+            <td>
+                <!-- Button trigger modal -->
+                <button data-queue_id="{{ bill.id }}" class="btn btn-primary btn-sm get-billing-reports" data-toggle="modal" data-target="#id_billing_reports_modal"> Get Reports </button>
+                <button data-queue_id="{{ bill.id }}" class="btn btn-primary btn-sm download-billing-reports" data-toggle="modal" data-target="#id_billing_reports_download_modal"> Download Reports </button>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+<!-- /.col-lg-12 -->
+
+<aside class="hidden billing_report_expand" data-queue_id="">
+    <div class="col-md-2"><input type="button" class="btn btn-outline btn-warning btn-sm" value="Invoice"></div>
+    <div class="col-md-2"><input type="button" class="btn btn-outline btn-warning btn-sm" value="Awb Pdf"></div>
+    <div class="col-md-2"><input type="button" class="btn btn-outline btn-warning btn-sm" value="Awb Excel"></div>
+    <div class="col-md-2"><input type="button" class="btn btn-outline btn-warning btn-sm" value="Summary"></div>
+    <div class="col-md-2"><input type="button" class="btn btn-outline btn-warning btn-sm" value="EBS Invoice"></div>
+    <div class="col-md-2"><input type="button" class="btn btn-outline btn-warning btn-sm" value="Jasper"></div>
+</aside>
+
+<!-- Modal -->
+<div class="modal fade" id="id_billing_reports_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header info">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h2 class="modal-title" id="myModalLabel">Generate Billing Reports</h2>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="id_bill_report_form" role="form" method="POST" action="/billing/request_report/">
+            {% csrf_token %}
+            <input type="hidden" id="id_billqueue" name="billqueue" value="">
+            <fieldset>
+                <legend>Customer Wise Reports</legend>
+                <div class="form-group">
+                    <label for="customer" class="control-label col-sm-3">Customer</label>
+                    <div class="col-sm-9">
+                        {{ bill_report_form.customer }} 
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label  for="invoice" class="control-label col-sm-3">Invoice</label>
+                    <div class="col-sm-9">
+                        {{ bill_report_form.invoice_report }} 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  for="headless_invoice" class="control-label col-sm-3">EBS Invoice</label>
+                    <div class="col-sm-9">
+                        {{ bill_report_form.ebs_invoice_report }} 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  for="awb_pdf" class="control-label col-sm-3">AWB Pdf</label>
+                    <div class="col-sm-9">
+                        {{ bill_report_form.awb_pdf_report }} 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  for="awb_excel" class="control-label col-sm-3">AWB Excel</label>
+                    <div class="col-sm-9">
+                        {{ bill_report_form.awb_excel_report }} 
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>General Reports</legend>
+                <div class="form-group">
+                    <label  for="summary" class="control-label col-sm-3">Summary</label>
+                    <div class="col-sm-9">
+                        {{ bill_report_form.summary }} 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label  for="msr" class="control-label col-sm-3">MSR</label>
+                    <div class="col-sm-9">
+                        {{ bill_report_form.msr }} 
+                    </div>
+                </div>
+            </fieldset>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="button" class="btn btn-primary" id="id_generate_bill_reports_form" value="Submit" />
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- billing report modal -->
+
+<!-- report download modal -->
+<div class="modal fade" id="id_billing_reports_download_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content scroller" style="width: 620px;" >
+      <div class="modal-header info">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h2 class="modal-title" id="myModalLabel">Download Billing Reports</h2>
+      </div>
+      <div class="modal-body" id="id_billing_report_modal_body"> 
+      </div> <!-- modal body -->
+    </div>
+  </div>
+</div>
+

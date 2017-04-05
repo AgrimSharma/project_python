@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+
+<style>
+        body{background:#EFEFEF;font-family:'Arial'}
+        .title{ color:#fff; padding:10px;font-family:'Arial';margin:0pxckground: #3731b0!important;
+background: -moz-linear-gradient(top, #3731b0 0%, #d60322 100%)!important;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3731b0), color-stop(100%,#d60322))!important;
+background: -webkit-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: -o-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: -ms-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: linear-gradient(to bottom, #3731b0 0%,#d60322 100%)!important;
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3731b0', endColorstr='#d60322',GradientType=0 )!important;
+margin:0px;
+
+}
+
+
+
+
+        .table{ margin-bottom: 18px;width: 100%;background:#F7F7F7;}
+        table { border-collapse: collapse; border-spacing: 0;}
+        .table th, .table td { border-top: 1px solid #DDDDDD; line-height: 18px; padding: 8px; text-align: left; vertical-align: top;}
+        .label { background-color: #999999; border-radius: 3px 3px 3px 3px; color: #FFFFFF; font-size: 11.05px; font-weight: bold; padding: 2px 4px 3px; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);}
+        .label-success { background-color: #468847;}
+        .label-red {
+    background-color: #FF0000 !important;
+}
+
+.time-name{
+color:#fff;
+
+background: #2c539e; /* Old browsers */
+background: -moz-linear-gradient(top,  #2c539e 0%, #2c539e 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2c539e), color-stop(100%,#2c539e)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #2c539e 0%,#2c539e 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #2c539e 0%,#2c539e 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #2c539e 0%,#2c539e 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #2c539e 0%,#2c539e 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2c539e', endColorstr='#2c539e',GradientType=0 ); /* IE6-9 */
+
+
+                }
+.remarks{
+                background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 50%, #ffffff 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f3f3f3), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #ffffff 0%,#f3f3f3 50%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #ffffff 0%,#f3f3f3 50%,#ffffff 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #ffffff 0%,#f3f3f3 50%,#ffffff 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #ffffff 0%,#f3f3f3 50%,#ffffff 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
+.btn {
+
+padding: 4px 10px 4px;
+margin-bottom: 0;
+font-size: 13px;
+line-height: 18px;
+color: #333333;
+text-align: center;
+text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+vertical-align: middle;
+background-color: #f5f5f5;
+background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+background-image: linear-gradient(top, #ffffff, #e6e6e6);
+background-repeat: repeat-x;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+border: 1px solid #ccc;
+border-bottom-color: #bbb;
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+cursor: pointer;
+filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+
+
+
+
+}
+.btn-redbutton {
+        background: #3731b0!important;
+background: -moz-linear-gradient(top, #3731b0 0%, #d60322 100%)!important;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3731b0), color-stop(100%,#d60322))!important;
+background: -webkit-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: -o-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: -ms-linear-gradient(top, #3731b0 0%,#d60322 100%)!important;
+background: linear-gradient(to bottom, #3731b0 0%,#d60322 100%)!important;
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3731b0', endColorstr='#d60322',GradientType=0 )!important;
+color: #FFF!important;
+-moz-box-shadow: 10px 10px 5px #888;
+-webkit-box-shadow: 10px 10px 5px #888;
+box-shadow: 0px 0px 2px #888887 !important;
+font-weight: 600 !important;
+}
+
+</style>
+
+
+</head>
+
+<body>
+{%for history, shipment in inst.items%}
+<h2 class="title">Alert </h2>
+<table width="500" border="0" cellpadding="2" class="table">
+
+  <tr>
+    <td width="19%"><b>AWB No.:</b></td>
+    <td width="81%">{{shipment.batch_instruction.shipments.airwaybill_number}}</td>
+  </tr>
+  <tr>
+    <td><b>Status:</b></td>
+    <td>                      {%ifequal history.status 0%}Shipment Uploaded{%endifequal%}
+                      {%ifequal history.status 1%}Pickup Complete / Inscan{%endifequal%}
+                      {%ifequal history.status 2%}Inscan completion / Ready bor Bagging{%endifequal%}
+                      {%ifequal history.status 3%}Bagging completed{%endifequal%}
+                      {%ifequal history.status 4%}Shipment at HUB{%endifequal%}
+                      {%ifequal history.status 5%}Bagging Completed at HUB{%endifequal%}
+                      {%ifequal history.status 6%}Shipmentat Delivery Centre{%endifequal%}
+                      {%ifequal history.status 7%}Outscan{%endifequal%}
+                      {%ifequal history.status 8%}Undelivered{%endifequal%}
+                      {%ifequal history.status 9%}Delivered / Closed{%endifequal%}
+</td>
+  </tr>
+  <tr>
+    <td><b>Date/Time:</b></td>
+    <td>{{shipment.added_on}}</td>
+  </tr>
+  <tr>
+    <td><b>Instruction:</b></td>
+    <td>{{shipment.instruction}}</td>
+  </tr>
+  <tr>
+    <td><b>Shipper:</b></td>
+    <td>{{shipment.batch_instruction.shipments.shipper}}</td>
+  </tr>
+  <tr>
+    <td><b>Consignee:</b></td>
+    <td>{{shipment.batch_instruction.shipments.consignee}}</td>
+  </tr>
+  <tr>
+    <td><b>Destination:</b></td>
+    <td>{{shipment.batch_instruction.shipments.service_centre}}</td>
+  </tr>
+
+</table>
+  {%endfor%}
+              <a style="text-decoration:underline" href="/track_me/alert/2/" > Download Excel </a>&nbsp;
+</body>
+</html>

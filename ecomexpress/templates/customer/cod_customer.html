@@ -1,0 +1,104 @@
+          		{% extends "base.html" %}
+          		{% block content %}
+          		
+          		
+          		  	{% load sorting_tags %}
+			{% autosort cod_customers %}
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12">
+    
+                    {% load pagination_tags %}
+	                {% autopaginate cod_customers 2 %}
+  	              	{% paginate %}
+       {% include "customer/nav.html" %} 
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+       {% include "customer/sub_nav.html" %} 
+        
+            <table class="table">
+              <thead>
+                	<tr>
+                		<td>#</td>                	
+			       		<th>{% anchor customer Customer %}</th>
+			            <th>{% anchor COD_service_charge "Service Charge" %} %</th>
+			            <th>{% anchor start_range "Start Range" %} INR</th>
+			            <th>{% anchor end_range "End Charge" %} INR</th>
+			            <th>{% anchor flat_COD_charge "Flat Charge" %} INR</th>
+			            <th>{% anchor minimum_COD_charge "Minimum Charge" %} INR</th>
+                                    <th>{% anchor status "Status" %} </th>
+			       	    <th>{% anchor effectivate_date "Effective Date" %} </th>	
+			    	</tr>
+              </thead>
+              <tbody>
+                	{% for cod_customer in cod_customers %}
+			 		<tr>
+			 		    <td>{{forloop.counter}}</td>
+			        	<td>{{cod_customer.customer}}</td>			 		    
+			        	<td><input type="text" value="{{cod_customer.COD_service_charge}}" name="cod_charge" id="{{cod_customer.id}}" class="inline_edit" style="width:25px!important" />  %</td>
+			        	<td>INR <input type="text" value="{{cod_customer.start_range}}" id="{{cod_customer.id}}" class="inline_edit"  style="width:32px!important" /></td>
+			        	<td>INR <input type="text" value="{{cod_customer.end_range}}" id="{{cod_customer.id}}" class="inline_edit" style="width:55px!important"/></td>
+			        	<td>INR <input type="text" value="{{cod_customer.flat_COD_charge}}" id="{{cod_customer.id}}" class="inline_edit"  style="width:25px!important"/></td>
+			        	<td>INR <input type="text" value="{{cod_customer.minimum_COD_charge}}" id="{{cod_customer.id}}" class="inline_edit"  style="width:40px!important" /></td>
+	                                <td> <input type="text" value="{{cod_customer.active}}" id="{{cod_customer.id}}" class="inline_edit"  style="width:40px!important"/></td>
+                                        <!--<td> {{cod_customer.effective_date}}</td> -->
+					<td><input type="text" value="{{cod_customer.effective_date}}" class="date inline_edit" placeholder="Date" id="{{cod_customer.id}}" style="width:80px!important;"/></td>
+        	</tr>
+					{% endfor %}
+              </tbody>
+            </table>
+            
+          
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->    
+  </div><!-- /container-fluid -->
+             
+</div>
+
+
+
+
+
+ <div id="popupContact" >  
+           
+        <a href="#" id="popupContactClose">x</a>  
+ </div> 
+
+      	
+<script>
+
+$('.activate_customer').click(function(){
+     customer_id = $(this).attr("cust_id");
+     window.location = "/customer/"+customer_id+"/activate/";
+});
+
+$('.deactivate_customer').click(function(){
+     customer_id = $(this).attr("cust_id");
+     window.location = "/customer/"+customer_id+"/deactivate/";
+});
+var currentTime = new Date();
+  // First Date Of the month 
+  var startDateFrom = new Date(currentTime.getFullYear(),currentTime.getMonth(),1);
+ $(".date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd",minDate: startDateFrom });
+ $( ".inline_edit" ).change(function() {
+ 
+ var tmp_val = $(this).val()
+ var id = $(this).attr('id')
+ alert(tmp_val) 
+});
+</script>
+						 
+          		{% endblock %}
+          		
+          		

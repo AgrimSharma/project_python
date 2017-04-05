@@ -1,0 +1,25 @@
+{% load sorting_tags %}
+
+<table class="table">
+  <thead>
+    	<tr>
+    		<td>#</td>                	
+       		<th>{% anchor id Code %}</th>
+       		<th>{% anchor alias_code Alias Code %}</th>
+       		<th>{% anchor name Name %}</th>
+       		<th>{% anchor customer Customer %}</th>
+       		
+    	</tr>
+  </thead>
+  <tbody>
+    	{% for sub_customer in sub_customers %}
+        <tr>
+ 		<td>{{forloop.counter}}</td>
+        	<td>{{sub_customer.id}}</td>
+        	<td>{{sub_customer.alias_code}}</td>
+        	<td>{{sub_customer.name}}</td>
+        	<td>{{sub_customer.customer}}</td>
+    	</tr>
+        {% endfor %}
+  </tbody>
+</table>

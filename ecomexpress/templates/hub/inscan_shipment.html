@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% load humanize %}
+	{% block content %}
+
+
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+  {% include "hub/nav.html" %}     </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Debag Shipment</span>
+            <div style="display:inline-block"><input style=" width:100px" type="text" size="9" name="bag_num" class="bag_num" placeholder="Bag No." id="bag_scan"/></div>
+            <div style="display:inline-block"><input style=" width:100px" type="text" size="9" placeholder="Inscan Shipment" class="awb_num"/></div>
+            <div style="display:inline-block"><input id="total_count" style=" width:128px" type="text" size="9" placeholder="No. of records in file" value="{{total_records}}"/></div>
+            <div style="display:inline-block"><input id="verified_count" style=" width:100px" type="text" size="9" placeholder="Inscan Count" value="{{success_count}}"/></div>
+            <div style="display:inline-block"><input id="mismatch_count" style=" width:134px" type="text" size="9" placeholder="Data mismatch count" value="{{mismatch_count}}"/></div>
+            <div class="pull-right">
+            <a style="color:#FFF; text-decoration:underline" href="/service-centre/download_xcl/2/" > Download Excel </a>&nbsp;</div>
+            
+          </div>
+          <div class="cust-content">
+            <table class="table table1">
+              <thead>
+                <tr>
+                  <th width="88px" style="text-align:center">Client Code</th>
+                  <th style="text-align:center">Shipper</th>
+                  <th>Consignee</th>
+                  
+                  <th style="text-align:center">Dest</th>
+                  <th width="60px" style="text-align:center">Dest SC</th>
+                  <th style="text-align:center">Pieces</th>
+                  <th style="text-align:center">Value</th>
+                  <th style="text-align:center">Actual Weight</th>
+                  <th width="100px" style="text-align:center">Air Waybill No.</th>
+                  <th style="text-align:center">Order No.</th>
+                  <th style="text-align:center">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+               {% for a in shipment%}
+                <tr>
+                  <td>{{a.shipper.code}}</td>
+                  <td width="176px">{{a.shipper}}</td>
+                  <td width="176px">{{a.consignee}}</td>
+                  <td>{{a.destination_city}} </td>
+                  <td>{{a.service_centre}} </td>
+                  <td>{{a.pieces}}</td>
+                  <td>Rs. {{a.collectable_value|intcomma}}</td>
+                  <td>{{a.actual_weight}} Gms.</td>
+                  <td>{{a.airwaybill_number}}</td>
+                  <td>{{a.order_number}}</td>
+                  
+                  <td>
+                  {% ifequal a.status_type 0%}  
+                  <span class="label label-red">Unverified</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 1%}  
+                  <span class="label label-success">Verified</span>
+                  {%endifequal%}
+                  
+                  {% ifequal a.status_type 4%}  
+                  <span class="label label-red">Mismatch</span>
+                  {%endifequal%}
+                        
+                  </td>
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+            
+          </div>
+
+
+<br><br>
+
+          <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Shipment</span>
+            
+           
+          </div>
+          <div class="cust-content">
+            <table class="table table2">
+              <thead>
+                <tr>
+                  <th>Air Waybill No.</th>
+                  <th>Origin SC</th>
+                  <th>Dest SC</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="text-align:center; font-size:55px">
+                  <td id="awb_upd"> </td>
+                  <td id="o_sc_upd"> </td>
+                  <td id="desc_sc_upd"> </td>
+                 
+                </tr>
+                
+              </tbody>
+            </table>            
+          </div>
+          
+
+
+
+          
+          <div style="margin-top:10px">
+          <div style="display:inline-block; width:10px; height:10px; background:#F00"></div><div style="display:inline-block">&nbsp; Data</div>
+          
+          <div class="pull-right" style="display:inline-block"><a href="#"  href="#" data-rev-action="modal" data-target="#add-revlet"> Notify</a></div>
+          </div>
+          <!-- /cust-content --
+        </div>
+      </div>
+      <div class="span4">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Outscan</span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+          <div class="summary-content">
+          	<h1>Summary Report</h1>
+            <table class="table" style="margin-top:20px"width="523" height="289" border="0" cellpadding="0">
+              <tr>
+                <td width="205" valign="top"><h4>Airway Bill No.</h4></td>
+                <td width="205" valign="top">KA123456789</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Customer</h4></td>
+                <td width="205" valign="top">Flipkart</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Date</h4></td>
+                <td width="205" valign="top">5/10/2012</td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Type</h4></td>
+                <td width="205" valign="top">Lorem Ipsum </td>
+              </tr>
+              <tr>
+                <td valign="top"><h4>Status</h4></td>
+                <td width="205" valign="top"><span class="label label-success">Used</span></td>
+              </tr>
+			</table>
+            </div>
+            
+          </div>
+        </div>
+      </div><!-- span6 -->
+    </div><!-- /row-fluid -->
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Notify - Exception report</h3>
+    </div>
+    <div style="height:68px;" class="modal-body">
+   		<form>
+        	<input type="text" Placeholder=" Email"/>
+            <a href="#"><i class="icon-plus-sign"></i> </a><br>
+            <input type="button" class="btn btn-success" value="Send" />
+        </form>
+    </div>
+  </div><!--modal end-->
+
+
+
+<script>
+$(function(){
+    $(".bag_scan").focus();
+$(".bag_num").change(function(){
+        var bag_num=$("input.bag_num").val();
+        $.ajax({
+            type:"GET",
+            url: "/hub/bag_count/"+bag_num+"/",
+            success:function(resp){
+            var total = resp['total'];
+            var success = resp['success'];
+            var mismatch = resp['mismatch'];
+            $("#total_count").val(total);
+            $("#verified_count").val(success);
+            $("#mismatch_count").val(mismatch);
+
+               }
+            });
+            });
+
+    $(".awb_num").change(function(){
+        var awb_num=$("input.awb_num").val();
+        var bag_num=$("input.bag_num").val();
+        var datastring = "bag_num="+bag_num+"&awb_num="+awb_num;
+        $.ajax({
+            type:"POST",
+            url: "/hub/inscan_shipment/",
+            data: datastring,
+            success: function(resp){
+            $(".table1 > tbody").html(resp);
+            //alert(resp);
+            
+            //location.reload();
+            var a = $("#awb_sc").html()
+            var b = $("#sc_upd").html()
+            var c = $("#o_upd").html()
+            var d = $("#tot_count").html()
+            var e = $("#suc_count").html()
+            var f = $("#mis_count").html()
+
+
+            $("#awb_upd").html(a)
+            
+            $("#desc_sc_upd").html(b)
+            $("#o_sc_upd").html(c)
+            $("#total_count").val(d)
+            $("#verified_count").val(e)
+            $("#mismatch_count").val(f)
+
+            },
+            error:function(resp){
+            alert("Shipment Does not exist in the bag")
+            }
+        
+        });
+        $(".awb_num").val("");
+        $(".awb_num").focus();
+        
+             return false;
+        
+    });
+});
+
+
+</script>
+
+
+
+{% endblock %}
+          	

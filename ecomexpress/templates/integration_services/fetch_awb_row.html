@@ -1,0 +1,12 @@
+{%load tags%}
+<tr id="batch-{{ batch.id }}">
+    <td>{{batch.id}}</td>
+    <td>{{batch.added_on}}</td>
+    <td>{{batch.status|get_fetchawb_status}}</td>
+    <td>{{batch.location }}</td>
+    <td>{{batch.pincode }}</td>
+    <td>{{batch.total_count}}</td>
+    <td class="processed_count">{{batch.processed_count}}</td>
+    <td id="success{{batch.id}}"> {% if batch.status %} <span class="label label-success">Download</span> </td> {%endif%} 
+    <td> <input type="button" class="btn btn-primary refresh_awb_batch" data-awb_batch_id="{{ batch.id }}" value="Refresh"></td>
+</tr>

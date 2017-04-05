@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="span6">
+        <div style="min-height:200px; height:auto;">
+            <div style="min-height:200px; height:auto;border:1px solid #999 ;">
+                <div style="display:inline-block; width:100%;">
+                    <h2 style="font-size: 18px;font-weight: bold;letter-spacing: 0.8px; padding: 10px;
+                        background-color:#3731B0; color:#fff">Prebilling Report</h2>
+                </div>
+                <table>
+                    <tr>
+                        <td><b>Jasper</b></td>
+                        <td>
+                            <select name="month" id="month" onchange="" size="1">
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>TV18</b></td>
+                        <td>
+                           <select name="month" id="month" onchange="" size="1">
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="span6">
+        <div style="min-height:200px; height:auto;">
+            <div style="min-height:200px; height:auto;border:1px solid #999;">
+                <div style="display:inline-block; width:100%;">
+                    <h2 style="font-size: 18px;font-weight: bold;letter-spacing: 0.8px; padding: 10px;
+                        background-color:#3731B0; color:#fff">Post Billing Report</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 

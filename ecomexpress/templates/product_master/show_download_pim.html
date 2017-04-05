@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content%}
+<div id="wrap">
+  <div class="container-fluid-main", role="main", id="main">
+      <div class="row-fluid">
+          <div class="span12">
+              <div class="summary-content">
+                  <div class="cust-content">
+                      <h4 style="margin:50px 10px;">ProductItemMaster display</h4>
+                      <!--Button 1: show all PIM records on a modal dialog -->
+                      <div id="leftbtn" style="position: absolute; width: 70px;">
+                        <input type="button" class="btn btn-primary" value="Show all" id="show-all-pim" data-rev-action="modal" data-target="#showallpim">
+                      </div>
+                      <!--Button 2: download all PIM records --> 
+                      <div id="rightbtn" style="position: relative; left: 7em; width:70px;">
+                      <form method="post" action="/product_master/return_PIM/" enctype="multipart/form-data">
+                        <input type="button" class="btn btn-primary" value="Download" id="download-all-pim">
+                      </form>
+                      </div>
+                      <!--<a href="generate_reports/" type="button" "PDSR & Daywise"/>-->
+                      <!-- <input type="button" class="btn btn-primary" value=" PDSR & Daywise " id="ship-upload1"  data-target="#ship1">
+                       
+                       <div id ="count" style="margin-top:20px;">
+                        <p class="alert alert-info">{{count}} airwaybill updated </p>
+                      </div> -->
+                      <div id ="warning" style="margin-top:20px;">
+                       {% if warnings %}
+                      <p class="alert alert-error">Errors</p>
+                      <table>
+                          {% for warning in warnings %}
+                              <tr class="alert alert-error"><td>{{warning}}</td></tr>
+                          {%endfor%}
+                      </table>
+                      {% endif %}
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal hide modal-mis-div" id="showallpim">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal header">
+        <a class="close" data-dismiss="modal">x</a>
+        <h4>List of items in ProductItemMaster</h4>
+      </div>
+      <div style="height:auto;" class="modal-body"; scrollable="True">
+        <!--- show_all code here -->
+        <table class="table-pim">
+          <thead>
+            <tr>
+              <th>Customer</th>
+              <th>squ_id</th>
+              <th>Product length</th>
+              <th>Product description</th>
+              <th>Product height</th>
+              <th>Product breadth</th>
+              <th>id</th>
+              <th>Product weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in this_pim %}
+              <tr>
+              {% for head, values in item.iteritems %}
+                <td>{{values}}</td>
+              {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+{% endblock %}

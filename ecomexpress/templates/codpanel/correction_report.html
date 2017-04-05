@@ -1,0 +1,12 @@
+{% include 'codpanel/reports_search.html' %}
+
+ <table class="table table-condensed table-striped table-bordered tm20">
+   <thead> <tr><th>Awb</th> <th>Date</th><th>Service Centre</th><th>Remark</th><th>Employee</th></tr></thead>
+   <tbody>
+   {% for row in data %}
+   <tr>
+       <td>{{row.awb}}</td> <td>{{row.date}}</td> <td>{{row.sc}}</td> <td>{{ row.remark }}</td> <td>{{ row.emp }} </td>
+   </tr>
+   {%endfor%}
+   </tbody>
+</table>

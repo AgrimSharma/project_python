@@ -1,0 +1,33 @@
+<form id="cardPaymentReportId" action="/delivery/card_payment_report" method="GET">
+<table>
+   <tr>
+       <td><b>From Date</b></td>
+       <td><input type="text" name="report_date_from" id="from_date_id"></td>
+       <td><b>To Date</b></td>
+       <td><input type="text" name="report_date_to" id="to_date_id"></td>
+   </tr>
+   <tr>
+       <td><b>Customer Option</b></td>
+       <td><input type="text" name="cust_option" id="cust_option_id"></td>
+       <td><b>DC Option</b></td>
+       <td><input type="text" name="dc_option" id="dc_option_id"></td>
+   </tr>
+   <tr>
+       <td></td><td><input type="submit" value="Download" id="report_download" class="btn btn-primary"></td>
+   </tr>
+</table>
+</form>
+<script>
+$("#from_date_id").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    dateFormat:"yy-mm-dd",
+});
+$("#to_date_id").datepicker({
+     changeMonth: true,
+     changeYear: true,
+     dateFormat:"yy-mm-dd",
+});
+
+</script>
+

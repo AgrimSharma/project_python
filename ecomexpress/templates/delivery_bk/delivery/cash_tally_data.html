@@ -1,0 +1,11 @@
+{% load humanize %}
+<tr>
+<td>{{a.shipment.airwaybill_number}}</td>
+<td>{{a.delivery_emp_code.employee_code}}</td>
+<td>{{a.shipment.consignee}}</td>
+<td>{{a.shipment.pieces}}</td>
+<td>Rs. {{a.collectable_value|intcomma}} Rs.</td>
+<td>Rs. {{a.amount_collected|intcomma}} Rs.</td>
+<td>Delivered</td>
+</tr>
+

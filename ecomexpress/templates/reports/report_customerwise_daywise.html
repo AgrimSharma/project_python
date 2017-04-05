@@ -1,0 +1,37 @@
+
+<div class="cust-content">
+{% load tags %} 
+   <table class="table">
+     <thead>
+        <tr>
+           <th>CustCode</th>
+           <th>Customer Name</th>
+           <th>No Of Shipts</th>
+           <th>Chargeable Weight</th>
+           <th>Freight</th>
+           <th>COD Charges</th>
+           <th>Other Charges</th>
+           <th>Fuel Sc</th>
+           <th>Total</th>
+           
+        </tr>
+     </thead>
+     <tbobdy>
+     {%for ship in update_today%}
+        <tr>
+           <td>{{ship.shipment.shipper.code}}</td>
+           <td>{{ship.shipment.shipper.name}} </td>
+           <td>{{ship.shipment.airwaybill_number}} </td>
+           <td> {{ship.shipment.collectable_value}}</td>
+           <td> {{ship.shipment.order_price_set.all.0.freight_charge}}</td>
+           <td> {{ship.shipment.codcharge_set.all.0.cod_charge}}</td>
+           <td> </td>
+           <td>{{ship.shipment.order_price_set.all.0.fuel_surcharge}} </td>
+           <td> </td>
+       </tr>
+     {% endfor%}
+     </tbody>
+   </table>
+</div><!-- /cust-content -->
+        
+        

@@ -1,0 +1,17 @@
+<tr><td>{{a.id}}</td><td>{{a.date}}</td>
+<td>
+{%comment%}
+<button class="btn btn-primary delink_shipment_oct" octroi_id="{{a.id}}" id="delink_oct{{a.id}}"
+{% ifequal a.status 1%} disabled="disabled" {%endifequal%}> Delink Shipments</button>&nbsp;{%endcomment%}
+<a href="/hub/octroi_summary/{{a.id}}/" class="btn btn-primary" octroi_id="{{a.id}}">Manifest Summary</a>&nbsp;
+<a href="/hub/octroi_manifest/{{a.id}}/1/" class="btn btn-primary gen_manifest" octroi_id="{{a.id}}"> Generate Manifest</a>&nbsp;
+{%comment%}<a href="#" class="btn btn-primary close_oct" octroi_id="{{a.id}}"> Close</a></td>{%endcomment%}
+<td id="success{{a.id}}">
+{% ifequal a.status 1%}
+<span class="label label-success">Closed</span>
+</td>
+                  {%endifequal%}
+
+
+                </tr>
+

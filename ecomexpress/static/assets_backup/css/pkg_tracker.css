@@ -1,0 +1,150 @@
+ ol.progtrckr {
+        margin: 0;
+        padding: 0;
+        list-style-type none;
+    }
+
+    ol.progtrckr li {
+        float:left;
+        text-align: center;
+        list-style-type: none;
+    }
+    .tenwidth {width:10%;}
+
+    .fortywidth {width:40%;}
+
+    .green_br_li {
+        border-top: 8px solid yellowgreen;
+    }
+    .silver_br_li {
+        border-top: 8px solid silver;
+    }
+    .orange_br_li {
+        border-top: 8px solid orange;
+     }
+    .silver_font {
+        color: silver;
+    }
+    .black_font{
+        color: black;
+    }
+    ol.progtrckr li:after {
+        content: "\00a0\00a0";
+    }
+    ol.progtrckr li:before {
+        position: relative;
+        bottom: 20px;
+        float:left;
+        left: 0%;
+    }
+    ol.progtrckr li.progtrckr-done:before {
+        content: "\2713";
+        color: white;
+        background-color: yellowgreen;
+        height: 30px;
+        width: 30px;
+        line-height: 30px;
+        border: none;
+        border-radius: 30px;
+    }
+    ol.progtrckr li.progtrckr-todo:before {
+        content: "\25cf";
+        color: silver;
+        background-color: silver;
+        font-size: 1.5em;
+        height: 30px;
+        width: 30px;
+        border: none;
+        border-radius: 30px;
+        line-height: 30px;
+    }
+    ol.progtrckr li.progtrckr-final-todo:before {
+        content: "\25cf";
+        color: silver;
+        background-color: silver;
+        font-size: 1.5em;
+        height: 45px;
+        width: 45px;
+        border: none;
+        border-radius: 45px;
+        line-height: 45px;
+    }
+    ol.progtrckr li.progtrckr-final-done:before {
+          content: "\2713";
+          color: white;
+          background-color: yellowgreen;
+          font-size: 1.5em;
+          height: 45px;
+          width: 45px;
+          border: none;
+          border-radius: 45px;
+          line-height: 45px;
+     }
+    ol.progtrckr li.progtrckr-trans-todo:before {
+        content: "\25cf";
+        color: silver;
+        background-color: silver;
+        font-size: 1.5em;
+        height: 25px;
+        width: 25px;
+        border: none;
+        border-radius: 25px;
+        line-height: 25px;
+        bottom: 17px;
+    }
+    ol.progtrckr li.progtrckr-trans-done:before {
+        content: "\2713";
+        color: white;
+        background-color: yellowgreen;
+        font-size: 1em; 
+        height: 25px;
+        width: 25px;
+        border: none;
+        border-radius: 25px;
+        line-height: 25px;
+        bottom: 17px;
+    }
+   .pos_text{;
+        width: 80px;
+        margin-left:-25px;
+        margin-top:30px;
+    }
+   .wordwrap {
+   white-space: pre-wrap;      /* CSS3 */
+   white-space: -moz-pre-wrap; /* Firefox */
+   white-space: -pre-wrap;     /* Opera <7 */
+   white-space: -o-pre-wrap;   /* Opera 7 */
+   word-wrap: break-word;      /* IE */
+   }
+
+   .trans_text{
+        margin-top:20px;
+    }
+    .orange_br_li {
+        border-top: 8px solid orange;
+    }
+    .red_font {
+        color:red ;
+    }
+    ol.progtrckr li.progtrckr-stop:before {
+        content: "\274C";
+        color: red;
+        background-color: orange;
+        font-size: 1.5em;
+        height: 30px;
+        width: 30px;
+        border: none;
+        border-radius: 30px;
+        line-height: 35px;
+    }
+ol.progtrckr li.progtrckr-redirect:before {
+            content: "\23CE";
+            color: red;
+            background-color: yellowgreen;
+            font-size: 1.5em;
+            height: 45px;
+            width: 45px;
+            border: none;
+            border-radius: 45px;
+            line-height: 45px;
+       }

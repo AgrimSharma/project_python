@@ -1,0 +1,23 @@
+{% if request.user.employeemaster.user_type == "Customer"%}
+  <a href="/track_me/multiple_airwaybill/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}"title="Generate New Airway Bill"><i class="icon-truck"> </i>Multiple Air waybill </a> &nbsp; &nbsp;
+<a href="/track_me/bag_history/" title="Bag History"><i class="icon-briefcase"> </i>Bag History</a>&nbsp;&nbsp;
+<a href="/track_me/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}"><i class="icon-signin"> </i>Status &amp; Scan </a> &nbsp; &nbsp;
+<a href="/track_me/comments/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}"><i class="icon-truck"> </i>Comments </a> &nbsp; &nbsp;
+{%else%}
+<a href="/track_me/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}"><i class="icon-signin"> </i>Status &amp; Scan </a> &nbsp; &nbsp;
+<a href="/track_me/shipper_consignee/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}" ><i class="icon-briefcase"> </i>Shipper-Consignee </a> &nbsp; &nbsp;
+<a href="/track_me/pickup_package/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}"><i class="icon-truck"> </i>Pickup Package </a> &nbsp; &nbsp;
+<a href="/track_me/comments/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}"><i class="icon-truck"> </i>Comments </a> &nbsp; &nbsp;
+<a href="/track_me/multiple_airwaybill/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}"><i class="icon-truck"> </i>Multiple Air waybill </a> &nbsp; &nbsp;
+<a href="/track_me/generic_query/"><i class="icon-truck"> </i>Generic Query </a>&nbsp;&nbsp;
+<a href="/track_me/generic_query_v2/"><i class="icon-truck"> </i>Generic Query V2 </a>&nbsp;&nbsp;
+<a href="/track_me/complaints/?awb={{shipment.airwaybill_number}}&order={{shipment.order_number}}" ><i class="icon-truck"> </i>Complaints</a>  &nbsp; &nbsp;
+<a href="/track_me/bag_history/" title="Bag History"><i class="icon-briefcase"> </i>Bag History</a>&nbsp;&nbsp;
+<a href="/track_me/multiple_bag/" title="Multiple Bag"><i class="icon-briefcase"> </i>Multiple Bag</a>&nbsp;&nbsp;
+{% comment %}
+{% if request.user.employeemaster.department_id == 3%}
+<a href="/delivery/monitoring_dashboard/" title="Dashboard"><i class="icon-plane"> </i>Monitoring Dashboard</a> &nbsp; &nbsp;
+{% endif %}
+{% endcomment %}
+{%endif%}
+

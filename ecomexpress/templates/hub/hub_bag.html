@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+	{% block content %}
+ <script type="text/javascript">
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+    </script>
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        {% include "hub/nav.html" %}
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i>{%block title%}  <span>Bag Features</span>{%endblock%}
+            </div>
+            
+          <div class="cust-content">
+{%block table%}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Number</th>
+                  <th>Type</th>
+                  <th>Size</th>
+                  <th>Origin</th> 
+                  <th>Destination</th> 
+                  <th>Weight</th>
+                  <th>Added On</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+              {% for bag in bags %}
+               {% if bag.status_type == 0 %} 
+                <tr >
+                  <td>{{bag.bag_number}}</td>
+                  <td>{{bag.bag_type}}</td>
+                  <td>{{bag.bag_size}}</td>
+                  <td>{{bag.origin.center_name}}</td>
+                  <td>{{bag.destination.center_name}}</td>
+                  <td>{{bag.actual_weight}}</td>
+                  <td>{{bag.added_on}}</td>
+                {%endif%}  
+                  
+              </tr>
+             
+            {% endfor %}
+               
+              </tbody>
+            </table>
+{%endblock%}
+            </div>
+           
+ 
+    </div><!-- /row-fluid -->
+    
+    
+  </div><!-- /container-fluid -->
+             
+</div>
+<div style="margin-top:10px">
+          
+          
+
+
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3> Bag Exception Report </h3>
+    </div>
+    <div style="height:68px;" class="modal-body">
+    
+    <form>
+        	<input type="text" Placeholder=" Email"/>
+            <a href="#"><i class="icon-plus-sign"></i> </a><br>
+            <input type="button" class="btn btn-success" value="Send" />
+        </form>
+   		
+    </div>
+  </div><!--modal end-->
+
+
+
+
+<script>
+$(function(){
+$("#bag_scan").focus();
+
+$('input:text:first').focus();
+            var $inp = $('input:text');
+            $inp.bind('keydown', function(e) {
+                //var key = (e.keyCode ? e.keyCode : e.charCode);
+                var key = e.which;
+                if (key == 13) {
+                    e.preventDefault();
+                    var nxtIdx = $inp.index(this) + 1;
+                    $(":input:text:eq(" + nxtIdx + ")").focus();
+                }
+            });
+
+
+$(".awb_no").change(function(){
+$("#bag_no").val("");
+var awb=$("input.awb_no").val();
+var datastring = "awb="+awb;
+$.ajax({
+type:"POST",
+url: "/service-centre/awb_query/",
+data: datastring,
+success: function(resp){
+$("#bag_no").val(resp);
+
+}
+})
+});
+
+
+$(".inscan_bag").change(function(){
+
+var bag_id=$("input.inscan_bag").val();
+var table_data = $(".tableexp > tbody").html();
+var datastring = "bag_id="+bag_id;
+$.ajax({
+type:"POST",
+url: "/hub/",
+data: datastring,
+success: function(resp){
+
+data=eval('(' + resp + ')');
+
+
+$.each(data, function(key, value) {
+$("#"+ key).val(value);
+if (key == "bag_exception"){
+$(".tableexp > tbody").html("")
+$(".tableexp > tbody").append(value);
+$(".tableexp > tbody").append(table_data);
+//var e = $("#suc_count").html()
+//var f = $("#mis_count").html()
+
+//$("#verified_count").val(e)
+//$("#mismatch_count").val(f)
+
+  }
+if (key == "bag_success"){
+$(".tablesuc > tbody").append(value);
+}
+
+
+});
+
+
+
+/*
+$.each(data, function(key, value) {
+$("#"+ key).val(value);
+ //   alert(key + "=" + value);
+});
+location.reload();
+}*/
+},
+error:function(resp){
+alert("Invalid Bag ID")
+}
+
+});
+$("#bag_scan").val("");
+$("#bag_scan").focus();
+     return false;
+
+
+});
+});
+
+
+
+</script>
+
+{% endblock %}
+          	
+

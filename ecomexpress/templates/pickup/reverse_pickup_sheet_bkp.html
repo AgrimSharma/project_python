@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Reverse Pickup Sheet: {{oid}}</title>
+<style type="text/css">
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+.rev-details{
+display: inline-block;
+vertical-align: top;
+width: 309px;
+}
+</style>
+</head>
+
+<body>
+
+<script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+{%if not request.GET.print %}
+<a href="javascript: window.open ('/pickup/reverse_pickup_sheet/{{oid}}/?print=1','mywindow'); target=_blank">PRINT </a>
+{%endif%}
+{%for a in shipment%}
+<div style="height:842px; width:745px; display:block;">
+<br>
+<center>(Customer Copy)
+<br>
+<br>
+Ecom Express Private Limited
+<br><br>
+
+<br>
+
+<img style = "margin-left:38px; height:130px; width:160px;" src="{{ STATIC_URL }}airwaybill/{{a.reverseshipment.airwaybill_number}}.svg">
+</center>
+
+<div align = "left" class="rev-details">
+Order Number: {{a.order_number}}<br>
+Pickup Address: {{a.reverseshipment.pickup_consignee_address1}}<br>
+                {{a.reverseshipment.pickup_consignee_address2}}<br>
+                {{a.reverseshipment.pickup_consignee_address3}}<br>
+                {{a.reverseshipment.pickup_pincode}} <br>
+
+<br>
+Consignee Name: {{a.reverseshipment.pickup_consignee}}
+</div>
+
+<div align = "right" class="rev-details" style="float:right;">
+Delivery Address: {{a.reverseshipment.shipper.address.address1}}<br>
+                {{a.reverseshipment.shipper.address.address2}}<br>
+                {{a.reverseshipment.shipper.address.address3}}<br>
+                {{a.reverseshipment.shipper.address.pincode}}   <br>   
+
+<br>
+Customer Name: {{a.reverseshipment.shipper}}
+</div>
+<br>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
+<br>
+<center>(Self Copy to be pasted on shipments)
+<br>
+<br>
+Ecom Express Private Limited
+<br><br>
+<br>
+
+
+<img style = "margin-left:38px; height:130px; width:160px;" src="{{ STATIC_URL }}airwaybill/{{a.reverseshipment.airwaybill_number}}.svg">
+</center>
+
+<div align = "left" class="rev-details">
+Order Number: {{a.reverseshipment.order_number}}<br>
+Pickup Address: {{a.reverseshipment.pickup_consignee_address1}}<br>
+                {{a.reverseshipment.pickup_consignee_address2}}<br>
+                {{a.reverseshipment.pickup_consignee_address3}}<br>
+                {{a.reverseshipment.pickup_pincode}} <br>       
+
+<br>
+Consignee Name: {{a.reverseshipment.pickup_consignee}}
+</div>
+
+<div align = "right" class="rev-details" style="float:right;">
+Delivery Address: {{a.reverseshipment.shipper.address.address1}}<br>
+                {{a.reverseshipment.shipper.address.address2}}<br>
+                {{a.reverseshipment.shipper.address.address3}}<br>
+                {{a.reverseshipment.shipper.address.pincode}}   <br>  
+
+<br>
+Customer Name: {{a.reverseshipment.shipper}}
+</div>
+<br>
+</div>
+<br>
+<p style="page-break-after:always;"> </p>
+{%endfor%}
+</body>
+<script>
+$(function(){
+var print = {{request.GET.print}}
+console.log(print);
+if (print == 1){
+window.print();
+}
+window.close();
+});
+</script>
+</html>
+

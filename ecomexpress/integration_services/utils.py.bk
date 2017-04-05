@@ -1,0 +1,131 @@
+import xlrd
+import datetime
+import os, sys
+
+from customer.models import Shipper, ShipperMapping, Customer
+from location.models import Pincode, Address, ServiceCenter
+os.environ['DJANGO_SETTINGS_MODULE'] = "ecomexpress.settings"
+sys.path.append('/home/web/ecomm.prtouch.com/ecomexpress/') 
+
+# from .models import PickupEnroll
+
+def read_pickups_from_excel(filename):
+	workbk = xlrd.open_workbook(filename)
+	worksheet = workbk.sheet_by_name('Sheet1')
+	num_rows = worksheet.nrows - 1
+	list_of_records = [[], [],[]]
+ 	curr_row = -1
+ 	while curr_row < num_rows:
+ 		curr_row += 1
+ 		row = worksheet.row(curr_row)
+		column = 0
+		for cell in row:
+			# cell_each = worksheet.cell(cell_idx, cell_obj)
+			# print column, curr_row, cell.value	# debug statement
+			# Check for proper cell values.
+			if cell.value:
+				list_of_records[column].append(cell.value)
+			else:
+				list_of_records[column].append("blank")
+			column += 1
+ 		# list_of_records.append(row)
+	print list_of_records
+
+def create_pickups(list_of_records):
+	pass
+
+# 	num_cols = worksheet.ncolumns - 1
+# 	for i in num_cols:
+# 		header.append[i]
+# 		
+# 	try:
+# 		done = PickupEnroll.objects.bulk_create(list_of_records)
+# 	except:
+# 		err_log.append(row)
+# 		continue
+
+#if __name__ =="__main__":
+	#read_pickups_from_excel("x.xlsx")	
+
+def get_subcustomer(shid):
+    shipper=Shipper.objects.get(id=shid)
+    address=""
+    add=shipper.address 
+    if add.address1 is not None:
+       address = address + add.address1    
+    if add.address2 is not None:
+       address = address + add.address2
+    if add.address3 is not None:
+       address = address + add.address3
+    if add.address4 is not None:
+       address = address + add.address4  
+    return address,add.pincode
+
+def create_vendor(name,address,phone,pincode,customer_code,return_pincode=0):
+    #customer_code = int(customer_code)
+    customer=Customer.objects.filter(code=customer_code)
+    #return_pincode = int(return_pincode)
+    return_pincode = str(return_pincode)
+    #return HttpResponse(customer_code)
+    if customer:
+       customer = customer[0]
+       pin = Pincode.objects.get(pincode=pincode)
+       city=pin.service_center.city
+       state = city.state
+       address  =  Address.objects.create(city=city,state=state,address1=address,phone=phone,pincode=pincode)
+       shipper = Shipper.objects.create(address=address,customer=customer,name=name)
+       ShipperMapping.objects.create(shipper=shipper,forward_pincode=pincode,return_pincode=return_pincode)
+       return shipper       
+
+def get_vendor(name,address,phone,pincode,customer_code,return_pincode=0):
+    #from django.http import HttpResponse
+    #tmp = ""
+    #return HttpResponse(name,address,phone,pincode,customer_code,return_pincode)
+    #subcustomer=None
+    #customer_code = int(customer_code)
+    customer_code = str(customer_code)
+    #pincode=int(pincode)
+    pincode = str(pincode)
+    shipper= Shipper.objects.filter(name=name,address__pincode=pincode,customer__code=customer_code)
+    if shipper:
+        subcustomer = shipper[0].id
+       # for ship in shipper:
+          # u=get_subcustomer(ship)
+           #if u[0] == address and u[1] == pincode:
+             #id=shipper[0].id
+             #break;
+    else:
+        subcust =  create_vendor(name,address,phone,pincode,customer_code,return_pincode)
+        if subcust :
+           subcustomer = subcust.id
+    return subcustomer
+
+def get_or_create_vendor(self, *args, **kwargs):
+    pincode = kwargs.get('pincode')
+    address = kwargs.get('address')
+    name = kwargs.get('name')
+    customer = kwargs.get('customer')
+
+    try:
+        shipper = Shipper.objects.get(
+            name=name, customer=customer, address__pincode=pincode)
+        return shipper
+    except Shipper.DoesNotExist:
+        pass
+
+    pin = Pincode.objects.get(pincode=pincode)
+    address1 = address[:100]
+    address2 = address[100:200]
+    address3 = address[200:300]
+    address4 = address[300:400]
+
+    address  =  Address.objects.create(
+        city=pin.service_center.city, state=pin.service_center.city.state,
+        address1=address1, address2=address2, address3=address3, 
+        address4=address4, pincode=pincode)
+
+    shipper = Shipper.objects.create(
+        name=name, customer=customer, address=address)
+    ShipperMapping.objects.create(
+       shipper=shipper, forward_pincode=pincode, return_pincode=0)
+    return shipper

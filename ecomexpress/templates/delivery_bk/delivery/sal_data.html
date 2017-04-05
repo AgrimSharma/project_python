@@ -1,0 +1,11 @@
+<tr><td>{{a.id}}</td><td>{{a.data_entry_emp_code.employee_code}}</td><td>{{a.date}}</td><td>{{a.scanned_shipments.count}}/{{a.total_undelivered_shipment.count}}</td><td style="width:468px"><button class="btn btn-primary include_shipment_sal" sal_id="{{a.id}}" id="include_shipment{{a.id}}" {% if a.status %} disabled="disabled" {%endif%} sal_id="{{a.id}}"> Include Shipment</button>&nbsp;<a href="#" class="btn btn-primary close-sal" sal_id="{{a.id}}"> Close Outscan</a>
+                                <a href="/delivery/sal_excel_download/{{ a.id }}/" class="btn btn-primary sal-download-excel">Download Excel</a>
+<td id="success{{a.id}}">
+{% if a.status %}
+<span class="label label-success">Closed</span>
+</td>
+{%endif%} 
+{%comment%}
+&nbsp;<button href="#" class="btn btn-primary delink_shipment_sal" sal_id="{{a.id}}"> Delink Shipment</button>&nbsp;<a href="#" class="btn btn-primary del_sheet_sal" sal_id="{{a.id}}"> Generate Delivery Sheet</a>&nbsp;{%endcomment%}
+     
+</tr>

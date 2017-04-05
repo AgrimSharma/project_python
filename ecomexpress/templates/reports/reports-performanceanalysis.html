@@ -1,0 +1,53 @@
+<div class="cust-content">
+
+            <table class="table">
+
+		<thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Month</th>
+                  <th>Count</th>
+                  <th>Delivered</th>
+                  <th>%Age</th>
+                  <th>RTO</th>
+                  <th>%Age</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+              
+                <tr>
+                  <td>Prepaid</td>
+                  <td>{{month}} </td>
+                  <td>{{ppd_shipment}} </td>
+                  <td>{{delivered_ppd_count}}/{{ppd_shipment}}</td>
+                  <td>{{ppd_delivered }}%</td>
+                  <td>{{rto_ppd_count}}/{{ppd_shipment}}</td>
+                  <td> {{ppd_rto_perc }}%</td>
+                  
+                </tr>
+                <tr>
+                  <td>COD</td>
+                  <td>{{month}} </td>
+                  <td> {{cod_shipment}}</td>
+                  <td>{{delivered_cod_count}}/{{cod_shipment}}</td>
+                  <td> {{cod_delivered}}%</td>
+                  <td>{{rto_cod_count}}/{{cod_shipment}}</td>
+                  <td>{{cod_rto_perc }}%</td>
+                  
+                </tr>
+                <tr>
+                  <td>G Total</td>
+                  <td> </td>
+                  <td>{{total}} </td>
+                  <td>{{total_delivered}}/{{total}}</td>
+                  <td>{{g_del_perc}} %</td>
+                  <td>{{total_rto}}/{{total}}</td>
+                  <td> {{g_rto_perc}} %</td>
+                  
+                </tr>
+              
+              </tbody>
+            </table>
+
+            </div>

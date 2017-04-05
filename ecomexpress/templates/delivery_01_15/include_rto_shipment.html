@@ -1,0 +1,59 @@
+<div class="modal-header cust-title" style="width:560px; ">
+    <a class="close" data-dismiss="modal">×</a>
+    <div>
+        <font style="color:#fff; font-size:24px;"> Include Shipment </font> &nbsp;
+        <div style="display:inline-block">
+            <font style="color:#fff; font-size:14px;">Airway Bill:</font>
+            <input name="awb"  id="awb_scan" class="awb" style=" width:100px" type="text" size="9"/>
+        </div>
+    </div>
+    <div class="modal-body" style="height: 315px!important;">
+        <table class="table-rto-shipment">
+            <thead>
+                <tr>
+                    <th style="padding:8px; width:150px; font-size:12px; text-align:left;">AWB</th>
+                    <th style="font-size:12px;">Delink</th>
+                </tr>
+            </thead>
+            <tbody>
+                <input type="button" class="btn btn-primary reverse-rto-finished" value="Click Me When Finished">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("input#awb_scan").keydown(function(e){
+        var keyCode = e.keyCode || e.which;
+        //console.log('key pressed...', keyCode);
+        if (keyCode == 9 || keyCode == 13) {
+            e.preventDefault();
+            var awb = $("input#awb_scan").val();
+            var row = '<tr><td style="padding:8px; width:150px; font-size:12px;" class="awb_num">' + awb + '</td>';
+            row += '<td><input type="button" class="btn btn-primary delink-reverse-rto" value="Delink"></td></tr>';
+            $(".table-rto-shipment").children('tbody').append(row);
+            $("input#awb_scan").val('');
+        }
+    });
+
+    $(".delink-reverse-rto").live('click', function(e){
+        $(this).parents('tr').remove();
+    });
+
+    $(".reverse-rto-finished").live('click', function(e){
+        var awb_list = [];
+        $(".awb_num").each(function(index, el){
+           var num = $(el).text();
+           awb_list.push(num);
+        });
+        console.log('awb list is..',awb_list);
+        $("#rtosubmitFormAwbList").val(awb_list);
+        $(".table-rto-shipment tbody").html('');
+        $("#popupRTOShipment").hide();
+    });
+
+    $(".close").live('click', function(e){
+        $(".table-rto-shipment tbody").html('');
+        $("#popupRTOShipment").hide();
+    });
+</script>

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% include "reports/report_header.html" %}
+<div id="wrap">
+   <div class="container-fluid main" role="main" id="main">
+
+   <div class="row-fluid">
+      <div class="span12">
+          <div class="cust-details">
+              <div class="cust-title">
+                  <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Reports</span>
+              </div>
+              <div class="cust-content">
+                   {% crispy form %}     
+              </div><!-- /cust-content -->
+          </div><!-- row-fluid-->
+      </div><!-- /span12 -->
+   </div><!-- /row-fluid -->
+
+
+   </div><!-- /container-fluid -->
+</div>
+
+<script>window.jQuery || document.write('<script src="assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script> 
+
+<script type="text/javascript">
+$(document).ready(function() {
+  //origin state clicked corresponding origin cities shown
+  $("#id_origin_state").click(function(){
+     var origin_state = $(this).val();
+     $.ajax({
+          url: '/reports/get_city_details/',
+          type: "GET",
+          data: {'state': origin_state},
+          success: function(resp) {
+            $("select[name='origin_city']").html(resp['html']);
+          }
+     });
+  });
+   
+  // dest state clicked corresponding dest cities shown 
+  $("#id_dest_state").click(function(){
+      var dest_state = $(this).val();
+      $.ajax({
+          url: '/reports/get_city_details/',
+          type: "GET",
+          data: {'state': dest_state},
+          success: function(resp) {
+            $("select[name='dest_city']").html(resp['html']);
+          }
+      });
+  });
+
+  // origin region clicked corresponding origin cities and state shown
+  $("#id_origin_region").click(function(){
+      var origin_region = $(this).val();
+      $.ajax({
+          url: '/reports/get_region_details/',
+          type: "GET",
+          data: {'region': origin_region},
+          success: function(resp) {
+            $("select[name='origin_city']").html(resp['html']);
+            $("select[name='origin_state']").html(resp['region_html']);
+          }
+      });
+  });
+  
+  // dest region clicked corresponding dest cities and state shown
+  $("#id_dest_region").click(function(){
+      var dest_region = $(this).val();
+      $.ajax({
+          url: '/reports/get_region_details/',
+          type: "GET",
+          data: {'region': dest_region},
+          success: function(resp) {
+            $("select[name='dest_city']").html(resp['html']);
+            $("select[name='dest_state']").html(resp['region_html']);
+          }
+      });
+  });
+  
+  //report download from here #TODO
+  $("#id_report_download_button").click(function(event) {
+     event.preventDefault();
+     var report_search_form = "#id-report-search-form";
+     console.log(report_search_form);
+     var report_type = $("#id_reports").val();
+     var cust_id = $("#id_customers").val();
+     var from_date = $("#id_from_date").val();
+     var to_date = $("#id_to_date").val();
+     var origin_sc = $("#id_origin_city").val();
+     var dest_sc = $("#id_dest_city").val();
+     console.log(dest_sc);;
+     var origin_state = $("#id_origin_state").val();
+     var dest_state = $("#id_dest_state").val()
+     var origin_region = $("#id_origin_region").val();
+     var dest_region = $("#id_dest_region").val();
+     if (report_type == '0'){
+         alert('Please select a report');
+     }
+     else if (from_date && to_date){
+         $.ajax({
+             url: '/reports/report-search/',
+             type: "GET",   
+             contentType: 'application/json',
+             data: {'reports': report_type, 'customers': cust_id, 'origin_city': origin_sc, 'dest_city': dest_sc,
+                    'origin_state': origin_state, 'dest_state': dest_state, 'origin_region': origin_region,
+                    'dest_region': dest_region, 'from_date': from_date, 'to_date': to_date},
+             success: function(data) {
+                 //console.log(data.origin_city);
+                 window.location.href = data.file_name;
+             }
+         });
+     }
+     else{
+         alert('Please select from_date and to_date');
+     }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$("#id_from_date").datepicker({dateFormat: 'yy-mm-dd', maxDate: 0});
+$("#id_to_date").datepicker({dateFormat: 'yy-mm-dd', maxDate: 0});
+</script>
+
+{% endblock %}
+          	

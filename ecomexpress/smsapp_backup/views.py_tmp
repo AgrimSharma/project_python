@@ -1,0 +1,49 @@
+# Create your views here.
+from django.db import models
+import pdb
+import datetime
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render_to_response
+from django.http import HttpResponse
+from django.template import RequestContext
+from smsapp.models import * 
+from service_centre.models import *
+from urllib import quote, unquote
+import requests
+
+def add_awb(awb):
+    ship=Shipment.objects.get(airwaybill_number=awb)
+    SMSQueue.objects.create(awb=awb,types=ship.product_type,short_name=ship.shipper.code,order_no=ship.order_number,cod_amount=ship.collectable_value,item_description=ship.item_description)
+
+def process_queue(request):
+  queue=SMSQueue.objects.filter(status=0)
+  q=queue[0]
+  for q in queue:
+      temp=SMSTemplate.objects.filter(prod_type=q.types,customer=q.short_name)
+      if temp:
+         msg_body=temp[0].template
+         msg_body = msg_body.replace("AWB",str(q.awb))
+         #msg_body = msg_body.replace("item_description",q.item_description)
+         sh=Shipment.objects.get(airwaybill_number=q.awb)
+         mobile = sh.mobile
+         if sh.shipper.website:
+            site=sh.shipper.website
+         else:
+            site = sh.shipper.name[:14]
+            site = site+"."
+         msg_body =  msg_body.replace("DOMAIN.COM",site)
+         #msg_body="Your%20shipment"
+         #return HttpResponse(msg_body)
+         msg_body = quote(msg_body.encode('utf8'))
+         #msg_body = "Your%20shipment%207@__123__@1%20onkar%20on%20@__123__@.com%20will%20be%20delivered%20by%20Ecom%20Express%20today.%20Thanks!"
+         #msg_body = msg_body.replace("shipment","100")
+         req_url="http://enterprise.smsgupshup.com/GatewayAPI/rest?method=SendMessage&send_to="+str(mobile)+"&msg="+str(msg_body)+"&msg_type=TEXT&userid=2000135917&auth_scheme=plain&password=UMCBY1pJ0&v=1.1&format=text&password=Y4ZFLe"
+         #requests.get("http://enterprise.smsgupshup.com/GatewayAPI/rest?method=SendMessage&send_to=9960120121,9978929295&msg=Your%20shipment%207@__123__@1%20ordered%20on%20@__123__@.com%20will%20be%20delivered%20by%20Ecom%20Express%20.%20Tks!&msg_type=TEXT&userid=2000135917&auth_scheme=plain&password=UMCBY1pJ0&v=1.1&format=text&password=Y4ZFLe")
+         #return HttpResponse(msg_body)
+         r=requests.get(req_url)
+         if r.status_code == 200:
+             SMSQueue.objects.filter(id=q.id).update(status=1)
+         return HttpResponse(r.__dict__)
+         #sh=Shipment.objects.get(airwaybill_number=q.awb)
+         #return HttpResponse(sh.mobile)
+  return HttpResponse(q.__dict__)

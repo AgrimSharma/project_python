@@ -1,0 +1,10 @@
+{% for bag in cbags %}
+<tr data-cbag="{{ bag.bag_number }}" id="cbag-{{ bag.bag_number }}"><td>{{ bag.bag_number }}</td><td>{{ bag.created }}</td><td>{{ bag.hub }}</td><td>{{ bag.destination }}</td><td>
+    <button class="btn btn-primary cbag_include" {% if bag.status == 2 %}disabled="disabled"{% endif %}>Include Bag</button>
+    <!-- <button class="btn btn-primary cbag_delink">Delink Bag</button>
+    <button class="btn btn-primary cbag_manifest">Manifest</button> -->
+    <button class="btn btn-primary cbag_close" {% if bag.status == 2 %}disabled="disabled"{% endif %}> Close</button>
+    <button class="btn2 btn-primary btn-danger cbag_delete"><i class="icon-trash"></i> Delete</button>
+  </td>
+</tr>
+{% endfor %}

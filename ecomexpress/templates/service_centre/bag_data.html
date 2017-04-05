@@ -1,0 +1,14 @@
+<tr>
+    <td>{% if a.bag_number %}{{a.bag_number}}{% endif %}</td>
+<td>{{a.bag_type}}</td>
+<td>{{a.hub.center_shortcode}}</td>
+<td>{{a.destination.center_shortcode}}</td>
+<td style="width:468px"><button class="btn btn-primary include_shipment" bag_id="{{a.id}}" id="include_shipment{{a.id}}" {% ifequal request.user.employeemaster.user_type 'Staff'%} {% ifequal a.bag_status 1%} disabled="disabled" {%endifequal%}{%endifequal%}> Include Shipment</button> &nbsp;<button class="btn btn-primary delink_shipment" id="delink_shipment{{a.id}}" bag_id="{{a.id}}" {% ifequal request.user.employeemaster.user_type 'Staff'%} {% ifequal a.bag_status 1%} disabled="disabled" {%endifequal%}{%endifequal%}> Delink Shipment</button>&nbsp;<a href="#" class="btn btn-primary gen_mnfst" bag_id="{{a.id}}" {% ifequal request.user.employeemaster.user_type 'Staff'%} {% ifequal a.bag_status 1%} disabled="disabled" {%endifequal%}{%endifequal%}> GenErate Menifest</a>&nbsp;<a href="#" class="btn btn-primary close-bag" bag_id="{{a.id}}"> Close Bag</a>
+<a class="btn2 btn-primary btn-danger" href="#" rel="tooltip" title="Delink Bag" bag_number="{{a.bag_number}}"><i class="icon-trash"></i> Delete Bag</a>
+</td>
+<td id="success{{a.id}}">
+{% ifequal a.bag_status 1%}
+<span class="label label-success">Closed</span>
+{%endifequal%}
+</td>
+</tr>

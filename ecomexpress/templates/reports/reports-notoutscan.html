@@ -1,0 +1,32 @@
+<div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Destination</th>
+				  <th>AWBNO</th>
+                  <th>Bag Number</th>
+                  <th>Inscan Date</th>
+                  <th>Inscan Time</th>
+                </tr>
+              </thead>
+               <tbody>
+               
+              {%for shipment, history in shipments.items%}
+             
+                <tr>
+                <td>{{shipment.service_centre}}</td>
+                  
+                  <td>{{shipment.airwaybill_number}}</td>
+                  
+                 <td> 
+                 {%if shipment.bags_set.all%}{{shipment.bags_set.all.0.bag_number}}{%else%}Debagged{%endif%}</td>
+                 <td>{{history.updated_on|date:"d-m-Y"}}</td>
+                 <td>{{history.updated_on|date:"H:m:s"}}</td>
+                </tr>
+             
+                {%endfor%}
+              </tbody>
+            </table>
+            
+          </div><!-- /cust-content -->
+    

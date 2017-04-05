@@ -1,0 +1,134 @@
+<html>
+<head>
+<style>
+    body {
+        width: 21cm;
+        min-height: 29.7cm;
+        padding: 2cm;
+        background: white;
+        font-size:8px;
+    }
+@page {
+        size: A4;
+        margin: 0;
+    }
+
+td
+{
+border-bottom:1px dotted black;
+}
+</style>
+
+{% load humanize %}
+</head>
+
+<body onload="window.print()">
+<br>
+<table border="0" width="719" height="200" border="0" cellpadding="2" style="font-size:8px">
+  <tr>
+    <td height="40" colspan="5" align="center" valign="top"><p align="center">ECOM Express Private LTD<br />
+    Transfer Challan</p></td>
+  </tr>
+  <tr>
+    <td colspan="5" valign="top"><p>Emp Code :{{request.user.employeemaster.employee_code}}</p></td>
+  </tr>
+  <tr>
+    <td height="22" colspan="5" valign="top"><p>Vehicle No :{{connection.vehicle_number}}</p></td>
+  </tr>
+  <tr>
+    <td colspan="5" valign="top"><p>Org :{{request.user.employeemaster.service_centre}}</p></td>
+  </tr>
+  <tr>
+    <td colspan="4" valign="top">DST:{{connection.destination}}</td>
+    <td width="154" valign="top">Departure Time:</td>
+  </tr>
+
+</table>
+</br>
+<table border="0" width="719" height="200" border="0" cellpadding="2">
+  <tr style ="font-size:8px">
+
+    <td width="112" height="58" valign="top">Sr No.</td>
+    <td width="180" valign="top">Bag No.</td>
+    <td width="156" valign="top">Total Shipment</td>
+    <td width="85" valign="top">Total Weight</td>
+    <td height="58" valign="top">DST</td>
+<td></td>
+
+    
+
+  </tr>
+  {% for a, shipment in order_info.items%}
+
+  <tr style ="font-size:8px">
+
+    <td>{{forloop.counter}}</td>
+    <td >{{a.bag_number}}</td>
+    <td >{{shipment}}</td>
+    <td >{{a.actual_weight}}</td>
+    <td >{{a.destination}}</td>
+<td></td>
+</tr>
+   <tr style ="font-size:8px"><td colspan="6">Shipment Details:</td></tr>
+   {%for ship in a.shipments.all%}
+   <tr>
+<td>
+{{forloop.counter}}</td>
+<td>
+{{ship.airwaybill_number}}</td>
+<td>
+{{ship.shipper}}</td>
+<td>
+{{ship.consignee}}</td>
+<td>
+{{ship.item_description}}</td>
+<td>
+{{ship.declared_value}}</td>
+                        </tr>
+{%endfor%}
+<tr style ="font-size:8px"><td colspan="6">&nbsp;</td></tr>
+
+
+
+
+    {%endfor%}
+</table>
+{%comment%}
+</br>
+Shipment Details:
+<table border="0" width="719" height="200" border="0" cellpadding="2">
+<tr>
+<td>Sr No.</td>
+<td>Airwaybill Number</td>
+<td> Shipper</td>
+<td> Consignee</td>
+<td>Content</td>
+<td>Value</td>
+</tr>
+
+
+{% for a, shipment in order_info.items%}
+{%for ship in a.shipments.all%}
+<tr>
+<td>
+{{forloop.counter}}</td>
+<td>
+{{ship.airwaybill_number}}</td>
+<td>
+{{ship.shipper}}</td>
+<td>
+{{ship.consignee}}</td>
+<td>
+{{ship.item_description}}</td>
+<td>
+{{ship.collectable_value}}</td>
+			</tr>
+{%endfor%}
+{%endfor%}
+
+
+</table>
+{%endcomment%}
+
+</body>
+</html>

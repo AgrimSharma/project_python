@@ -1,0 +1,3 @@
+{% for os  in outscans %}
+<tr> <td>{{os.id}}</td> <td>{{os.employee_code.employee_code}}</td> <td>{{os.added_on}}</td> <td>{{os.amount_to_be_collected}}</td> <td><span id="{{os.id}}" class="">{{os.amount_collected}}</span></td> <td>{%ifequal os.collection_status 0%}Pending{%endifequal%} {%ifequal os.collection_status 2%}Mismatch{%endifequal%} {%ifequal os.collection_status 1%}Collected{%endifequal%}</td> <td>{{os.amount_mismatch}}</td> </tr>
+{%endfor%}

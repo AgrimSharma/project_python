@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<script type="text/javascript">
+    function MM_openBrWindow(theURL,winName,features) { //v2.0
+      window.open(theURL,winName,features);
+    }
+</script>
+{% load sorting_tags %}
+{% load reporttags %}
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+
+  <div class="row-fluid" style="min-height: 50px">
+    <div class="span12 select-header">
+  <!--      <div class="add-details pull-right" style='margin-right:40px;'> {% include "octroi/reports-list.html" %} </div>  -->
+    </div>
+  </div> <!-- row fluid -->
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+
+          <div class="cust-title">
+            <i class="icon-user" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Customer Entry Tax  Billing Details</span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+
+          <div class="cust-content">
+          	<ul class="nav nav-tabs" id="myTab">
+              <li class="active"><a data-toggle="tab" href="#unbilledCustomers">Unbilled Customers</a></li>
+              <li><a data-toggle="tab" href="#billedCustomers" >Billed Customers</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane active" id="unbilledCustomers">
+                <table class="table">
+                <thead>
+                  <tr> <th>#</th> <th>Name</th> <th>Code</th> <th>Contract From</th> <th>Contract To</th> <th>WB Entry Tax Billing</th> </tr>
+                </thead>
+                <tbody>
+                {%for customer in unbilled_customers %}
+                <tr>
+                    <td>{{forloop.counter}}</td> <td>{{customer.name}}</td> <td>{{customer.code}}</td> <td>{{customer.contract_from}}</td> <td>{{customer.contract_to}}</td>
+                    <td><a href="/customer/{{customer.id}}/" title="View Customer Details" class="btn2 btn-info" rel="tooltip"> <i class="icon-eye-open"></i>view details</a> </td>
+                </tr>
+                {%endfor%}
+                </tbody>
+                </table>
+              </div> <!-- unbilled customers -->
+
+              <div class="tab-pane" id="billedCustomers">
+                <table class="table">
+                <thead>
+                  <tr> <th>#</th> <th>Name</th> <th>Code</th> <th>Contract From</th> <th>Contract To</th> <th>WB Entry Tax  Billing</th> </tr>
+                </thead>
+                <tbody>
+                {%for customer in billed_customers %}
+                <tr>
+                    <td>{{forloop.counter}}</td> <td>{{customer.name}}</td> <td>{{customer.code}}</td> <td>{{customer.contract_from}}</td> <td>{{customer.contract_to}}</td>
+                    <td><a href="/wb_entry_tax/billing/customer/{{customer.id}}/" title="View Customer Deails" class="btn2 btn-info" rel="tooltip"> <i class="icon-eye-open"></i>view details</a> </td>
+                </tr>
+                {%endfor%}
+                </tbody>
+                </table>
+              </div> <!-- billed customers -->
+            </div><!-- tab content -->
+          </div><!-- cust-content -->
+
+      </div>
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+
+<script src="/static/assets/js/jquery.jeditable.mini.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+   $(".reports_date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yymmdd" });
+});
+</script>
+
+{% endblock%}
+

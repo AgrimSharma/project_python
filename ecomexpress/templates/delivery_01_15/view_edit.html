@@ -1,0 +1,132 @@
+<table>
+    <tr>
+        <td>
+            <input type="radio" id="view" name="view_edit" value="view"><b> View</b>
+        </td>
+        <td>
+            <input type="radio" id="edit" name="view_edit" value="edit"><b> Edit</b>
+        </td>
+        <td></td>
+    </tr>
+    <tr id="tsnoRow">    
+        <td><b>Transaction Slip No</b><input type="text" name="tras_slip_no" id="trans_slip_no"></td>
+        <td><input type="submit" value="Submit" id="edit_view_submit" class="btn btn-primary">
+            <input type="submit" value="Update" id="edit_view_update" class="btn btn-primary">
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<div id="details">
+<table>
+    <tr>
+        <td><b>Date</b></td>
+        <td><input type="text" name="date" id="date" readonly></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><b>Transaction Slip No</b></td>
+        <td><input type="text" name="lower_tras_slipno" id="lower_trans_slipno_id"></td>
+        <td><b>Transaction Date</b></td>
+        <td><input type="text" name="trans_date" id="trans_date_id"></td>
+    </tr>
+    <tr>
+        <td><b>Transaction Amount</b></td>
+        <td><input type="text" name="trans_amount" id="trans_amount_id"></td>
+        <td><b>Delivery Centre</b></td>
+        <td><input type="text" name="del_centre" id="del_centre_id"></td>
+    </tr>
+    <tr>
+        <td><b>Payment Received Against AWBNo</b></td>
+        <td><input type="text" name="lower_tras_slip_no" id="lower_trans_slipno"></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><b>Updated By Username & ID</b></td>
+        <td><input type="text" name="username" id="username_id"></td>
+        <td><b>Updated Date</b></td>
+        <td><input type="text" name="update_date" id="update_date_id"></td>
+    </tr>
+    <tr>
+        <td><b>Correction Done By Username & ID</b></td>
+        <td><input type="text" name="correction" id="correction_id"></td>
+        <td><b>Correction Date</b></td>
+        <td><input type="text" name="correction_date" id="correction_date_id"></td>
+    </tr>
+</table>
+</div>
+
+<script>
+$("#edit_view_update").hide();
+
+$("#details").hide();
+
+$(document).ready(function() {
+    $("#edit").change(function()
+    {
+        $("#tsnoRow").show();
+        $("#edit_view_submit").hide();
+        $("#edit_view_update").show();
+        $("#details").show();
+        $("input[id$='-airwaybill_number']").attr("readonly", true);
+        $("input[id$='-airwaybill_amount']").attr("readonly", true);
+    });
+    $("#view").change(function()
+    {
+        $("#tsnoRow").show();
+        $("#edit_view_submit").show();
+        $("#edit_view_update").hide();
+        $("#details").hide(); 
+    });
+    $("#edit_view_submit").click(function (e){
+        e.preventDefault();
+        var trans_slip_no = $('#trans_slip_no').val();
+        $("#tsnoRow").hide();
+        $.ajax({
+            url:"/delivery/view_edit/",
+            type: 'GET',
+            data: {'trans_slip_no': trans_slip_no},
+            success: function (resp){
+                if (resp.success){
+                    $("#date").val(resp.date);
+                    $("#lower_trans_slipno_id").val(trans_slip_no);
+                    $("#trans_date_id").val(resp.transaction_date);
+                    $("#trans_amount_id").val(resp.credit_payment_recvd_amount);
+                    $("#del_centre_id").val(resp.delivery_centre_name);
+                }else{
+                    alert("transaction number does not exist");
+                }
+            }
+        });
+        $("#details").show();
+    });
+    $("#edit_view_update").click(function (e){
+        e.preventDefault();
+        var updated_date = $('#date').val();
+        var transaction_slip_no = $('#lower_trans_slipno_id').val();
+        var transaction_date = $('#trans_date_id').val();
+        var transacton_amount = $('#trans_amount_id').val();
+        var delivery_centre = $('#del_centre_id').val();
+        var updated_by_username_id = $('#username_id').val();
+        var updated_date = $('#update_date_id').val();
+        var correction_done_username_id = $('#update_date_id').val();
+        var correction_date = $('#correction_date_id').val();
+        var lower_trans_slipno = $('#lower_trans_slipno').val();
+        $.ajax({
+            url:"/delivery/view_edit/",
+            type: 'POST',
+            data: {'trans_slip_no': 'some data'},
+            success: function (resp){
+                if (resp.success){
+                    alert(resp.now);
+                }else{
+                    alert("error in updation");
+                }
+            }
+        });
+        $("#details").show();
+    });
+});
+</script>

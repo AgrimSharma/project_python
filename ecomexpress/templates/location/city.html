@@ -1,0 +1,30 @@
+<div class="span4">
+          <div class="cust-details">
+             <div class="cust-title">
+                <i class="icon-map-marker" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>City</span>
+           	 </div>
+             <div class="cust-content">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Shortcode </th>
+                          <th width="10%;"><a href="#"  class="AddLocation2" location="/location/add/city/" ><img src="{{ STATIC_URL }}assets/img/plus.png"/></a>
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for city in cities %}
+                        <tr>
+                          <td >{{ forloop.counter }}</td>
+                          <td row_id="{{ city.id }}" model_name="City"  field_name="city_name"	 onDblClick="javascript:changeContent(this);">{{ city.city_name }}</td>
+                          <td row_id="{{ city.id }}" model_name="City"  field_name="city_shortcode"	 onDblClick="javascript:changeContent(this);">{{ city.city_shortcode }}</td>
+                          <td></td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+          		</div>
+         	</div>
+        </div><!-- /span6 -->

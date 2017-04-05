@@ -1,0 +1,137 @@
+<!doctype html>
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <title>EEPL - Ecom Express</title>
+    <meta charset="utf-8">
+    <title>Ecom Express</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+    <meta name="viewport" content="width=310px, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta property="og:image" content="http://www.domain.com/images/logo.png"/>
+    <meta property="og:title" content="-- description here --"/>
+    <meta property="og:url" content="http://www.domain.com"/>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}assets/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="{{ STATIC_URL }}assets/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ STATIC_URL }}assets/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_URL }}assets/img/apple-touch-icon-114x114.png">
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/font-awesome.css">
+    <script src="{{ STATIC_URL }}assets/js/libs/modernizr.custom.60077.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/popup.css" />
+    <script src="{{ STATIC_URL }}assets/js/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/themes/base/jquery.ui.all.css">
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.core.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.widget.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/ui/jquery.ui.datepicker.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui-timepicker-addon.js"></script>
+    <script src="{{ STATIC_URL }}assets/js/jquery-ui-timepicker-addon.js"></script>
+    {% block header %}
+    {% endblock %}
+    <style>
+        .blink {
+            background: none repeat scroll 0 0 rgb(249, 6, 17);
+            border: 1px solid #c8040d;
+            padding:6px;
+            color:#fff;
+            border-radius:4px;
+            font-weight:bold;
+            position: relative;
+            text-align:center;
+            margin-top:5px;
+            margin-left:10px;
+            text-transform:uppercase;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+            width:70px;
+        }
+        .blink a {text-decoration:none;color:#FFF;}
+        .emp-name{padding:5px; background: #CCC}
+        .navbar{position: relative!important}
+    </style>
+</head>
+
+<body>
+    <div class="navbar navbar-fixed-top" style="width:400px"  >
+        <div class="navbar-inner" style="width:400px">
+            <div class="container-fluid">
+                <a class="brand" href="/{{ PROJECT_ROOT_DIR }}pickup/mobile/"><img src="{{ STATIC_URL }}assets/img/ecomlogosmall.png"/></a>
+                <!-- actions -->
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".main-toolbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="btn-toolbar nav-collapse pull-right main-toolbar" id="main-toolbar">
+                <div class="btn-group myaccount">
+                    {% load tags %}
+                    <a href="/authentication/logout_view/"><i class="icon-signout"></i><span>Logout</span></a>
+                </div>
+                </div>
+            </div><!-- /container-fluid -->
+
+        </div><!-- /navbar-inner -->
+        <div class="emp-name"><br><b> Name:</b> {{request.user.employeemaster.firstname}} {{request.user.employeemaster.lastname}} &nbsp;&nbsp;</br><b>Service Centre</b> {{request.user.employeemaster.service_centre}}
+        </div>
+
+    </div><!-- /navbar -->
+    {% load humanize %}
+    {% block content %}
+
+    {% endblock %}
+
+    {% block basescripts %}
+    <script type="text/javascript">
+        function MM_openBrWindow(theURL,winName,features) { //v2.0
+            window.open(theURL,winName,features);
+        }
+    </script>
+    {% endblock %}
+    <script>window.jQuery || document.write('<script src="assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+        <!-- bootstrap -->
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-transition.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-alert.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-modal.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-dropdown.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-scrollspy.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-tab.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-tooltip.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-popover.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-button.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-collapse.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-carousel.js"></script>
+        <script src="{{ STATIC_URL }}assets/js/bootstrap-typeahead.js"></script>
+        <!-- <script src="http://malsup.github.com/jquery.form.js"></script>   -->
+        <script src="{{ STATIC_URL }}assets/js/application.js"></script>
+        <script>$(rev.init);</script>
+        <script type="text/javascript">
+            $("[rel=tooltip]").tooltip();
+            (function() {
+                $("[rel=popover]").popover();
+            })();
+            $(document).ready(function(){
+                $('.blink').each(function() {
+                    var elem = $(this);
+                    setInterval(function() {
+                        if (elem.css('background-color') == 'rgb(249, 6, 17)') {
+                            elem.css('background-color', 'rgb(200, 4, 13)');
+                            } else {
+                            elem.css('background-color', 'rgb(249, 6, 17)');
+                        }
+                    }, 1000);
+                });
+
+                var hub_count = $("a[href='/hub/']").length;
+                if (hub_count > 1){
+                     $("a[href='/hub/']").eq(0).remove();
+                }
+            });
+        </script>
+</body>
+</html>
+

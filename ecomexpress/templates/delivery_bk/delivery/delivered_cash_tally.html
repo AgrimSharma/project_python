@@ -1,0 +1,29 @@
+{% load pickup_tags %}
+<table class="table">
+    <thead>
+    <tr>
+        <th>Air Waybill No. </th>
+        <th>Pcs</th>
+        <th>Customer Name</th>
+        <th>Collected Amount</th>
+        <th>Pending Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for ship in unclosed_ships %}
+    <tr>
+        <td><input type="checkbox" class="airwaybill_number_check" value="{{ ship.airwaybill_number }}">{{ ship.airwaybill_number }}</td>
+        <td>{{ ship.pieces }}</td>
+        <td>{{ ship.consignee }}</td>
+        {% if checked == 'true' %}
+        <td>Rs. <span id="{{ship.id}}" class="shipment_amount_collected">{% if ship.shipmentextension.collected_amount %}{{ ship.shipmentextension.collected_amount }}{% else %}{{ ship.collectable_value }}{% endif %}</span></td>
+        <td id="pending-{{ship.id}}" data-val="{{ ship.collectable_value }}">Rs. {% if ship.shipmentextension.collected_amount %}{{ ship.collectable_value|subtract:ship.shipmentextension.collected_amount }}{% else %}0{% endif %}</td>
+        {% else %}
+        <td>Rs. <span id="{{ship.id}}" class="shipment_amount_collected">{% if ship.shipmentextension.collected_amount %}{{ ship.shipmentextension.collected_amount }}{% else %} 0 {% endif %}</span></td>
+        <td id="pending-{{ship.id}}" data-val="{{ ship.collectable_value }}">Rs. {{ ship.collectable_value|subtract:ship.shipmentextension.collected_amount }}</td>
+        {% endif %}
+    </tr>
+    {%endfor%}
+    </tbody>
+</table>
+

@@ -1,0 +1,84 @@
+ {% load humanize %}
+{%ifnotequal status '2'%}
+<tr id="{{shipment.airwaybill_number}}">
+
+<td id="{{shipment.airwaybill_number}}awb awb_sc">{{shipment.airwaybill_number}}</td>
+
+ <td id="{{shipment.airwaybill_number}}pieces">{{shipment.pieces}}</td>
+<td id="{{shipment.airwaybill_number}}actual_weight">{{shipment.actual_weight}}gms</td>
+<td id="{{shipment.airwaybill_number}}collectable_value">Rs. {{shipment.collectable_value|intcomma}}</td>
+<td id="{{shipment.airwaybill_number}}pincode">{{shipment.pincode}}</td>
+<td id="{{shipment.airwaybill_number}}status_type">{{shipment.order_number}}</td>
+<td style = "display:none" id="o_upd">{{a.pickup.service_centre.center_shortcode}}</td>
+<td style = "display:none" id="sc_upd">{{a.service_centre.center_shortcode}}</td>
+                  <td>
+                  {% ifequal shipment.status_type 0%}  
+                  <span class="label label-red">Unverified</span>
+                  {%endifequal%}
+                  {% ifequal shipment.status_type 1%}  
+                  <span class="label label-success">Verified</span>
+                  {%endifequal%}
+                  
+                  {% ifequal shipment.status_type 2%}  
+                  <span class="label label-blue">Mismatch</span>
+                  {%endifequal%}
+                  {% ifequal shipment.status_type 3%}  
+                  <span class="label label-black">Mismatch</span>
+                  {%endifequal%}
+                  
+                  {% ifequal shipment.status_type 4%}  
+                  <span class="label label-red">Mismatch</span>
+                  {%endifequal%}
+</td>
+<td style = "display:none" id="tot_count">{{total_records}}</td>
+<td style = "display:none" id="suc_count">{{success_count}}</td>
+<td style = "display:none" id="mis_count">{{mismatch_count}}</td>
+
+</tr>
+{%else%}
+<tr>
+{{a}}
+                  <td>{{a.shipper.code}}</td>
+                  <td width="176px">{{a.shipper|truncatechars:20}}</td>
+                  <td width="176px">{{a.consignee}}</td>
+                  <td>{{a.service_centre}} </td>
+                  <td>{{a.pincode}} </td>
+                  <td>{{a.pieces}}</td>
+                  <td>Rs.{{a.collectable_value|intcomma}}</td>
+                  <td>{{a.actual_weight}} Kgs.</td>
+                  <td id="awb_sc">{{a.airwaybill_number}}</td>
+                  <td>{{a.order_number}}</td>
+                  <td style = "display:none" id="o_upd">{{a.pickup.service_centre.center_shortcode}}</td>
+                  <td style = "display:none" id="sc_upd">{{a.service_centre.center_shortcode}}</td>
+                  <td>
+                  {% ifequal a.status_type 0%}  
+                  <span class="label label-red">Unverified</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 1%}  
+                  <span class="label label-success">Verified</span>
+                  {%endifequal%}
+                  
+                  {% ifequal a.status_type 2%}  
+                  <span class="label label-blue">Mismatch</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 5%}  
+                  <span class="label label-black">Extra</span>
+<a href="#" class="btn btn-primary revert-inscan-shipment-a" rel-data="{{ a.airwaybill_number }}">Revert</a>
+                  {%endifequal%}
+                  
+                  {% ifequal a.status_type 4%}  
+                  <span class="label label-red">Mismatch</span>
+                  {%endifequal%}
+                  {% ifequal a.status_type 3%}
+                  <span class="label label-red">Mismatch</span>
+                  {%endifequal%}
+      
+                  </td>
+<td style = "display:none" id="tot_count">{{total_records}}</td>
+<td style = "display:none" id="suc_count">{{sucess_count}}</td>
+<td style = "display:none" id="mis_count">{{mismatch_count}}</td>
+                  </tr>
+
+
+
+{%endifnotequal%}

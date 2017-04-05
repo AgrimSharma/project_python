@@ -1,0 +1,104 @@
+<table>
+    <tr id="viewedit_row">
+        <td>
+            <input type="radio" id="view" name="viewedit" value="view" checked="checked"><b> View</b>
+        </td>
+        <td>
+            <input type="radio" id="edit" name="viewedit" value="edit"><b> Edit</b>
+        </td>
+        <td></td>
+    </tr>
+    <tr id="button_row">    
+        <td><b>Transaction Slip No</b><input type="text" name="tras_slip_no" id="trans_slip_no"></td>
+        <td><input type="submit" value="Submit" id="edit_view_submit" class="btn btn-primary">
+            <input type="submit" value="Update" id="edit_view_update" class="btn btn-primary">
+        </td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<div id="id_card_details">
+    {% include 'delivery/edit_creditcard_details.html' %}
+</div>
+
+<script type="text/javascript">
+
+$("#edit_view_update").hide();
+
+$("#edit_view_submit").click(function (e){
+    e.preventDefault();
+    var trans_slip_no = $('#trans_slip_no').val();
+    $.ajax({
+        url:"/delivery/view_edit/",
+        type: 'GET',
+        data: {'trans_slip_no': trans_slip_no},
+        success: function (resp){
+            if (resp.success){
+                $("#id_card_details").html(resp.html);
+                $('#id_card_details').find('input').attr('readonly', true);
+            }else{
+                alert("transaction slip number does not exist");
+            }
+        }
+    });
+});
+
+$("#edit").change(function(){
+    $("#edit_view_submit").show();
+    $("#edit_view_update").show();
+    $('#id_card_details').find('input').attr('readonly', false);
+    $("input[id$='-airwaybill_number']").attr("readonly", true);
+    $("input[id$='-airwaybill_amount']").attr("readonly", true);
+});
+
+$("#view").change(function(){
+    $("#edit_view_submit").show();
+    $("#edit_view_update").hide();
+});
+
+$("#edit_view_update").click(function (e){
+    e.preventDefault();
+    var updation_form = "#updation_form"; 
+    $.ajax({
+        url:"/delivery/view_edit/",
+        type: 'POST',
+        data: $(updation_form).serialize(),
+        success: function (resp){
+            if (resp.success){
+                console.log("inside resp"); 
+            }else{
+                alert("transaction slip number does not exist");
+            }
+        }
+    });
+});
+
+var sum = function(arr) {
+    var result = 0, n = arr.length || 0; //may use >>> 0 to ensure length is Uint32
+    while(n--) {
+        if (arr[n]){
+            result += +arr[n]; // unary operator to ensure ToNumber conversion
+        }
+    }
+    return result;
+};
+
+var update_credit_total = function (){
+    var total = 0
+    var amounts = [];
+    $("#id_card_details input[id$='-credit_card_payment_received']").each(function(i, v){
+        amounts.push(parseFloat($(v).val()).toFixed(2));
+    })
+    total = sum(amounts);
+    $("#id_card_details #id_credit_card_payment_received").val(total);
+};
+    
+$("#id_card_details .credit_card_payment_received").live('change', function(){
+    var amount = $(this).parents('tr').find("input[id$='-airwaybill_amount']").val();
+    var received = $(this).parents('tr').find("input[id$='-credit_card_payment_received']").val();
+    var balance = amount - received;
+    $(this).parents('tr').find("input[id$='-balance']").val(balance);
+    update_credit_total();
+});
+
+</script>

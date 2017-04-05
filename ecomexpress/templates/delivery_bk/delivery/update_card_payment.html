@@ -1,0 +1,194 @@
+<form method="POST" id="id_credit_form">
+    {% csrf_token %}
+    <!-- add dateform form here -->
+    <table>
+    <tr>
+    {% for field in date_form %}
+        <td> {{ field.label_tag }} </td>
+    {% endfor %}
+    </tr>
+    <tr>
+    {% for field in date_form %}
+        <td> {{ field }} </td>
+    {% endfor %}
+    </tr>
+    </table>
+
+    <!-- add awbdetails formset here -->
+    <hr>
+    <h4><b>AWB Detail</b></h4>
+    <hr>
+    <div id="id_awb_formset">
+    <table>
+    {{ awb_formset.management_form }}
+    {{ awb_formset.non_form_errors }}
+    <tr>
+    {% for form in awb_formset %}
+    {% for field in form %}
+        <td style="width: 180px;"> {{ field.label_tag }} </td>
+    {% endfor %}
+    {% endfor %}
+    </tr>
+    <tr class="awb_formset">
+    {% for form in awb_formset %}
+    {% for field in form %}
+        <td> {{ field }} </td>
+    {% endfor %}
+    {% endfor %}
+    </tr>
+    </table>
+    </div> <!-- id_awb_formset -->
+
+    <!-- add paymentdetails form here -->
+    <hr>
+    <h4><b>Card Payment Detail</b></h4>
+    <hr>
+    <div id="id_card_payment_detail">
+    <table>
+    <tr>
+    {% for field in payment_detail_form %}
+        <td> {{ field.label_tag }} </td>
+    {% endfor %}
+    </tr>
+    <tr>
+    {% for field in payment_detail_form %}
+        <td> {{ field }} </td>
+    {% endfor %}
+    </tr>
+    </table>
+    </div> <!-- id_card_payment_detail -->
+    <input type="submit" value="Save" id="SubmitCreditDetails" class="btn btn-primary">
+</form>
+
+<script type="text/javascript">
+$(function() {
+    var sum = function(arr) {
+        var result = 0, n = arr.length || 0; //may use >>> 0 to ensure length is Uint32
+        while(n--) {
+            if (arr[n]){
+                result += +arr[n]; // unary operator to ensure ToNumber conversion
+            }
+        }
+        return result;
+    };
+
+    $('#id_credit_form tr.awb_formset').formset();
+    
+    // show add-row option only if partial payment is selected
+    var toggle_awb_add = function(){
+        var payment_type = $("#id_payment_type").val();
+        if(payment_type == 1){
+            $(".add-row").hide();
+        }else{
+            $(".add-row").show();
+        }
+    }
+
+    toggle_awb_add()
+
+    $("#id_payment_type").on('change', function(e){ 
+        toggle_awb_add()
+    });
+
+    $("#id_entry_date").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat:"yy-mm-dd",
+    });
+    
+    $("#id_transaction_date").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat:"yy-mm-dd",
+    });
+    
+
+    // this function validate the credit card payment form
+    // and return false if user dont specify received amount
+    var validate_credit_form = function(){
+        var is_valid = true;
+        $(".credit_card_payment_received").each(function(i,v){
+            var amount = parseInt($(v).val());
+            if(!amount) is_valid=false;
+        });
+        return is_valid;
+    };
+
+    var submit_credit_details_original = function(){
+        var is_card_form_valid = validate_credit_form();
+        if(!is_card_form_valid){
+            alert('Please Enter amount in credit card payment received');
+            return false;
+        }
+
+        var credit_form = "#id_credit_form";
+        $.ajax({
+            url:"/delivery/update_card_payment/",
+            type: 'POST',
+            data: $(credit_form).serialize(),
+            success: function (resp){
+                if (resp.success){
+                    alert(resp.message);
+                    $("#update_card_payment").html(resp.html);
+                    $(".delete-row").hide();
+                }
+                else{
+                    alert("some errors occured");
+                }
+            }
+        });
+    };
+
+    $("#SubmitCreditDetails").click(function(e){
+        e.preventDefault();
+        submit_credit_details();
+    });
+
+    var submit_credit_details = _.throttle(submit_credit_details_original, 3000); 
+    
+    $("input[id$='-airwaybill_number']").live('change', function(){
+        var that = this;
+        var awb = $(this).val();
+        $.ajax({
+            url: "/delivery/awb_credit_details/",
+            type: "GET",
+            data: {'awb': awb},
+            success: function(resp){
+                if (resp.success){
+                    $(that).parents('tr').find("input[id$='-airwaybill_amount']").val(resp.awb_amount);
+                    $(that).parents('tr').find("input[id$='-airwaybill_amount']").attr("readonly", "readonly");
+                    $(that).parents('tr').find("input[id$='credit_card_payment_received']").val(resp.credit_received);
+                    $(that).parents('tr').find("input[id$='-balance']").val(resp.balance);
+                    $(that).parents('tr').find("input[id$='-delivery_centre']").val(resp.dc);
+                    $(that).parents('tr').find("input[id$='-payment_so_far']").val(resp.payment_so_far);
+                }
+                else{
+                    alert("airwaybill does not exist");
+                }
+            }
+        });
+    });
+    
+    var update_credit_total = function (){
+      var total = 0
+      var amounts = [];
+      $("input[id$='-credit_card_payment_received']").each(function(i, v){
+           amounts.push(parseFloat($(v).val()).toFixed(2));
+      })
+      total = sum(amounts);
+      $("#id_credit_card_payment_received").val(total);
+    };
+    
+    $("input[id$='-credit_card_payment_received']").live('change', function(){
+        var amount = $(this).parents('tr').find("input[id$='-airwaybill_amount']").val();
+        var received = $(this).parents('tr').find("input[id$='-credit_card_payment_received']").val();
+        var payment_so_far = $(this).parents('tr').find("input[id$='-payment_so_far']").val();
+        var balance = amount - received - payment_so_far;
+        $(this).parents('tr').find("input[id$='-balance']").val(balance);
+        update_credit_total();
+    });
+});
+$("#id_awb_formset .awb_amount").attr("readonly", true);
+$("#id_awb_formset .paid").attr("readonly", true);
+$("#id_card_payment_detail #id_credit_card_payment_received").attr("readonly", true);
+</script>

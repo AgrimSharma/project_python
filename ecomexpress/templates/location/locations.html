@@ -1,0 +1,43 @@
+{% extends "location/base.html" %}
+ {% block extraheader %}
+  <link rel="stylesheet" href="{{ STATIC_URL }}assets/location/popup.css">   
+         
+   <script src="{{ STATIC_URL }}assets/location/jquery-1.7.2.min.js"></script>  
+   <script src="{{ STATIC_URL }}assets/location/location.js"></script>  
+   
+{% endblock %}
+{% block content %}
+<div id="backgroundPopup"></div>  
+
+  	<div class="row-fluid">
+  	
+  		<div class="span4">
+		{% include "location/region.html" %}
+		</div><!-- /span6 -->
+		{% include "location/zones.html" %}
+		{% include "location/states.html" %}
+
+		</div><!-- /row-fluid -->
+  	
+		<div class="row-fluid distance-fluid">	
+		
+		{% include "location/city.html" %}
+		{% include "location/branch.html" %}
+		{% include "location/areamaster.html" %}
+
+		</div><!-- /row-fluid -->
+	
+		<div class="row-fluid distance-fluid">	
+		
+		{% include "location/service_center.html" %}
+		{% include "location/pinroutes.html" %}
+		{% include "location/pincode.html" %}
+
+		</div><!-- /row-fluid -->
+		
+		
+		 <div id="popupContact" >
+		 		<a href="#" id="popupContactClose">x</a>  
+ 		</div> 
+		
+{% endblock %}		

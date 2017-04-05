@@ -1,0 +1,24 @@
+{% load crispy_forms_tags %}
+
+<h4 class="page-header">Delivery Outscans</h4>
+<input type="hidden" value="outscans" id="panel_type">
+{% crispy form %}
+
+ <table class="table table-condensed table-striped table-bordered tm20">
+   <thead> <tr><th>Outscan No</th> <th>Employee Code</th><th>Date</th><th>Collectable Value</th><th>Amount Collected</th><th>Status</th><th>Amount</th></tr></thead>
+   <tbody>
+  {%for os  in data %}
+  <tr>
+    <td>{{os.id}}</td>
+    <td>{{os.employee_code.employee_code}}</td>
+    <td>{{os.added_on}}</td>
+    <td class="text-right">{{os.amount_to_be_collected}}</td>
+    <td class="text-right"><span id="{{os.id}}" class="">{{os.amount_collected}}</span></td>
+    <td>{%ifequal os.collection_status 0%}Pending{%endifequal%}
+    {%ifequal os.collection_status 2%}Mismatch{%endifequal%}
+    {%ifequal os.collection_status 1%}Collected{%endifequal%}</td>
+    <td class="text-right">{{os.amount_mismatch|floatformat:"2"}}</td>
+  </tr>
+  {%endfor%}
+  </tbody>
+</table>

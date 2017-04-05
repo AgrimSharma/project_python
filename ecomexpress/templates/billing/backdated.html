@@ -1,0 +1,64 @@
+<table>
+<tr>
+<td>
+Customer Name: <select class='cust_name' name='cust_id' style="width: 158px;">
+                                                        <option value="0">All</option>
+                                                        {%for a in customer%}
+                                                        <option value="{{a.id}}">{{a}}</option>
+                                                        {%endfor%}
+                               </select></td>
+</tr>
+<tr>
+<td>
+
+Origin Zone: <select class='origin'  name="org[]" multiple="multiple" style="width: 158px;" title="Click to Select Origin Zone">
+                                                        <option value="0">All</option>
+                                                        {%for a in zone%}
+                                                        <option value="{{a.id}}">{{a}}</option>
+                                                        {%endfor%}
+                               </select></td>
+</tr>
+<tr>
+<td>
+Destination Zone: <select class='dest' name='dest[]' multiple="multiple" style="width: 158px;" title="Click to Select Destination Zone">
+                                                        <option value="0">All</option>
+                                                        {%for a in zone%}
+                                                        <option value="{{a.id}}">{{a}}</option>
+                                                        {%endfor%}
+                               </select></td>
+</tr>
+<tr>
+<td>
+Date-From: <input type="text" class="backdated_date bdate_from" name='date_from' style="width: 88px;"/></td><td>
+                Date-To: <input type="text" class="backdated_date bdate_to" name='date_to' style="width: 88px;"/>
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<td style="width:70px">
+ <input type="checkbox" name='product_type[]' class = 'product_type' value="1"/> PPD
+</td>
+<td style="width:70px">
+ <input type="checkbox" name='product_type[]' class = 'product_type' value="2"/> COD
+</td>
+<td style="width:70px">
+ <input type="checkbox" name='product_type[]' class = 'product_type' value="3"/> RTS
+</td>
+<td style="width:90px">
+ <input type="checkbox" name='product_type[]' class = 'product_type' value="4"/> Non-RTS
+</td>
+<td style="width:70px">
+ <input type="checkbox" name='product_type[]' class = 'product_type' value="5"/> SDL
+</td>
+<td style="width:70px">
+ <input type="checkbox" name='product_type[]' class = 'product_type' value="6"/> SDD
+</td>
+<td style="width:70px">
+ <input type="checkbox" name='product_type[]' class = 'product_type' value="7"/> Reverse
+</td>
+</td>
+
+</tr>
+                        </table>
+

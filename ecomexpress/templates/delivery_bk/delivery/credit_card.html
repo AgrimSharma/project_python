@@ -1,0 +1,52 @@
+<form class="well" id="form-credit-card" action="/delivery/credit_card_payment/" method="POST">
+    <div id="save-alert" class="alert alert-success" hidden>
+        <p id="alert-para"></p>
+    </div>
+    <div id="awbno-error-alert" class="alert alert-error" hidden>
+        <p id="awbno-error-para"></p>
+    </div>
+    <div id="empcode-error-alert" class="alert alert-error" hidden>
+        <p id="empcode-error-para"></p>
+    </div>
+    {% csrf_token %}
+    {{ credit_form.as_p }}
+    <input id="credit-card-save" class="btn btn-primary" type="submit" value="save" >
+</form>
+<script>
+$("#id_transaction_date").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    dateFormat:"yy-mm-dd",
+});
+
+$("#id_transaction_time").timepicker({});
+
+$("#credit-card-save").click(function (e){
+    e.preventDefault();
+    var credit_card_form = "#form-credit-card";
+    var awbno = $("#id_airwaybill_number").val();
+    $.ajax({
+        url:"/delivery/credit_card_payment/",
+        type: 'POST',
+        data: $(credit_card_form).serialize(),
+        success: function (resp){
+            if (resp.success){
+                $('#alert-para').text(awbno + " saved");
+                $('#save-alert').show();
+            }
+            if (resp.e_awbno){
+                $('#awbno-error-para').text(awbno + " Does not exist");
+                $('#awbno-error-alert').show();
+            }
+            if (resp.e_empcode){
+                $('#empcode-error-para').text(awbno + " Does not exist");
+                $('#empcode-error-alert').show();
+            }
+            else{
+                alert("Some error occured in the process. Please try again");
+            }
+        }
+    });
+});
+
+</script>

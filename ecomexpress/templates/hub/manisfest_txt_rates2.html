@@ -1,0 +1,13 @@
+     {%for ship in shipments%}
+        <tr><td>
+{{ forloop.counter }}  </td>
+<td>{{ship.0.shipment.airwaybill_number}} </td>
+	   <td>{{ship.0.shipment.declared_value}}</td>
+ <td>{{ship.1}} </td>
+       <!--    <td>{{ship.2}}</td>  -->
+	   <td>  {%if ship.3 == -1%}Please update Octroi rates !!!{%else%}<input type="text" id="oct_rate" name="oct_rate-{{ship.0.id}}"  value="{{ship.3 }}" style="width:100px"/>{%endif%}</td>
+	<td> {% if ship.4 == -1%}Please update Octroi charges !!!{%else%} <input type="text" id="oct_charge" name="oct_charge-{{ship.0.id}}" value="{{ship.4 }}" style="width:100px"/>{%endif%}</td>   
+       <td>{% if ship.5 ==  0 %}Pending{% else %} Updated {% endif %} </td> 
+<td><label><input type="checkbox" name="oct_update" {% if ship.5 == 1 %} checked="checked" {% elif ship.4 == -1 %} checked ="checked" {% endif %}  value="{{ship.0.id}}"> </label></td>
+       </tr>
+     {% endfor%}

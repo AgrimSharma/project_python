@@ -1,0 +1,26 @@
+<div class="add-details pull-right">
+{% ifequal request.user.employeemaster.user_type "Staff" %}
+           {%else%}
+             <a class= "update_pincode" href="#" rel="tooltip" title="Update Pincode(s)">
+               <i class="icon-upload-alt"></i>Update Pincode</a> &nbsp; &nbsp;
+             <a class= " upload_auto_pickup_file" href="#" rel="tooltip" pickup_id="{{pickup.id}}" title="Upload File">
+               <i class="icon-upload-alt"></i>Multiple Pickup Upload</a> &nbsp; &nbsp;
+             <a href="/pickup/registration/"><i class="icon-truck"> </i>Pickup Registration </a> &nbsp; &nbsp;
+             <a href="/pickup/finders/" rel="tooltip" title="Find Pickup">
+               <i class="icon-exclamation-sign"> </i>Finders </a>&nbsp; &nbsp;
+             <a href="/pickup/" rel="tooltip" title="Pickup Dashboard">
+               <i class="icon-thumbs-up"> </i>Dashboard </a>&nbsp; &nbsp;
+             <a href="/pickup/1/"><i class="icon-truck"> </i>Scheduled Pickup</a> &nbsp; &nbsp;
+           {%if request.user.employeemaster.employee_code == '11324' or request.user.employeemaster.employee_code == '11285' or request.user.employeemaster.employee_code == '63392' %}
+             <a href="/pickup/reverse/" rel="tooltip" title="Reverse Pickup Dashboard">
+
+               <i class="icon-thumbs-up"> </i>Reverse Pickup Dashboard </a>&nbsp; &nbsp;
+           {%endif%}
+             <a href="/pickup/reverse_shipment/" rel="tooltip" title="Reverse Shipment Dashboard">
+               <i class="icon-upload-alt"> </i>Reverse Shipment Dashboard</a>&nbsp; &nbsp;
+             <a href="/pickup/reverse_outscan/" rel="tooltip" title="Rev OS Dashboard">
+               <i class="icon-thumbs-up"> </i>Reverse Shipment Outscan </a>
+
+         {% endifequal %}
+
+</div>

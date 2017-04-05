@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+{% block header %}
+    <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+{% endblock %}
+{% block content %}
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12">
+{% include "delivery/nav.html" %}
+</div>
+  </div>
+   <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+          <div class="cust-title">
+            <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Return</span>
+          </div>
+          <div class="cust-content">
+           <ul class="nav nav-tabs" id="myTab">
+              {% comment %}<li><a data-toggle="tab" href="#RTO">RTO</a></li>{% endcomment %}
+              <li class="active"><a data-toggle="tab" href="#RTS">RTS</a></li>
+              <li><a data-toggle="tab" href="#RTS_POD">RTS POD Update</a></li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div id="RTO" class="tab-pane fade">
+                  <div id="popupRTOShipment" style="background-color:#fff;"></div>
+              	<div style=" margin-left:10px; display:inline-block; width:40%;">
+                 <input placeholder="074" disabled style="width:23px; display:inline-block"/>
+                 <h4 style=" display:inline-block">Return To Origin</h4>
+              	 <form>
+                   {% csrf_token %}
+                    <input type="hidden" name="redir_code" value="74">
+                    <table>
+                    <tr>
+                      <td>AWB*</td>
+                      <!-- <td><input type="text" id="awb_rto" class="awb-barcode-scanner" style="width:70px;"/></td> -->
+                      <td><input type="button" id="awb_rto" class="awb-barcode-scanner btn btn-primary" value="Include Shipments"></td>
+                    </tr>
+                    <tr>
+                      <td>Reason Code:*</td>
+                    <td>
+                    <select name="reason_code" class="reason_code" type="rto" id="reason_code_rto">
+                    {% for a in reason_code %}
+                    {%ifequal a.code 206%}
+                    <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option>
+                    {%endifequal%}
+                    {% endfor %}
+                    </select>
+                    </td></tr>
+                    </table>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="hidden" id="rtosubmitFormAwbList" value="">
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-redbutton" id="rtosubmitForm" value="Submit">
+                            </td>
+                        </tr>
+                    </table>
+                  </form>
+              </div> <!-- left div -->
+              <div id="rto-awb-div" style="display:inline-block; width:50%; float:right;">
+                <div id="rto-awb-data"></div>
+              </div>
+              </div>
+              <div id="RTS" class="tab-pane fade active in">
+              	<div style=" margin-left:10px;">
+              	<input placeholder="075" disabled style="width:23px; display:inline-block"/> 
+                <h4 style=" display:inline-block">Return To Shipper</h4>
+                <form>
+                   {% csrf_token %}
+                   <input type="hidden" name="redir_code" value="75">
+              	   <table>
+                     <tr>
+                       <td>Emp Code*</td>
+                       <td><input type="text" id="emp_code_rts" style="width:40px;" value="{{request.user.employeemaster.employee_code}}"/></td>
+                     </tr>
+                     <tr>
+                       <td>AWB*</td><td><input type="text" id="awb_rts" style="width:70px;" class="awb-barcode-scanner"/></td>
+                     </tr>
+                      <tr>
+                        <td>New Air waybill*</td><td><input id="new_awb" type="text" style="width:73px;"/>
+                      </tr>
+                    </table>
+                    <table>
+                      <tr>
+                        <td>
+                          <input type="button" class="btn btn-redbutton" id="rtssubmitForm" value="Submit"/>
+                          <a href="/service-centre/rts_report/" class="btn btn-redbutton">Download Excel Report</a>
+                       </td>
+                        </tr>
+                    </table>
+                </form>
+                </div>
+                </div>
+
+<div id="RTS_POD" class="tab-pane fade">
+                <div style=" margin-left:10px;">
+                 <h4 style=" display:inline-block">RTS POD Update</h4>
+                <form>
+                   {% csrf_token %}
+                <table>
+                        <tr>
+                            <td>Emp Code*</td><td><input type="text" id="emp_code" style="width:40px;"/></td>
+                             <td>Outscan ID*</td><td><input type="text" id="os_id" style="width:40px;"/></td>
+                        </tr>
+                        <tr>
+                            <td>Sr. No. From*</td><td><input type="text" id="sr_no_f" class="awb-barcode-scanner" style="width:70px;"/></td>
+                         <td>Sr. No. To*</td><td><input type="text" id="sr_no_t" class="awb-barcode-scanner" style="width:70px;"/></td>
+                       </tr>
+                        <tr>
+
+                <td>Time</td>
+                <td><input type="text" id="pickup_time" name="time" style="width:38px; height:20px"  value="{% now 'H:i' %}"/></td>
+                <td>Date</td><td><input type="text" id="pickup_date" name="date" style="width:70px; height:20px" value="{% now 'Y-m-d' %}" readonly="readonly"></td>
+
+                <td>Received By</td><td><input type="text" id="recv" name="recieved_by"style="width:120px; height:20px"/></td><!-- if un delivered ask sorry card no.-->
+            </tr>
+</table>
+                    <table>
+                        <tr>
+                                <td><input type="button" class="btn btn-redbutton" id="rts_pod_form" value="Submit"/>
+                            </td>
+
+                        </tr>
+                    </table>
+                    </form>
+                    </div>
+              </div>
+            </div>
+          </div>
+          <!-- /cust-content --
+        </div>
+      </div>
+       </div><!-- /container-fluid -->
+</div>
+
+<script>
+$(".reason_code").change(function(){
+   $("#remarks_rto").val(" ");
+   var reason_code = $(this).val();
+   type=$(this).attr("type");
+   var datastring = "reason_code="+reason_code;
+   $.ajax({
+      type:"POST",
+      url: "/service-centre/reason_code/",
+      data: datastring,
+      success: function(resp){
+      $("#remarks_"+type+"").val(" ");
+      $("#remarks_"+type+"").val(resp);
+
+//location.reload()
+}
+});
+
+return false;
+
+});
+$("#rdsubmitForm").click(function(e){
+	e.preventDefault();
+var emp_code=$("input#emp_code_rd").val();
+var awb=$("input#awb_rd").val();
+var rc=$("select#reason_code_rd").val();
+var sc=$("select#service_centre_rd").val();
+var datastring = "emp_code="+emp_code+"&awb="+awb+"&reason_code="+rc+"&redir_code="+"76"+"&service_centre="+sc;
+$.ajax({
+                                type:"POST",
+                                url: "/delivery/return_redirection/3/",
+                                data: datastring,
+                                success: function(resp){
+$("input#awb_rd").val("");
+$("input#awb_rd").focus();
+
+ alert(resp);
+ }
+});
+});
+
+//    $("#rdform").submit();
+
+$("#rtosubmitForm").click(function(e){
+    e.preventDefault();
+    var emp_code=$("input#emp_code_rto").val();
+    var awb_list=$("input#rtosubmitFormAwbList").val();
+    var rc=$("select#reason_code_rto").val();
+    $.ajax({
+        type:"POST",
+        url: "/delivery/rto_shipments/",
+        data: {"emp_code":emp_code, "awb_list":awb_list, "reason_code":rc},
+        success: function(resp){
+            $("input#rtosubmitFormAwbList").val("");
+            alert(resp);
+        }
+    });
+});
+
+
+$("#rto_reverse").click(function(e){
+var awb=$("input#awb_rto").val();
+var datastring = "awb="+awb;
+$.ajax({
+                                type:"POST",
+                                url: "/delivery/rto_reverse/",
+                                data: datastring,
+                                success: function(resp){
+$("input#awb_rto").val("");
+$("input#awb_rto").focus();
+
+ alert(resp);
+ }
+});
+});
+
+
+
+
+$("#rtssubmitForm").click(function(e){
+    e.preventDefault();
+    var ref_awb = $("input#new_awb").val();
+    var first_digit = parseInt(ref_awb[0]);
+
+    if(first_digit != 1 && first_digit != 2 && first_digit != 3){
+        alert("Incorrect Airwaybill series");
+        return false;
+    }
+
+    if(ref_awb.length != 9){
+        alert("New Airwaybill should be 9 digit");
+    }
+
+    var awb = $("input#awb_rts").val();
+    $.ajax({
+        type:"POST",
+        url: "/delivery/rts/",
+        data: {'awb': awb, 'ref_awb': ref_awb},
+        success: function(resp){
+            if(resp.success){
+                $("input#new_awb").val("");
+                $("input#awb_rts").val("");
+                $("input#awb_rts").focus();
+            }
+            alert(resp.message);
+        }
+    });
+});
+
+$("#pickup_dateund").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", maxDate: new Date, yearRange:'2012:2015' });
+                    $('.pickup_time').timepicker();
+
+$("#rts_pod_form").click(function(e){
+        e.preventDefault();
+
+var outscan=$("input#os_id").val();
+                            if (!outscan){
+alert("Please enter Outscan ID!");
+                                return false;
+                            }
+var pickup_date=$("input#pickup_date").val();
+var pickup_time=$("input#pickup_time").val();
+var emp_code=$("input#emp_code").val();
+var sr_no_f=$("input#sr_no_f").val();
+var sr_no_t=$("input#sr_no_t").val();
+var recv=$("input#recv").val();
+var datastring = "pickup_date="+pickup_date+"&pickup_time="+pickup_time+"&emp_code="+emp_code+"&os_id="+outscan+"&sr_no_f="+sr_no_f+"&sr_no_t="+sr_no_t+"&recv="+recv;
+ $.ajax({
+                                type:"POST",
+                                url: "/delivery/rts_pod_update/",
+                                data: datastring,
+                                success: function(resp){
+       $("input#os_id").val("");
+$("input#sr_no_f").val("");
+$("input#sr_no_t").val("");
+                               alert(resp);
+ }
+})
+});
+
+
+$(".remove-awb").live('click', function(e){
+    alert("clicked aawb");
+    $(this).parent().remove();
+});
+</script>
+
+{% endblock %}
+

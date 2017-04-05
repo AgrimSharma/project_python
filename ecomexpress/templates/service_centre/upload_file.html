@@ -1,0 +1,42 @@
+<html>
+<body>
+{%ifequal pid 0%}
+<form method="post" action="/service-centre/upload_rev_file/" enctype="multipart/form-data">
+
+{%else%}
+<form method="post" action="/service-centre/upload_file/{{pid}}/" enctype="multipart/form-data">
+{%endifequal%}
+
+{% csrf_token %}
+UPLOAD: <input type="file" name="upload_file" id="id_batch_pdf"><br>
+<button name="sub" type="submit">Submit</button>
+</form>
+
+<div id="backgroundPopup"></div>
+
+<script type="text/javascript">
+$("#popupContactClose").click(function(){
+		disablePopup();
+	});
+$("#popupContactCl").click(function(){
+		disablePopup();
+	});
+
+	//Click out event!
+	$("#backgroundPopup").click(function(){
+		disablePopup();
+	});
+	//Press Escape event!
+	$(document).keydown(function(e){
+		if(e.keyCode==27 && popupStatus==1){
+			disablePopup();
+		}
+		
+	});
+
+</script>
+
+
+
+</body>
+</html>

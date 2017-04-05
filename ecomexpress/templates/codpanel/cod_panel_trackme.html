@@ -1,0 +1,160 @@
+<div class="row">
+<h4 class="page-header">TrackMe</h4>
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading"> Outscan </div>
+    <div class="panel-body">
+      <form action="">
+          <p><input type="text" name="outscan_search" id="outscan" >
+          <input type="submit" id='id-outscan-input' class="btn
+          btn-primary cashtally-outscan-search"  value="Search">
+          <input type="submit" id="id-outscan-update" class="btn
+          btn-primary" value="Update"></p>
+      </form>
+      <div id="update-alert"  class="alert alert-success" hidden> <p id="alert-para"></p> </div>
+      <div class="cashtally-info">
+        <table class="table table-hover">                
+            <tr>
+                <th>Destination</th>
+                <td id='outscan-origin'></td>
+            </tr>
+            <tr>
+                <th>Unupdated count</th>
+                <td id='outscan-unupdated-count'></td>
+            </tr>
+            <tr>
+                <th>Collection status</th>
+                <td id='outscan-collection-status'></td>
+            </tr>
+            <tr>
+                <th>Amount to be collected</th>
+                <td id='outscan-amount-to-be-collected'></td>
+            </tr>
+            <tr>
+                <th>Amount collected</th>
+                <td id='outscan-amount-collected'></td>
+            </tr>
+            <tr>
+                <th>Total shipment</th>
+                <td id='outscan-total-shipment'></td>
+            </tr>
+            <tr>
+                <th>Unclosed shipments</th>
+                <td id='outscan-unclosed-shipments'></td>
+            </tr>
+        </table>
+    </div><!-- cash tally info-->
+    </div><!-- panel body -->
+  </div><!-- panel main-->
+</div><!-- col-md-6 -->
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">Airwaybill Number</div>
+    <div class="panel-body">
+       <form action="" method='GET'>
+           <p><input type="text" name="awbno_search" id="awbno">
+           <input id='id-awbno-input' type="submit" class="btn btn-primary
+           cashtally-awb-search" value="Search"></p>
+       </form>
+       <div class="cashtally-info">
+           <table class="table table-hover">                
+               <tr>
+                   <th>Daily cash tally status</th>
+                   <td id='awbno-daily-cash-tally-status'></td>
+               </tr>
+               <tr>
+                   <th>Cash deposit status</th>
+                   <td id='awbno-cash-deposit-status'></td>
+               </tr>
+               <tr>
+                   <th>Partial payment</th>
+                   <td id='awbno-partial-payment'></td>
+               </tr>
+               <tr>
+                   <th>Delivery outscans</th>
+                   <td id='awbno-delivery-outscan-list'></td>
+               </tr>
+               <tr>
+                   <th>COD deposits</th>
+                   <td id='awbno-cod-deposit-list'></td>
+               </tr>
+               <tr>
+                   <th>Queues</th>
+                   <td id='awbno-queues'></td>
+               </tr>
+           </table>
+       </div> <!-- cash tally info -->
+    </div> <!-- panel - body -->
+  </div> <!-- panel close -->
+</div><!-- col-md-6 -->
+<script type='text/javascript'>
+
+var update_outscan = function (resp){
+                $('#outscan-origin').text(resp.origin);
+                $('#outscan-unupdated-count').text(resp.unupdated_count);
+                $('#outscan-collection-status').text(resp.collection_status);
+                $('#outscan-amount-to-be-collected').text(resp.amount_to_be_collected);
+                $('#outscan-amount-collected').text(resp.amount_collected);
+                $('#outscan-amount-mismatch').text(resp.amount_mismatch);
+                $('#outscan-total-shipment').text(resp.shipments_count);
+                $('#outscan-unclosed-shipments').text(resp.unupdated_awbs);
+};
+
+$("#id-outscan-input").click(function (e){
+        e.preventDefault();
+        var outscan = $('#outscan').val();
+        $.ajax({
+            url:"/delivery/get_outscan_details/",
+            type: 'GET',
+            data: {'outscan': outscan},
+            success: function (resp){
+                if (resp.success){
+                    update_outscan(resp);
+                }else{
+                    console.log('error in url..');
+                }
+            }
+        });
+});
+
+$("#id-awbno-input").click(function (e){
+        e.preventDefault();
+        var awbno = $('#awbno').val();
+        $.ajax({
+            url:"/delivery/get_awbno_details/",
+            type: 'GET',
+            data: {'awbno': awbno},
+            success: function (resp){
+                if (resp.success){
+                $('#awbno-daily-cash-tally-status').text(resp.daily_cash_tally_status);
+                $('#awbno-cash-deposit-status').text(resp.cash_deposit_status);
+                $('#awbno-partial-payment').text(resp.partial_payment);
+                $('#awbno-delivery-outscan-list').text(resp.delivery_outscan_list);
+                $('#awbno-cod-deposit-list').text(resp.coddeposits_list);
+                $('#awbno-queues').text(resp.queues);
+                }else{
+                    console.log('error in url..');
+                }
+            }
+        });
+});
+
+$("#id-outscan-update").click(function (e){
+        e.preventDefault();
+        var outscan = $('#outscan').val();
+        $.ajax({
+            url:"/delivery/update_outscan_details/",
+            type: 'GET',
+            data: {'outscan': outscan},
+            success: function (resp){
+                if (resp.success){
+                    update_outscan(resp);
+                    $('#alert-para').text(outscan + " updated")
+                    $('#update-alert').show();
+                }else{
+                    console.log('error in url..');
+                }
+            }
+        });
+});
+</script>

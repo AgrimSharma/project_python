@@ -1,0 +1,42 @@
+<html>
+
+<head>
+</head>
+<body>
+
+{% ifnotequal status 'edit' %}
+
+  <form name = 'theForm' method="post" action="/shipment/add_shipment/{{id}}/">
+  {%else %}
+    <form name = 'theForm' method="post" action="/shipment/edit_shipment/{{sid}}/{{pid}}/">
+  
+   {% endifnotequal %}
+
+
+  
+	{% csrf_token %}	
+
+<table>{% for field in form %}
+<tr>
+<td>
+{{ field.label }}:</td>
+  <td> {{field}}</td>     
+</tr>
+{% endfor %}
+</table>
+
+
+
+
+<input type="submit" class="btn-primary" name="theButton" value="Submit"/>
+
+</form>
+
+
+
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,182 @@
+          		{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+<style>
+.rev_pickup td{background: #FFCCCC}
+#AddRates, #AddRatesHike {cursor: pointer; color: #0088cc;}
+#AddRates img, #AddRatesHike img {vertical-align: middle;}
+#AddRatesHike input {display: none; width:30px;}
+</style>
+{% endblock %}
+
+
+          		{% block content %}
+          		
+          		
+
+<div id="backgroundPopup">
+</div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12">
+    
+       {% include "customer/nav.html" %} 
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+       {% include "customer/sub_nav.html" %} 
+        
+<link rel="stylesheet" href="{{ STATIC_URL }}assets/customer/css/styles.css" />
+        <div class="add-details pull-right">
+       <!--   <a href="add/" data-rev-action="modal" data-target="#add-revlet" ><img src="{{ STATIC_URL }}assets/img/plus.png"/> Add Customer </a> -->
+
+       <div  id="AddRates" ><img src="{{ STATIC_URL }}assets/img/plus.png"/> Add Rates </div>
+       <form action="/customer/rates/percentage_hike/{{c.id}}/" method="post"><div  id="AddRatesHike" ><img src="{{ STATIC_URL }}assets/img/plus.png"/> Add Rates Hike <input id="percent_hike" type="text" value="" name="percent_hike"><input id="percent_hike_submit" type="submit" value="add" name="percent_hike_submit"></div>
+{% csrf_token %}
+</form>
+        </div>
+            <table class="table">
+              <thead>
+               	<tr>
+	       		<th>Version</th>
+	       		<td>added Date</td>
+	       		<td>Effective Date</td>
+	       		<th>Status</th>
+	       		<th>Download</th>
+                        <th>Action</th>
+	    	</tr>
+              </thead>
+              <tbody>
+              {%if rates %}
+              {%for rate in  rates %}
+               	<tr>
+	       		<td>{{forloop.counter}}</td>
+	       		<td>{{rate.added_on}}</td>
+<!--	       		<td>{{rate.effective_date}}</td>   -->
+                       <td> <input type="text" value="{{rate.effective_date}}" class="date" placeholder="Date" id="{{rate.id}}" style="width:80px!important; height:30px"/></td>
+	       		<td>{{rate.active}}</td>
+	       		<td> <a id="{{rate.id}}" class="btn btn-redbutton act_dwn">Download</a></td>
+	            {%if  rate.active %}
+<td> <a id="{{rate.id}}" class="btn btn-redbutton act_btn">DeActivate</a></td>
+{%else%}
+<td><a id="{{rate.id}}"    class="btn btn-redbutton act_btn">Activate</a></td>
+{%endif%}
+	
+               </tr>
+              {%endfor %}
+              {%endif %}
+              </tbody>
+            </table>
+            
+          
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->    
+  </div><!-- /container-fluid -->
+             
+</div>
+
+
+
+
+
+ <div id="popupContact" >  
+           
+        <a href="#" id="popupContactClose">x</a>  
+
+<form method="post"  enctype="multipart/form-data">
+{% csrf_token %}
+UPLOADS: <input type="file" name="upload_file" id="id_batch_pdf"><br>
+<button name="sub" type="submit">Submit</button>
+</form>
+
+ </div> 
+
+      	
+<script>
+var currentTime = new Date();
+// First Date Of the month 
+var startDateFrom = new Date(currentTime.getFullYear(),currentTime.getMonth(),1);
+$(".date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd",minDate: startDateFrom });
+$( ".date" ).change(function() {
+var tmp_date = $(this).val()
+var id = $(this).attr('id')
+$.ajax({
+  type:"POST",
+  url: "/customer/rates/update_rate_dates/",
+  data: "id="+id+"&date="+tmp_date,
+  success: function(resp){
+  }
+  })
+});
+
+$('.act_btn').click(function(){
+alert("welcme")
+var tmp_id=$(this).attr('id')
+//alert($(this).attr('id'))
+awb="demo"
+$.ajax({
+ type:"POST",
+ url: "/customer/rates/update_customer/",
+ data: "id="+tmp_id,
+ success: function(resp){
+ }
+ })
+});
+
+
+$('.activate_customer').click(function(){
+     customer_id = $(this).attr("cust_id");
+     window.location = "/customer/"+customer_id+"/activate/";
+});
+
+
+$('.act_dwn').click(function(){
+var tmp_id=$(this).attr('id')
+$.ajax({
+type:"POST",
+ url: "/customer/rates/download/",
+  data: "id="+tmp_id,
+  success: function(resp){
+  alert(resp);
+ }
+ })
+});
+
+$('.deactivate_customer').click(function(){
+     customer_id = $(this).attr("cust_id");
+     window.location = "/customer/"+customer_id+"/deactivate/";
+});
+
+$('.act_btn').click(function(){
+//alert("welcme")
+var tmp_id=$(this).attr('id')
+//alert($(this).attr('id'))
+awb="demo"
+$.ajax({
+ type:"POST",
+ url: "/customer/rates/update_customer/",
+ data: "id="+tmp_id,
+ success: function(resp){
+ }
+ })
+})
+
+$('#AddRatesHike').click(function(){
+    $('#percent_hike').show();
+    $('#percent_hike_submit').show();
+});
+
+</script>
+
+						 
+          		{% endblock %}
+          		
+          		

@@ -1,0 +1,20 @@
+<div class="add-details pull-right">
+<a href="/hub/" ><i class="icon-signin"> </i>Inscan Bag </a> &nbsp; &nbsp;
+<a href="/hub/inscan_shipment/" ><i class="icon-signin"> </i>Inscan Shipment</a> &nbsp; &nbsp;
+<a href="/hub/bagging/" ><i class="icon-briefcase"> </i>Baging </a> &nbsp; &nbsp;
+<a href="/hub/cbags/dashboard/" ><i class="icon-signin"> </i>Consolidated Bags </a> &nbsp; &nbsp;
+<a href="/hub/connection/"><i class="icon-truck"> </i>Connection </a> &nbsp; &nbsp;
+<a href="/hub/mass_updation/"><i class="icon-truck"> </i>Mass Updation </a> &nbsp; &nbsp;
+<a href="/hub/dash_board" rel="tooltip" title="Hub Dashboard">
+<i class="icon-thumbs-up"> </i>Dashboard </a> &nbsp; &nbsp;
+{%if request.user.employeemaster.service_centre.center_shortcode == "BOH" or request.user.employeemaster.employee_code == "10500" or request.user.employeemaster.employee_code == "10612" or request.user.employeemaster.employee_code == "11662"  %}  <a href="/hub/octroi/"title="Generate New Airway Bill"><i class="icon-truck"> </i>Octroi </a> &nbsp; &nbsp;
+ <a href="/hub/nform/"><i class="icon-truck"> </i>NForm </a> &nbsp; &nbsp;
+{%endif%}
+{% if request.user.employeemaster.service_centre.center_shortcode == "CCP" or request.user.employeemaster.employee_code == "124"  %}  
+<a href="/reports/west_bengal_report/" title="West Bengal entry tax"><i class="icon-truck"> </i>West Bengal entry tax </a> &nbsp; &nbsp;{%endif%}
+{% comment %}
+<a href="/hub/run_code/" ><i class="icon-plane"> </i>Run Code </a> &nbsp; &nbsp;   <a href="/hub/airport_confirmation/" title="Generate New Airway Bill"><i class="icon-plane"> </i>Airport Confirmation </a> &nbsp; &nbsp;
+{% endcomment %}
+<a href="/delivery/return_redirection/2/" ><i class="icon-plane"> </i>Return</a> &nbsp; &nbsp;
+<a href="/hub/redirection/" title="Redirection"><i class="icon-plane"> </i>Redirection</a> &nbsp; &nbsp;
+</div>

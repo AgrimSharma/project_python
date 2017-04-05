@@ -1,0 +1,125 @@
+          		{% extends "base.html" %}
+          		{% block content %}
+
+
+          		{% load sorting_tags %}
+			    {% autosort active_customers %}
+<style>
+   .c_hide{display:none;}
+   .clients_tab{cursor: pointer;}
+</style>
+
+<div id="backgroundPopup"></div>
+<div id="wrap">
+
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12">
+      {% load pagination_tags %}
+	  {% autopaginate active_customers 50 %}
+  	  {% paginate %}
+      {% include "customer/nav.html" %}
+    </div>
+  </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-user" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Customer Details</span>
+                        <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+          <div class="sub_nav_cust">
+          <ul class="nav nav-tabs "><li class="active clients_tab show_active"><a>Active Clients</a></li>
+          <li class="clients_tab show_inactive"><a>Inactive Clients</a></li>
+          </ul>
+
+          </div>
+
+            <table class="table table-hover table-striped table-condensed table-bordered">
+              <thead>
+                	<tr>
+                		<td>#</td>
+			       		<th>{% anchor name Name %}</th>
+					<th>{% anchor name Website %}</th>
+			       		<th>{% anchor code Code %}</th>
+			       		<th>{% anchor contract_from 'Contract From' %}</th>
+			       		<th>{% anchor contract_to 'Contract To' %}</th>
+			       		<th>{% anchor activation_status 'Status' %}</th>
+			       		<th><a href="">Action</a></th>
+
+			    	</tr>
+              </thead>
+              <tbody>
+                	{% for customer in active_customers %}
+			 		<tr class="c_all c_show">
+			 		    <td width='auto'>{{forloop.counter}}</td>
+			        	<td>{{customer.name}}</td>
+                                        <td>{{customer.website}}</td>
+			        	<td>{{customer.code}}</td>
+			        	<td>{{customer.contract_from}}</td>
+			        	<td>{{customer.contract_to}}</td>
+			        	<td>{{customer.activation_status}}</td>
+			        	<td><a href="/customer/rates/{{customer.id}}/"  class="btn2 btn-info edit_customer" rel="tooltip"  cust_id="{{customer.id}}" title="View Customer Details"><i class="icon-eye-open"></i>rates</a> &nbsp; <a href="/customer/edit/{{customer.id}}/"  class="btn2 btn-info edit_customer" rel="tooltip"  cust_id="{{customer.id}}" title="View Customer Details"><i class="icon-eye-open"></i> view</a> &nbsp; {%if customer.activation_status%}<a href="#"  class="btn2 btn-info deactivate_customer" rel="tooltip"  cust_id="{{customer.id}}" title="Deactivate Customer "><i class="icon-eye-open"></i>Deactivate</a>{%else%}<a href="#"  class="btn2 btn-info activate_customer" rel="tooltip"  cust_id="{{customer.id}}" title="Activate Customer "><i class="icon-eye-open"></i> Activate</a>{%endif%} &nbsp;
+			        	</td>
+			    	</tr>
+					{% endfor %}
+
+                	{% for customer in inactive_customers %}
+			 		<tr class="c_all c_hide">
+			 		    <td>{{forloop.counter}}</td>
+			        	<td>{{customer.name}}</td>
+			        	<td>{{customer.code}}</td>
+			        	<td>{{customer.contract_from}}</td>
+			        	<td>{{customer.contract_to}}</td>
+			        	<td>{{customer.activation_status}}</td>
+			        	<td><a href="/customer/edit/{{customer.id}}/"  class="btn2 btn-info edit_customer" rel="tooltip"  cust_id="{{customer.id}}" title="View Customer Details"><i class="icon-eye-open"></i> view</a> &nbsp; {%if customer.activation_status%}<a href="#"  class="btn2 btn-info deactivate_customer" rel="tooltip"  cust_id="{{customer.id}}" title="Deactivate Customer "><i class="icon-eye-open"></i>Deactivate</a>{%else%}<a href="#"  class="btn2 btn-info activate_customer" rel="tooltip"  cust_id="{{customer.id}}" title="Activate Customer "><i class="icon-eye-open"></i> Activate</a>{%endif%} &nbsp;
+			        	</td>
+			    	</tr>
+					{% endfor %}
+              </tbody>
+            </table>
+
+
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+  </div><!-- /container-fluid -->
+
+</div>
+
+<div id="popupContact" >
+    <a href="#" id="popupContactClose">x</a>
+</div>
+
+<script>
+$('.show_inactive').click(function(){
+    $('.c_all').hide()
+    $('.clients_tab').removeClass("active")
+    $('.c_hide').show()
+    $(this).addClass("active")
+});
+
+$('.show_active').click(function(){
+    $('.c_all').hide()
+    $('.clients_tab').removeClass("active")
+    $('.c_show').show()
+    $(this).addClass("active")
+});
+
+$('.activate_customer').click(function(){
+     customer_id = $(this).attr("cust_id");
+     window.location = "/customer/"+customer_id+"/activate/";
+});
+
+$('.deactivate_customer').click(function(){
+     customer_id = $(this).attr("cust_id");
+     window.location = "/customer/"+customer_id+"/deactivate/";
+});
+</script>
+
+          		{% endblock %}
+
+

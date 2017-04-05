@@ -1,0 +1,21 @@
+{% load tags %}
+
+<div class="col-lg-12">
+    <h1 class="page-header">{{ page_header }}</h1>
+    <form id="{{ form_id }}" role="form" class="form-horizontal">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            <div class="col-lg-2">
+            {{ field.label }}
+            </div>
+            <div class="col-lg-4">
+                 {{ field }} {% comment %}|addcss:"form-control date" }}{% endcomment %}
+            </div>
+          </div>
+      {%  endfor %}
+      <input type="submit" id="{{ button_id }}" class="btn btn-primary" value="{{ button_display }}"/>
+    </form>
+</div>
+<!-- /.col-lg-12 -->
+

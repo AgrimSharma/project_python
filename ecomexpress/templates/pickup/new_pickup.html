@@ -1,0 +1,26 @@
+<html>
+<body>
+ 
+<form name = 'theForm' method="post" action="/pickup/request_pickup/">
+	{% csrf_token %}	
+
+<table>{% for field in pickup_form %}
+
+{% ifnotequal field.name 'customer'%}
+{% ifnotequal field.name 'status'%}
+<tr>
+<td>{{field.label}}:</td><td>{{field}}</td>
+</tr>
+{% endifnotequal %}
+{% endifnotequal %}
+
+    {% endfor %}
+</table>
+<input type="submit" id="subs" class="btn-primary" />
+
+</form>
+   
+</body>
+
+</html>
+   

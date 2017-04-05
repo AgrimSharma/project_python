@@ -1,0 +1,52 @@
+    <br>
+    Delivery Centre: {{request.user.employeemaster.service_centre}}<br>
+    Delivery Date: {% now "SHORT_DATE_FORMAT" %}<br><br>
+        <div class="cust-content">
+{% load tags %}            
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Air waybill Number</th>
+                  <th>Pickup Date</th>
+                  <th>Origin</th>
+                  <th>Shipper</th>
+                  <th>Consignee</th>
+                  <th>COD Due</th>
+                  <th>COD Collected</th>
+                  <th>COD Balance</th>
+                  <th>Delivery Employee Code</th>
+                  <th>Delivery Employee Name</th>
+                  <th>Dest Centre</th>
+                </tr>
+              </thead>
+              <tbody>
+              {%for shipment, awbtally in shipment.items%}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{shipment.airwaybill_number}}</td>
+                  <td>{{shipment.pickup.pickup_date|date:"SHORT_DATE_FORMAT"}}</td>
+                  <td>{{shipment.pickup.service_centre}}</td>
+                  <td>{{shipment.shipper.code}}</td>
+                  <td>{{shipment.consignee}}</td>
+                  <td>{{awbtally.collectable_value|default:shipment.collectable_value}}</td>
+                  <td>{%ifequal shipment.return_shipment 3%}RTS{%else%}{{awbtally.amount_collected|default:0}}{%endifequal%}</td>
+                  
+                  <td>
+                  {%if awbtally.amount_collected%}
+                  
+                  
+                  {{awbtally.amount_collected|subtract:awbtally.collectable_value}}
+                  {%else%}
+                  {{awbtally.collectable_value|default:shipment.collectable_value}}
+                  {%endif%}
+                  </td>
+                  <td>{{awbtally.delivery_emp_code.employee_code}}</td>
+                  <td>{{awbtally.delivery_emp_code.firstname}}</td>
+                  <td>{{shipment.service_centre.center_shortcode}}</td>
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+            </div>
+  

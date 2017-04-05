@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?><transmission xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="AmazonInternalTransportationMessaging.xsd" sendingPartyID="AMAZON" receivingPartyID="ECXIN" transmissionCreationDate="2015-05-19T04:02:19Z" transmissionSchemaVersionNumber="1.0" ><message messageType="AMAZON_MFT"><amazonManifest><manifestHeader>
+<warehouseLocationID>SDEA</warehouseLocationID>
+<manifestCreateDateTime>2015-05-19T09:28:13</manifestCreateDateTime>
+<carrierInternalID>ECX</carrierInternalID>
+<shipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</shipmentMethod>
+<manifestNumber>1000290859303002T</manifestNumber>
+<carrierAccountID>269684</carrierAccountID>
+<carrierManifestID/>
+<shipmentDate>2015-05-19T09:28:13</shipmentDate>
+<currencyCode>INR</currencyCode>
+<shipFromAddress AddressType="SHIP_FROM">
+<name>SDEA</name>
+<addressLine1>A-43, Ground Floor, Mohan Cooperative Industrial Estate,</addressLine1>
+<addressLine2>Main Mathura Road,</addressLine2>
+<addressLine3>Badarpur, South Delhi</addressLine3>
+<city>New Delhi</city>
+<stateChoice>
+<stateProvince>Delhi</stateProvince>
+</stateChoice>
+<zip>110044</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>01165184447</contactPhone>
+</shipFromAddress>
+<shipperInformation>
+<amazonTaxID>AmazonTaxID</amazonTaxID>
+</shipperInformation>
+<prepaidCollect>PREPAID</prepaidCollect>
+</manifestHeader>
+<manifestDetail>
+<shipmentDetail>
+<customerOrderNumber>402-4786338-5521141</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>Deepika Khandelwal</name>
+<addressLine1>304,Teja Nivas Apartment</addressLine1>
+<addressLine2>Near Laxminarayan Temple,Landmark:Biryani House,Bhattarahall</addressLine2>
+<city>Bangalore</city>
+<stateChoice>
+<stateProvince>Karnataka</stateProvince>
+</stateChoice>
+<zip>560049</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9036088814</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">999.05</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">999.05</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">1,049.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>DlK9cnxVN1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482551</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_301</shipZone>
+<shipSort>KAR</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-23</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">0.5</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">0.29</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">30.51</lengthValue>
+<heightValue unitOfMeasure="CM">2.39</heightValue>
+<widthValue unitOfMeasure="CM">24.99</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">1049.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Video Games - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>403-1210113-0782705</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>Bibudesh Kumar Rohit</name>
+<addressLine1>Altisource 7th Floor, Pritech 11, Ecospace</addressLine1>
+<addressLine2>Outer Ring Road</addressLine2>
+<city>Bangalore</city>
+<stateChoice>
+<stateProvince>KARNATAKA</stateProvince>
+</stateChoice>
+<zip>560037</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9980991268</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">322.86</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">360.96</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">38.10</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">379.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>D0tdQnxTN1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482552</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_301</shipZone>
+<shipSort>KAR</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-23</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">0.5</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">0.18</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">24.99</lengthValue>
+<heightValue unitOfMeasure="CM">4.8</heightValue>
+<widthValue unitOfMeasure="CM">15.01</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">379.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Electronics - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>402-1660584-2885948</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>AJINKYA SURTI</name>
+<addressLine1>FOUR SEASONS</addressLine1>
+<addressLine2>G23 ESKON PLAZA ANAND MAHAL ROAD NEAR BHULKABHAVAN SCHOOL</addressLine2>
+<city>SURAT</city>
+<stateChoice>
+<stateProvince>GUJARAT</stateProvince>
+</stateChoice>
+<zip>395009</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9879265244</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">265.78</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">283.56</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">17.78</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">319.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>DzW7QkxBN1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482553</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_301</shipZone>
+<shipSort>GUJ</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-23</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">0.5</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">0.06</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">5.0</lengthValue>
+<heightValue unitOfMeasure="CM">5.0</heightValue>
+<widthValue unitOfMeasure="CM">5.0</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">319.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Home - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>403-9644606-2405138</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>Chirag Pansari</name>
+<addressLine1>D-402 , Vikas Park , Mith Chowky</addressLine1>
+<addressLine2>Link road , Malad west</addressLine2>
+<city>Mumbai</city>
+<stateChoice>
+<stateProvince>MAHARASHTRA</stateProvince>
+</stateChoice>
+<zip>400064</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9004600093</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">292.44</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">328.00</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">35.56</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">369.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>DmfLQ8x2N1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482554</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_301</shipZone>
+<shipSort>MAH</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-23</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">2.0</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">0.51</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">30.51</lengthValue>
+<heightValue unitOfMeasure="CM">10.39</heightValue>
+<widthValue unitOfMeasure="CM">24.99</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">369.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Sports - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>402-6320095-5253101</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>Prasanna Muralidharan</name>
+<addressLine1>No.51,11th Cross street,9th Main Road,Dhandeeswaram Nagar</addressLine1>
+<addressLine2>Velachery</addressLine2>
+<city>Chennai</city>
+<stateChoice>
+<stateProvince>Tamilnadu</stateProvince>
+</stateChoice>
+<zip>600042</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9940615351</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">831.11</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">831.11</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">935.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>DS66QkxfN1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482555</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_301</shipZone>
+<shipSort>TN</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-23</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">3.5</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">1.49</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">32.0</lengthValue>
+<heightValue unitOfMeasure="CM">20.6</heightValue>
+<widthValue unitOfMeasure="CM">22.91</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">935.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Kitchen - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>402-7957111-8993900</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>Yogesh sharda</name>
+<addressLine1>Patel nagar, banga road gali no.1</addressLine1>
+<city>Phagwara</city>
+<stateChoice>
+<stateProvince>PUNJAB</stateProvince>
+</stateChoice>
+<zip>144401</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9988719126</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">310.22</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">310.22</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">349.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>DSMrQyx8N1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482556</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_201</shipZone>
+<shipSort>PUN</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-27</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">1.0</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">0.6</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">24.99</lengthValue>
+<heightValue unitOfMeasure="CM">5.59</heightValue>
+<widthValue unitOfMeasure="CM">15.01</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">349.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Apparel - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>403-6478099-5157918</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>B.Nikitha Reddy</name>
+<addressLine1>flat no:204,MNC homes,sama saraswati nagar colony</addressLine1>
+<addressLine2>karmanghat</addressLine2>
+<city>hyderabad</city>
+<stateChoice>
+<stateProvince>TELANGANA</stateProvince>
+</stateChoice>
+<zip>500079</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>8106550333</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">221.33</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">221.33</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">249.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>DyZbQQxNN1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482557</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_301</shipZone>
+<shipSort>TEL</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-23</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">2.0</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">0.41</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">30.51</lengthValue>
+<heightValue unitOfMeasure="CM">12.09</heightValue>
+<widthValue unitOfMeasure="CM">24.99</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">249.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Shoes - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>402-0368046-8600311</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>J Vijayakumar</name>
+<addressLine1>16/5 JAYASUDHA, 9th Cross, SR Layout,</addressLine1>
+<addressLine2>Basvanapura Road, Krishnarajapuram</addressLine2>
+<city>Benagaluru</city>
+<stateChoice>
+<stateProvince>KARNATAKA</stateProvince>
+</stateChoice>
+<zip>560036</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9480181933</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">221.91</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">221.91</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">233.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>D9m8Q8x4N1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482558</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_301</shipZone>
+<shipSort>KAR</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-23</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">0.5</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">0.17</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">24.99</lengthValue>
+<heightValue unitOfMeasure="CM">1.8</heightValue>
+<widthValue unitOfMeasure="CM">15.01</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">233.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Electronics - New (count 2) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">2</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>403-7480581-2446714</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>Bhoomika</name>
+<addressLine1>Anugraha, Harady, Puttur dk</addressLine1>
+<city>Puttur</city>
+<stateChoice>
+<stateProvince>KARNATAKA</stateProvince>
+</stateChoice>
+<zip>574201</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9844638304</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">237.14</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">275.24</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">38.10</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">289.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>DmZFQyxgN1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482559</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_501</shipZone>
+<shipSort>KAR</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-27</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">0.5</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">0.08</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">18.01</lengthValue>
+<heightValue unitOfMeasure="CM">7.01</heightValue>
+<widthValue unitOfMeasure="CM">14.0</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">289.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Electronics - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+<shipmentDetail>
+<customerOrderNumber>402-1353145-0548300</customerOrderNumber>
+<consigneeAddress AddressType="CONSIGNEE">
+<name>N.A.sekar</name>
+<addressLine1>1/578 kalliyampudur</addressLine1>
+<addressLine2>Erode vijayapuri Tamil nadu</addressLine2>
+<city>ERODE</city>
+<stateChoice>
+<stateProvince>TAMIL NADU</stateProvince>
+</stateChoice>
+<zip>638056</zip>
+<countryCode>IN</countryCode>
+<countryName>India</countryName>
+<contactPhone>9976544714</contactPhone>
+</consigneeAddress>
+<shipmentCostInfo>
+<termsOfSale>DDU</termsOfSale>
+<valueOfGoods>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">1,235.56</monetaryAmount>
+</valueOfGoods>
+<CIF>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">1,235.56</monetaryAmount>
+</CIF>
+<consigneeFreightCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</consigneeFreightCharge>
+<CashOnDeliveryCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">1,390.00</monetaryAmount>
+</CashOnDeliveryCharge>
+<ConsumptionCharge>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">0.00</monetaryAmount>
+</ConsumptionCharge>
+</shipmentCostInfo>
+<shipmentPackageInfo>
+<cartonID>
+<encryptedShipmentID>DRLcQtxsN1</encryptedShipmentID>
+<packageID>1</packageID>
+<trackingID>705482560</trackingID>
+</cartonID>
+<packageShipmentMethod>
+<amazonTechnicalName>ECXIN_EXP_COD</amazonTechnicalName>
+</packageShipmentMethod>
+<ShipmentMethodOfPayment>COD</ShipmentMethodOfPayment>
+<shipZone>BD_ZONE_501</shipZone>
+<shipSort>TN</shipSort>
+<commercialInvoiceDate>2015-05-19</commercialInvoiceDate>
+<scheduledDeliveryDate>2015-05-27</scheduledDeliveryDate>
+<shipmentPackageDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">3.5</weightValue>
+</shipmentPackageDeclaredGrossWeight>
+<shipmentPackageDimWtCalcMethod>DIM_WEIGHT</shipmentPackageDimWtCalcMethod>
+<shipmentPackageActualGrossWeight>
+<weightValue unitOfMeasure="KG">2.44</weightValue>
+</shipmentPackageActualGrossWeight>
+<shipmentPackageDimensions>
+<lengthValue unitOfMeasure="CM">29.79</lengthValue>
+<heightValue unitOfMeasure="CM">23.39</heightValue>
+<widthValue unitOfMeasure="CM">21.89</widthValue>
+</shipmentPackageDimensions>
+<totalDeclaredValue currencyISOCode="INR">1390.00</totalDeclaredValue>
+<pkgHarmonizedTariffDescription>Kitchen - New (count 1) </pkgHarmonizedTariffDescription>
+<shipmentPackageItemQuantity>
+<quantity unitOfMeasure="EA">1</quantity>
+</shipmentPackageItemQuantity>
+</shipmentPackageInfo>
+<reasonForExport>PERMANENT</reasonForExport>
+</shipmentDetail>
+</manifestDetail><manifestSummary>
+<totalShipmentQuantity>
+<quantity unitOfMeasure="EA">10</quantity>
+</totalShipmentQuantity>
+<totalShipmentValue>
+<chargeOrAllowance>CHARGE</chargeOrAllowance>
+<monetaryAmount currencyISOCode="INR">4,937.40</monetaryAmount>
+</totalShipmentValue>
+<totalDeclaredGrossWeight>
+<weightValue unitOfMeasure="KG">14.5</weightValue>
+</totalDeclaredGrossWeight>
+<totalActualGrossWeight>
+<weightValue unitOfMeasure="KG">6.23</weightValue>
+</totalActualGrossWeight>
+</manifestSummary>
+</amazonManifest></message></transmission>

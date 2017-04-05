@@ -1,0 +1,13 @@
+{%load tags%}                                   ECOM Express Private LTD 
+
+Manifest No: {{nhform.id}}                                          NHForm Slip No: {{nhform.nhform_slip_no}}
+Manifest Date: {{nhform.date}}          Origin Hub: {{nhform.origin}}                       NHForm Amount: 
+
+
+Sr  AWB No.    Order No.     Consignee Name          Consignee Address    Shipper         Product Description       Value      DC
+
+----------------------------------------------------------------------------------------------------------------------
+
+{% for a in shipments%}{{forloop.counter}}  {{a.shipment.airwaybill_number}}   {{a.shipment.order_number}}     {{a.shipment.consignee}}               {{a.shipment.consignee_address1|truncatechars:20}}          {{a.shipment.shipper}}       {{a.shipment.item_description}}         {{a.shipment.collectable_value}}      {{a.shipment.service_centre}}
+{%endfor%}    
+----------------------------------------------------------------------------------------------------------------------

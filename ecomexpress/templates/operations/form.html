@@ -1,0 +1,21 @@
+<table>
+    <tr>
+        {% for field in form %}
+            <td>{{ field.label }}</td>     
+        {% endfor %}
+        <td> </td>
+    </tr>
+    <tr>
+        {% for field in form %}
+            <td>{{ field }}</td>     
+        {% endfor %}
+        <td> <input type="button" id="create_cbag" value="Create" class="btn btn-primary"> </td>
+    </tr>
+</table>
+{% if form.errors %}
+    <tr>
+    {% for key, value in form.errors.items %}
+    <td> {{ value }}</td>
+    {% endfor %}
+    </tr>
+{% endif %}

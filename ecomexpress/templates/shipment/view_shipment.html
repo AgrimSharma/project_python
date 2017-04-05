@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+{% endblock %}
+          		{% block content %}
+          		
+          		
+
+<div id="backgroundPopup"></div>  
+
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+
+    <div class="span12">
+        <div class="pagination pull-left">
+        <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+        </ul>
+        </div>
+        
+    </div>
+  </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-truck" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Shipment </span>
+            <div class="pull-right"><form><input type="text" placeholder="Search"/></form></div>
+          </div>
+          <div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Shipper</th>
+                  <th>Airwaybill Number</th>
+                  <th>Order Number</th>
+                  <th>Reciever</th>
+                  <th>Product</th>
+                   <th>Quantity</th>
+                  <th>Added On</th>
+                  	<th></th>
+                </tr>
+              </thead>
+              <tbody>
+{% for shipment in shipment %}
+                <tr>
+                  <td>{{forloop.counter}}</td>
+                  <td>{{shipment.shipper.name}}</td>
+                  <td>{{shipment.airwaybill_number}}</td>
+                  <td>{{shipment.order_number}}</td>
+                  <td>{{shipment.customer_name}}</td>
+                    <td>{{shipment.product}}</td>
+                    <td>{{shipment.quantity}}</td>
+                  <td>{{shipment.added_on}}</td></a>
+
+                  <td><a href="#" class="btn2 btn-info edit_shipment" rel="tooltip" pickup_id="{{shipment.pickup.id}}" shipment_id = "{{shipment.id}}" title="View Shipment Details"><i class="icon-eye-open"></i> view</a> 
+                  </td>
+                  <td> <a class="btn2 btn-danger" href="/shipment/delete_shipment/{{shipment.id}}/{{shipment.pickup.id}}" rel="tooltip" title="Delete Shipment" onclick="{return confirm ('Are you sure?')}"><i class="icon-ban-circle"></i> Cancel</a></td>
+                  
+                </tr>
+                {% endfor %}
+               </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+
+
+
+    
+  </div><!-- /container-fluid -->
+
+
+   <div id="popupContact">  
+        <a id="popupContactClose">x</a>  
+  </div>  
+             
+{% endblock %}
+          	

@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load sorting_tags %}
+{% autosort shipment %}
+<div id="wrap">
+
+    <div class="container-fluid main" role="main" id="main">
+		{% load pagination_tags %}
+   		{% autopaginate shipment 50 %}
+		{% paginate %}
+        <div class="row-fluid">
+            <div class="span12">
+            <br><br><br><br>
+            </div>
+            
+        </div>
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="survey-details">
+                    <div class="cust-title">
+                        <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Security Dashboard</span>
+                    <div class='pull-right'><div style= "display:inline-block">Total Records:<input id="total_count" style=" width:40px" type="text" size="9" placeholder="No. of records in file" value="{{total_records}}"/></div>
+                    <div style="display:inline-block"> <input name="submit" class="btn btn-primary" style=" width:91px" onClick="window.location.reload()" value="Refresh Count" /></div>
+
+                    <a style="color:#FFF; text-decoration:underline" href="/security/download_xcl/" > Download Excel </a>
+                    <div class="pull-right">
+            <form method="POST" action="/security/airwaybill_search/">{% csrf_token %}<input type="text" name="awb_number" placeholder="Airway Bill No."/></form>
+            </div>
+                </div>
+                </div>
+                <div class="cust-content table-responsive">
+
+<table class="table table-hover table-striped table-condensed table-bordered">
+    <thead>
+    <tr>
+        <th style="text-align:center">SI No:</th>
+        <th style="text-align:center">AWB No.</th>
+        <th style="text-align:center">Shipper</th>
+        <th style="text-align:center">Consignee</th>
+        <th style="text-align:center">Qty.</th>
+        <th style="text-align:center">Dest</th>
+        <th style="text-align:center">Pincode</th>
+        <th style="text-align:center">Value</th>
+        <th style="text-align:center">Actual Wt.</th>
+        <th style="text-align:center">Order No.</th>
+        <th style="text-align:center">Description</th>
+        <th style="text-align:center">Client Code</th>
+        <th style="text-align:center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in shipment%}
+    <tr class="tr-{{a.id}}">
+        <td width="auto">{{forloop.counter}}</td>
+        <td width="auto">{{a.airwaybill_number}}</td>
+        <td width="auto">{{a.shipper|truncatechars:20}}</td>
+        <td width="auto">{{a.consignee}}</td>
+        <td width="auto"> {{a.pieces}}</td>
+        <td width="auto">{{a.service_centre}} </td>
+        <td width="auto">{{a.pincode}} </td>
+        <td width="auto">{{a.collectable_value}}</td>
+        <td width="auto">{{a.actual_weight}} Kgs.</td>
+        <td width="auto"> {{a.order_number}}</td>
+        <td width="auto">{{a.item_description}}</td>
+        <td width="auto">{{a.shipper.code}}</td>
+        <td width="auto"><button class="btn btn-primary read_remarks" shipment_id="{{a.id}}" id="shipment_id{{a.id}}">Remarks</button></td>
+        <td width="auto"><button class="btn btn-primary add_remarks" shipment_id="{{a.id}}" id="shipment_id{{a.id}}">Add</button></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<!--Model for view remarks  details-->
+ <div id="id_read_remarks" class="modal hide modal-sm">
+ <div class="modal-dialog modal-sm">
+     <div class="modal-content">
+       <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+          <h4 class="modal-title" id="myModalLabel">Shipment Remarks Detail</h4>
+        </div>
+        <div class="modal-body">
+          <div id="read_remark_details">
+
+          </div>
+       </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--Add Remarks model-->
+<div id="id_add_remarks" class="modal hide modal-sm">
+ <div class="modal-dialog modal-sm">
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;  </button>
+         <h4 class="modal-title" id="myModalLabel">Damage Shipment Details</h4>
+       </div>
+       <div class="modal-body">
+         <div id="add_remark_details">
+
+         </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         <button  id='submit_details' class="btn btn-primary submit_details" type="submit"> Submit</button>
+       </div>
+     </div>
+   </div>
+ </div>
+
+
+
+<script>
+$(".read_remarks").click(function(){
+ 
+ var shipment_id=$(this).attr("shipment_id");
+ $.ajax({
+     type:"POST",
+     url: "/security/read_remarks/",
+     data: {'id': shipment_id},
+     success: function(resp){
+         $("#id_read_remarks").modal('show');
+         $("#read_remark_details").html(resp);
+           }
+  });
+  });
+
+
+$(".add_remarks").click(function(){
+        
+var shipment_id=$(this).attr("shipment_id");
+  $.ajax({
+    type:"POST",
+    url: "/security/add_remarks/",
+    data: {'id': shipment_id},
+    success: function(resp){
+       $("#id_add_remarks").modal('show');
+       $("#add_remark_details").html(resp);
+          }
+}); 
+ });
+
+//shipment sold details save ajax call
+$(".submit_details").click(function(){
+    var awb = $("#awb").val();
+    var remarks_add = $("#remarks_add").val();
+    $.ajax({
+        type: "POST",
+        url: "/security/add_remarks_details/",
+        data: {'awb': awb,'remarks_add':remarks_add},
+        success: function(resp){
+            console.log(resp);
+            $("#id_add_remarks").modal('hide');
+
+            return true;
+            }
+    });
+});
+
+
+</script>
+
+{% endblock %}

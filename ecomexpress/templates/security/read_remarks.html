@@ -1,0 +1,22 @@
+<div class="form-group form-inline">
+<table class="table table-hover table-striped table-condensed table-bordered">
+<thead>
+    <tr>    
+        <th style="text-align:center">S No.</th>
+        <!--th style="text-align:center">Remark Date</th-->
+        <th style="text-align:center">Remark</th>
+    </tr> 
+</thead>
+<tbody>
+  {% for sec in security %}   
+    {% if sec.remarks_add %}
+    <tr class="tr-{{sec.id}}">                         
+    <td width="auto">{{forloop.counter}}</td>
+    <!--td width="auto">{{h.updated_on}}</td-->
+    <td width="auto">{{sec.remarks_add}}</td>
+    </tr>   
+    {% endif %}
+  {%endfor%}
+</tbody>
+</table>
+</div>

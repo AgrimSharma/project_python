@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<A HREF="javascript:void(0)"
+onclick="window.open('/delivery/deposit_sheet/{{cid}}/?print=1','welcome');"><i class="icon-print" style="font-size:18px;"></i>
+Print</A>
+
+<table width="1032" height="294" border="1" cellpadding="2">
+  <tr>
+    <td width="334" height="60" valign="top">Employee Code:{{request.user.employeemaster.employee_code}}</td>
+    <td colspan="2" rowspan="2" valign="top"><p style="font-size:24px">ECOM Express Pvt Ltd Deposit Sheet</p></td>
+    <td width="264" valign="top">Date/Time:{% now "SHORT_DATETIME_FORMAT" %}</td>
+  </tr>
+  <tr>
+    <td height="60" valign="top">COD Deposit ID:{{cid}}</td>
+    <td width="264" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="48" colspan="2">Total Shipments:{{shipment.count}}</td>
+    <td height="48" colspan="2" align="right">Total Collected Value:{{shipment_sum}}</td>
+  </tr>
+  <tr>
+    <td colspan="2">Denominations </td>
+    <td colspan="2">Quantity</td>
+  </tr>
+  <tr>
+    <td colspan="2">1</td>
+    <td colspan="2">1</td>
+  </tr>
+  <tr>
+    <td colspan="2">2</td>
+    <td colspan="2">1</td>
+  </tr>
+</table>
+
+
+
+<script src="{{ STATIC_URL }}assets/js/jquery-ui/development-bundle/jquery-1.8.2.js"></script>
+<script>
+$(function(){
+{%if request.GET.print %}
+var print = {{request.GET.print}}
+{%else %}
+var print = 0
+{%endif %}
+if (print == 1){
+window.print();
+window.close();
+}
+
+});
+
+</script>
+
+</body>
+</html>

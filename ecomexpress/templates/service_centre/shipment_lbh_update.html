@@ -1,0 +1,57 @@
+ {% extends "base.html" %}
+
+          		{% block content %}
+
+
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+    <div class="row-fluid">
+      <div class="span12">
+          <div class="cust-content">
+          <div class="summary-content">
+            <h4 style="margin-top:50px;">Multiple Shipments chargeable weight updation</h4>
+            <p class="alert alert-info" style="margin-top:20px;"> Upload your excel file containing airwaybill number and chargeable weight. The first row will be ignored. Column order should be 'airwaybill number', 'chargeable weight'.</p>
+          <input type="button" class="btn btn-primary" value="Shipment upload" id="ship-upload" data-rev-action="modal" data-target="#ship">
+          <div id ="count" style="margin-top:20px;">
+            <p class="alert alert-info">{{count}} airwaybill updated </p>
+          </div>
+          <div id ="warning" style="margin-top:20px;">
+           {% if warnings %}
+          <p class="alert alert-error">Errors</p>
+          <table>
+            {% for warning in warnings %}
+            <tr class="alert alert-error"><td>{{warning}}</td></tr>
+            {%endfor%}
+          </table>
+          {% endif %}
+          </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+  </div><!-- /container-fluid -->
+</div>
+ 
+
+
+  <div class="modal hide modal-mis-div" id="ship">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Upload file for Shipment Weight,length,breadth,height Updation</h3>
+    </div>
+    <div style="height:100px;" class="modal-body">
+                <form method="post" action="/service-centre/shipment_lbh_update/" enctype="multipart/form-data">
+                {%csrf_token%}
+                <input  type="file" class="btn" value="browse" name="ship_file"/>
+                <br/>
+                <br/>
+            <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
+    </div>
+ </div>
+
+{% endblock %}
+          	
+

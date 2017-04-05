@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{%load tags%}
+{% block header %}
+   <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>   
+{% endblock %}
+
+{% block content %}
+
+<div id="backgroundPopup"></div>  
+<div id="wrap">
+  
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12"> {% include 'service_centre/nav.html' %} </div>
+  </div>
+    
+  <div class="row-fluid">
+    <div class="span12">
+      <div class="survey-details">
+        <div class="cust-title">
+          <i class="icon-search" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Fetch Airwaybill Scan </span>
+          </div>
+        <div class="cust-content"> <div class="content-login">
+          <h3>Welcome {{request.user.employeemaster.firstname}}</h3><br/>
+<div class="pull-left">
+<a style=" text-decoration:underline" href="#" data-rev-action="modal" data-target="#add-revlet"><img src="{{ STATIC_URL }}assets/img/plus.png"/>Bulk Pickup Upload </a>
+</div>
+{%comment%}
+<form method="post" action="/mobile/get_awb_details/" style="border:#000000 2px solid; width:375px;" enctype="multipart/form-data">
+
+</div>
+AWB:<br/>
+<textarea name="awbs" class="complaint" rows="35" cols="10"></textarea><br />
+Address:
+<input type="text" class="address" name="address" size="75" />
+Pincode:
+<input type="text" name="pincode" size="15" class="pincode" />
+Mobile:
+<input type="text" name="mobile" class="mobile" size="15" /><br/>
+Manifest Id:
+<input type="text" name="manifest" class="manifest" size="15" />
+Customer Name: <select class='cust_name' name='cust_name' style="width: 500px;">
+                                                        {%for a in customer%}
+                                                        <option value="{{a.id}}">{{a}}</option>
+                                                        {%endfor%}
+                               </select>
+{%endcomment%}
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet" style="height:150px;width:300px">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+   <p>   File Upload:</p>
+<br>
+          <form method="post" action="/mobile/get_awb_details" enctype="multipart/form-data">
+{% csrf_token %}
+
+ <input type="file" name="upload_file" id="id_batch_pdf"><br>
+<button name="sub" type="submit">Submit</button>
+
+</form>
+
+
+    </div>
+    <div class="modal-body">
+
+    </div>
+  </div><!--modal end-->
+{%comment%}
+<input type="button"  class="btn btn-success submitt" value="Submit" style="text-align:center;" />
+{%endcomment%}
+</div>
+</div><!-- /row-fluid -->
+</div><!-- /container-fluid -->
+</div>
+ <script>
+$('.submitt').click(function()
+{
+var address=$('.address').val()
+var pin=$('.pincode').val()
+var mobile=$('.mobile').val()
+var awbs= $('.complaint').val()
+var cust= $('.cust_name').val()
+var manifest=$('.manifest').val()
+$.ajax({
+     type:"POST",
+      url:"/mobile/get_awb_details/",
+       data: "awb="+awbs+"&pincode="+pin+"&address="+address+"&mobile="+mobile+"&customer_id="+cust+"&manifest="+manifest,
+       success:function(resp){
+     alert(resp);
+    }
+
+  }  
+  )
+
+})
+</script>
+{% endblock %}

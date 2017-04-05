@@ -1,0 +1,171 @@
+<div class="summary-content">
+    <b>{{msg}}</b>
+{% if request.user.employeemaster.user_type == "Customer"%}
+<input type="button" class="btn btn-primary" value="Telecalling Report"
+           id="tele-upload" data-rev-action="modal" data-target="#tele">
+
+{%else%}
+    <input type='button' class='btn btn-primary' value="RTO Instruction"
+        id='rto-upload' data-rev-action="modal" data-target="#mis">
+    <input type="button" class="btn btn-primary" value="Telecalling Report"
+        id="tele-upload" data-rev-action="modal" data-target="#tele">
+    <input type="button" class="btn btn-primary" value="Call Centre Comment"
+        id="comment-upload" data-rev-action="modal" data-target="#comment">
+    <br/><br/>
+{%endif%} 
+   <form name="details" action="/track_me/comments_entry/" method="POST">
+        <table>
+            <tr>
+                <td><b>Comments Type</b></td>
+                <td>
+{% if request.user.employeemaster.user_type == "Customer"%}
+<input name="type" type="radio" checked value="0"> Alternate Instruction
+{%else%}
+                    <input name="type" type="radio" value="1"> Normal
+                    <input name="type" type="radio" checked value="0"> Alternate Instruction
+                    <input name="type" type="radio" value="2"> Call Centre
+      {%endif%}          </td>
+            </tr>
+            <tr>
+                <td><b>Employee Code</b></td>
+                <td>
+	                <input name="emp_code" type="text" value="{{request.user.employeemaster.employee_code}}">
+	            </td>
+            </tr>
+            <tr>
+                <td><b>Waybills</b></td>
+                <td>
+                    <textarea name="awb" rows="5" cols="10">{{request.GET.awb}}</textarea>
+	            </td>
+            </tr>
+            <tr>
+                <td><b>Date Time</b></td>
+                <td>
+	                <input id="pickup_date" type="text" name="date" style="width:100px" value="{% now 'Y-m-d' %}"/>
+	                <input type="text" id="pickup_time" name="time" style="width:100px" value="{% now 'H:i' %}"/>
+	            </td>
+            </tr>
+            <tr>
+                <td><b>Comments</b></td>
+                <td>
+	                <textarea name="comments" rows="5" cols="10"/></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+	                <input type="submit" class="btn btn-primary">
+	            </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+
+<!-- verify this part -->
+
+<div class="row-fluid">
+<div class="cust-title">
+    <i class="icon-signout" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i>
+    <span>Comments History </span>
+</div>
+<div class="cust-content">
+    <div class="summary-content">
+      	<table border="1" bordercolor="#CCCCCC" class="table">
+          <thead>
+              <tr> 
+                  <th>EMP ID </th> <th>Air waybill Number's </th> 
+                  <th>Added On </th> <th>Download </th> 
+              </tr>
+          </thead>
+          <tbody>
+              {%for a in instruction%}
+              <tr>
+                  <td>{{a.employee_code}}</td>
+                  <td>{%for awb in a.batchinstructionawb_set.all%}<a href="/track_me/?awb={{awb.shipments.airwaybill_number}}&order=">{{awb.shipments.airwaybill_number}}</a>
+                      {%endfor%}
+                  </td>
+                  <td>{{a.added_on}}</td>
+                  <td><a href="/track_me/comments_reports_download/{{a.id}}/">Download</a></td>
+              </tr>
+              {%endfor%}
+          </tbody>
+        </table>
+    </div><!--summary-content-->
+</div><!--cust-content-->
+</div><!--row-fluid-->
+
+<div class="modal hide modal-mis-div" id="mis">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Upload file for RTO</h3>
+    </div>
+    <div style="height:100px;" class="modal-body">
+   		<form method="post" action="/track_me/mis/" enctype="multipart/form-data">
+   		    {%csrf_token%}
+		    <input  type="file" class="btn" value="browse" name="mis_file"/>
+		    <br/><br/>
+            <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
+    </div>
+</div>
+
+<div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Upload file from Shipper portal</h3>
+    </div>
+    <div style="height:100px;" class="modal-body">
+   		<form method="post" action="/track_me/alternate_instruction/" enctype="multipart/form-data">
+   		    {%csrf_token%}
+            <p><input  type="file" class="btn" value="browse" name="upload_file"/>
+            <input type="submit" class="btn btn-primary" value="Save" /></p>
+        </form>
+    </div>
+</div>
+<!--modal end-->
+
+<div class="modal hide modal-mis-div" id="tele">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Upload file for Tele Calling</h3>
+    </div>
+    <div style="height:100px;" class="modal-body">
+        <form method="post" action="/track_me/tele/" enctype="multipart/form-data">
+            {%csrf_token%}
+            <input  type="file" class="btn" value="browse" name="tele_file"/>
+            <br/><br/>
+            <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
+    </div>
+</div>
+
+<div class="modal hide modal-mis-div" id="comment">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3 style="color: black;">Upload file for Call Centre Comments</h3>
+    </div>
+    <div class="model-body">
+        <p>Please follow the below instructions when you upload your excel file
+        containing the octroi details.</p>
+        <ul>
+            <li>All your data should be filled in Sheet1.</li>
+            <li>The first row of your sheet will be column headers.</li>
+            <li>All your data should be filled from row1, col1. Means there
+            should not be any blank rows or columns on the left side and top of
+            your data</li>
+            <li>Columns should be in the following order:</li>
+            <ul>
+                <li>Airwaybill Number(col1)</li>
+                <li>Comments(col2)</li>
+            </ul>           
+        </ul>
+    </div>
+    <div style="height:100px;" class="modal-body">
+        <form method="post" action="/track_me/comment/" enctype="multipart/form-data">
+            {%csrf_token%}
+            <input  type="file" class="btn" value="browse" name="comment_file"/>
+            <input type="submit" class="btn btn-primary" value="Upload" />
+        </form>
+    </div>
+</div>

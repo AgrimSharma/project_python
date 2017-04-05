@@ -1,0 +1,37 @@
+{%comment%}{% load reporttags%}{%endcomment%}
+        <div class="cust-content">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Origin SC</th>
+                  <th>Pickup Date</th>
+                  <th>DESTSC</th>
+                  <th>AWBNO</th>
+                  <th>Order Number</th>
+                  <th>Shipper</th>
+                  <th>Consignee</th>
+                  <th>Collectable Value</th>
+                  <th>Reason Code</th>
+                  <th>Updated on</th>
+                </tr>
+              </thead>
+              <tbody>
+              {%for a in shipments%}
+                <tr>
+                  <td>{{a.0}}</td>
+                  <td>{{a.1}}</td>
+                  <td>{{a.2}}</td>
+                  <td>{{a.3}}</td>
+                  <td>{{a.4}}</td>
+                  <td>{{a.5}}</td>
+                  <td>{{a.6}}</td>
+                  <td>{{a.7}}</td>
+                  <td>{{a.8}}</td>
+                   <td>{{a.9}}</td>
+
+                </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+            </div>
+  

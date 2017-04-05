@@ -1,0 +1,21 @@
+{%ifnotequal status '2'%}
+        <tr><td>{{a.id}}</td><td>{{a.coloader}}</td><td>{{a.destination}}</td><td>{{a.vehicle_number}}</td><td><a href="#" class="btn btn-primary include_bags" connection_id="{{a.id}}" id="include_bags{{a.id}}"{% ifequal a.connection_status 4%} disabled="disabled" {%endifequal%}> Include Bags</a> &nbsp;<a href="#" class="btn btn-primary delink_bags" connection_id="{{a.id}}" id="delink_bags{{a.id}}" {% ifequal a.connection_status 4%} disabled="disabled" {%endifequal%}> Delink Bags</a>&nbsp;<a href="#" class="btn btn-primary gen_challan" connection_id="{{a.id}}"> Generate Challan</a>&nbsp;<a href="#" class="btn btn-primary connection" connection_id="{{a.id}}"> Connection</a></td>
+        <td id="success{{a.id}}">
+{% ifequal a.connection_status 1%}
+<span class="label label-success">Closed</span>
+
+                  {%endifequal%}
+</td>
+
+                </tr>
+{%else%}
+
+<tr><td>{{a.id}}</td><td>{{a.employee_code.employee_code}}</td><td>{{a.mobile_no}}</td><td>{{a.route}}</td><td>{{a.dos_updated_count|length}} / {{a.shipments.all|length}}</td><td><button class="btn btn-primary include_shipment_outscan" outscan_id="{{a.id}}" id="include_shipment{{a.id}}"{% ifequal a.status 1%} disabled="disabled" {%endifequal%}> Include Shipment</button> &nbsp;<button class="btn btn-primary delink_shipment_outscan" outscan_id="{{a.id}}" id="delink_shipment{{a.id}}" bag_id="{{a.id}}" {% ifequal a.bag_status 6%} disabled="disabled" {%endifequal%}> Delink Shipment</button>&nbsp;<a href="#" class="btn btn-primary del_sheet" outscan_id="{{a.id}}"> Generate Delivery Sheet</a>&nbsp;<a href="#" class="btn btn-primary close-outscan" outscan_id="{{a.id}}"> Complete Outscan</a></td>
+<td id="success{{a.id}}">
+{% ifequal a.status 1%}
+<span class="label label-success">Closed</span>
+           {%endifequal%}
+</td>
+</tr>
+
+{%endifnotequal%}                

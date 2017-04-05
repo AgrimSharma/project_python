@@ -1,0 +1,48 @@
+'''
+Created on Sep 27, 2012
+
+@author: Sirius
+'''
+from django.conf.urls.defaults import *
+
+urlpatterns = patterns('pickup.views',
+                       url(r'^$','pickup_dashboard'),
+                       url(r'^reverse/$','reverse_pickup_dashboard'),
+                       url(r'^reverse_shipment/rev_order_slip/(?P<sid>\w+)/$','reverse_order_slip'),
+                       url(r'^reverse_shipment/$','reverse_shipment'),
+                       url(r'^reverse_shipment_report/$','reverse_shipment_report'),
+                       url(r'^reverse/download/(?P<pid>\w+)/(?P<tid>\w+)/$','reverse_pickup_download'),
+                       #url(r'^pending_pickup/$','pending_pickup'),
+                       #url(r'^completed_pickup/$','completed_pickup'),
+                       #url(r'^request_pickup/$','request_pickup'),
+                       url(r'^bulk_pickup_registration/$','bulk_pickup_registration'),
+                       url(r'^update_reverse_shipment/$','update_reverse_shipment'),
+                       url(r'^cancel_pickup/(?P<id>\w+)/$','cancel_pickup'),
+                       url(r'^copy_pickup/(?P<id>\w+)/$','copy_pickup'),
+                       url(r'^reverse_outscan/$','reverse_outscan'),
+         #              url(r'^include_delink_shipment/(?P<oid>\w+)/(?P<update_type>\w+)/$','include_delink_shipment'),
+                       url(r'^pickup_sheet/$','pickup_sheet'),
+                       url(r'^reverse_pickup_sheet/(?P<oid>\w+)/$','reverse_pickup_sheet'),
+                       url(r'^registration/$','pickup_registration'),
+                       url(r'^volumetric_calculator/$','volumetric_calculator'),
+                       url(r'^edit_pickup/(?P<id>\w+)/$','edit_pickup'),
+                       url(r'^finders/$','finder_pincode_view'),
+                       url(r'^pincode_view/$','pincode_view'),
+                       url(r'^transit_time/$','transit_time'),
+                       url(r'^update_reason_code/$','update_reason_code'),
+                       url(r'^update_employee_code/$','update_employee_code'),
+                       url(r'^reverse_ship/update_reason_code/$','rship_update_reason_code'),
+                       url(r'^reverse_ship/update_employee_code/$','rship_update_employee_code'),
+                       url(r'^reverse_ship/update_awb_number/$','rship_update_awb_number'),
+                       url(r'^reverse_ship/update_length/$','rship_update_etc', {'param':'length'}),
+                       url(r'^reverse_ship/update_height/$','rship_update_etc', {'param':'height'}),
+                       url(r'^reverse_ship/update_breadth/$','rship_update_etc', {'param':'breadth'}),
+                       url(r'^reverse_ship/update_vw/$','rship_update_etc', {'param':'volumetric_weight'}),
+                       url(r'^reverse_ship/update_aw/$','rship_update_etc', {'param':'actual_weight'}),
+                       url(r'^reverse_ship/revert/$','rship_revert'),
+                       url(r'^pickup_sheet/$','text_pickup_sheet'),
+              #         url(r'^mobile/$','pickup_dashboard_mobile'),
+                       url(r'^(?P<ptype>\w+)/$','pickup_dashboard'),
+                   #    url(r'^(?P<ptype>\w+)/mobile/$','pickup_dashboard_mobile'),
+                       #url(r'^rev_pickup_download/(?P<pid>\w+)/$','reverse_pickup_download'),
+                       )

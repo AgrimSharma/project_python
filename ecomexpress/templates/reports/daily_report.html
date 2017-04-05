@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% include "reports/report_header.html" %}
+
+<div id="wrap">
+
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+    <div class="span12">
+        <div class="pagination pull-left">
+        <ul>
+        <li><a href="#">Prev</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">Next</a></li>
+        </ul>
+        </div>
+
+    </div>
+    <div>
+    <form method="POST" action="{% url daily-report %}" >
+        Report Type {% include "reports/reports-list.html" %}
+        Customer Name:
+        <select name="cust_id" style="width: 158px;" class="cust_name">
+			<option value="0">All</option>
+			{% for customer in customers %}
+			<option value="{{ customer.id }}">{{ customer }}</option>
+			{%endfor%}
+		</select>
+        Date: <input type="text" class="date_on date" name='date_on' style="width: 88px;"/>
+        <a id='view_daily_report' class=" btn btn-primary">View</a>
+        <input type="Submit" name='daily_report' value="Download" class=" btn btn-primary">
+    </form>
+    </div>
+  </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="cust-details">
+          <div class="cust-title">
+            <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i>
+            <span>Inscan Report</span>
+          </div>
+          <div id='loadingdiv' style='display:none;position:absolute; left:50%; top:40%;'>
+            <img style='margin-top:100px' src='/static/assets/img/ajax-loader.gif'>
+	  </div>
+        <div id="report-content"></div><!-- report-content is added here when user clicks on view report -->
+        </div>
+      </div>
+    </div><!-- /row-fluid -->
+
+  </div><!-- /container-fluid -->
+
+</div>
+ <!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Notify</h3>
+    </div>
+    <div class="modal-body">
+
+    </div>
+  </div><!--modal end-->
+
+
+
+   <!-- uncomment pre-deloy -->
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>-->
+  <script>window.jQuery || document.write('<script src="assets/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var $loader = $('#loadingdiv');
+    $(".date").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd" });
+
+    function showLoader() {
+        $loader.fadeIn();
+    }
+
+    $('#view_daily_report').click(function(event) {
+        $('#report-content').empty();
+        showLoader();
+        var date_on = $(".date_on").val();
+        var cust_id = $(".cust_name").val();
+        console.log('cust id is ',cust_id);
+        data = {'date_on':date_on, 'cust_id':cust_id};
+        $.ajax({
+          url: '{% url daily-report %}',
+          type: "GET",
+          data: data,
+          success: function(data) {
+              $loader.fadeOut('fast');
+              $('#report-content').html(data.html);
+          }
+        });
+    }); // view inscan report
+}); // document ready
+
+</script>
+
+
+{% endblock %}
+

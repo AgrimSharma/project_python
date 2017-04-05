@@ -1,0 +1,17 @@
+<form id="form-call-centre-report" action="/track_me/call_centre_report" method="GET">
+{% if request.user.employeemaster.user_type == "Customer"%}
+{%else%}
+    {% csrf_token %}
+    <p><b>Date  </b><input id="id_call_centre_date" type="text" name="cdate">
+    <input id="call-centre-date-submit" class="btn btn-primary" type="submit"
+    value="submit"></p>
+{%endif%}
+</form>
+<script>
+$("#id_call_centre_date").datepicker({
+    changeMonth: true,
+    changeYear: true,
+    dateFormat:"yy-mm-dd",
+});
+</script>
+

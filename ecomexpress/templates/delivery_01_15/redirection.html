@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block header %}
+    <script src="{{ STATIC_URL }}assets/authentication/js/popup.js"></script>
+{% endblock %}
+{% block content %}
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid"> <div class="span12"> {% include "delivery/nav.html" %} </div> </div>
+    <div class="row-fluid">
+      <div class="span12">
+      <div class="survey-details">
+        <div class="cust-title">
+        <i class="icon-signin" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span>Redirection(Misrouted Shipments)</span>
+        </div>
+        <div class="cust-content">
+          <ul class="nav nav-tabs" id="myTab"> <li class="active"><a data-toggle="tab" href="#RO">Redirection</a></li> </ul>
+          <div class="tab-content" id="myTabContent">
+            <div id="RO" class="tab-pane active">
+           <div id="popupRTOShipment" style="background-color:#fff;"></div>
+              <input placeholder="076" disabled style="width:23px; display:inline-block"/> <h4 style=" display:inline-block">Redirection Under Same Air waybill</h4>
+              <form>
+              {% csrf_token %}
+                <table>
+                  <tr> <td>Emp Code*</td><td><input id="emp_code_rd" type="text" style="width:40px;"/></td> </tr>
+                  <tr><td>AWB*</td><td><input type="button" id="awb_rdw" href="#" data-rev-action="modal" data-target="#add-revlet" class="awb-barcode-scanner btn btn-primary" value="Include Shipments"></td>
+{%comment%}
+ <td>AWB*</td><td><input id="awb_rd" class="awb-barcode-scanner" type="text" style="width:70px;"/></td> 
+{%endcomment%}
+</tr>
+                  <tr> <td>Reason Code:*</td><td> <select id="reason_code_rd" class="reason_code" type="ro"> <option>Select Reason Code</option> {% for a in reason_code %} {%if a.code == 207 or a.code == 230%} <option value="{{a.id}}">{{a.code}} - {{a.code_description}}</option> {%endif%} {% endfor %} </select> </td> </tr>
+                  <tr> <td>Service Centre:</td><td> <select id="service_centre_rd" id="dest"> <option>Select Service Centre</option> {% for a in service_centre %} <option value="{{a.id}}">{{a.center_shortcode}}</option> {% endfor %} </select> </td> </tr>
+                  <tr>
+ <td>
+                                <input type="hidden" id="rdsubmitFormAwbList" value="">
+                            </td>
+
+ </tr>
+                 </table>
+                 <table>
+                    <tr> <td><input type="button" class="btn btn-redbutton" id="rdsubmitForm" value="Submit"/> </td> </tr>
+                 </table>
+               </form>
+              </div><!-- #RO -->
+            </div> <!-- myTabContent -->
+          <div id="rd-awb-div" style="display:inline-block; width:50%; float:right;">
+                <div id="rd-awb-data"></div>
+              </div>
+
+          </div>
+          <!-- cust-content -->
+        </div>
+      </div>
+       </div><!-- /container-fluid -->
+</div>
+
+<!-- modal -->
+  <div class="modal hide modal-add-revlet" id="add-revlet" style="height: 1000px; width: 598px;">
+<div class="modal-header cust-title" style="width:560px; ">
+    <a class="close" data-dismiss="modal">×</a>
+    <div>
+        <font style="color:#fff; font-size:24px;"> Include Shipment </font> &nbsp;
+        <div style="display:inline-block">
+            <font style="color:#fff; font-size:14px;">Airway Bill:</font>
+            <input name="awb"  id="awb_scan" class="awb" style=" width:100px" type="text" size="9"/>
+        </div>
+    </div>
+    <div class="modal-body" style="height: 315px!important;">
+        <table class="table-rd-shipment">
+            <thead>
+                <tr>
+                    <th style="padding:8px; width:150px; font-size:12px; text-align:left;">AWB</th>
+                    <th style="font-size:12px;">Delink</th>
+                </tr>
+            </thead>
+            <tbody>
+ <input type="button" class="btn btn-primary reverse-rd-finished" value="Click Me When Finished">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+{%comment%}
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Upload file from Shipper portal</h3>
+    </div>
+    <div style="height:150px;" class="modal-body">
+                <form>
+                <input type="text" Placeholder=" File Name"/><br/>
+            <input  type="file" class="btn" value="browse" /><br/><br/>
+                <input type="text" Placeholder=" Emp Code"/><br/>
+            <input type="button" class="btn btn-primary" value="Save" />
+        </form>
+    </div>{%endcomment%}
+  </div><!--modal end-->
+
+
+<script>
+$("#rdsubmitForm").click(function(e){
+    e.preventDefault();
+    var emp_code=$("input#emp_code_rd").val();
+    //var awb=$("input#awb_rd").val();
+    var awb_list=$("input#rdsubmitFormAwbList").val();
+    console.log(awb_list);
+    var rc=$("select#reason_code_rd").val();
+    var sc=$("select#service_centre_rd").val();
+    var datastring =
+    $.ajax({
+        type:"POST",
+        url: "/delivery/redirection/",
+        data: {"emp_code":emp_code, "awb_list":awb_list, "reason_code":rc, "redir_code":"76", "service_centre":sc},
+        success: function(resp){
+            $("input#awb_rd").val("");
+            $("input#awb_rd").focus();
+            alert(resp);
+        }
+    });
+});
+$(".remove-awb").live('click', function(e){
+    alert("clicked aawb");
+    $(this).parent().remove();
+});
+
+
+ $("input#awb_scan").keydown(function(e){
+        var keyCode = e.keyCode || e.which;
+        //console.log('key pressed...', keyCode);
+        if (keyCode == 9 || keyCode == 13) {
+            e.preventDefault();
+            var awb = $("input#awb_scan").val();
+            var row = '<tr><td style="padding:8px; width:150px; font-size:12px;" class="awb_num">' + awb + '</td>';
+            row += '<td><input type="button" class="btn btn-primary delink-reverse-rd" value="Delink"></td></tr>';
+            $(".table-rd-shipment").children('tbody').append(row);
+            $("input#awb_scan").val('');
+        }
+    });
+
+    $(".delink-reverse-rd").live('click', function(e){
+        $(this).parents('tr').remove();
+    });
+
+    $(".reverse-rd-finished").live('click', function(e){
+        var awb_list = [];
+        $(".awb_num").each(function(index, el){
+           var num = $(el).text();
+           awb_list.push(num);
+        });
+        console.log('awb list is..',awb_list);
+        $("#rdsubmitFormAwbList").val(awb_list);
+        $(".table-rd-shipment tbody").html('');
+       $(".close").click();
+    //    $("#add-revlet").hide();
+    });
+
+    $(".close").live('click', function(e){
+        $(".table-rd-shipment tbody").html('');
+        $("#popupRDShipment").hide();
+    });
+
+</script>
+{% endblock %}
+

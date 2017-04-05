@@ -1,0 +1,62 @@
+
+<div id="awb-details">
+<table class="table" cellspacing="0">
+<tr>
+<th>Airwaybill Number</th>
+<th>Order Number</th>
+<th>Length(cms)</th>
+<th>Breadth(cms)</th>
+<th>Height(cms)</th>
+<th>Weight(gms)</th>
+<th></th>
+</tr>
+
+      <form name="contact" action=""> 
+<tr>
+<td>{{awb}}</td>
+<td>{{a.order_number}}</td>
+<td><input type="text" id="length_{{a.order_number}}" value="{{a.length}}" style="width:70px"></td>
+<td><input type="text" id="breadth_{{a.order_number}}" value="{{a.breadth}}" style="width:70px"></td>
+<td><input type="text" id="height_{{a.order_number}}" value="{{a.height}}" style="width:70px"></td>
+<td><input type="text" id="weight_{{a.order_number}}" value="{{a.actual_weight}}" style="width:70px"></td>
+<td><input type="submit" name="submit" class="btn btn-primary upd-button" id="submit_btn" awb="{{awb}}" order_id="{{a.order_number}}" value="Update" /> </td>
+</tr>
+</form>
+                 <label class="error" for="name" id="name_error">All fields are required.</label>  
+</table>
+</div>
+
+<script>
+$(function(){
+$('.error').hide(); 
+
+$(".upd-button").click(function(){
+$('.error').hide(); 
+awb = $(this).attr("awb");
+order_id = $(this).attr("order_id");
+var lengtha=$("#length_"+order_id).val();
+var breadth=$("#breadth_"+order_id).val();
+var height=$("#height_"+order_id).val();
+var weight=$("#weight_"+order_id).val();
+if (lengtha=="" || breadth=="" || height=="" || weight ==""){
+$("label.error").show();
+$("#length_"+order_id).focus();
+return false;
+}
+
+var datastring = "length="+lengtha+"&breadth="+breadth+"&height="+height+"&weight="+weight+"&awb="+awb;
+$.ajax({
+type:"POST",
+url: "/service-centre/order_pricing/",
+data: datastring,
+success: function(resp){
+location.reload();
+}
+});
+
+
+   return false;
+});
+});
+
+</script>

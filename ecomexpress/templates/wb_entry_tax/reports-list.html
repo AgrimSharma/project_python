@@ -1,0 +1,43 @@
+<select class="report-list" id="report_type">
+    <option value="/octroi/report/dsr/{{nowdsr}}/" title="Daily Octroi Report">Daily Octroi report</option>
+ <option value="/reports/bill/" title="Daily Octroi Report">Billwise report</option>
+ <option value="reports/customer/" title="Daily Octroi Report">Customerwise report</option>
+</select>
+Customer Name: <select id="cust_id" class='cust_name' name='cust_name' style="width: 158px;">
+                                                        <option value="0">All</option>
+                                                        {%for a in cust%}
+                                                        <option value="{{a.id}}">{{a}}</option>
+                                                        {%endfor%}
+                               </select>
+
+Date from:<input type="text" id="date_from" name="date_from" class="reports_date date_from" style="width: 88px;"/>
+
+Date to:<input type="text" id="date_to" name="date_to" class="reports_date date_to" style="width: 88px;"/>
+<input type="button" value="Download" class=" btn btn-primary view_report">
+<script>
+$('.view_report').click(function() { 
+        var date_from=$("#date_from").val();
+        var date_to=$("#date_to").val();
+        var cust_id=$("#cust_id").val();
+        var e = document.getElementById("report_type");
+        var strUser = e.options[e.selectedIndex].text;
+        console.log(e)
+        console.log(strUser)
+        console.log(date_from)
+        console.log(date_to)
+        console.log(cust_id)
+        var cust_id = document.getElementById("cust_id");
+        cust=cust_id.options[cust_id.selectedIndex].text;
+        console.log(cust)
+        var report_data= "date_from="+date_from+"&date_to="+date_to+"&cust="+cust+"&report_type="+strUser;
+        console.log(report_data)
+        $.ajax({
+            url: 'process_reports/',
+            type: 'POST',
+            data: report_data,
+            success: function (result) {
+            }
+        });  
+
+});
+</script>

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>ECOM</title>    
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">        
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes" />    
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />    
+
+    
+    <meta property="og:image" content="http://www.domain.com/images/logo.png"/>
+    <meta property="og:title" content="-- description here --"/>
+    <meta property="og:url" content="http://www.domain.com"/>
+        
+    <link rel="shortcut icon" href="assets/img/favicon.ico" />
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/img/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/img/apple-touch-icon-114x114.png">
+         
+     <link rel="stylesheet" href="{{ STATIC_URL }}assets/css/styles.css" /> 
+    <link rel="stylesheet" href="assets/css/font-awesome.css">    
+</head>
+
+<body>
+<table class="table">
+                	<thead>
+                    <tr>
+                    <th>Airwaybill No</th>
+                    <th>Date </th>
+                    <th>Status </th>
+                    </tr>
+                     </thead>
+                     <tbody>
+{%for a in subbilling.shipments.all%}
+      <tr>
+    
+        <td>{{a.airwaybill_number}}</td>
+        <td>{{a.added_on|date:"SHORT_DATE_FORMAT"}}</td>
+        <td>{{a.reason_code}}</td>
+      </tr>
+{%endfor%}
+                     </tbody>
+                </table>
+</body>
+</html>

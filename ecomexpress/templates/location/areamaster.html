@@ -1,0 +1,30 @@
+        <div class="span4">
+          <div class="cust-details">
+             <div class="cust-title">
+                <i class="icon-book" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i> <span> Area Master</span>
+           	 </div>
+             <div class="cust-content">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Name</th>
+                          <th>Shortcode </th>
+                          <th width="10%;"><a href="#"  class="AddLocation2" location="/location/add/area/" ><img src="{{ STATIC_URL }}assets/img/plus.png"/></a>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for area in areas %}
+                        <tr>
+                          <td >{{ forloop.counter }}</td>
+                          <td row_id="{{ area.id }}" model_name="AreaMaster"  field_name="area_name" onDblClick="javascript:changeContent(this);">{{ area.area_name }}</td>
+                          <td row_id="{{ area.id }}" model_name="AreaMaster"  field_name="area_shortcode" onDblClick="javascript:changeContent(this);">{{ area.area_shortcode}}</td>
+                          <td></td>
+                        </tr>
+                      {% endfor %}
+                
+                      </tbody>
+                    </table>
+          		</div>
+         	</div>
+        </div><!--span6 -->

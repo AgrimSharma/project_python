@@ -1,0 +1,41 @@
+{% load apitags %}{% load tags %}<?xml version="1.0" encoding="utf-8"?>
+<ecomexpress-objects version="1.0">
+{%for a, history in shipment_info.items%}
+<object pk="{{forloop.counter}}" model="awb">
+                <field type="BigIntegerField" name="awb_number">{{a.airwaybill_number}}</field>
+                <field type="CharField" name="orderid">{{a.order_number}}</field>
+                <field type="FloatField" name="actual_weight">{{a.actual_weight}}</field>
+                <field type="CharField" name="origin">{{a.pickup.service_centre}}</field>
+                <field type="CharField" name="destination">{{a.service_centre}}</field>
+                <field type="CharField" name="customer">{{a.shipper}}</field>
+                <field type="CharField" name="consignee">{{a.consignee}}</field>
+                <field type="CharField" name="pickupdate">{{a.added_on|date:"d-M-Y"}}</field>
+                <field type="CharField" name="status">{%ifequal a.status 0%}Shipment Uploaded{%endifequal%}{%ifequal a.status 1%}Pickup Complete / Inscan{%endifequal%}{%ifequal a.status 2%}Inscan completion / Ready for Bagging{%endifequal%}{%ifequal a.status 3%}Bagging completed{%endifequal%}{%ifequal a.status 4%}Shipment at HUB{%endifequal%}{%ifequal a.status 5%}Bagging Completed at HUB{%endifequal%}{%ifequal a.status 6%}Shipment at Delivery Centre{%endifequal%}{%ifequal a.status 7%}Outscan{%endifequal%}{%ifequal a.status 8%}Undelivered{%endifequal%}{%ifequal a.status 9%}Delivered / Closed{%endifequal%}</field>
+                <field type="CharField" name="reason_code">{{history.0.reason_code.code}}</field>
+                <field type="CharField" name="reason_code_description">{{history.0.reason_code.code_description}}</field>
+                <field type="CharField" name="reason_code_number">{%if a.status|get_api_status%}{{a.status|get_api_status}}{%else%}{%if history.0.reason_code %}{{history.0.reason_code.code}}{%endif%}{%endif%}</field>
+                <field type="CharField" name="receiver">{{a|statusupdate_received_by:a}}</field>
+                <field type="CharField" name="expected_date" >{{a.expected_dod|date:"d-M-Y"}}</field>
+                <field type="CharField" name="last_update_date" >{{history.0.updated_on|date:"d-M-Y"}}</field>
+                <field type="CharField" name="delivery_date" >{{a|statusupdate_delivery_time:a}}</field>
+                <field type="CharField" name="ref_awb" >{{a.ref_airwaybill_number}}</field>
+                <field type="CharField" name="rts_shipment" >{%ifequal a.rts_status 1%}{%endifequal%}</field>
+                <field type="CharField" name="system_delivery_update" >{{a|statusupdate_sys_delivery_time}}</field>
+                <field type="CharField" name="rts_system_delivery_status" >{{a.ref_airwaybill_number|get_statusupdate_sys_delivery_time}}</field>
+<field name="scans">
+              {% for a in history %}
+<object pk="{{forloop.counter}}" model="scan_stages">
+                  <field type="DateTimeField" name="updated_on">{{a.updated_on|date:"d M, Y, H:i"}} hrs</field>
+                  <field type="CharField" name="status">{%ifequal a.status 0%}Soft data uploaded{%endifequal%}{%ifequal a.status 1%}Shipment Picked Up{%endifequal%}{%ifequal a.status 2%}Shipment in-scan{%endifequal%}{%ifequal a.status 3%}{{a.remarks}}{%endifequal%}{%ifequal a.status 4%}Shipment in-scan at HUB{%endifequal%}{%ifequal a.status 5%}{{a.remarks}}{%endifequal%}{%ifequal a.status 6%}Shipment in-scan at DC{%endifequal%}{%ifequal a.status 7%}Shipment out for delivery, assigned to Employee {{a.employee_code.firstname}} {{a.employee_code.lastname}}{%endifequal%}{%ifequal a.status 8%}Shipment un-delivered{%endifequal%}{%ifequal a.status 9%}Shipment delivered{%endifequal%}{%ifequal a.status 11%}Customer Instruction: {{a.remarks}}{%endifequal%}{%ifequal a.status 16%}Comments: {{a.remarks}}{%endifequal%}{%ifequal a.status 12%}Complaint{%endifequal%}{%ifequal a.status 13%}{{a.remarks}}{%endifequal%}{%ifequal a.status 14%}Shipment out-scan to network from PPC{%endifequal%}{%ifequal a.status 15%}Shipment out-scan to network from HUB{%endifequal%}{%ifequal a.status 17%}{{a.remarks}}{%endifequal%}</field>
+                  <field type="CharField" name="reason_code">{%if a.reason_code %}{{a.reason_code}}{%endif%}</field>
+                  <field type="CharField" name="reason_code_number">{%if a.status|get_api_status%}{{a.status|get_api_status}}{%else%}{%if a.reason_code %}{{a.reason_code.code}}{%endif%}{%endif%}</field>
+                  <field type="CharField" name="location">{{a.current_sc.center_shortcode}}</field>
+                  <field type="CharField" name="Employee">{{a.employee_code}}</field>
+</object>
+                {% endfor %}
+
+</field>
+
+</object>
+{% endfor %}
+</ecomexpress-objects>

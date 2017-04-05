@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+	{% block content %}
+ <script type="text/javascript">
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+    </script>
+
+<div id="wrap">
+  <div class="container-fluid main" role="main" id="main">
+  <div class="row-fluid">
+  <div class="span12"> 
+{% if request.user.employeemaster.department_id == 3%}
+{% include "track_me/nav.html" %}
+{% else %}
+{% include "delivery/nav.html" %} 
+{%endif%}
+</div>
+  </div>
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="survey-details">
+               <form action="." method="POST">
+               <select name="sc" class="origin_sc">
+                    <option value="">Select Service Centre</option>
+                    <option value="all">All</option>
+                    {% for a in service_centre %}
+                    <option value="{{a.center_shortcode}}">{{a.center_name}}</option>
+                    {% endfor %}
+                </select>
+               <select name="date_type" id="date_type_id" style="width:auto!important;"> 
+                <option  value="0">Last Updated On</option>
+                <option  value="1" {%ifequal request.POST.date_type "1"%} selected {%endifequal%}>First Scanned</option>
+                </select>
+               <select name="rts" id="rts_id" style="width:auto!important;"> 
+                <option  value="0">Forward Shipment</option>
+                <option  value="1" {%ifequal request.POST.rts "1"%} selected {%endifequal%}>Return Shipment</option>
+                </select>
+                </form>
+          <div class="cust-title">
+            <i class="icon-exclamation-sign" style="font-size: 28px ; margin-right: 10px;margin-top: 2px;"></i>{%block title%}  <span>Monitoring Dashboard{% ifequal request.POST.rts 1 %}for Returned Shipments {%endifequal %}</span>{%endblock%}
+            </div>
+          <div class="cust-content response_html">
+{%block table%}
+<style>
+.table {border: 1px solid #ddd;}
+.table td, .table td{border-right: 1px solid #ddd;}
+</style>
+            <table class="table" id="service_centre_dashboard">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  {%for day in day_list%}
+                  <th>{%if forloop.first%}>={%endif%}{{day}} day{%if not forloop.last%}s{%endif%}</th>
+                  {%endfor%}
+                  <th>Total</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+       <tr>        <td> Softdata Uploaded </td>{{selected_sc}}
+                <td><div class="dashboard_data"><a href="/dashboard/fetch_awb/?query_type=0&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_softdata_beyond_ten.count}}</a></div></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_softdata_tenday %}{%ifequal day total.day%}<div><a href="/dashboard/fetch_awb/?query_type=0&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}</a>
+                </td>
+                {%endfor%}
+                <td><div><a href="/dashboard/fetch_awb/?query_type=0&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_softdata_total.count}}</a></div></td>
+       </tr>
+
+
+       <tr>        <td> Inscan at cc </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=1&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_scan_cc_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_scan_cc_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=1&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=1&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_scan_cc_total.count}}</a></td>
+       </tr>
+
+
+       <tr>        <td> Undelivered </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=2&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_failed_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_failed_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=2&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=2&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_failed_total.count}}</a></td>
+       </tr>
+
+       <tr>        <td> Bagged </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=3&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_bagged_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_bagged_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=3&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=3&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_bagged_total.count}}</a></td>
+       </tr>
+
+       <tr>        <td> Misroute </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=4&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_misrouted_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_misrouted_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=4&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=4&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_misrouted_total.count}}</a></td>
+       </tr>
+
+       <tr>        <td> DRS / OFD </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=5&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_outscan_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_outscan_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=5&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=5&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_outscan_total.count}}</a></td>
+       </tr>
+
+{%comment%}
+       <tr>        <td> Consignee Refused </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=6&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_refused_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_refused_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=6&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=6&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_refused_total.count}}</a></td>
+       </tr>
+{%endcomment%}
+
+       <tr>        <td> Received/Inscanned at DC </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=7&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_inscan_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_inscan_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=7&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=7&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_inscan_total.count}}</a></td>
+       </tr>
+{%comment%}
+       <tr>        <td> Requeued </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=8&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_requeued_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_requeued_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=8&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=8&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_requeued_total.count}}</a></td>
+       </tr>
+{%endcomment%}
+       <tr>        <td> Total </td>
+                <td><a href="/dashboard/fetch_awb/?query_type=9&day=10&sc={{selected_sc}}" class="ship_details_get beyond_10">{{ships_total_beyond_ten.count}}</a></td>
+                {%for day in  date_list %}<td>
+                {%for total in  ships_total_tenday %}{%ifequal day total.day%}<a href="/dashboard/fetch_awb/?query_type=9&day=0&date={{day|date:"Y-m-d"}}&sc={{selected_sc}}" class="ship_details_get total_count">{{total.count}}{%endifequal%}{%endfor%}
+                </a></td>
+                {%endfor%}
+                <td><a href="/dashboard/fetch_awb/?query_type=9&day=0&sc={{selected_sc}}" class="ship_details_get softdata_total">{{ships_total_total.count}}</a></td>
+       </tr>
+              </tbody>
+            </table>
+<div id="shipment_details">
+</div>
+            {%  ifequal query_type 111 %}
+             <style>
+.table {border: 1px solid #ddd;}
+.table td, .table td{border-right: 1px solid #ddd;}
+</style>
+            <table class="table" id="service_centre_awb">
+              <thead>
+                <tr>
+                  <th>Airwaybill No:</th>
+                  <th>Current Location</th>
+                  <th>Updated On</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for ship in ships %}
+                 <tr>
+                     <td>{{ship.0}}</td>
+                     <td>{{ship.1}}</td>
+                     <td>{{ship.2}}</td>
+                 </tr>
+                {% endfor %}
+              </tbody>
+              </table>
+            {% endifequal %}
+{%endblock%}
+            </div>
+
+
+    </div><!-- /row-fluid -->
+
+
+  </div><!-- /container-fluid -->
+
+</div>
+  <div class="modal hide modal-add-revlet" id="add-revlet" style="width: 300px;">
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <h3>Airwaybills/Bag Numbers</h3>
+    </div>
+    <div style="height:300px; width: 270px;" class="modal-body">
+    </div>
+  </div><!--modal end-->
+<script>
+$(".modal-update").click(function(){
+$(".modal-body").html("")
+var val1 = $(this).attr('val');
+$.ajax({
+            url: '/delivery/get_shipment_monitoring/',
+            type: 'GET',
+            data: {'query': val1},
+            success: function(resp){
+$(".modal-body").html("")
+data=eval('(' + resp + ')');
+if (val1.indexOf("origin__center_shortcode") > -1){
+$(".modal-body").append("<b>Bag No.&nbsp; &nbsp;&nbsp;&nbsp;Date of A/C &nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;Origin </b>");
+$(".modal-body").append("<br>");
+}
+if (val1.indexOf('destination__center_shortcode') > -1){
+$(".modal-body").append("<b>Bag No.&nbsp; &nbsp;&nbsp;&nbsp;Date of A/C &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; Destination </b>");
+$(".modal-body").append("<br>");
+}
+
+
+$.each(data, function(key, value) {
+
+$(".modal-body").append(key);
+if (value != "None")
+{
+if (value.length == 2){
+
+$(".modal-body").append(" - ");
+$(".modal-body").append(value[0]);
+$(".modal-body").append(" - ");
+$(".modal-body").append(value[1]);
+}
+else{
+$(".modal-body").append(" - ");
+$(".modal-body").append(value);
+
+}
+}
+$(".modal-body").append("<br>");
+
+});
+
+}
+});
+});
+</script>
+
+<script type="text/javascript">
+$(".origin_sc, #date_type_id, #rts_id").change(function(){
+    var sc = $(this).val();
+    $("#selected_sc").val(sc);
+    this.form.submit();
+});
+
+</script>
+
+<script>
+$(document).ready(function() {
+    $(".origin_sc option[value={{selected_sc}}]").attr("selected", "selected");
+    
+
+    $(".ship_details_get").click(function(){
+        //alert("ter");
+        url = $(this).attr("href");
+        //$(window).scrollTop(150);
+        
+        sc = $("#origin_sc").val();
+        date_type = $("#date_type_id").val();
+        rts = $("#rts_id").val();
+        var p = $( "#shipment_details" );
+        var offset = p.offset();
+        $(window).scrollTop(offset.top);
+        
+        url= url+"&date_type="+date_type+"&rts=" + rts;
+        //alert(url);
+        $("#shipment_details").html("<img src='/static/assets/img/ajax-loader.gif'>");
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: { sc: sc, date_type: date_type, rts:rts }
+        }).done(function( msg ) {
+            $("#shipment_details").html(msg);
+        });
+
+        //$("#shipment_details").load(url);
+        return false;
+    });
+});
+</script>
+{% endblock %}
+

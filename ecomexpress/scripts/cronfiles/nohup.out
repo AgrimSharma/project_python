@@ -1,0 +1,13 @@
+/usr/bin/python: can't open file 'scripts/cronfiles/pdsr_report.py': [Errno 2] No such file or directory
+/usr/bin/python: can't open file 'scripts/cronfiles/pdsr_report.py': [Errno 2] No such file or directory
+total projected days : 26
+month projected days : 26
+got customer codes.... now entering loop
+Traceback (most recent call last):
+  File "pdsr_report_with_body.py", line 137, in <module>
+    main()
+  File "pdsr_report_with_body.py", line 30, in main
+    (file_name,total) = write_pdsr_to_excel('2014-04-30')
+  File "/home/web/ecomm.prtouch.com/ecomexpress/billing/pdsr_report.py", line 648, in write_pdsr_to_excel
+    totals_row[0][7] = totals_row[0][1]/totals_row[0][0]
+ZeroDivisionError: integer division or modulo by zero
