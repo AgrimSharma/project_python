@@ -340,5 +340,6 @@
 /// <reference path="bigpicture/bigpicturemanager.ts" />
 
 
-/// <reference path="calendar/calendarController.ts" />
+/// <reference path="calendar/calendarcontroller.ts" />
+/// <reference path="calendar/calendarmanager.ts" />
 /// <reference path="calendar/z_module.ts" />

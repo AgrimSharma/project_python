@@ -12,7 +12,6 @@ from django.conf import settings
 from cors_resource import CORSResource
 
 import views
-from apps.eventCalendar.views import events_calendar
 auth = ScrumDoAuthentication(realm="ScrumDo API V3")
 cached_resource = cache_control(public=False, maxage=0, s_maxage=0, no_cache=True, must_revalidate=True)
 
